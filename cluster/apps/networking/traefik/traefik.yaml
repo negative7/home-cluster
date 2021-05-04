@@ -1,0 +1,70 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: traefik
+  namespace: kube-system
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: traefik
+      interval: 5m
+      sourceRef:
+        kind: HelmRepository
+        name: traefik-charts
+        namespace: flux-system
+      version: 9.14.2
+  values:
+    deployment:
+      initContainers:
+        # The "volume-permissions" init container is required if you run into permission issues.
+        # Related issue: https://github.com/containous/traefik/issues/6972
+        - name: volume-permissions
+          image: busybox:1.31.1
+          command: ["sh", "-c", "chmod -Rv 600 /data/*"]
+          volumeMounts:
+            - name: data
+              mountPath: /data
+    persistence:
+      enabled: false
+      path: /certs
+      size: 128Mi
+      # storageClass: "longhorn"
+      accessMode: ReadWriteMany
+      annotations: {
+        "pv.beta.kubernetes.io/gid": "65532"
+      }
+    securityContext:
+      readOnlyRootFilesystem: false
+      runAsGroup: 0
+      runAsUser: 0
+      runAsNonRoot: false
+    volumes:
+      - mountPath: /data
+        name: "traefik-config"
+        type: configMap
+    additionalArguments: 
+      - --providers.file.filename=/data/traefik-config.yaml
+      - --api.dashboard
+      - --api.insecure
+      - --api.debug
+      - --accesslog
+      - --metrics.prometheus
+      - --accesslog=false
+      - --log.level=INFO
+      - --serversTransport.insecureSkipVerify=true
+      - --entryPoints.web.forwardedHeaders.insecure
+      - --entrypoints.websecure.http.tls.certresolver=lets-prod
+      - --entrypoints.websecure.http.tls.domains[0].main=home.negative7.com
+      - --entrypoints.websecure.http.tls.domains[0].sans=*.home.negative7.com
+      # - --certificatesresolvers.lets-prod.acme.email=admin@negative7.com
+      # - --certificatesresolvers.lets-prod.acme.storage=/certs/acme.json
+      # - --certificatesresolvers.lets-prod.acme.dnschallenge=true
+      # - --certificatesresolvers.lets-prod.acme.dnschallenge.provider=cloudflare
+#      - --providers.file.filename=/data/traefik-config.yaml
+    #https://github.com/traefik/traefik-helm-chart/issues/164
+    service:
+      spec:
+        externalTrafficPolicy: Local # https://github.com/rancher/k3s/issues/1652 need this for X-Real-Ip?
+    
