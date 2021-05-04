@@ -17,17 +17,18 @@ spec:
       version: 9.19.0
   values:
     #deployment:
-      # initContainers:
-      #   # The "volume-permissions" init container is required if you run into permission issues.
-      #   # Related issue: https://github.com/containous/traefik/issues/6972
-      #   - name: volume-permissions
-      #     image: busybox:1.31.1
-      #     command: ["sh", "-c", "chmod -Rv 600 /data/*"]
-      #     volumeMounts:
-      #       - name: data
-      #         mountPath: /data
+    # initContainers:
+    #   # The "volume-permissions" init container is required if you run into permission issues.
+    #   # Related issue: https://github.com/containous/traefik/issues/6972
+    #   - name: volume-permissions
+    #     image: busybox:1.31.1
+    #     command: ["sh", "-c", "chmod -Rv 600 /data/*"]
+    #     volumeMounts:
+    #       - name: data
+    #         mountPath: /data
     logs:
-      general: DEBUG
+      general:
+        level: DEBUG
       access:
         enabled: true
     persistence:
@@ -36,9 +37,7 @@ spec:
       size: 128Mi
       # storageClass: "longhorn"
       accessMode: ReadWriteMany
-      annotations: {
-        "pv.beta.kubernetes.io/gid": "65532"
-      }
+      annotations: { "pv.beta.kubernetes.io/gid": "65532" }
     volumes:
       - mountPath: /data
         name: "traefik-config"
@@ -57,7 +56,7 @@ spec:
       # - --certificatesresolvers.lets-prod.acme.storage=/certs/acme.json
       # - --certificatesresolvers.lets-prod.acme.dnschallenge=true
       # - --certificatesresolvers.lets-prod.acme.dnschallenge.provider=cloudflare
-#      - --providers.file.filename=/data/traefik-config.yaml
+    #      - --providers.file.filename=/data/traefik-config.yaml
     #https://github.com/traefik/traefik-helm-chart/issues/164
     service:
       type: LoadBalancer
