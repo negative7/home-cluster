@@ -65,6 +65,7 @@ spec:
 #      - --providers.file.filename=/data/traefik-config.yaml
     #https://github.com/traefik/traefik-helm-chart/issues/164
     service:
-      spec:
-        externalTrafficPolicy: Local # https://github.com/rancher/k3s/issues/1652 need this for X-Real-Ip?
+      type: LoadBalancer
+      loadBalancerIP: "${INGRESS_NGINX_LB}"
+      externalTrafficPolicy: Local
     
