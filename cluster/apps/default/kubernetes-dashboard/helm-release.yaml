@@ -33,5 +33,5 @@ spec:
         - "dashboard.${SECRET_DOMAIN}"
     extraArgs:
         - '--enable-insecure-login'
-        - '--namespace=kube-system'
+        - '--namespace=default'
         - '--insecure-bind-address=0.0.0.0'
