@@ -16,7 +16,7 @@ spec:
         namespace: flux-system
       version: 9.14.2
   values:
-    deployment:
+    #deployment:
       # initContainers:
       #   # The "volume-permissions" init container is required if you run into permission issues.
       #   # Related issue: https://github.com/containous/traefik/issues/6972
