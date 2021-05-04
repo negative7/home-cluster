@@ -7,3 +7,5 @@ resources:
 - k8s-at-home-charts.yaml
 - kubernetes-dashboard-charts.yaml
 - longhorn-charts.yaml
+- deliveryhero-charts.yaml
+- node-feature-discovery-charts.yaml
