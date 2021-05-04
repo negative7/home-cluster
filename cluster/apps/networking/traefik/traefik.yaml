@@ -14,7 +14,7 @@ spec:
         kind: HelmRepository
         name: traefik-charts
         namespace: flux-system
-      version: 9.14.2
+      version: 9.19.0
   values:
     #deployment:
       # initContainers:
@@ -26,6 +26,10 @@ spec:
       #     volumeMounts:
       #       - name: data
       #         mountPath: /data
+    logs:
+      general: DEBUG
+      access:
+        enabled: true
     persistence:
       enabled: false
       path: /certs
@@ -35,11 +39,6 @@ spec:
       annotations: {
         "pv.beta.kubernetes.io/gid": "65532"
       }
-    securityContext:
-      readOnlyRootFilesystem: false
-      runAsGroup: 0
-      runAsUser: 0
-      runAsNonRoot: false
     volumes:
       - mountPath: /data
         name: "traefik-config"
@@ -49,10 +48,6 @@ spec:
       - --api.dashboard
       - --api.insecure
       - --api.debug
-      - --accesslog
-      - --metrics.prometheus
-      - --accesslog=false
-      - --log.level=INFO
       - --serversTransport.insecureSkipVerify=true
       - --entryPoints.web.forwardedHeaders.insecure
       # - --entrypoints.websecure.http.tls.certresolver=lets-prod

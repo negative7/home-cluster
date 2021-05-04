@@ -3,5 +3,5 @@ kind: Kustomization
 resources:
 - namespaces
 - metallb-system
-- cert-manager
+#- cert-manager
 - system-upgrade
