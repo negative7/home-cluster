@@ -9,5 +9,5 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: admin-user
-  namespace: kube-system
-# kubectl -n kube-system describe secret admin-user-token
+  namespace: default
+# kubectl describe secret admin-user-token
