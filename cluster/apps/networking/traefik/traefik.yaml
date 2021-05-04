@@ -55,9 +55,9 @@ spec:
       - --log.level=INFO
       - --serversTransport.insecureSkipVerify=true
       - --entryPoints.web.forwardedHeaders.insecure
-      - --entrypoints.websecure.http.tls.certresolver=lets-prod
-      - --entrypoints.websecure.http.tls.domains[0].main=home.negative7.com
-      - --entrypoints.websecure.http.tls.domains[0].sans=*.home.negative7.com
+      # - --entrypoints.websecure.http.tls.certresolver=lets-prod
+      # - --entrypoints.websecure.http.tls.domains[0].main=home.negative7.com
+      # - --entrypoints.websecure.http.tls.domains[0].sans=*.home.negative7.com
       # - --certificatesresolvers.lets-prod.acme.email=admin@negative7.com
       # - --certificatesresolvers.lets-prod.acme.storage=/certs/acme.json
       # - --certificatesresolvers.lets-prod.acme.dnschallenge=true
