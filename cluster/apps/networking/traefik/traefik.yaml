@@ -66,6 +66,6 @@ spec:
     #https://github.com/traefik/traefik-helm-chart/issues/164
     service:
       type: LoadBalancer
-      loadBalancerIP: "${INGRESS_NGINX_LB}"
+      loadBalancerIP: "${INGRESS_TRAEFIK_LB}"
       externalTrafficPolicy: Local
     
