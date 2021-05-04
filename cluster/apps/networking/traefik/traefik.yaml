@@ -37,7 +37,6 @@ spec:
       size: 128Mi
       storageClass: "longhorn"
       accessMode: ReadWriteMany
-      annotations: { "pv.beta.kubernetes.io/gid": "65532" }
     env:
     - name: CF_API_EMAIL
       value: ${SECRET_CLOUDFLARE_EMAIL}
