@@ -8,3 +8,4 @@ kubeconfig
 # vscode-sops
 .decrypted~*.yaml
 README.md
+init.md
