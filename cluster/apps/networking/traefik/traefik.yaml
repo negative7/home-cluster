@@ -32,32 +32,35 @@ spec:
       access:
         enabled: true
     persistence:
-      enabled: false
+      enabled: true
       path: /certs
       size: 128Mi
-      # storageClass: "longhorn"
+      storageClass: "longhorn"
       accessMode: ReadWriteMany
       annotations: { "pv.beta.kubernetes.io/gid": "65532" }
+    env:
+    - name: CF_API_EMAIL
+      value: ${SECRET_CLOUDFLARE_EMAIL}
+    - name: CF_API_KEY
+      value: ${SECRET_CLOUDFLARE_TOKEN}
     volumes:
-      - mountPath: /data
-        name: "traefik-config"
-        type: configMap
+    - mountPath: /data
+      name: "traefik-config"
+      type: configMap
     additionalArguments:
-      - --providers.file.filename=/data/traefik-config.yaml
-      - --api.dashboard
-      - --api.insecure
-      - --api.debug
-      - --serversTransport.insecureSkipVerify=true
-      - --entryPoints.web.forwardedHeaders.insecure
-      # - --entrypoints.websecure.http.tls.certresolver=lets-prod
-      # - --entrypoints.websecure.http.tls.domains[0].main=home.negative7.com
-      # - --entrypoints.websecure.http.tls.domains[0].sans=*.home.negative7.com
-      # - --certificatesresolvers.lets-prod.acme.email=admin@negative7.com
-      # - --certificatesresolvers.lets-prod.acme.storage=/certs/acme.json
-      # - --certificatesresolvers.lets-prod.acme.dnschallenge=true
-      # - --certificatesresolvers.lets-prod.acme.dnschallenge.provider=cloudflare
-    #      - --providers.file.filename=/data/traefik-config.yaml
-    #https://github.com/traefik/traefik-helm-chart/issues/164
+    - --providers.file.filename=/data/traefik-config.yaml
+    - --api.dashboard
+    - --api.insecure
+    - --api.debug
+    - --serversTransport.insecureSkipVerify=true
+    - --entryPoints.web.forwardedHeaders.insecure
+    - --entrypoints.websecure.http.tls.certresolver=lets-prod
+    - --entrypoints.websecure.http.tls.domains[0].main=home.negative7.com
+    - --entrypoints.websecure.http.tls.domains[0].sans=*.home.negative7.com
+    - --certificatesresolvers.lets-prod.acme.email=admin@negative7.com
+    - --certificatesresolvers.lets-prod.acme.storage=/certs/acme.json
+    - --certificatesresolvers.lets-prod.acme.dnschallenge=true
+    - --certificatesresolvers.lets-prod.acme.dnschallenge.provider=cloudflare
     service:
       type: LoadBalancer
       loadBalancerIP: "${INGRESS_TRAEFIK_LB}"
