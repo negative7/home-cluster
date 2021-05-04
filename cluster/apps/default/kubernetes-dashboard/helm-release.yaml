@@ -30,6 +30,6 @@ spec:
       hosts:
         - dashboard.homelab.test
     extraArgs:
-        - '--enable-insecure-login'
-        - '--namespace=default'
-        - '--insecure-bind-address=0.0.0.0'
+      - '--enable-insecure-login'
+      - '--namespace=default'
+      - '--insecure-bind-address=0.0.0.0'

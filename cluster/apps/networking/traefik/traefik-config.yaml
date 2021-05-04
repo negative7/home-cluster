@@ -17,4 +17,4 @@ data:
         service-homeassistant:
           loadBalancer:
             servers:
-            - url: "http://192.168.1.5:8123"    
+            - url: "http://192.168.1.5:8123"

@@ -43,7 +43,7 @@ spec:
       - mountPath: /data
         name: "traefik-config"
         type: configMap
-    additionalArguments: 
+    additionalArguments:
       - --providers.file.filename=/data/traefik-config.yaml
       - --api.dashboard
       - --api.insecure
@@ -63,4 +63,3 @@ spec:
       type: LoadBalancer
       loadBalancerIP: "${INGRESS_TRAEFIK_LB}"
       externalTrafficPolicy: Local
-    
