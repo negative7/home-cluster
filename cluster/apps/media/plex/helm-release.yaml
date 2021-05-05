@@ -24,7 +24,9 @@ spec:
     # podAnnotations:
     #   backup.velero.io/backup-volumes: config
     env:
+      PLEX_CLAIM: "claim-ChVYE2B54Voi_Rdqssix"
       TZ: "America/New_York"
+      ADVERTISE_IP: "http://192.168.99.105:32400"
     ingress:
       enabled: true
       ingressClassName: "traefik"
@@ -48,8 +50,6 @@ spec:
       PUID: 1000
       PGID: 1000
       VERSION: latest
-    advertiseIp: "http://192.168.99.105:32400"
-    claimToken: "claim-54kWV_-dCo3Axy7h9k2h"
     service:
       type: LoadBalancer
       loadBalancerIP: 192.168.99.105
