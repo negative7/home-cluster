@@ -17,29 +17,35 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
+    env:
+      TZ: "America/New_York"
     ingress:
       enabled: true
       ingressClassName: "traefik"
       hosts:
-      - host: nzbget.homelab.test
-        paths:
-        - path: /
-          pathType: Prefix
+        - host: nzbget.homelab.test
+          paths:
+            - path: /
+              pathType: Prefix
     persistence:
       config:
         enabled: true
         existingClaim: nzbget-config-v1
     additionalVolumes:
-    - name: nfs-data
-      persistentVolumeClaim:
-        claimName: nfs-data-pvc
+      - name: nfs-data
+        persistentVolumeClaim:
+          claimName: nfs-data-pvc
     additionalVolumeMounts:
-    - name: nfs-data
-      mountPath: /completed
-      subPath: nzbget
+      - name: nfs-data
+        mountPath: /completed
+        subPath: nzbget
+    podSecurityContext:
+      runAsUser: 1001
+      runAsGroup: 1001
+      fsGroup: 1001
     resources:
       requests:
-        memory: 250Mi
-        cpu: 500m
+        memory: 300Mi
+        cpu: 25m
       limits:
-        memory: 7500Mi
+        memory: 400Mi
