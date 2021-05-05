@@ -27,16 +27,23 @@ spec:
       TZ: "America/New_York"
     ingress:
       enabled: true
+      ingressClassName: "traefik"
       annotations:
         kubernetes.io/ingress.class: traefik
         traefik.ingress.kubernetes.io/router.entrypoints: web, websecure
-        #traefik.ingress.kubernetes.io/router.tls: true
         traefik.ingress.kubernetes.io/router.tls.certresolver: lets-prod
-        traefik.ingress.kubernetes.io/router.tls.domains.0.main: "home.negative7.com"
-        traefik.ingress.kubernetes.io/router.tls.domains.0.sans: "*.home.negative7.com"
       hosts:
-        - plex.homelab.test
-        - plex.home.negative7.com
+        - host: "plex.homelab.test"
+          paths:
+            - path: /
+              pathType: Prefix
+        - host: "plex.${SECRET_DOMAIN}"
+          paths:
+            - path: /
+              pathType: Prefix
+      tls:
+        - hosts:
+            - "plex.${SECRET_DOMAIN}"
     claimToken: "claim-zNr1heURngnz5XNDzVt5"
     timezone: "America/New_York"
     extraEnv:
