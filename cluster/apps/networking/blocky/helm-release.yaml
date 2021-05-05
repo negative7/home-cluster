@@ -24,24 +24,25 @@ spec:
       TZ: "America/New_York"
     replicas: 3
     service:
-      port:
-        port: 4000
-      additionalServices:
-        - enabled: true
-          nameSuffix: dns
-          type: LoadBalancer
-          loadBalancerIP: "${LB_BLOCKY_IP}"
-          port:
-            port: 53
-            name: dns-tcp
-            protocol: TCP
-            targetPort: 53
-          additionalPorts:
-            - port: 53
-              name: dns-udp
-              protocol: UDP
-              targetPort: 53
-          externalTrafficPolicy: Local
+      type: LoadBalancer
+      loadBalancerIP: 192.168.99.200
+      externalTrafficPolicy: Local
+      annotations:
+        metallb.universe.tf/allow-shared-ip: blocky
+    serviceTCP:
+      enabled: true
+      type: LoadBalancer
+      externalTrafficPolicy: Local
+      loadBalancerIP: 192.168.99.200
+      annotations:
+        metallb.universe.tf/allow-shared-ip: blocky
+    serviceUDP:
+      enabled: true
+      type: LoadBalancer
+      externalTrafficPolicy: Local
+      loadBalancerIP: 192.168.99.200
+      annotations:
+        metallb.universe.tf/allow-shared-ip: blocky
     config: |
       upstream:
         externalResolvers:
