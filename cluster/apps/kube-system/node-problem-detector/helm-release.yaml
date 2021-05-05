@@ -22,4 +22,4 @@ spec:
       tag: v0.8.7
     metrics:
       serviceMonitor:
-        enabled: true
+        enabled: false
