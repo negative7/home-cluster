@@ -42,7 +42,7 @@ spec:
               protocol: UDP
               targetPort: 53
           externalTrafficPolicy: Local
-    config:
+    config: |
       upstream:
         externalResolvers:
           - tcp+udp:8.8.8.8
