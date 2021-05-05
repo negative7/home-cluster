@@ -25,3 +25,5 @@ resources:
 - uptimerobot-operator-charts.yaml
 - vernemq-charts.yaml
 - weaveworks-kured-charts.yaml
+- kubernetes-dashboard-charts.yaml
+- longhorn-charts.yaml
