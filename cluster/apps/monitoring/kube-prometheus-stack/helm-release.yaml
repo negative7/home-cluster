@@ -126,7 +126,7 @@ spec:
         pathType: Prefix
         ingressClassName: "traefik"
         annotations:
-          traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+          traefik.ingress.kubernetes.io/router.entrypoints: "web"
         hosts:
         - "prometheus.${HOMELAB_DOMAIN}"
       prometheusSpec:
