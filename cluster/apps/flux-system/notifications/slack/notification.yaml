@@ -8,7 +8,7 @@ spec:
   type: slack
   channel: general
   secretRef:
-    name: slack-url
+    name: slack-webhook-url
 
 ---
 apiVersion: notification.toolkit.fluxcd.io/v1beta1
