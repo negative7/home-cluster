@@ -16,6 +16,9 @@ spec:
         namespace: flux-system
       version: 9.19.0
   values:
+    deployment:
+      kind: Deployment
+      replicas: 1
     #deployment:
     # initContainers:
     #   # The "volume-permissions" init container is required if you run into permission issues.
@@ -28,9 +31,18 @@ spec:
     #         mountPath: /data
     logs:
       general:
+        format: json
         level: DEBUG
       access:
         enabled: true
+        format: json
+    ingressClass:
+      enabled: true
+      isDefaultClass: true
+      fallbackApiVersion: v1
+    ingressRoute:
+      dashboard:
+        enabled: false
     persistence:
       enabled: true
       path: /certs
@@ -38,29 +50,65 @@ spec:
       storageClass: "longhorn"
       accessMode: ReadWriteMany
     env:
-    - name: CF_API_EMAIL
-      value: ${SECRET_CLOUDFLARE_EMAIL}
-    - name: CF_API_KEY
-      value: ${SECRET_CLOUDFLARE_TOKEN}
+      - name: CF_API_EMAIL
+        value: ${SECRET_CLOUDFLARE_EMAIL}
+      - name: CF_API_KEY
+        value: ${SECRET_CLOUDFLARE_TOKEN}
     volumes:
-    - mountPath: /data
-      name: "traefik-config"
-      type: configMap
+      - mountPath: /data
+        name: "traefik-config"
+        type: configMap
+    globalArguments:
+      - "--serverstransport.insecureskipverify=true"
+      - "--providers.kubernetesingress.ingressclass=traefik"
+      - "--metrics.prometheus=true"
+      - "--metrics.prometheus.entryPoint=metrics"
     additionalArguments:
-    - --providers.file.filename=/data/traefik-config.yaml
-    - --api.dashboard
-    - --api.insecure
-    - --api.debug
-    - --serversTransport.insecureSkipVerify=true
-    - --entryPoints.web.forwardedHeaders.insecure
-    - --entrypoints.websecure.http.tls.certresolver=lets-prod
-    - --entrypoints.websecure.http.tls.domains[0].main=home.negative7.com
-    - --entrypoints.websecure.http.tls.domains[0].sans=*.home.negative7.com
-    - --certificatesresolvers.lets-prod.acme.email=admin@negative7.com
-    - --certificatesresolvers.lets-prod.acme.storage=/certs/acme.json
-    - --certificatesresolvers.lets-prod.acme.dnschallenge=true
-    - --certificatesresolvers.lets-prod.acme.dnschallenge.provider=cloudflare
+      - --providers.kubernetesingress.ingressendpoint.ip=${LB_TRAEFIK_IP}
+      - --providers.file.filename=/data/traefik-config.yaml
+      - --api.dashboard
+      - --api.insecure
+      - --api.debug
+      - --serversTransport.insecureSkipVerify=true
+      - --entryPoints.web.forwardedHeaders.insecure
+      - --entrypoints.websecure.http.tls.certresolver=lets-prod
+      - --entrypoints.websecure.http.tls.domains[0].main=home.negative7.com
+      - --entrypoints.websecure.http.tls.domains[0].sans=*.home.negative7.com
+      - --certificatesresolvers.lets-prod.acme.email=admin@negative7.com
+      - --certificatesresolvers.lets-prod.acme.storage=/certs/acme.json
+      - --certificatesresolvers.lets-prod.acme.dnschallenge=true
+      - --certificatesresolvers.lets-prod.acme.dnschallenge.provider=cloudflare
     service:
+      enabled: true
       type: LoadBalancer
-      loadBalancerIP: "${INGRESS_TRAEFIK_LB}"
-      externalTrafficPolicy: Local
+      spec:
+        loadBalancerIP: "${INGRESS_TRAEFIK_LB}"
+        externalTrafficPolicy: Local
+    # ports:
+    # web:
+    #   redirectTo: websecure
+    # websecure:
+    #   tls:
+    #     enabled: true
+    #     options: "default"
+    # metrics:
+    #   port: 8082
+    #   expose: true
+    #   exposedPort: 8082
+    # tlsOptions:
+    #   default:
+    #     minVersion: VersionTLS12
+    #     maxVersion: VersionTLS13
+    #     sniStrict: true
+    # pilot:
+    #   enabled: true
+    #   token: "722c9e7d-0103-42a8-82fd-9bb46868c5c4"
+    experimental:
+      plugins:
+        enabled: true
+    resources:
+      requests:
+        memory: 100Mi
+        cpu: 500m
+      limits:
+        memory: 500Mi
