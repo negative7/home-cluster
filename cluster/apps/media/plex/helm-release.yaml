@@ -1,0 +1,88 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: plex
+  namespace: media
+spec:
+  interval: 5m
+  chart:
+    spec:
+      # renovate: registryUrl=https://k8s-at-home.com/charts/
+      chart: plex
+      version: 4.2.0
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home-charts
+        namespace: flux-system
+      interval: 5m
+  values:
+    image:
+      repository: linuxserver/plex
+      tag: 1.22.0.4163-d8c4875dd-ls34
+      pullPolicy: IfNotPresent
+    # podAnnotations:
+    #   backup.velero.io/backup-volumes: config
+    env:
+      TZ: "America/New_York"
+    ingress:
+      enabled: true
+      annotations:
+        kubernetes.io/ingress.class: traefik
+        traefik.ingress.kubernetes.io/router.entrypoints: web, websecure
+        #traefik.ingress.kubernetes.io/router.tls: true
+        traefik.ingress.kubernetes.io/router.tls.certresolver: lets-prod
+        traefik.ingress.kubernetes.io/router.tls.domains.0.main: "home.negative7.com"
+        traefik.ingress.kubernetes.io/router.tls.domains.0.sans: "*.home.negative7.com"
+      hosts:
+        - plex.homelab.test
+        - plex.home.negative7.com
+    claimToken: "claim-zNr1heURngnz5XNDzVt5"
+    timezone: "America/New_York"
+    extraEnv:
+      PUID: 1000
+      PGID: 1000
+      VERSION: latest
+    advertiseIp: "http://192.168.99.105:32400"
+    service:
+      type: LoadBalancer
+      loadBalancerIP: 192.168.99.105
+      externalTrafficPolicy: Local
+      annotations:
+        metallb.universe.tf/allow-shared-ip: plex
+      port:
+        port: 32400
+    persistence:
+      config:
+        enabled: true
+        existingClaim: plex-config-v1
+      tmp:
+        enabled: true
+        emptyDir:
+          enabled: true
+          medium: "Memory"
+    additionalVolumeMounts:
+      - name: tv
+        mountPath: "/tv"
+      - name: movies
+        mountPath: "/movies"
+      - name: music
+        mountPath: "/music"
+    additionalVolumes:
+      - name: tv
+        persistentVolumeClaim:
+          claimName: nfs-tv-pvc
+      - name: movies
+        persistentVolumeClaim:
+          claimName: nfs-movies-pvc
+      - name: music
+        persistentVolumeClaim:
+          claimName: nfs-music-pvc
+    resources:
+      requests:
+        gpu.intel.com/i915: 1
+        cpu: 1000m
+        memory: 1000Mi
+      limits:
+        gpu.intel.com/i915: 1
+        memory: 24000Mi
