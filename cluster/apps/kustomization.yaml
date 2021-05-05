@@ -7,3 +7,4 @@ resources:
 - system-upgrade
 - kube-system
 - media
+- monitoring
