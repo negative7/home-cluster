@@ -35,10 +35,15 @@ spec:
       - name: nfs-data
         persistentVolumeClaim:
           claimName: nfs-data-pvc
+      - name: downloads-data
+        persistentVolumeClaim:
+          claimName: nzbget-downloads-v1
     additionalVolumeMounts:
       - name: nfs-data
         mountPath: /completed
         subPath: nzbget
+      - name: downloads-data
+        mountPath: /downloads
     podSecurityContext:
       runAsUser: 1001
       runAsGroup: 1001
