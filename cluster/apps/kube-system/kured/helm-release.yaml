@@ -35,6 +35,3 @@ spec:
         operator: "Exists"
     # metrics:
     #   create: true
-  valuesFrom:
-    - kind: Secret
-      name: "kured-slack-secret"
