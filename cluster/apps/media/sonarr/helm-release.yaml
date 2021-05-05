@@ -43,9 +43,6 @@ spec:
       media:
         enabled: true
         existingClaim: nfs-tv-pvc
-    podSecurityContext:
-      supplementalGroups:
-        - 100
     additionalVolumeMounts:
       - name: nfs-data
         mountPath: /completed
@@ -54,6 +51,10 @@ spec:
       - name: nfs-data
         persistentVolumeClaim:
           claimName: nfs-data-pvc
+    podSecurityContext:
+      runAsUser: 1001
+      runAsGroup: 1001
+      fsGroup: 1001
     resources:
       requests:
         memory: 250Mi
