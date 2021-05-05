@@ -26,7 +26,7 @@ spec:
     env:
       PLEX_CLAIM: "claim-ChVYE2B54Voi_Rdqssix"
       TZ: "America/New_York"
-      ADVERTISE_IP: "http://192.168.99.105:32400"
+      ADVERTISE_IP: "http://${LB_PLEX_IP}:32400"
     ingress:
       enabled: true
       ingressClassName: "traefik"
@@ -52,7 +52,7 @@ spec:
       VERSION: latest
     service:
       type: LoadBalancer
-      loadBalancerIP: 192.168.99.105
+      loadBalancerIP: ${LB_PLEX_IP}
       externalTrafficPolicy: Local
       annotations:
         metallb.universe.tf/allow-shared-ip: plex
