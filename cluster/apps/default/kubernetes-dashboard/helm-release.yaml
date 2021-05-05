@@ -18,7 +18,7 @@ spec:
       interval: 5m
   values:
     metricsScraper:
-      enabled: false
+      enabled: true
     ingress:
       enabled: true
       annotations:

@@ -34,5 +34,5 @@ spec:
     tolerations:
       - key: "node-role.kubernetes.io/master"
         operator: "Exists"
-    # metrics:
-    #   create: true
+    metrics:
+      create: true
