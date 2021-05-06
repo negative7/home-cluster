@@ -1,9 +1,13 @@
 {
   "enabled": true,
+  "timezone": "America/New_York",
   "semanticCommits": "enabled",
   "dependencyDashboard": true,
   "dependencyDashboardTitle": "Renovate Dashboard",
+  "commitBody": "Signed-off-by: Sergiy Shevchenko <negative7@users.noreply.github.com>",
+  // do not notify on closed unmerged PRs
   "suppressNotifications": ["prIgnoreNotification"],
+  // only rebase PRs when there's a conflict
   "rebaseWhen": "conflicted",
   "kubernetes": {
     "fileMatch": ["cluster/.+\\.yaml$"],
