@@ -4,6 +4,7 @@ resources:
   - botkube
   - grafana
   - kube-prometheus-stack
+  - nut-exporter
 # - loki
 # - snmp-exporter
 # - unifi-poller
