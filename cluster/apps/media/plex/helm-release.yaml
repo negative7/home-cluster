@@ -24,9 +24,7 @@ spec:
     # podAnnotations:
     #   backup.velero.io/backup-volumes: config
     env:
-      PLEX_CLAIM: "claim-ChVYE2B54Voi_Rdqssix"
       TZ: "America/New_York"
-      ADVERTISE_IP: "http://${LB_PLEX_IP}:32400"
     ingress:
       enabled: true
       ingressClassName: "traefik"
@@ -81,9 +79,6 @@ spec:
         persistentVolumeClaim:
           claimName: nfs-music-pvc
     podSecurityContext:
-      runAsUser: 1000
-      runAsGroup: 1000
-      fsGroup: 1000
       supplementalGroups:
         - 44
         - 109
