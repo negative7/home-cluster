@@ -101,7 +101,11 @@
         "linuxserver/radarr",
         "linuxserver/sonarr"
       ]
+<<<<<<< HEAD
     }
+=======
+    },
+>>>>>>> renovate
     {
       "datasources": ["docker"],
       "versioning": "loose",
