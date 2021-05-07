@@ -17,20 +17,21 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
-    nameOverride: vaultwarden
-    fullnameOverride: vaultwarden
     image:
       repository: vaultwarden/server
       tag: 1.21.0-alpine
-    vaultwardenrs:
-      domain: https://bw.${SECRET_DOMAIN}
     ingress:
       enabled: true
-      ingressClassName: "traefik"
       hosts:
         - host: bw.${SECRET_DOMAIN}
           paths:
-            - /
+            - path: /
+              pathType: Prefix
+            - path: /notifications/hub/negotiate
+              pathType: Prefix
+            - path: /notifications/hub
+              pathType: Prefix
+              servicePort: 3012
       tls:
         - hosts:
             - bw.${SECRET_DOMAIN}
