@@ -35,5 +35,6 @@ spec:
         - hosts:
             - bw.${SECRET_DOMAIN}
     persistence:
-      enabled: true
-      existingClaim: vaultwarden-config-v1
+      config:
+        enabled: true
+        existingClaim: vaultwarden-config-v1
