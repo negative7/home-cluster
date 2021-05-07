@@ -12,7 +12,7 @@ data:
           entryPoints:
             - websecure
           rule: Host(`minio.home.negative7.com`)
-          service: service--minio
+          service: service-minio
         router-homeassistant:
           entryPoints:
             - websecure
