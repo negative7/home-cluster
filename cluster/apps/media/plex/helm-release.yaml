@@ -79,6 +79,8 @@ spec:
         persistentVolumeClaim:
           claimName: nfs-music-pvc
     podSecurityContext:
+      runAsUser: 1000
+      runAsGroup: 1000
       supplementalGroups:
         - 44
         - 109
