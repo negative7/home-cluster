@@ -79,5 +79,23 @@
       "matchUpdateTypes": ["patch"],
       "labels": ["renovate/helm", "dep/patch"]
     }
+    {
+      "datasources": ["docker"],
+      "versioning": "loose",
+      "packageNames": ["linuxserver/plex"]
+    },
+    // auto-updates
+    {
+      "datasources": ["docker"],
+      "automerge": true,
+      "requiredStatusChecks": null,
+      "updateTypes": ["minor", "patch"],
+      "packageNames": [
+        "renovate",
+        "linuxserver/plex",
+        "linuxserver/radarr",
+        "linuxserver/sonarr"
+      ]
+    }
   ]
 }
