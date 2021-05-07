@@ -1,15 +1,15 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: bitwarden
+  name: vaultwarden
   namespace: default
 spec:
-  releaseName: bitwarden
+  releaseName: vaultwarden
   interval: 5m
   chart:
     spec:
       # renovate: registryUrl=https://k8s-at-home.com/charts/
-      chart: bitwardenrs
+      chart: vaultwarden
       version: 2.1.10
       sourceRef:
         kind: HelmRepository
@@ -17,12 +17,12 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
-    nameOverride: bitwarden
-    fullnameOverride: bitwarden
+    nameOverride: vaultwarden
+    fullnameOverride: vaultwarden
     image:
       repository: vaultwarden/server
       tag: 1.21.0-alpine
-    bitwardenrs:
+    vaultwardenrs:
       domain: https://bw.${SECRET_DOMAIN}
     ingress:
       enabled: true
