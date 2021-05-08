@@ -65,9 +65,9 @@ spec:
           enabled: true
           certResolver: lets-prod
           domains:
-            - main: home.negative7.com
+            - main: ${SECRET_DOMAIN}
               sans:
-                - "*.home.negative7.com"
+                - "*.${SECRET_DOMAIN}"
       metrics:
         port: 8082
         expose: true

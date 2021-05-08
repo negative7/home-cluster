@@ -3,11 +3,12 @@ apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
   name: dashboard
+  namespace: networking
 spec:
   entryPoints:
     - web
   routes:
-    - match: Host(`traefik.homelab.test`)
+    - match: Host(`traefik.${HOMELAB_DOMAIN}`)
       kind: Rule
       services:
         - name: api@internal
