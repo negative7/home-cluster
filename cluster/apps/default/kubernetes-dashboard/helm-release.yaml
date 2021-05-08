@@ -21,14 +21,14 @@ spec:
       enabled: true
     ingress:
       enabled: true
+      ingressClassName: "traefik"
       annotations:
-        kubernetes.io/ingress.class: "traefik"
-        traefik.ingress.kubernetes.io/router.tls: "true"
-        traefik.ingress.kubernetes.io/service.serversscheme: "https"
-        traefik.ingress.kubernetes.io/ssl-redirect: "true"
         traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
       hosts:
-        - dashboard.homelab.test
+        - host: dashboard.${HOMELAB_DOMAIN}
+      tls:
+        - hosts:
+            - dashboard.${HOMELAB_DOMAIN}
     extraArgs:
       - '--enable-insecure-login'
       - '--namespace=default'

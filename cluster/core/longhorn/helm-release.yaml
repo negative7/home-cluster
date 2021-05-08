@@ -23,7 +23,7 @@ spec:
       kubeletRootDir: /var/lib/kubelet
     ingress:
       enabled: true
-      host: longhorn.homelab.test
+      host: longhorn.${HOMELAB_DOMAIN}
+      ingressClassName: "traefik"
       annotations:
-        kubernetes.io/ingress.class: traefik
         traefik.ingress.kubernetes.io/router.middlewares: default-svc-ws-headers@kubernetescrd, default-svc-wss-headers@kubernetescrd
