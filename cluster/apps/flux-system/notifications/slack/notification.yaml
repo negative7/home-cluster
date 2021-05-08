@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   type: slack
-  channel: general
+  channel: k8s
   secretRef:
     name: slack-webhook-url
 
