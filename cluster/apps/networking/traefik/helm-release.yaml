@@ -19,17 +19,13 @@ spec:
   values:
     deployment:
       kind: Deployment
-      replicas: 1
-    #deployment:
-    # initContainers:
-    #   # The "volume-permissions" init container is required if you run into permission issues.
-    #   # Related issue: https://github.com/containous/traefik/issues/6972
-    #   - name: volume-permissions
-    #     image: busybox:1.31.1
-    #     command: ["sh", "-c", "chmod -Rv 600 /data/*"]
-    #     volumeMounts:
-    #       - name: data
-    #         mountPath: /data
+      replicas: 3
+    service:
+      enabled: true
+      type: LoadBalancer
+      spec:
+        loadBalancerIP: "${LB_TRAEFIK_IP}"
+        externalTrafficPolicy: Local
     logs:
       general:
         format: json
@@ -44,6 +40,38 @@ spec:
     ingressRoute:
       dashboard:
         enabled: false
+    globalArguments:
+      - "--serverstransport.insecureskipverify=true"
+      - "--providers.kubernetesingress.ingressclass=traefik"
+      - "--metrics.prometheus=true"
+      - "--metrics.prometheus.entryPoint=metrics"
+    additionalArguments:
+      - --providers.kubernetesingress.ingressendpoint.hostname=${SECRET_DOMAIN}
+      - --providers.kubernetesingress.ingressendpoint.ip=${LB_TRAEFIK_IP}
+      - --providers.file.filename=/data/traefik-config.yaml
+
+      - --api.dashboard
+      - --api.insecure
+      - --api.debug
+      - --serversTransport.insecureSkipVerify=true
+      - --entryPoints.web.forwardedHeaders.insecure
+      - --certificatesresolvers.lets-prod.acme.email=admin@negative7.com
+      - --certificatesresolvers.lets-prod.acme.storage=/certs/acme.json
+      - --certificatesresolvers.lets-prod.acme.dnschallenge=true
+      - --certificatesresolvers.lets-prod.acme.dnschallenge.provider=cloudflare
+    ports:
+      websecure:
+        tls:
+          enabled: true
+          certResolver: lets-prod
+          domains:
+            - main: home.negative7.com
+              sans:
+                - "*.home.negative7.com"
+      metrics:
+        port: 8082
+        expose: true
+        exposedPort: 8082
     persistence:
       enabled: true
       path: /certs
@@ -59,51 +87,9 @@ spec:
       - mountPath: /data
         name: "traefik-config"
         type: configMap
-    globalArguments:
-      - "--serverstransport.insecureskipverify=true"
-      - "--providers.kubernetesingress.ingressclass=traefik"
-      - "--metrics.prometheus=true"
-      - "--metrics.prometheus.entryPoint=metrics"
-    additionalArguments:
-      - --providers.kubernetesingress.ingressendpoint.ip=${LB_TRAEFIK_IP}
-      - --providers.file.filename=/data/traefik-config.yaml
-      - --api.dashboard
-      - --api.insecure
-      - --api.debug
-      - --serversTransport.insecureSkipVerify=true
-      - --entryPoints.web.forwardedHeaders.insecure
-      - --entrypoints.websecure.http.tls.certresolver=lets-prod
-      - --entrypoints.websecure.http.tls.domains[0].main=home.negative7.com
-      - --entrypoints.websecure.http.tls.domains[0].sans=*.home.negative7.com
-      - --certificatesresolvers.lets-prod.acme.email=admin@negative7.com
-      - --certificatesresolvers.lets-prod.acme.storage=/certs/acme.json
-      - --certificatesresolvers.lets-prod.acme.dnschallenge=true
-      - --certificatesresolvers.lets-prod.acme.dnschallenge.provider=cloudflare
-    service:
+    pilot:
       enabled: true
-      type: LoadBalancer
-      spec:
-        loadBalancerIP: "${INGRESS_TRAEFIK_LB}"
-        externalTrafficPolicy: Local
-    # ports:
-    # web:
-    #   redirectTo: websecure
-    # websecure:
-    #   tls:
-    #     enabled: true
-    #     options: "default"
-    # metrics:
-    #   port: 8082
-    #   expose: true
-    #   exposedPort: 8082
-    # tlsOptions:
-    #   default:
-    #     minVersion: VersionTLS12
-    #     maxVersion: VersionTLS13
-    #     sniStrict: true
-    # pilot:
-    #   enabled: true
-    #   token: "722c9e7d-0103-42a8-82fd-9bb46868c5c4"
+      token: "40ab639a-04f4-42fd-ae27-98bdc06862b4"
     experimental:
       plugins:
         enabled: true
