@@ -149,17 +149,13 @@ spec:
               resources:
                 requests:
                   storage: 50Gi
-        # additionalScrapeConfigs:
-        # - job_name: 'node-exporter'
-        #   honor_timestamps: true
-        #   static_configs:
-        #   - targets:
-        #     # opnsense
-        #     - 192.168.1.1:9100
-        #     # rocinante nas
-        #     - 192.168.42.40:9100
-        #     # serenity nas
-        #     - 192.168.42.50:9100
+        additionalScrapeConfigs:
+        - job_name: 'node-exporter'
+          honor_timestamps: true
+          static_configs:
+          - targets:
+            # freenas
+            - 192.168.1.20:9100
         # - job_name: cadvisor
         #   honor_timestamps: true
         #   metrics_path: /metrics
