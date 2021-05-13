@@ -1,0 +1,41 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: jackett
+  namespace: media
+spec:
+  interval: 5m
+  chart:
+    spec:
+      # renovate: registryUrl=https://k8s-at-home.com/charts/
+      chart: jackett
+      version: 9.0.0
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home-charts
+        namespace: flux-system
+      interval: 5m
+  values:
+    image:
+      repository: ghcr.io/k8s-at-home/jackett
+      tag: v0.17.1011
+    env:
+      TZ: "America/New_York"
+    ingress:
+      enabled: true
+      ingressClassName: "traefik"
+      hosts:
+      - host: "jackett.${HOMELAB_DOMAIN}"
+        paths:
+        - path: /
+          pathType: Prefix
+      config:
+        enabled: true
+        existingClaim: jackett-config-v1
+    resources:
+      requests:
+        memory: 100Mi
+        cpu: 100m
+      limits:
+        memory: 1000Mi
