@@ -11,12 +11,12 @@ data:
         router-minio:
           entryPoints:
             - websecure
-          rule: Host(`minio.home.negative7.com`)
+          rule: Host(`minio.${SECRET_DOMAIN}`)
           service: service-minio
         router-homeassistant:
           entryPoints:
             - websecure
-          rule: Host(`home.negative7.com`)
+          rule: Host(`home.${SECRET_DOMAIN}`)
           service: service-homeassistant
       services:
         service-minio:

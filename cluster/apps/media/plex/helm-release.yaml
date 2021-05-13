@@ -31,7 +31,7 @@ spec:
       annotations:
         traefik.ingress.kubernetes.io/router.entrypoints: web, websecure
       hosts:
-        - host: "plex.homelab.test"
+        - host: "plex.${HOMELAB_DOMAIN}"
           paths:
             - path: /
               pathType: Prefix
