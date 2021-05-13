@@ -36,7 +36,7 @@ spec:
         existingClaim: prowlarr-config-v1
     initContainers:
     - name: volume-ownership
-      image: busybox:1.31.1
+      image: busybox:1.33.1
       command: ['sh', '-c', 'chown -R 568:568 /config']
       volumeMounts:
       - name: "config"
