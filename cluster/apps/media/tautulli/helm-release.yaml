@@ -34,6 +34,13 @@ spec:
       config:
         enabled: true
         existingClaim: tautulli-config-v1
+    initContainers:
+    - name: volume-ownership
+      image: busybox:1.31.1
+      command: ['sh', '-c', 'chown -R 568:568 /config']
+      volumeMounts:
+      - name: "config"
+        mountPath: "/config"
     resources:
       requests:
         memory: 250Mi
