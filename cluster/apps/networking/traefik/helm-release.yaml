@@ -11,11 +11,11 @@ spec:
       # renovate: registryUrl=https://helm.traefik.io/traefik
       chart: traefik
       interval: 5m
+      version: 9.19.0
       sourceRef:
         kind: HelmRepository
         name: traefik-charts
         namespace: flux-system
-      version: 9.19.0
   values:
     deployment:
       kind: Deployment
