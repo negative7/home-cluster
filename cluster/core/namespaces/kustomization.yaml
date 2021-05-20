@@ -6,3 +6,4 @@ resources:
 - longhorn-system.yaml
 - media.yaml
 - monitoring.yaml
+- awx.yaml
