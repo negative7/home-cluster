@@ -30,6 +30,7 @@ spec:
         paths:
         - path: /
           pathType: Prefix
+    persistence:
       config:
         enabled: true
         existingClaim: jackett-config-v1
