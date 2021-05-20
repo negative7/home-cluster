@@ -18,17 +18,12 @@ spec:
       interval: 5m
   values:
     updateStrategy: RollingUpdate
-    extraEnvVars:
-      - name: slackHookUrl
-        valueFrom:
-          secretKeyRef:
-            name: kured-slack-secret
-            key: slackHookUrl
+
     configuration:
       startTime: "1:00"
       endTime: "4:00"
       timeZone: "America/New_York"
-      slackChannel: "k8s"
+      notifyUrl: "${SECRET_KURED_NOTIFY_URL}"
     tolerations:
       - key: "node-role.kubernetes.io/master"
         operator: "Exists"
