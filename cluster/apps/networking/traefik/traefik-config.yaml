@@ -16,7 +16,7 @@ data:
         router-homeassistant:
           entryPoints:
             - websecure
-          rule: Host(`home.${SECRET_DOMAIN}`)
+          rule: Host(`${SECRET_DOMAIN}`)
           service: service-homeassistant
       services:
         service-minio:
