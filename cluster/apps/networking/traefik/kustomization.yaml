@@ -4,4 +4,6 @@ resources:
 - helm-release.yaml
 - service-monitor.yaml
 - traefik-config.yaml
+- ws.yaml
+- wss.yaml
 - dashboard
