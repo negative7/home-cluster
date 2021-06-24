@@ -10,7 +10,7 @@ spec:
     spec:
       # renovate: registryUrl=https://k8s-at-home.com/charts/
       chart: sonarr
-      version: 12.1.1
+      version: 12.2.0
       sourceRef:
         kind: HelmRepository
         name: k8s-at-home-charts
@@ -23,22 +23,22 @@ spec:
     env:
       TZ: "America/New_York"
     ingress:
-      enabled: true
-      ingressClassName: "traefik"
-      hosts:
-        - host: "sonarr.${HOMELAB_DOMAIN}"
-          paths:
-            - path: /
-              pathType: Prefix
-      additionalIngresses:
-        - enabled: true
-          nameSuffix: "api"
-          ingressClassName: "traefik"
-          hosts:
-            - host: "sonarr.${HOMELAB_DOMAIN}"
-              paths:
-                - path: /api
-                  pathType: Prefix
+      main:
+        enabled: true
+        ingressClassName: "traefik"
+        hosts:
+          - host: "sonarr.${HOMELAB_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+      api:
+        enabled: true
+        ingressClassName: "traefik"
+        hosts:
+          - host: "sonarr.${HOMELAB_DOMAIN}"
+            paths:
+              - path: /api
+                pathType: Prefix
     persistence:
       config:
         enabled: true
