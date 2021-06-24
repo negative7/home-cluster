@@ -55,23 +55,21 @@ spec:
       config:
         enabled: true
         existingClaim: plex-config-v1
-    additionalVolumeMounts:
-      - name: tv
-        mountPath: "/tv"
-      - name: movies
-        mountPath: "/movies"
-      - name: music
-        mountPath: "/music"
-    additionalVolumes:
-      - name: tv
-        persistentVolumeClaim:
-          claimName: nfs-tv-pvc
-      - name: movies
-        persistentVolumeClaim:
-          claimName: nfs-movies-pvc
-      - name: music
-        persistentVolumeClaim:
-          claimName: nfs-music-pvc
+      tv:
+        enabled: true
+        type: pvc
+        existingClaim: nfs-tv-pvc
+        accessMode: ReadWriteMany
+      movies:
+        enabled: true
+        type: pvc
+        existingClaim: nfs-movies-pvc
+        accessMode: ReadWriteMany
+      music:
+        enabled: true
+        type: pvc
+        existingClaim: nfs-music-pvc
+        accessMode: ReadWriteMany
     podSecurityContext:
       runAsUser: 1000
       runAsGroup: 1000
