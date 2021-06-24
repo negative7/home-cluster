@@ -57,6 +57,7 @@ spec:
       tmp:
         accessMode: ReadWriteOnce
         enabled: true
+        size: 10Gi
         emptyDir:
           enabled: true
           medium: "Memory"
