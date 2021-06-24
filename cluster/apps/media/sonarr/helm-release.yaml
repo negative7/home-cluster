@@ -50,8 +50,8 @@ spec:
         enabled: true
         type: pvc
         existingClaim: nfs-data-pvc
-        mountPath: /completed
         subPath: nzbget
+        accessMode: ReadWriteMany
     podSecurityContext:
       runAsUser: 1001
       runAsGroup: 1001
