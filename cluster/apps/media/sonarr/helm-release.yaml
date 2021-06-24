@@ -46,14 +46,12 @@ spec:
       media:
         enabled: true
         existingClaim: nfs-tv-pvc
-    additionalVolumeMounts:
-      - name: nfs-data
+      completed:
+        enabled: true
+        type: pvc
+        existingClaim: nfs-data-pvc
         mountPath: /completed
         subPath: nzbget
-    additionalVolumes:
-      - name: nfs-data
-        persistentVolumeClaim:
-          claimName: nfs-data-pvc
     podSecurityContext:
       runAsUser: 1001
       runAsGroup: 1001
