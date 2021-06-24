@@ -35,19 +35,17 @@ spec:
       config:
         enabled: true
         existingClaim: nzbget-config-v1
-    additionalVolumes:
-      - name: nfs-data
-        persistentVolumeClaim:
-          claimName: nfs-data-pvc
-      - name: downloads-data
-        persistentVolumeClaim:
-          claimName: nzbget-downloads-v1
-    additionalVolumeMounts:
-      - name: nfs-data
-        mountPath: /completed
+      completed:
+        enabled: true
+        type: pvc
+        existingClaim: nfs-data-pvc
         subPath: nzbget
-      - name: downloads-data
-        mountPath: /downloads
+        accessMode: ReadWriteMany
+      downloads:
+        enabled: true
+        type: pvc
+        existingClaim: nzbget-downloads-v1
+        accessMode: ReadWriteMany
     podSecurityContext:
       runAsUser: 1001
       runAsGroup: 1001
