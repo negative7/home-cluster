@@ -54,13 +54,6 @@ spec:
       config:
         enabled: true
         existingClaim: plex-config-v1
-      tmp:
-        accessMode: ReadWriteOnce
-        enabled: true
-        size: 10Gi
-        emptyDir:
-          enabled: true
-          medium: "Memory"
     additionalVolumeMounts:
       - name: tv
         mountPath: "/tv"
