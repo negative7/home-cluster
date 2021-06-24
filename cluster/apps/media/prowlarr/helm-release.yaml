@@ -23,13 +23,14 @@ spec:
     env:
       TZ: "America/New_York"
     ingress:
-      enabled: true
-      ingressClassName: "traefik"
-      hosts:
-      - host: "prowlarr.${HOMELAB_DOMAIN}"
-        paths:
-        - path: /
-          pathType: Prefix
+      main:
+        enabled: true
+        ingressClassName: "traefik"
+        hosts:
+        - host: "prowlarr.${HOMELAB_DOMAIN}"
+          paths:
+          - path: /
+            pathType: Prefix
     persistence:
       config:
         enabled: true
