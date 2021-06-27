@@ -58,11 +58,11 @@ spec:
                 class: ["0300"]
                 vendor: ["8086"]
           - name: "zigbee"
-              matchOn:
-              - usbId:
-                  class: ["ff"]
-                  vendor: ["1a86"]
-                  device: ["7523"]
+            matchOn:
+            - usbId:
+                class: ["ff"]
+                vendor: ["1a86"]
+                device: ["7523"]
       annotations:
         configmap.reloader.stakater.com/reload: "nfd-worker-conf"
       tolerations:
