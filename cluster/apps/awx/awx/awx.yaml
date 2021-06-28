@@ -4,37 +4,37 @@ metadata:
   name: awx
   namespace: awx
 spec:
-  tower_ingress_type: Ingress
-  tower_hostname: awx.homelab.test
-  tower_ingress_annotations: |
+  ingress_type: Ingress
+  hostname: awx.homelab.test
+  ingress_annotations: |
     kubernetes.io/ingress.class: traefik
   # DB requirements defaults
-  tower_postgres_resource_requirements:
+  postgres_resource_requirements:
     requests:
       cpu: 500m
       memory: 2Gi
     limits:
       cpu: "1"
       memory: 4Gi
-  tower_postgres_storage_requirements:
+  postgres_storage_requirements:
     requests:
       storage: 8Gi
     limits:
       storage: 50Gi
-  tower_postgres_storage_class: longhorn
-  tower_web_resource_requirements:
+  postgres_storage_class: longhorn
+  web_resource_requirements:
     requests:
       cpu: 1000m
       memory: 2Gi
     limits:
       cpu: 2000m
       memory: 4Gi
-  tower_task_resource_requirements:
+  task_resource_requirements:
     requests:
       cpu: 500m
       memory: 1Gi
     limits:
       cpu: 1000m
       memory: 2Gi
-  tower_projects_persistence: true
-  tower_projects_existing_claim: ''
+  projects_persistence: true
+  projects_existing_claim: ''
