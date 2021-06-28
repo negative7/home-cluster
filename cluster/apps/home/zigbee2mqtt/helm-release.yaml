@@ -62,7 +62,7 @@ spec:
         port: /dev/serial/by-id/usb-1a86_USB_Serial-if00-port0
       advanced:
         network_key: GENERATE
-        pan_id: 6754
+        pan_id: 0x1a64
       # Both of these need to be enabled for the webui
       frontend:
         port: 8080
