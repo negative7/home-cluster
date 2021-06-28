@@ -18,8 +18,26 @@ spec:
         namespace: flux-system
   values:
     persistence:
-      defaultClassReplicaCount: 2
+      defaultClass: true
+      defaultClassReplicaCount: 3
       reclaimPolicy: Retain
+      recurringJobs:
+        enable: false
+        jobList:
+          [
+            {
+              "name": "snap",
+              "task": "snapshot",
+              "cron": "0 2 * * * *",
+              "retain": 10,
+            },
+            {
+              "name": "backup",
+              "task": "backup",
+              "cron": "0 2 * * *",
+              "retain": 10,
+            },
+          ]
     csi:
       kubeletRootDir: /var/lib/kubelet
     defaultSettings:
