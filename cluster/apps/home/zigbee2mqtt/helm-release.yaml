@@ -63,7 +63,7 @@ spec:
       advanced:
         network_key: GENERATE
         pan_id: GENERATE
-        ext_pan_id: GENERATE
+        ext_pan_id: [33, 117, 141, 25, 0, 75, 18, 0]
       # Both of these need to be enabled for the webui
       frontend:
         port: 8080
