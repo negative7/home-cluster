@@ -74,13 +74,13 @@ spec:
         cpu: 500m
       limits:
         memory: 6000Mi
-    addons:
-      vpn:
-        enabled: true
-        type: openvpn
-        openvpn:
-          authSecret: vpn-auth
-        configFileSecret: vpn-config
-        env:
-          FIREWALL: 'on'
-          TZ: America/New_York
+    # addons:
+    #   vpn:
+    #     enabled: true
+    #     type: openvpn
+    #     openvpn:
+    #       authSecret: vpn-auth
+    #     configFileSecret: vpn-config
+    #     env:
+    #       FIREWALL: 'on'
+    #       TZ: America/New_York
