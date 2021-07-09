@@ -1,0 +1,59 @@
+# yamllint disable
+apiVersion: v1
+kind: Secret
+metadata:
+    name: vpn-config
+    namespace: media
+type: Opaque
+data: ENC[AES256_GCM,data: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,iv:UmV2lpi1TGbm6gMscyWNS6XAkzNf3gbkxLPAWfmD12k=,tag:ZfgEK4WsxgVj9QjmcbwtIQ==,type:str]
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age: []
+    lastmodified: "2021-07-09T03:23:19Z"
+    mac: ENC[AES256_GCM,data:1wMnup6Gzo8xKVHY/KnqckisCEfQdbaq6Q8fnsmAHfQUlNBS01MTKOzMP8edgqQZoA0KLNK7EQrrqtKUXde6mH4/KxQ24vgxJR794axi1SW3Tbt2pQf/X82PD1FvaOUqSeT37G8xp9jgzAwM/IEUreeTGFjeEqqRTHMOX4PjhXA=,iv:fMvfID7Eysx/0DOZTRBkRId1lLy1pFCg9AhEA8kgFgM=,tag:YRpGi/IqzRG5Z22yDvjAVQ==,type:str]
+    pgp:
+        - created_at: "2021-05-05T13:51:55Z"
+          enc: |
+            -----BEGIN PGP MESSAGE-----
+
+            hQIMA6OtmnUNEW3nAQ//T2Tua1lZV6Xo3yYmzNGyNMyqI9Zpt2DevZJqbY7H37GS
+            xlH+vrx4pMdeqPrUqyEy9c85NlIevHI7RXCiTRd0DHJuojfd9m6btBTF1Hiq50ZS
+            S6NqMQTIOiU8pBcCrW58C2NM5nBuJjiRV4SJk8sv+xbAnCGm/sFDq4gQBSy+q1R6
+            NA8LELDuOIEh36qTIL9echak/MU/fY6kFNkmqP45Z8HSl1QAHZjTqdx6SYXzYSHA
+            WWr3xkZGJBmrdQ9cfUi+l1oj61k+KrpAWUgKLYf8BrrKseu3xgSq34D+RZyqJ+D1
+            9ua/6eM/PjpF4qNx94Jt8CWp/7FewxHo6PJIezoivjqbow8jojLuT2gCrX0h7cyg
+            MO2Eb9IsGhKoet5mMXFEKsTUvzuLOGQGjTpduxRmCGI6CU8opyzS9MNnNLfZIxjO
+            GzaP0XSg+8Kspepoza0cV6ZVESKRsdGamOruoOlyq1yDQzficshsKER1Pxh/t/oK
+            hr2TIRovGTuZNcyq3gQIhdONRZjM0uN6itShvywJgJ40EuLdu94jxdNnoTboQevh
+            rg/7SrkhtdGRPP41WMtxsYFw+lQwhEfl8q0d3qG8mntvNh1n2WmxBcFgABOY2Gd9
+            e9Jm4ZbrHGPVK96U9SKU+y3Gooeox4tlW0PFRrkZ/AnIQlIzKBqnAp/MF9BRjvLS
+            XgFMojzZ5Cxo+FPk9/V2ikhhGgj2Iu+gUGG49rjcVkWABlV2URYZPEiwlOMgv6bK
+            +P98NhZ6h2a+40OVcKqHEsNKcoUBilvE3to7RLj/h4In82TFkLHfzECpxKBhKRI=
+            =a4M1
+            -----END PGP MESSAGE-----
+          fp: 496684211657C1F26B55D744102C78295E1CC929
+        - created_at: "2021-05-05T13:51:55Z"
+          enc: |
+            -----BEGIN PGP MESSAGE-----
+
+            hQIMA24JBq5W2PfUAQ//QWrlrkvu9KWderRjZ7+PTOgMOGisErS5oo6GUvtDe/CN
+            /VnnVDF0a8zhrkr2R3y8EqVz3wQGANUa5Si4xnSCsm55dKRnNotqoMp+QqWyKzVx
+            Ju87Oa4D+xdkpAJr2wKoPVet8ubu4z2zzXxsDWxxOCZzQrprCsSYYIS6QxBss8xv
+            tazGCUfZy8X8DVRNmnpUdIJdf5cWgqo0+O2zvjbMaAB74QnCrADZYsdqtnizCsV9
+            F8u81itSL0mrcO3o9Y1OM8IsxPCWWAseuZvJJ2KksDYSdb/dCeHTkad/4vZs7DWr
+            o9G8fJEx2QRL5Z8Fo6kWDRvcr5gBY43wbVS1d+/4LVSqb2EixqVwdImUMhQeeA+E
+            JfnqS/i8tm+cu2gybaXnuLEbDn9Fa34CzKQHuduUVG2Fy079REE3/MxtvMezlu8R
+            DQWONUTqZNlJnHuqRfyeqpgyJFgO//Ia5GrvRwJf6PAx4QmYGLl6rrxj2QfBP8Dc
+            gXze/ese3jp4IQhbmlqXqbKw2/j3Kr3c1gc63T3dEbuj9g6ZS2VpUS6Zufn4AV+q
+            PQkSC/7UavkosOSrBe5w+9meSxjj+lsUIudjeQkK40xc8Z0ljpqdzpiQXuvUQ6gZ
+            V1bvQGQJ1XSsyZlY1iZkf75wuU5F2t0/REjUsxrD8OhGFMwB02UlSicnXhtPOEbS
+            XgG3i9odBZPODbPk1nP23NpQIeamxcZi2Al7/dBfe9KUuVZ9YOoyLemUH0+/zWXp
+            887/3OjUuyqavAHzl/ES3TBonpowQlKXK568HsoR/VWhVz5WhyFIEeWO3nOPNbU=
+            =ygkb
+            -----END PGP MESSAGE-----
+          fp: 48F8FDE41601D8035FEB645AE7023041350E9E81
+    encrypted_regex: ^(data|stringData)$
+    version: 3.7.1
