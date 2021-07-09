@@ -50,9 +50,6 @@ spec:
           paths:
           - path: /
             pathType: Prefix
-    podSecurityContext:
-      supplementalGroups:
-      - 100
     persistence:
       config:
         enabled: true
