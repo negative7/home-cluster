@@ -71,13 +71,10 @@ spec:
         cpu: 500m
       limits:
         memory: 6000Mi
-    initContainers:
-    - name: volume-ownership
-      image: busybox:1.33.1
-      command: ['sh', '-c', 'chown -R 568:568 /config']
-      volumeMounts:
-      - name: "config"
-        mountPath: "/config"
+    podSecurityContext:
+      runAsUser: 1001
+      runAsGroup: 1001
+      fsGroup: 1001
     # addons:
     #   vpn:
     #     enabled: true
