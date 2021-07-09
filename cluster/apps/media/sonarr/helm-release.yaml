@@ -50,14 +50,8 @@ spec:
         enabled: true
         type: pvc
         existingClaim: nfs-data-pvc
-        #subPath: nzbget
+        subPath: nzbget
         accessMode: ReadWriteMany
-      # qbcompleted:
-      #   enabled: true
-      #   type: pvc
-      #   existingClaim: nfs-data-pvc
-      #   subPath: qb
-      #   accessMode: ReadWriteMany
     podSecurityContext:
       runAsUser: 1001
       runAsGroup: 1001
