@@ -70,10 +70,6 @@ spec:
         type: pvc
         existingClaim: nfs-music-pvc
         accessMode: ReadWriteMany
-      # transcode:
-      #   enabled: true
-      #   type: emptyDir
-      #   medium: Memory
     affinity:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
