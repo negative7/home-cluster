@@ -94,7 +94,7 @@ spec:
         type: configMap
     pilot:
       enabled: true
-      token: "40ab639a-04f4-42fd-ae27-98bdc06862b4"
+      token: "56a1d553-c8fb-43e3-ab0b-49dc8b3e6d4a"
     experimental:
       plugins:
         enabled: true
