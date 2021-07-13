@@ -5,7 +5,7 @@ metadata:
   labels:
     prometheus: k8s
     role: alert-rules
-  name: kured-rules
+  name: flux-rules
   namespace: kube-system
 spec:
   groups:
