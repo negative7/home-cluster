@@ -1,5 +1,5 @@
 ---
-apiVersion: batch/v1beta1
+apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: cloudflare-ddns
@@ -16,7 +16,7 @@ spec:
           restartPolicy: Never
           containers:
           - name: cloudflare-ddns
-            image: curlimages/curl:7.77.0
+            image: ghcr.io/k8s-at-home/kubectl:v1.21.2
             envFrom:
             - secretRef:
                 name: cloudflare-ddns
