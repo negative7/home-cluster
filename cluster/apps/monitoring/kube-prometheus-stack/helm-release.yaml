@@ -10,7 +10,7 @@ spec:
     spec:
       # renovate: registryUrl=https://prometheus-community.github.io/helm-charts
       chart: kube-prometheus-stack
-      version: 16.12.2
+      version: 16.13.0
       sourceRef:
         kind: HelmRepository
         name: prometheus-community-charts
@@ -129,6 +129,8 @@ spec:
         hosts:
         - "prometheus.${HOMELAB_DOMAIN}"
       prometheusSpec:
+        replicas: 2
+        replicaExternalLabelName: "replica"
         ruleSelector: {}
         ruleNamespaceSelector: {}
         ruleSelectorNilUsesHelmValues: false
@@ -177,3 +179,5 @@ spec:
         #   static_configs:
         #   - targets:
         #     - 192.168.42.40:8081
+    kube-state-metrics:
+      fullnameOverride: kube-state-metrics
