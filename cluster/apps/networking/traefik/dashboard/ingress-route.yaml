@@ -13,3 +13,5 @@ spec:
       services:
         - name: api@internal
           kind: TraefikService
+      middlewares:
+        - name: rfc1918
