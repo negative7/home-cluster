@@ -4,3 +4,4 @@ resources:
 - monitoring
 - notifications
 - webhook
+- prometheus-rule.yaml
