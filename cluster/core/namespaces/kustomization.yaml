@@ -8,4 +8,4 @@ resources:
 - monitoring.yaml
 - awx.yaml
 - home.yaml
-- cert-manager
+- cert-manager.yaml
