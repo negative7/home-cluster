@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
 - helm-release.yaml
 - service-monitor.yaml
+- tls-store
 - traefik-config.yaml
 - middlewares
 - dashboard
