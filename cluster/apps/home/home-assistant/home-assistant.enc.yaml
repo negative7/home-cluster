@@ -6,9 +6,9 @@ metadata:
     namespace: home
 stringData:
     HASS_ECOBEE_API_KEY: ENC[AES256_GCM,data:Y7jhDD4Z6s5QjSx1dSF6r+wweoSvIi1u8vJDofjAjuA=,iv:itA/Ysk1HTk9wT9atyanLcC8jgN4JV4XjrCXrIh2+mE=,tag:cXxUcWikwh+rB0JqfXantQ==,type:str]
-    HASS_ELEVATION: ENC[AES256_GCM,data:nw==,iv:4MtG328TYGQg3nOIRTSDBRIzcvJtJSjt9gPVI1ZkiQ4=,tag:7bNuj25Pkd0TUkM48H2TLA==,type:int]
-    HASS_LATITUDE: ENC[AES256_GCM,data:5uLqOgsbFUqE+qXsZEDiWt8=,iv:dAbxvtf5xyYPWI8Z1FAOdxNyZjbUpdrSuknkCzqsUvU=,tag:XnH5WJ9L54o3FmE89IOVOw==,type:float]
-    HASS_LONGITUDE: ENC[AES256_GCM,data:lAsMN1NHi6vWo7Is/bcuBOnl,iv:L+bWS3FdxatIvktZerhIoVlRuyBGhUyyvM0MmYTPats=,tag:1Lx4V+UFqz2nbGjCbraSBw==,type:float]
+    HASS_ELEVATION: ENC[AES256_GCM,data:+A==,iv:PC+v7tYf8Q4yLJoNhyS61fTp+LRr0ld1Rl7Ku3yKI1U=,tag:HVitXjp3CgX38EvvH57tCg==,type:str]
+    HASS_LATITUDE: ENC[AES256_GCM,data:nWQdzkIM8E/JUh3FI07cUyE=,iv:owMyAjaoXM5Y/fXJWoZcNjsJUhTJl+ATDRDGqR4YdDI=,tag:/ZjaMn1MCpZDmylav8Hu2A==,type:str]
+    HASS_LONGITUDE: ENC[AES256_GCM,data:Jbe53JVJ68orTm/fCPGZ3g9u,iv:bjvpPmj8nRre1YYLDbiO0EMac0BSvXkM8WhWDTuSC9I=,tag:BO16YU11tFx15I3M68fSWw==,type:str]
     HASS_MQTT_PASSWORD: ENC[AES256_GCM,data:4datwPtl7E4=,iv:KCfwQ9saQV8ZHfqsMkXM5d61wjpLdiSkBFmVrpVTs10=,tag:4P01wCprse2NZXYkpf+j2g==,type:str]
     HASS_MQTT_USERNAME: ENC[AES256_GCM,data:HDy7aA==,iv:3sb/x9aOLhlv5B5QRqEBZ2E5cvY4I2IgE3zWrd1ENZg=,tag:L/GmeISIG/CFglR/aAbhDA==,type:str]
 sops:
@@ -17,8 +17,8 @@ sops:
     azure_kv: []
     hc_vault: []
     age: []
-    lastmodified: "2021-07-16T20:04:11Z"
-    mac: ENC[AES256_GCM,data:RiD5FtrKLzeb3Qi/y+M10N5IHR0rbP+thfBY19mNFYh1MEJemv/tLY4ocyubC6Zyo8qxVVzZGtm26+dze9RFwcSACRlZ7jqJo3J2YUQEzEPhvcKWUvDfhl2iMqdUpBPOoLFOeBTmhs7PwirhFQVf/cW5Cs2FrmuNLa6n/AqI224=,iv:BdK5wGusPXnWNB3Dyw29I3xYX+lKpcg625R82WW78c8=,tag:0ERsc+FuH6a60JUh1TibLw==,type:str]
+    lastmodified: "2021-07-16T20:05:45Z"
+    mac: ENC[AES256_GCM,data:Mn9F9VnFyXu3lgCWJmXG4IQzIX31mhLn+OSe+CB2ZcDXggBVoG5q9sW7O2g1V8jlevNDB44pkZ6KdE+kANkdcUF76wFT0OmiXm5yWwjmu28m6rPvY2WOnyPE3w5NzwMyzHN75nQj6AMuUoqkpW9AqttULWDW2YwLnAU+bGE6DOI=,iv:blEftata9zsiWkB6duzl+PSUim/d04cMJU2zg+Wpfog=,tag:dleQh/0nDPG55vf7fd5SFg==,type:str]
     pgp:
         - created_at: "2021-07-16T19:36:33Z"
           enc: |
