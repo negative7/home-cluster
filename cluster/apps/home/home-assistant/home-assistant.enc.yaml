@@ -5,10 +5,10 @@ metadata:
     name: home-assistant
     namespace: home
 stringData:
-    HASS_ECOBEE_API_KEY: ENC[AES256_GCM,data:L1mv0Q==,iv:2TUMU2boYxsmvcSh3CKUQCH76ch3/j+wsX/LmjtHQM0=,tag:aMNtL/sFR44rOcuYf4Vkgw==,type:str]
+    HASS_ECOBEE_API_KEY: ENC[AES256_GCM,data:Y7jhDD4Z6s5QjSx1dSF6r+wweoSvIi1u8vJDofjAjuA=,iv:itA/Ysk1HTk9wT9atyanLcC8jgN4JV4XjrCXrIh2+mE=,tag:cXxUcWikwh+rB0JqfXantQ==,type:str]
     HASS_ELEVATION: ENC[AES256_GCM,data:nw==,iv:4MtG328TYGQg3nOIRTSDBRIzcvJtJSjt9gPVI1ZkiQ4=,tag:7bNuj25Pkd0TUkM48H2TLA==,type:int]
-    HASS_LATITUDE: ENC[AES256_GCM,data:hA==,iv:K8LLnlfGGiBy2ucgx1Vop3ukg9bwApf2g27Rsi8V58g=,tag:A5Qpec1z+vXxSObA3sxogg==,type:int]
-    HASS_LONGITUDE: ENC[AES256_GCM,data:kg==,iv:h0E5VZJbBwUWMg3IlorH2Otl3vm1V73VB83RETybafs=,tag:ShL+kdL56s8bfOGZNfO0xA==,type:int]
+    HASS_LATITUDE: ENC[AES256_GCM,data:5uLqOgsbFUqE+qXsZEDiWt8=,iv:dAbxvtf5xyYPWI8Z1FAOdxNyZjbUpdrSuknkCzqsUvU=,tag:XnH5WJ9L54o3FmE89IOVOw==,type:float]
+    HASS_LONGITUDE: ENC[AES256_GCM,data:lAsMN1NHi6vWo7Is/bcuBOnl,iv:L+bWS3FdxatIvktZerhIoVlRuyBGhUyyvM0MmYTPats=,tag:1Lx4V+UFqz2nbGjCbraSBw==,type:float]
     HASS_MQTT_PASSWORD: ENC[AES256_GCM,data:4datwPtl7E4=,iv:KCfwQ9saQV8ZHfqsMkXM5d61wjpLdiSkBFmVrpVTs10=,tag:4P01wCprse2NZXYkpf+j2g==,type:str]
     HASS_MQTT_USERNAME: ENC[AES256_GCM,data:HDy7aA==,iv:3sb/x9aOLhlv5B5QRqEBZ2E5cvY4I2IgE3zWrd1ENZg=,tag:L/GmeISIG/CFglR/aAbhDA==,type:str]
 sops:
@@ -17,8 +17,8 @@ sops:
     azure_kv: []
     hc_vault: []
     age: []
-    lastmodified: "2021-07-16T19:36:33Z"
-    mac: ENC[AES256_GCM,data:mKui9cMPDJM3Z78TOwFgf4+Eq2RAxuiHGRueP4XNkahzNw8BTFf842xuZUn9a2tqgMwj8FJUnXVCrgCtB6Xtg8/k2I143c/LhSTuBTSmtSYrtW/BODSFX7GGTd9MiPc5vE3wxr9J6aphL/QkDy3bUL+3S717q6xro3jihXbD0S8=,iv:W9scXf4iAQhMWtz6yQt3cCt2GwK8ebfgYM4H9pKeIIg=,tag:pwwD/nlh14/YfnvuipnYnA==,type:str]
+    lastmodified: "2021-07-16T20:04:11Z"
+    mac: ENC[AES256_GCM,data:RiD5FtrKLzeb3Qi/y+M10N5IHR0rbP+thfBY19mNFYh1MEJemv/tLY4ocyubC6Zyo8qxVVzZGtm26+dze9RFwcSACRlZ7jqJo3J2YUQEzEPhvcKWUvDfhl2iMqdUpBPOoLFOeBTmhs7PwirhFQVf/cW5Cs2FrmuNLa6n/AqI224=,iv:BdK5wGusPXnWNB3Dyw29I3xYX+lKpcg625R82WW78c8=,tag:0ERsc+FuH6a60JUh1TibLw==,type:str]
     pgp:
         - created_at: "2021-07-16T19:36:33Z"
           enc: |
