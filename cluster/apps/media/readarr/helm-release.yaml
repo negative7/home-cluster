@@ -47,9 +47,9 @@ spec:
       config:
         enabled: true
         existingClaim: readarr-config-v1
-      # media:
-      #   enabled: true
-      #   existingClaim: nfs-movies-pvc
+      media:
+        enabled: true
+        existingClaim: nfs-books-pvc
       completed:
         enabled: true
         type: pvc
