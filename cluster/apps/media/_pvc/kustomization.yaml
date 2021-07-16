@@ -6,3 +6,4 @@ resources:
 - movies-pv.yaml
 - music-pv.yaml
 - tv-pv.yaml
+- books-pv.yaml
