@@ -27,3 +27,4 @@ resources:
 - weaveworks-kured-charts.yaml
 - kubernetes-dashboard-charts.yaml
 - longhorn-charts.yaml
+- emqx-charts.yaml
