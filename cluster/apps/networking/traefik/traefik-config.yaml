@@ -13,17 +13,8 @@ data:
             - websecure
           rule: Host(`minio.${SECRET_DOMAIN}`)
           service: service-minio
-        router-homeassistant:
-          entryPoints:
-            - websecure
-          rule: Host(`${SECRET_DOMAIN}`)
-          service: service-homeassistant
       services:
         service-minio:
           loadBalancer:
             servers:
-            - url: "http://192.168.1.20:9000/"
-        service-homeassistant:
-          loadBalancer:
-            servers:
-            - url: "http://192.168.1.5:8123"
+            - url: "http://10.2.0.10:9000/"
