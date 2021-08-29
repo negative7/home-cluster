@@ -39,7 +39,7 @@ spec:
         annotations:
           traefik.ingress.kubernetes.io/router.entrypoints: "web, websecure"
         hosts:
-        - host: "plex.${HOMELAB_DOMAIN}"
+        - host: "hass.${HOMELAB_DOMAIN}"
           paths:
           - path: /
             pathType: Prefix
@@ -83,7 +83,7 @@ spec:
           annotations:
             traefik.ingress.kubernetes.io/router.entrypoints: "web, websecure"
           hosts:
-          - host: "plex.${HOMELAB_DOMAIN}"
+          - host: "hass-config.${HOMELAB_DOMAIN}"
             paths:
             - path: /
               pathType: Prefix
