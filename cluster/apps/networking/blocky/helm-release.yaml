@@ -106,6 +106,7 @@ spec:
           longhorn.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
           alert-manager.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
           prometheus.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
+          traefik.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
       prometheus:
         enable: true
         path: /metrics
