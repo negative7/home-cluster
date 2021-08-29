@@ -73,9 +73,9 @@ spec:
           - matchExpressions:
             - {key: "feature.node.kubernetes.io/custom-zigbee", operator: In, values: ["true"]}
     initContainers:
-    - name: volume-ownership
-      image: busybox:1.34.0
-      command: ['sh', '-c', 'ls /config']
-      volumeMounts:
-      - name: "config"
-        mountPath: "/config"
+      volume-ownership:
+        image: busybox:1.34.0
+        command: ['sh', '-c', 'ls /config']
+        volumeMounts:
+        - name: "config"
+          mountPath: "/config"
