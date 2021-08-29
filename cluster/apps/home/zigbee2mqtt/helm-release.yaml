@@ -59,6 +59,7 @@ spec:
       advanced:
         log_output:
         - console
+        ext_pan_id: [0xDD, 0xDD, 0xDD, 0xDD, 0xDD, 0xDD, 0xDD, 0xDD]
         network_key:
         - 204
         - 61
