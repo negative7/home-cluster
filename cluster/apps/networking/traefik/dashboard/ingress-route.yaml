@@ -1,17 +1,20 @@
 ---
-apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
+apiVersion: networking.k8s.io/v1
+kind: Ingress
 metadata:
-  name: dashboard
+  name: traefik-dashboard
   namespace: networking
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: "web"
 spec:
-  entryPoints:
-    - web
-  routes:
-    - match: Host(`traefik.${HOMELAB_DOMAIN}`)
-      kind: Rule
-      services:
-        - name: api@internal
-          kind: TraefikService
-      middlewares:
-        - name: rfc1918
+  rules:
+    - host: "traefik.${HOMELAB_DOMAIN}"
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: traefik
+                port:
+                  number: 9000
