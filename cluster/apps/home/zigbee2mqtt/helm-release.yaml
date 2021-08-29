@@ -62,6 +62,9 @@ spec:
       permit_join: false
       serial:
         port: /dev/serial/by-id/usb-1a86_USB_Serial-if00-port0
+      advanced:
+        network_key: GENERATE
+        pan_id: GENERATE
       # Both of these need to be enabled for the webui
       frontend:
         port: 8080
