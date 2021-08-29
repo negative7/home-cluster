@@ -43,44 +43,6 @@ spec:
           paths:
           - path: /
             pathType: Prefix
-    config:
-      mqtt:
-        base_topic: zigbee2mqtt
-        server: "mqtt://emqx.home:1883"
-        client_id: "zigbee2mqtt"
-        username: ${SECRET_Z2MQTT_USERNAME}
-        password: ${SECRET_Z2MQTT_PASSWORD}
-      homeassistant: true
-      device_options:
-        retain: true
-      permit_join: false
-      serial:
-        port: /dev/serial/by-id/usb-1a86_USB_Serial-if00-port0
-      advanced:
-        log_output:
-        - console
-        ext_pan_id: [0xDD, 0xDD, 0xDD, 0xDD, 0xDD, 0xDD, 0xDD, 0xDD]
-        network_key:
-        - 204
-        - 61
-        - 75
-        - 23
-        - 44
-        - 230
-        - 24
-        - 203
-        - 53
-        - 5
-        - 248
-        - 32
-        - 50
-        - 84
-        - 44
-        - 159
-      frontend:
-        port: 8080
-      experimental:
-        new_api: true
     securityContext:
       privileged: true
     affinity:
