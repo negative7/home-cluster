@@ -25,7 +25,6 @@ spec:
     service:
       enabled: true
       type: LoadBalancer
-      loadBalancerIP: ${LB_TRAEFIK_IP}"
       spec:
         loadBalancerIP: "${LB_TRAEFIK_IP}"
         externalTrafficPolicy: Local
