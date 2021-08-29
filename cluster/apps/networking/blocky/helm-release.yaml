@@ -109,6 +109,7 @@ spec:
           traefik.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
           hass.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
           hass-config.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
+          zigbee2mqtt.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
       prometheus:
         enable: true
         path: /metrics
