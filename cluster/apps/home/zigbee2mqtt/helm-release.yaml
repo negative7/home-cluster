@@ -75,7 +75,7 @@ spec:
     initContainers:
       volume-ownership:
         image: busybox:1.34.0
-        command: ['sh', '-c', 'ls /config']
+        command: ['sh', '-c', 'cat /config/configuration.yaml']
         volumeMounts:
         - name: "config"
           mountPath: "/config"
