@@ -107,6 +107,8 @@ spec:
           alert-manager.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
           prometheus.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
           traefik.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
+          hass.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
+          hass-config.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
       prometheus:
         enable: true
         path: /metrics
