@@ -36,8 +36,6 @@ spec:
         enabled: true
         type: LoadBalancer
         LoadBalancerIP: ${SVC_BLOCKY_ADDR}
-        externalIPs:
-          - "${SVC_BLOCKY_ADDR}"
         ports:
           dns-tcp:
             enabled: true
