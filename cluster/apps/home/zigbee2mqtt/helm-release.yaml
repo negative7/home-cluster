@@ -23,6 +23,27 @@ spec:
     env:
       TZ: "America/New_York"
       ZIGBEE2MQTT_DATA: /data
+    config:
+      homeassistant: true
+      device_options:
+        retain: true
+      permit_join: false
+      mqtt:
+        base_topic: zigbee2mqtt
+        server: "mqtt://emqx"
+        user: "${SECRET_Z2MQTT_USERNAME}"
+        password: "${SECRET_Z2MQTT_PASSWORD}"
+      serial:
+        port: /dev/serial/by-id/usb-1a86_USB_Serial-if00-port0
+      advanced:
+        log_output:
+        - console
+      frontend:
+        port: 8080
+      experimental:
+        new_api: true
+
+
     persistence:
       config:
         enabled: true
@@ -44,26 +65,26 @@ spec:
           paths:
           - path: /
             pathType: Prefix
-    config:
-      mqtt:
-        base_topic: zigbee2mqtt
-        server: "mqtt://emqx.home:1883"
-        client_id: "zigbee2mqtt"
-        username: ${SECRET_Z2MQTT_USERNAME}
-        password: ${SECRET_Z2MQTT_PASSWORD}
-      homeassistant: true
-      device_options:
-        retain: true
-      permit_join: false
-      serial:
-        port: /dev/serial/by-id/usb-1a86_USB_Serial-if00-port0
-      advanced:
-        network_key: "GENERATE"
-        pan_id: "GENERATE"
-      frontend:
-        port: 8080
-      experimental:
-        new_api: true
+    # config:
+    #   mqtt:
+    #     base_topic: zigbee2mqtt
+    #     server: "mqtt://emqx.home:1883"
+    #     client_id: "zigbee2mqtt"
+    #     username: ${SECRET_Z2MQTT_USERNAME}
+    #     password: ${SECRET_Z2MQTT_PASSWORD}
+    #   homeassistant: true
+    #   device_options:
+    #     retain: true
+    #   permit_join: false
+    #   serial:
+    #     port: /dev/serial/by-id/usb-1a86_USB_Serial-if00-port0
+    #   advanced:
+    #     network_key: "GENERATE"
+    #     pan_id: "GENERATE"
+    #   frontend:
+    #     port: 8080
+    #   experimental:
+    #     new_api: true
     securityContext:
       privileged: true
     affinity:
