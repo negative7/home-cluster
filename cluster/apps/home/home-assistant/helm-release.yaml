@@ -30,8 +30,7 @@ spec:
     service:
       main:
         type: LoadBalancer
-        externalIPs:
-        - "${SVC_HOME_ASSISTANT_ADDRESS}"
+        LoadBalancerIP: "${SVC_HOME_ASSISTANT_ADDRESS}"
         externalTrafficPolicy: Local
     ingress:
       main:
