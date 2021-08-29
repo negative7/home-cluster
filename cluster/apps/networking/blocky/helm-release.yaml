@@ -32,25 +32,17 @@ spec:
         ports:
           http:
             port: 4000
-      dns-tcp:
+      dns:
         enabled: true
         type: LoadBalancer
         loadBalancerIP: ${SVC_BLOCKY_ADDR}"
-        ports:
-          dns-tcp:
+        pports:
+          tcp:
             enabled: true
             port: 53
             protocol: TCP
             targetPort: 53
-        externalTrafficPolicy: Local
-        annotations:
-          metallb.universe.tf/allow-shared-ip: blocky
-      dns-udp:
-        enabled: true
-        type: LoadBalancer
-        loadBalancerIP: ${SVC_BLOCKY_ADDR}"
-        ports:
-          dns-udp:
+          udp:
             enabled: true
             port: 53
             protocol: UDP
