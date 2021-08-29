@@ -78,6 +78,7 @@ spec:
       conditional:
         mapping:
           home.test: tcp+udp:10.0.1.1
+          lab.test: tcp+udp:10.0.1.1
       blocking:
         blackLists:
           ads:
