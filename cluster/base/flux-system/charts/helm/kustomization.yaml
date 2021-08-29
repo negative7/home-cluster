@@ -28,3 +28,4 @@ resources:
 - kubernetes-dashboard-charts.yaml
 - longhorn-charts.yaml
 - emqx-charts.yaml
+- metallb-charts.yaml
