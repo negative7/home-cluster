@@ -76,6 +76,9 @@ spec:
           - ads
       clientLookup:
         upstream: udp:10.0.1.1
+        clients:
+          dashboard.${HOMELAB_DOMAIN}:
+            - ${LB_TRAEFIK_IP}
       prometheus:
         enable: true
         path: /metrics
