@@ -10,7 +10,7 @@ spec:
     spec:
       # renovate: registryUrl=https://k8s-at-home.com/charts/
       chart: zigbee2mqtt
-      version: 8.2.0
+      version: 9.0.0
       sourceRef:
         kind: HelmRepository
         name: k8s-at-home-charts
@@ -19,7 +19,7 @@ spec:
   values:
     image:
       repository: ghcr.io/koenkk/zigbee2mqtt
-      tag: 1.20.0
+      tag: 1.21.0
     env:
       TZ: "America/New_York"
       ZIGBEE2MQTT_DATA: /data
@@ -32,18 +32,12 @@ spec:
         type: hostPath
         hostPath: /dev/serial/by-id/usb-1a86_USB_Serial-if00-port0
         hostPathType: CharDevice
-    securityContext:
-      privileged: true
-    affinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-          - matchExpressions:
-            - {key: "feature.node.kubernetes.io/custom-zigbee", operator: In, values: ["true"]}
     ingress:
       main:
         enabled: true
         ingressClassName: "traefik"
+        annotations:
+          traefik.ingress.kubernetes.io/router.entrypoints: "web"
         hosts:
         - host: "zigbee2mqtt.${HOMELAB_DOMAIN}"
           paths:
@@ -70,3 +64,11 @@ spec:
         port: 8080
       experimental:
         new_api: true
+    securityContext:
+      privileged: true
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - {key: "feature.node.kubernetes.io/custom-zigbee", operator: In, values: ["true"]}
