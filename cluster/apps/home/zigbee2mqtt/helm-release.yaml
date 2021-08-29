@@ -63,9 +63,10 @@ spec:
       serial:
         port: /dev/serial/by-id/usb-1a86_USB_Serial-if00-port0
       advanced:
+        log_output:
+        - console
         network_key: GENERATE
-        pan_id: GENERATE
-        ext_pan_id: [0xDD, 0xDD, 0xDD, 0xDD, 0xDD, 0xDD, 0xDD, 0xDD]
-      # Both of these need to be enabled for the webui
       frontend:
         port: 8080
+      experimental:
+        new_api: true
