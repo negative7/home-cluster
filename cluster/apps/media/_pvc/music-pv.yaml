@@ -10,7 +10,7 @@ spec:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
   nfs:
-    server: freenas.home.lan
+    server: ${TRUENAS_SERVER}
     path: "/mnt/tank/media/music"
 ---
 apiVersion: v1
