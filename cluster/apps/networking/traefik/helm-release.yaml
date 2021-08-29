@@ -11,18 +11,21 @@ spec:
       # renovate: registryUrl=https://helm.traefik.io/traefik
       chart: traefik
       interval: 5m
-      version: 10.0.0
+      version: 10.3.2
       sourceRef:
         kind: HelmRepository
         name: traefik-charts
         namespace: flux-system
   values:
+    image:
+      name: ghcr.io/k8s-at-home/traefik
     deployment:
       kind: Deployment
       replicas: 1
     service:
       enabled: true
       type: LoadBalancer
+      loadBalancerIP: ${LB_TRAEFIK_IP}"
       spec:
         loadBalancerIP: "${LB_TRAEFIK_IP}"
         externalTrafficPolicy: Local
@@ -41,6 +44,7 @@ spec:
       dashboard:
         enabled: false
     globalArguments:
+      - "--api.insecure=true"
       - "--serverstransport.insecureskipverify=true"
       - "--providers.kubernetesingress.ingressclass=traefik"
       - "--metrics.prometheus=true"
@@ -60,6 +64,8 @@ spec:
       - --certificatesresolvers.lets-prod.acme.dnschallenge=true
       - --certificatesresolvers.lets-prod.acme.dnschallenge.provider=cloudflare
     ports:
+      traefik:
+        expose: true
       websecure:
         tls:
           enabled: true
