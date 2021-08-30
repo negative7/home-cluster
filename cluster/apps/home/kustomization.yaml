@@ -6,3 +6,4 @@ resources:
 - emqx
 - hajimari
 - homebridge
+- node-red
