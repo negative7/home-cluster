@@ -94,23 +94,29 @@ spec:
         upstream: udp:10.0.1.1
       customDNS:
         mapping:
-          nzbget.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
-          dashboard.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
           emqx.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
+          radarr.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
+          readarr.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
+          sonarr.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
+          longhorn.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
+          hass-config.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
+          zigbee2mqtt.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
+          grafana.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
+          alert-manager.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
+          prometheus.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
+          traefik.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
+          jackett.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
+          dashboard.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
+          hass.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
+          nzbget.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
+          prowlarr.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
           plex.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
           qb.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
           radarr.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
           readarr.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
           sonarr.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
-          grafana.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
-          longhorn.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
-          alert-manager.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
-          prometheus.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
-          traefik.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
-          hass.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
-          hass-config.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
-          zigbee2mqtt.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
           hajimari.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
+          tautulli.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
       prometheus:
         enable: true
         path: /metrics
