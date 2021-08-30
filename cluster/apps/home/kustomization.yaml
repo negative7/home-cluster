@@ -5,3 +5,4 @@ resources:
 - home-assistant
 - emqx
 - hajimari
+- homebridge
