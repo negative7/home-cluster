@@ -95,9 +95,6 @@ spec:
       customDNS:
         mapping:
           emqx.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
-          radarr.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
-          readarr.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
-          sonarr.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
           longhorn.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
           hass-config.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
           zigbee2mqtt.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
@@ -113,7 +110,6 @@ spec:
           plex.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
           qb.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
           radarr.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
-          readarr.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
           sonarr.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
           hajimari.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
           tautulli.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
