@@ -26,6 +26,10 @@ spec:
       main:
         enabled: true
         ingressClassName: "traefik"
+        annotations:
+          hajimari.io/enable: "true"
+          hajimari.io/icon: "download-box"
+          traefik.ingress.kubernetes.io/router.entrypoints: "web"
         hosts:
           - host: nzbget.${HOMELAB_DOMAIN}
             paths:

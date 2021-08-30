@@ -26,6 +26,10 @@ spec:
       main:
         enabled: true
         ingressClassName: "traefik"
+        annotations:
+          hajimari.io/enable: "true"
+          hajimari.io/icon: "api"
+          traefik.ingress.kubernetes.io/router.entrypoints: "web"
         hosts:
         - host: "jackett.${HOMELAB_DOMAIN}"
           paths:

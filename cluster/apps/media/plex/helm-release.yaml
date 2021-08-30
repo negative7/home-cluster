@@ -27,6 +27,8 @@ spec:
         enabled: true
         ingressClassName: "traefik"
         annotations:
+          hajimari.io/enable: "true"
+          hajimari.io/icon: "plex"
           traefik.ingress.kubernetes.io/router.entrypoints: web, websecure
         hosts:
           - host: "plex.${HOMELAB_DOMAIN}"

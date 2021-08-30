@@ -45,6 +45,8 @@ spec:
         ingressClassName: "traefik"
         annotations:
           traefik.ingress.kubernetes.io/router.entrypoints: "web,websecure"
+          hajimari.io/enable: "true"
+          hajimari.io/icon: "cloud-download"
         hosts:
         - host: "qb.${HOMELAB_DOMAIN}"
           paths:
