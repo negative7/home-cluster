@@ -26,6 +26,11 @@ spec:
       main:
         enabled: true
         ingressClassName: "traefik"
+        annotations:
+          external-dns/is-public: "true"
+          hajimari.io/enable: "true"
+          hajimari.io/icon: "filmstrip"
+          traefik.ingress.kubernetes.io/router.entrypoints: "web"
         hosts:
           - host: "radarr.${HOMELAB_DOMAIN}"
             paths:
@@ -36,9 +41,6 @@ spec:
         nameSuffix: "api"
         ingressClassName: "traefik"
         annotations:
-          external-dns/is-public: "true"
-          hajimari.io/enable: "true"
-          hajimari.io/icon: "filmstrip"
           traefik.ingress.kubernetes.io/router.entrypoints: "web"
         hosts:
           - host: "radarr.${HOMELAB_DOMAIN}"

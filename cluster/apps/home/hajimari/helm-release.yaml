@@ -34,7 +34,7 @@ spec:
       customApps:
         - name: Truenas
           url: "http://freenas.lab.test/"
-          icon: "NAS"
+          icon: "nas"
       groups:
         - name: Communicate
           links:

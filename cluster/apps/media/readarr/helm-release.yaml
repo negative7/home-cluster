@@ -26,6 +26,10 @@ spec:
       main:
         enabled: true
         ingressClassName: "traefik"
+        annotations:
+          hajimari.io/enable: "true"
+          hajimari.io/icon: "book-open"
+          traefik.ingress.kubernetes.io/router.entrypoints: "web"
         hosts:
           - host: "readarr.${HOMELAB_DOMAIN}"
             paths:
@@ -36,17 +40,12 @@ spec:
         nameSuffix: "api"
         ingressClassName: "traefik"
         annotations:
-          hajimari.io/enable: "true"
-          hajimari.io/icon: "book-open"
-          traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+          traefik.ingress.kubernetes.io/router.entrypoints: "web"
         hosts:
           - host: "readarr.${HOMELAB_DOMAIN}"
             paths:
               - path: /api
                 pathType: Prefix
-        tls:
-          - hosts:
-              - "readarr.${HOMELAB_DOMAIN}"
     persistence:
       config:
         enabled: true

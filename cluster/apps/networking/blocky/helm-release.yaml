@@ -113,6 +113,7 @@ spec:
           sonarr.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
           hajimari.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
           tautulli.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
+          readarr.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
       prometheus:
         enable: true
         path: /metrics
