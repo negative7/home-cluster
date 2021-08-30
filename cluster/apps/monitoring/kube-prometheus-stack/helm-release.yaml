@@ -178,7 +178,7 @@ spec:
           - source_labels: [__param_target]
             target_label: instance
           - target_label: __address__
-            replacement: ethermine-exporter:8080
+            replacement: ethermine-exporter.monitoring:8080
         # - job_name: 'minio'
         #   honor_timestamps: true
         #   metrics_path: /minio/prometheus/metrics
