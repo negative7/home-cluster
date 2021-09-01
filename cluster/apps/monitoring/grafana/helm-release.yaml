@@ -10,19 +10,28 @@ spec:
     spec:
       # renovate: registryUrl=https://grafana.github.io/helm-charts
       chart: grafana
-      version: 6.16.2
+      version: 6.16.3
       sourceRef:
         kind: HelmRepository
         name: grafana-charts
         namespace: flux-system
       interval: 5m
   values:
-    deploymentStrategy:
-      type: Recreate
+    image:
+      repository: ghcr.io/k8s-at-home/grafana
+    replicas: 1
     env:
       GF_EXPLORE_ENABLED: true
       GF_PANELS_DISABLE_SANITIZE_HTML: true
       GF_LOG_FILTERS: rendering:debug
+      GF_DATE_FORMATS_USE_BROWSER_LOCALE: true
+      GF_DATE_FORMATS_FULL_DATE: "MMM Do, YYYY hh:mm:ss a"
+      GF_DATE_FORMATS_INTERVAL_SECOND: "hh:mm:ss a"
+      GF_DATE_FORMATS_INTERVAL_MINUTE: "hh:mm a"
+      GF_DATE_FORMATS_INTERVAL_HOUR: "DD/MM hh:mm a"
+      GF_DATE_FORMATS_INTERVAL_DAY: "DD/MM"
+      GF_DATE_FORMATS_INTERVAL_MONTH: "MM-YYYY"
+      GF_DATE_FORMATS_INTERVAL_YEAR: "YYYY"
       VAR_BLOCKY_URL: "http://blocky.networking.svc.cluster.local:4000"
     adminPassword: "${SECRET_GRAFANA_PASSWORD}"
     grafana.ini:
@@ -114,21 +123,12 @@ spec:
         flux-control-plane:
           url: https://raw.githubusercontent.com/fluxcd/flux2/main/manifests/monitoring/grafana/dashboards/control-plane.json
           datasource: Prometheus
-        vernemq:
-          url: https://raw.githubusercontent.com/vernemq/vernemq/master/metrics_scripts/grafana/VerneMQ%20Node%20Metrics.json
+        blocky:
+          url: https://raw.githubusercontent.com/0xERR0R/blocky/master/docs/blocky-grafana.json
           datasource: Prometheus
-        # nginx-dashboard:
-        #   url: https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/grafana/dashboards/nginx.json
-        #   datasource: Prometheus
-        # blocky:
-        #   url: https://raw.githubusercontent.com/0xERR0R/blocky/master/docs/blocky-grafana.json
-        #   datasource: Prometheus
-        # apc-smart-ups-1500:
-        #   url: https://raw.githubusercontent.com/k8s-at-home/grafana-dashboards/main/apc-smart-ups-1500-snmp.json
-        #   datasource: Prometheus
-        # cyberpower-pdu41001:
-        #   url: https://raw.githubusercontent.com/k8s-at-home/grafana-dashboards/main/cyberpower-pdu41001-snmp.json
-        #   datasource: Prometheus
+        ethermine_miner:
+          gnetId: 14347
+          datasource: Prometheus
         lidarr:
           url: https://raw.githubusercontent.com/k8s-at-home/grafana-dashboards/main/lidarr.json
           datasource: Prometheus
@@ -157,13 +157,12 @@ spec:
     ingress:
       enabled: true
       ingressClassName: "traefik"
+      annotations:
+        traefik.ingress.kubernetes.io/router.entrypoints: "web"
       hosts:
       - "grafana.${HOMELAB_DOMAIN}"
+    serviceAccount:
+      create: true
+      autoMount: true
     persistence:
-      enabled: true
-      storageClassName: "longhorn"
-      size: 10Gi
-      accessModes:
-      - ReadWriteOnce
-    podAnnotations:
-      configmap.reloader.stakater.com/reload: "grafana"
+      enabled: false
