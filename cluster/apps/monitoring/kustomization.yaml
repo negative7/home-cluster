@@ -7,5 +7,5 @@ resources:
 #  - nut-exporter
   - loki
 # - snmp-exporter
-# - unifi-poller
+  - unifi-poller
 # - uptimerobot-heartbeat
