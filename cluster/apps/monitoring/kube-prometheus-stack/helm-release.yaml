@@ -163,6 +163,15 @@ spec:
           - targets:
             # freenas
             - 10.2.0.10:9100
+        - job_name: ethermine-ethermine-pool
+          # Limit due to API rate restriction
+          scrape_interval: 5m
+          metrics_path: /pool
+          params:
+            pool: [ethermine]
+          static_configs:
+          - targets:
+            - ethermine-exporter.monitoring:8080
         - job_name: ethermine-ethermine-miner
           honor_timestamps: true
           scrape_interval: 5m
