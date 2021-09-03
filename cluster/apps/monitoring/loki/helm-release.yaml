@@ -23,8 +23,7 @@ spec:
         ingressClassName: "traefik"
         annotations:
           traefik.ingress.kubernetes.io/router.entrypoints: "web"
-        hosts:
-        - "loki.${HOMELAB_DOMAIN}"
+        host: "loki.${HOMELAB_DOMAIN}"
       config:
         table_manager:
           retention_deletes_enabled: true
