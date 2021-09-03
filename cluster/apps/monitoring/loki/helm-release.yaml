@@ -18,13 +18,10 @@ spec:
       interval: 5m
   values:
     loki:
-      ingress:
-        enabled: false
-        ingressClassName: "traefik"
-        annotations:
-          traefik.ingress.kubernetes.io/router.entrypoints: "web"
-        hosts:
-        - host: "loki.${HOMELAB_DOMAIN}"
+      service:
+        enabled: true
+        type: LoadBalancer
+        loadBalancerIP: ${LB_LOKI_IP}
       config:
         table_manager:
           retention_deletes_enabled: true
