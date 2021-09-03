@@ -18,6 +18,16 @@ spec:
       interval: 5m
   values:
     loki:
+      ingress:
+        enabled: true
+        ingressClassName: "traefik"
+        annotations:
+          traefik.ingress.kubernetes.io/router.entrypoints: "web"
+        hosts:
+        - host: "zigbee2mqtt.${HOMELAB_DOMAIN}"
+          paths:
+          - path: /
+            pathType: Prefix
       config:
         table_manager:
           retention_deletes_enabled: true
