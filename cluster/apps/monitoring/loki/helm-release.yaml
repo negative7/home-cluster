@@ -25,6 +25,8 @@ spec:
           traefik.ingress.kubernetes.io/router.entrypoints: "web"
         hosts:
         - host: "loki.${HOMELAB_DOMAIN}"
+          paths:
+          - path: /
       config:
         table_manager:
           retention_deletes_enabled: true
