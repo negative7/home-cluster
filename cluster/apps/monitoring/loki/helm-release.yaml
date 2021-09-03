@@ -21,7 +21,7 @@ spec:
       service:
         enabled: true
         type: LoadBalancer
-        loadBalancerIP: ${LB_LOKI_IP}
+        loadBalancerIP: ${LB_LOKI_IP2}
       config:
         table_manager:
           retention_deletes_enabled: true
