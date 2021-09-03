@@ -24,7 +24,7 @@ spec:
         annotations:
           traefik.ingress.kubernetes.io/router.entrypoints: "web"
         hosts:
-        - host: "zigbee2mqtt.${HOMELAB_DOMAIN}"
+        - host: "loki.${HOMELAB_DOMAIN}"
           paths:
           - path: /
             pathType: Prefix
