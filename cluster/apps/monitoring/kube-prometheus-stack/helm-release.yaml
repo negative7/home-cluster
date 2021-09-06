@@ -149,6 +149,8 @@ spec:
         retention: 672h
         enableAdminAPI: true
         walCompression: true
+        enableFeatures:
+        - promql-at-modifier
         storageSpec:
           volumeClaimTemplate:
             spec:
