@@ -3,7 +3,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: traefik-config-v1
-  namespace: media
+  namespace: networking
 spec:
   accessModes:
   - ReadWriteOnce
