@@ -7,3 +7,4 @@ resources:
 - traefik-config.yaml
 - middlewares
 - dashboard
+- config-pvc.yaml
