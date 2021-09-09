@@ -81,9 +81,7 @@ spec:
     persistence:
       enabled: true
       path: /certs
-      size: 128Mi
-      storageClass: "longhorn"
-      accessMode: ReadWriteMany
+      existingClaim: traefik-config-v1
     env:
       - name: CF_API_EMAIL
         value: ${SECRET_CLOUDFLARE_EMAIL}
