@@ -60,7 +60,6 @@ spec:
               - kube-system
               - media
               - monitoring
-              - networking
           events:
             - create
             - delete
