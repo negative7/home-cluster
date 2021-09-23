@@ -17,6 +17,8 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
+    image:
+      repository: public.ecr.aws/emqx/emqx
     replicaCount: 3
     recreatePods: true
     service:
@@ -39,11 +41,6 @@ spec:
       EMQX_AUTH__USER__1__PASSWORD: "${SECRET_MQTT_PASSWORD}"
       EMQX_AUTH__USER__2__USERNAME: "${SECRET_Z2MQTT_USERNAME}"
       EMQX_AUTH__USER__2__PASSWORD: "${SECRET_Z2MQTT_PASSWORD}"
-    emqxAclConfig: >
-      {allow, {user, "dashboard"}, subscribe, ["$SYS/#"]}.
-      {allow, {ipaddr, "127.0.0.1"}, pubsub, ["$SYS/#", "#"]}.
-      {allow, all, subscribe, ["$SYS/#", {eq, "#"}]}.
-      {allow, all}.
     emqxLoadedPlugins: >
       {emqx_management, true}.
       {emqx_recon, true}.
@@ -53,13 +50,6 @@ spec:
       {emqx_rule_engine, true}.
       {emqx_bridge_mqtt, false}.
       {emqx_auth_mnesia, true}.
-      {emqx_prometheus, true}.
-    emqxLoadedModules: >
-      {emqx_mod_presence, true}.
-      {emqx_mod_delayed, false}.
-      {emqx_mod_rewrite, false}.
-      {emqx_mod_subscription, false}.
-      {emqx_mod_topic_metrics, true}.
     resources:
       requests:
         cpu: 100m
