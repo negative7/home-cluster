@@ -4,8 +4,8 @@ resources:
   - botkube
   - grafana
   - kube-prometheus-stack
-#  - nut-exporter
+  #  - nut-exporter
   - loki
-# - snmp-exporter
+  # - snmp-exporter
   - unifi-poller
 # - uptimerobot-heartbeat

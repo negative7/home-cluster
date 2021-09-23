@@ -10,7 +10,7 @@ spec:
     privateKeySecretRef:
       name: letsencrypt-staging
     solvers:
-    - dns01:
+      - dns01:
         cloudflare:
           email: "${SECRET_EMAIL}"
           apiKeySecretRef:

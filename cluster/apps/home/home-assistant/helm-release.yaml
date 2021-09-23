@@ -23,8 +23,8 @@ spec:
     env:
       TZ: "America/New_York"
     envFrom:
-    - secretRef:
-        name: home-assistant
+      - secretRef:
+          name: home-assistant
     hostNetwork: true
     dnsPolicy: ClusterFirstWithHostNet
     service:
@@ -41,23 +41,23 @@ spec:
           hajimari.io/icon: "home-assistant"
           traefik.ingress.kubernetes.io/router.entrypoints: "web"
         hosts:
-        - host: "hass.${HOMELAB_DOMAIN}"
-          paths:
-          - path: /
-            pathType: Prefix
+          - host: "hass.${HOMELAB_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
       external:
         enabled: true
         ingressClassName: "traefik"
         annotations:
           traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
         hosts:
-        - host: "hass.${SECRET_DOMAIN}"
-          paths:
-          - path: /
-            pathType: Prefix
+          - host: "hass.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
         tls:
-        - hosts:
-          - "hass.${SECRET_DOMAIN}"
+          - hosts:
+              - "hass.${SECRET_DOMAIN}"
     probes:
       liveness:
         enabled: false
@@ -79,32 +79,32 @@ spec:
           deployKeySecret: code-server
         workingDir: "/config"
         args:
-        - --auth
-        - "none"
-        - --user-data-dir
-        - "/config/.vscode"
-        - --extensions-dir
-        - "/config/.vscode"
+          - --auth
+          - "none"
+          - --user-data-dir
+          - "/config/.vscode"
+          - --extensions-dir
+          - "/config/.vscode"
         ingress:
           enabled: true
           ingressClassName: "traefik"
           annotations:
             traefik.ingress.kubernetes.io/router.entrypoints: "web, websecure"
           hosts:
-          - host: "hass-config.${HOMELAB_DOMAIN}"
-            paths:
-            - path: /
-              pathType: Prefix
-          - host: "hass-config.${SECRET_DOMAIN}"
-            paths:
-            - path: /
-              pathType: Prefix
+            - host: "hass-config.${HOMELAB_DOMAIN}"
+              paths:
+                - path: /
+                  pathType: Prefix
+            - host: "hass-config.${SECRET_DOMAIN}"
+              paths:
+                - path: /
+                  pathType: Prefix
           tls:
-          - hosts:
-            - "hass-config.${SECRET_DOMAIN}"
+            - hosts:
+                - "hass-config.${SECRET_DOMAIN}"
         volumeMounts:
-        - name: config
-          mountPath: /config
+          - name: config
+            mountPath: /config
     resources:
       requests:
         cpu: 100m

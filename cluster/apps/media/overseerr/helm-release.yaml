@@ -33,13 +33,13 @@ spec:
           hajimari.io/icon: "eye-circle"
           traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
         hosts:
-        - host: "requests.${SECRET_DOMAIN}"
-          paths:
-          - path: /
-            pathType: Prefix
+          - host: "requests.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
         tls:
-        - hosts:
-          - "requests.${SECRET_DOMAIN}"
+          - hosts:
+              - "requests.${SECRET_DOMAIN}"
     persistence:
       config:
         enabled: true

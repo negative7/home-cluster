@@ -11,5 +11,5 @@ spec:
     kind: ClusterIssuer
   commonName: "${HOMELAB_DOMAIN}"
   dnsNames:
-  - "${HOMELAB_DOMAIN}"
-  - "*.${HOMELAB_DOMAIN}"
+    - "${HOMELAB_DOMAIN}"
+    - "*.${HOMELAB_DOMAIN}"

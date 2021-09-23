@@ -32,7 +32,7 @@ spec:
           traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
         path: /
         hosts:
-        - emqx.${HOMELAB_DOMAIN}
+          - emqx.${HOMELAB_DOMAIN}
     emqxConfig:
       EMQX_ALLOW_ANONYMOUS: "false"
       EMQX_ADMIN_PASSWORD: "${SECRET_EMQX_ADMIN_PASSWORD}"
@@ -58,22 +58,22 @@ spec:
         memory: 512Mi
   # TODO https://github.com/emqx/emqx/pull/5201
   postRenderers:
-  - kustomize:
-      patchesJson6902:
-      - target:
-          kind: Ingress
-          name: emqx-dashboard
-        patch:
-        - op: add
-          path: /spec/ingressClassName
-          value: traefik
-      # - target:
-      #     kind: Service
-      #     name: emqx
-      #   patch:
-      #   - op: remove
-      #     path: /spec/loadBalancerIP
-      #   - op: add
-      #     path: /spec/externalIPs
-      #     value:
-      #     - "${LB_EMQX_IP}"
+    - kustomize:
+        patchesJson6902:
+          - target:
+              kind: Ingress
+              name: emqx-dashboard
+            patch:
+              - op: add
+                path: /spec/ingressClassName
+                value: traefik
+            # - target:
+            #     kind: Service
+            #     name: emqx
+            #   patch:
+            #   - op: remove
+            #     path: /spec/loadBalancerIP
+            #   - op: add
+            #     path: /spec/externalIPs
+            #     value:
+            #     - "${LB_EMQX_IP}"

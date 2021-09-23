@@ -37,12 +37,11 @@ spec:
         port: /dev/serial/by-id/usb-1a86_USB_Serial-if00-port0
       advanced:
         log_output:
-        - console
+          - console
       frontend:
         port: 8080
       experimental:
         new_api: true
-
 
     persistence:
       config:
@@ -61,10 +60,10 @@ spec:
         annotations:
           traefik.ingress.kubernetes.io/router.entrypoints: "web"
         hosts:
-        - host: "zigbee2mqtt.${HOMELAB_DOMAIN}"
-          paths:
-          - path: /
-            pathType: Prefix
+          - host: "zigbee2mqtt.${HOMELAB_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
     # config:
     #   mqtt:
     #     base_topic: zigbee2mqtt
@@ -91,5 +90,9 @@ spec:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
           nodeSelectorTerms:
-          - matchExpressions:
-            - {key: "feature.node.kubernetes.io/custom-zigbee", operator: In, values: ["true"]}
+            - matchExpressions:
+                - {
+                  key: "feature.node.kubernetes.io/custom-zigbee",
+                  operator: In,
+                  values: ["true"],
+                }

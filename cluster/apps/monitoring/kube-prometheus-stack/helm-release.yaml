@@ -25,63 +25,63 @@ spec:
           slack_api_url: "${SECRET_ALERT_MANAGER_SLACK_WEBHOOK}"
           resolve_timeout: 5m
         receivers:
-        - name: 'null'
-        - name: 'slack'
-          slack_configs:
-          - channel: 'k8s'
-            icon_url: https://avatars3.githubusercontent.com/u/3380462
-            username: 'Alertmanager'
-            send_resolved: true
-            title: |-
-              [{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ if ne .CommonAnnotations.summary ""}}{{ .CommonAnnotations.summary }} {{ else if ne .CommonAnnotations.message ""}}{{ .CommonAnnotations.message }} {{ else if ne .CommonAnnotations.description ""}}{{ .CommonAnnotations.description }} {{ else }}{{ .CommonLabels.alertname }}{{ end }}
-            text: >-
-              {{ range .Alerts -}}
-                *Alert:* {{ .Annotations.title }}{{ if .Labels.severity }} - `{{ .Labels.severity }}`{{ end }}
+          - name: "null"
+          - name: "slack"
+            slack_configs:
+              - channel: "k8s"
+                icon_url: https://avatars3.githubusercontent.com/u/3380462
+                username: "Alertmanager"
+                send_resolved: true
+                title: |-
+                  [{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ if ne .CommonAnnotations.summary ""}}{{ .CommonAnnotations.summary }} {{ else if ne .CommonAnnotations.message ""}}{{ .CommonAnnotations.message }} {{ else if ne .CommonAnnotations.description ""}}{{ .CommonAnnotations.description }} {{ else }}{{ .CommonLabels.alertname }}{{ end }}
+                text: >-
+                  {{ range .Alerts -}}
+                    *Alert:* {{ .Annotations.title }}{{ if .Labels.severity }} - `{{ .Labels.severity }}`{{ end }}
 
-              {{ if ne .Annotations.summary ""}}*Summary:* {{ .Annotations.summary }} {{ else if ne .Annotations.message ""}}*Message:* {{ .Annotations.message }} {{ else if ne .Annotations.description ""}}*Description:* {{ .Annotations.description }}{{ end }}
+                  {{ if ne .Annotations.summary ""}}*Summary:* {{ .Annotations.summary }} {{ else if ne .Annotations.message ""}}*Message:* {{ .Annotations.message }} {{ else if ne .Annotations.description ""}}*Description:* {{ .Annotations.description }}{{ end }}
 
-              *Details:*
-                {{ range .Labels.SortedPairs }} • *{{ .Name }}:* `{{ .Value }}`
-                {{ end }}
-              {{ end }}
+                  *Details:*
+                    {{ range .Labels.SortedPairs }} • *{{ .Name }}:* `{{ .Value }}`
+                    {{ end }}
+                  {{ end }}
         # - name: 'webhook'
         #   webhook_configs:
         #   - url: "http://192.168.1.35:9000/hooks/webhook-ups"
         #     send_resolved: false
         route:
-          group_by: ['alertname', 'job']
+          group_by: ["alertname", "job"]
           group_wait: 30s
           group_interval: 5m
           repeat_interval: 6h
-          receiver: 'slack'
+          receiver: "slack"
           routes:
-          - receiver: 'null'
-            match:
-              alertname: Watchdog
-          - receiver: 'slack'
-            match_re:
-              # severity: critical|warning
-              severity: critical
-            continue: true
+            - receiver: "null"
+              match:
+                alertname: Watchdog
+            - receiver: "slack"
+              match_re:
+                # severity: critical|warning
+                severity: critical
+              continue: true
           # - receiver: 'webhook'
           #   match:
           #     alertname: UPS15MinutesRemaining
           #   continue: true
         inhibit_rules:
-        - source_match:
-            severity: 'critical'
-          target_match:
-            severity: 'warning'
-          equal: ['alertname', 'namespace']
+          - source_match:
+              severity: "critical"
+            target_match:
+              severity: "warning"
+            equal: ["alertname", "namespace"]
       ingress:
         enabled: true
         pathType: Prefix
         ingressClassName: "traefik"
         hosts:
-        - "alert-manager.${HOMELAB_DOMAIN}"
-        tls:
-        - hosts:
           - "alert-manager.${HOMELAB_DOMAIN}"
+        tls:
+          - hosts:
+              - "alert-manager.${HOMELAB_DOMAIN}"
       alertmanagerSpec:
         storage:
           volumeClaimTemplate:
@@ -93,36 +93,36 @@ spec:
     nodeExporter:
       serviceMonitor:
         relabelings:
-        - action: replace
-          regex: (.*)
-          replacement: $1
-          sourceLabels:
-          - __meta_kubernetes_pod_node_name
-          targetLabel: kubernetes_node
+          - action: replace
+            regex: (.*)
+            replacement: $1
+            sourceLabels:
+              - __meta_kubernetes_pod_node_name
+            targetLabel: kubernetes_node
     grafana:
       enabled: false
     kubelet:
       enabled: true
       serviceMonitor:
         metricRelabelings:
-        - action: replace
-          sourceLabels:
-          - node
-          targetLabel: instance
+          - action: replace
+            sourceLabels:
+              - node
+            targetLabel: instance
     kubeApiServer:
       enabled: true
     kubeControllerManager:
       enabled: true
       endpoints:
-      - 10.2.0.21
+        - 10.2.0.21
     kubeScheduler:
       enabled: true
       endpoints:
-      - 10.2.0.21
+        - 10.2.0.21
     kubeProxy:
       enabled: true
       endpoints:
-      - 10.2.0.21
+        - 10.2.0.21
     kubeEtcd:
       enabled: false
     prometheus:
@@ -133,7 +133,7 @@ spec:
         annotations:
           traefik.ingress.kubernetes.io/router.entrypoints: "web"
         hosts:
-        - "prometheus.${HOMELAB_DOMAIN}"
+          - "prometheus.${HOMELAB_DOMAIN}"
       prometheusSpec:
         replicas: 2
         replicaExternalLabelName: "replica"
@@ -150,7 +150,7 @@ spec:
         enableAdminAPI: true
         walCompression: true
         enableFeatures:
-        - promql-at-modifier
+          - promql-at-modifier
         storageSpec:
           volumeClaimTemplate:
             spec:
@@ -159,38 +159,38 @@ spec:
                 requests:
                   storage: 50Gi
         additionalScrapeConfigs:
-        - job_name: 'node-exporter'
-          honor_timestamps: true
-          static_configs:
-          - targets:
-            # freenas
-            - 10.2.0.10:9100
-            - 10.0.4.250:9100
-        - job_name: ethermine-ethermine-pool
-          # Limit due to API rate restriction
-          scrape_interval: 5m
-          metrics_path: /pool
-          params:
-            pool: [ethermine]
-          static_configs:
-          - targets:
-            - ethermine-exporter.monitoring:8080
-        - job_name: ethermine-ethermine-miner
-          honor_timestamps: true
-          scrape_interval: 5m
-          metrics_path: /miner
-          params:
-            pool: [ethermine]
-          static_configs:
-          - targets:
-            - ${ETHERMINE_ADDRESS}
-          relabel_configs:
-          - source_labels: [__address__]
-            target_label: __param_target
-          - source_labels: [__param_target]
-            target_label: instance
-          - target_label: __address__
-            replacement: ethermine-exporter.monitoring:8080
+          - job_name: "node-exporter"
+            honor_timestamps: true
+            static_configs:
+              - targets:
+                  # freenas
+                  - 10.2.0.10:9100
+                  - 10.0.4.250:9100
+          - job_name: ethermine-ethermine-pool
+            # Limit due to API rate restriction
+            scrape_interval: 5m
+            metrics_path: /pool
+            params:
+              pool: [ethermine]
+            static_configs:
+              - targets:
+                  - ethermine-exporter.monitoring:8080
+          - job_name: ethermine-ethermine-miner
+            honor_timestamps: true
+            scrape_interval: 5m
+            metrics_path: /miner
+            params:
+              pool: [ethermine]
+            static_configs:
+              - targets:
+                  - ${ETHERMINE_ADDRESS}
+            relabel_configs:
+              - source_labels: [__address__]
+                target_label: __param_target
+              - source_labels: [__param_target]
+                target_label: instance
+              - target_label: __address__
+                replacement: ethermine-exporter.monitoring:8080
         # - job_name: 'minio'
         #   honor_timestamps: true
         #   metrics_path: /minio/prometheus/metrics
