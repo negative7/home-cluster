@@ -10,7 +10,7 @@ data:
       routers:
         router-minio:
           entryPoints:
-            - websecure
+            - web
           rule: Host(`minio.${HOMELAB_DOMAIN}`)
           service: service-minio
       services:
