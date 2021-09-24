@@ -53,10 +53,10 @@ spec:
       - --providers.kubernetesingress.ingressendpoint.ip=${LB_TRAEFIK_IP}
       - --providers.file.filename=/data/traefik-config.yaml
       - --entryPoints.web.forwardedHeaders.insecure
-      # - --certificatesresolvers.lets-prod.acme.email=admin@negative7.com
-      # - --certificatesresolvers.lets-prod.acme.storage=/certs/acme.json
-      # - --certificatesresolvers.lets-prod.acme.dnschallenge=true
-      # - --certificatesresolvers.lets-prod.acme.dnschallenge.provider=cloudflare
+      - --certificatesresolvers.lets-prod.acme.email=admin@negative7.com
+      - --certificatesresolvers.lets-prod.acme.storage=/certs/acme.json
+      - --certificatesresolvers.lets-prod.acme.dnschallenge=true
+      - --certificatesresolvers.lets-prod.acme.dnschallenge.provider=cloudflare
       - --providers.kubernetescrd.allowexternalnameservices=true
     ports:
       traefik:
