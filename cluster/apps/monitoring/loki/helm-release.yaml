@@ -32,6 +32,11 @@ spec:
         size: 25Gi
       serviceMonitor:
         enabled: true
+      securityContext:
+        readOnlyRootFilesystem: false
+        runAsGroup: 0
+        runAsUser: 0
+        runAsNonRoot: false
     promtail:
       serviceMonitor:
         enabled: true
