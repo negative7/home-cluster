@@ -120,6 +120,7 @@ spec:
           readarr.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
           homebridge.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
           node-red.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
+          minio.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
       prometheus:
         enable: true
         path: /metrics
