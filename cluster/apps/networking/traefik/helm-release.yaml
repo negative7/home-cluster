@@ -103,3 +103,8 @@ spec:
         cpu: 500m
       limits:
         memory: 500Mi
+    securityContext:
+      readOnlyRootFilesystem: false
+      runAsGroup: 0
+      runAsUser: 0
+      runAsNonRoot: false
