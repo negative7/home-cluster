@@ -6,6 +6,7 @@ resources:
   - kube-prometheus-stack
   #  - nut-exporter
   - loki
+  - thanos
   - promtail
   # - snmp-exporter
   - unifi-poller
