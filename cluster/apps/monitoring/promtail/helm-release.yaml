@@ -50,7 +50,7 @@ spec:
         containerPort: 1514
         service:
           type: LoadBalancer
-          loadBalancerIP: ${LB_LOKI_IP}"
+          loadBalancerIP: ${LB_LOKI_IP}
     extraVolumes:
       - name: journal
         hostPath:
