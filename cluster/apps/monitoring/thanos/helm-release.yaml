@@ -54,18 +54,18 @@ spec:
       persistence:
         enabled: true
         size: 5Gi
+      podSecurityContext:
+        enabled: true
+        fsGroup: 0
+        runAsUser: 0
+      containerSecurityContext:
+        enabled: true
+        runAsNonRoot: false
+        allowPrivilegeEscalation: true
+        readOnlyRootFilesystem: false
     ruler:
       enabled: false
     metrics:
       enabled: true
       serviceMonitor:
         enabled: true
-    podSecurityContext:
-      enabled: true
-      fsGroup: 0
-      runAsUser: 0
-    containerSecurityContext:
-      enabled: true
-      runAsNonRoot: false
-      allowPrivilegeEscalation: true
-      readOnlyRootFilesystem: false
