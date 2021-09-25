@@ -43,7 +43,6 @@ spec:
           access_key_id: "${SECRET_MINIO_ACCESS_KEY}"
           secret_access_key: "${SECRET_MINIO_SECRET_KEY}"
           s3forcepathstyle: true
-          insecure: true
         boltdb_shipper:
           active_index_directory: /data/loki/index
           cache_location: /data/loki/index_cache
