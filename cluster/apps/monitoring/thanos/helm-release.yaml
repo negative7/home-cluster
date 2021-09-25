@@ -60,8 +60,7 @@ spec:
       enabled: true
       serviceMonitor:
         enabled: true
-    securityContext:
-      readOnlyRootFilesystem: false
-      runAsGroup: 0
+    podSecurityContext:
+      enabled: true
+      fsGroup: 0
       runAsUser: 0
-      runAsNonRoot: false
