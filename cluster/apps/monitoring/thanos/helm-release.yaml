@@ -64,3 +64,8 @@ spec:
       enabled: true
       fsGroup: 0
       runAsUser: 0
+    containerSecurityContext:
+      enabled: true
+      runAsNonRoot: false
+      allowPrivilegeEscalation: true
+      readOnlyRootFilesystem: false
