@@ -41,6 +41,8 @@ spec:
       EMQX_AUTH__USER__1__PASSWORD: "${SECRET_MQTT_PASSWORD}"
       EMQX_AUTH__USER__2__USERNAME: "${SECRET_Z2MQTT_USERNAME}"
       EMQX_AUTH__USER__2__PASSWORD: "${SECRET_Z2MQTT_PASSWORD}"
+      EMQX_AUTH__USER__3__USERNAME: "${SECRET_HIVE_USERNAME}"
+      EMQX_AUTH__USER__3__PASSWORD: "${SECRET_HIVE_PASSWORD}"
     emqxLoadedPlugins: >
       {emqx_management, true}.
       {emqx_recon, true}.
