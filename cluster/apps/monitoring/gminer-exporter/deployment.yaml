@@ -1,0 +1,23 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gminer-exporter
+  namespace: monitoring
+  labels:
+    app: gminer-exporter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gminer-exporter
+  template:
+    metadata:
+      labels:
+        app: gminer-exporter
+    spec:
+      containers:
+        - name: gminer-exporter
+          image: ghcr.io/negative7/gminer-exporter:main
+      imagePullSecrets:
+        - name: github-token
