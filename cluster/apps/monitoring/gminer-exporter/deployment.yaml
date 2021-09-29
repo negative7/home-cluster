@@ -18,6 +18,6 @@ spec:
     spec:
       containers:
         - name: gminer-exporter
-          image: ghcr.io/negative7/gminer-exporter:main-5ff04bd
+          image: ghcr.io/negative7/gminer-exporter:main-5fcaa4f
       imagePullSecrets:
         - name: github-registry
