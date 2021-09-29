@@ -20,4 +20,4 @@ spec:
         - name: gminer-exporter
           image: ghcr.io/negative7/gminer-exporter:main
       imagePullSecrets:
-        - name: github-token
+        - name: github-registry
