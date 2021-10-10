@@ -190,7 +190,7 @@
       matchPackageNames: [
         'flaresolverr/flaresolverr',
         'ghcr.io/k8s-at-home/jackett',
-        'ghcr.io/k8s-at-home/prowlarr',
+        'ghcr.io/k8s-at-home/prowlarr-nightly',
         'ghcr.io/k8s-at-home/radarr',
         'ghcr.io/k8s-at-home/readarr',
         'ghcr.io/k8s-at-home/sonarr',
