@@ -10,7 +10,7 @@ spec:
     spec:
       # renovate: registryUrl=https://grafana.github.io/helm-charts
       chart: grafana
-      version: 6.16.10
+      version: 6.16.13
       sourceRef:
         kind: HelmRepository
         name: grafana-charts
@@ -129,9 +129,6 @@ spec:
           datasource: Prometheus
         blocky:
           url: https://raw.githubusercontent.com/0xERR0R/blocky/master/docs/blocky-grafana.json
-          datasource: Prometheus
-        ethermine_miner:
-          gnetId: 14347
           datasource: Prometheus
         lidarr:
           url: https://raw.githubusercontent.com/k8s-at-home/grafana-dashboards/main/lidarr.json

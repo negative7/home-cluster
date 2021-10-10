@@ -10,15 +10,14 @@ spec:
     spec:
       # renovate: registryUrl=https://prometheus-community.github.io/helm-charts
       chart: kube-prometheus-stack
-      version: 19.0.1
+      version: 19.0.2
       sourceRef:
         kind: HelmRepository
         name: prometheus-community-charts
         namespace: flux-system
       interval: 5m
   values:
-    prometheusOperator:
-      createCustomResource: false
+    fullnameOverride: prometheus
     alertmanager:
       config:
         global:
@@ -44,10 +43,10 @@ spec:
                     {{ range .Labels.SortedPairs }} • *{{ .Name }}:* `{{ .Value }}`
                     {{ end }}
                   {{ end }}
-        # - name: 'webhook'
-        #   webhook_configs:
-        #   - url: "http://192.168.1.35:9000/hooks/webhook-ups"
-        #     send_resolved: false
+          - name: "nodered"
+            webhook_configs:
+              - url: "http://node-red.home:1880/alertmanager"
+                send_resolved: true
         route:
           group_by: ["alertname", "job"]
           group_wait: 30s
@@ -60,13 +59,12 @@ spec:
                 alertname: Watchdog
             - receiver: "slack"
               match_re:
-                # severity: critical|warning
                 severity: critical
               continue: true
-          # - receiver: 'webhook'
-          #   match:
-          #     alertname: UPS15MinutesRemaining
-          #   continue: true
+            # - receiver: "nodered"
+            #   match:
+            #     alertname: MinerGone
+            #   continue: true
         inhibit_rules:
           - source_match:
               severity: "critical"
@@ -79,9 +77,6 @@ spec:
         ingressClassName: "traefik"
         hosts:
           - "alert-manager.${HOMELAB_DOMAIN}"
-        tls:
-          - hosts:
-              - "alert-manager.${HOMELAB_DOMAIN}"
       alertmanagerSpec:
         storage:
           volumeClaimTemplate:
@@ -89,7 +84,7 @@ spec:
               storageClassName: "longhorn"
               resources:
                 requests:
-                  storage: 10Gi
+                  storage: 1Gi
     nodeExporter:
       serviceMonitor:
         relabelings:
@@ -99,8 +94,13 @@ spec:
             sourceLabels:
               - __meta_kubernetes_pod_node_name
             targetLabel: kubernetes_node
+    kube-state-metrics:
+      fullnameOverride: kube-state-metrics
+    prometheus-node-exporter:
+      fullnameOverride: node-exporter
     grafana:
       enabled: false
+      forceDeployDashboards: true
     kubelet:
       enabled: true
       serviceMonitor:
@@ -125,6 +125,8 @@ spec:
         - 10.2.0.21
     kubeEtcd:
       enabled: false
+    prometheusOperator:
+      configReloaderCpu: 0
     prometheus:
       ingress:
         enabled: true
@@ -134,77 +136,37 @@ spec:
           traefik.ingress.kubernetes.io/router.entrypoints: "web"
         hosts:
           - "prometheus.${HOMELAB_DOMAIN}"
+      thanosService:
+        enabled: true
+      thanosServiceMonitor:
+        enabled: true
       prometheusSpec:
-        replicas: 2
+        replicas: 1
         replicaExternalLabelName: "replica"
-        ruleSelector: {}
-        ruleNamespaceSelector: {}
         ruleSelectorNilUsesHelmValues: false
-        serviceMonitorSelector: {}
-        serviceMonitorNamespaceSelector: {}
         serviceMonitorSelectorNilUsesHelmValues: false
-        podMonitorSelector: {}
-        podMonitorNamespaceSelector: {}
         podMonitorSelectorNilUsesHelmValues: false
-        retention: 672h
+        probeSelectorNilUsesHelmValues: false
+        retention: 6h
         enableAdminAPI: true
         walCompression: true
-        enableFeatures:
-          - promql-at-modifier
         storageSpec:
           volumeClaimTemplate:
             spec:
               storageClassName: "longhorn"
               resources:
                 requests:
-                  storage: 50Gi
+                  storage: 10Gi
+        thanos:
+          image: quay.io/thanos/thanos:v0.23.1
+          version: v0.22.0
+          objectStorageConfig:
+            name: thanos-objstore
+            key: objstore.yml
         additionalScrapeConfigs:
           - job_name: "node-exporter"
             honor_timestamps: true
             static_configs:
               - targets:
-                  # freenas
                   - 10.2.0.10:9100
                   - 10.0.4.250:9100
-          - job_name: ethermine-ethermine-pool
-            # Limit due to API rate restriction
-            scrape_interval: 5m
-            metrics_path: /pool
-            params:
-              pool: [ethermine]
-            static_configs:
-              - targets:
-                  - ethermine-exporter.monitoring:8080
-          - job_name: ethermine-ethermine-miner
-            honor_timestamps: true
-            scrape_interval: 5m
-            metrics_path: /miner
-            params:
-              pool: [ethermine]
-            static_configs:
-              - targets:
-                  - ${ETHERMINE_ADDRESS}
-            relabel_configs:
-              - source_labels: [__address__]
-                target_label: __param_target
-              - source_labels: [__param_target]
-                target_label: instance
-              - target_label: __address__
-                replacement: ethermine-exporter.monitoring:8080
-        # - job_name: 'minio'
-        #   honor_timestamps: true
-        #   metrics_path: /minio/prometheus/metrics
-        #   static_configs:
-        #   - targets:
-        #     - 192.168.42.40:9000
-        # - job_name: 'nexus'
-        #   honor_timestamps: true
-        #   metrics_path: /service/metrics/prometheus
-        #   basic_auth:
-        #     username: admin
-        #     password: password
-        #   static_configs:
-        #   - targets:
-        #     - 192.168.42.40:8081
-    kube-state-metrics:
-      fullnameOverride: kube-state-metrics
