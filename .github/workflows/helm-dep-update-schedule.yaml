@@ -25,9 +25,9 @@ jobs:
           delete-branch: true
           title: "chore(deps): update kah library chart"
           signoff: true
-          committer: "Devin Buhl <onedr0p@users.noreply.github.com>"
-          author: "Devin Buhl <onedr0p@users.noreply.github.com>"
-          assignees: "onedr0p"
+          committer: "Sergiy Shevchenko <negative7@users.noreply.github.com>"
+          author: "Sergiy Shevchenko <negative7@users.noreply.github.com>"
+          assignees: "negative7"
           commit-message: "chore(deps): update kah library chart"
           body: |
             Update the kah library chart
