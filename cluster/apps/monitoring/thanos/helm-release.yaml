@@ -34,13 +34,7 @@ spec:
         annotations:
           traefik.ingress.kubernetes.io/router.entrypoints: "web"
         tls: false
-    objstoreConfig:
-      type: S3
-      config:
-        bucket: thanos
-        endpoint: ${SECRET_MINIO_ADDRESS}
-        access_key: ${SECRET_MINIO_ACCESS_KEY}
-        secret_key: ${SECRET_MINIO_SECRET_KEY}
+    existingObjstoreSecret: thanos-objstore
     queryFrontend:
       enabled: false
     bucketweb:
