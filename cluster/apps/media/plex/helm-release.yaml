@@ -72,6 +72,11 @@ spec:
         type: pvc
         existingClaim: nfs-music-pvc
         accessMode: ReadWriteMany
+      books:
+        enabled: true
+        type: pvc
+        existingClaim: nfs-books-pvc
+        accessMode: ReadWriteMany
     affinity:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
