@@ -58,6 +58,11 @@ spec:
         memory: 150Mi
       limits:
         memory: 512Mi
+    persistence:
+      enabled: true
+      size: 100Mi
+      storageClass: "longhorn"
+      accessMode: ReadWriteOnce
   # TODO https://github.com/emqx/emqx/pull/5201
   postRenderers:
     - kustomize:
@@ -69,13 +74,3 @@ spec:
               - op: add
                 path: /spec/ingressClassName
                 value: traefik
-            # - target:
-            #     kind: Service
-            #     name: emqx
-            #   patch:
-            #   - op: remove
-            #     path: /spec/loadBalancerIP
-            #   - op: add
-            #     path: /spec/externalIPs
-            #     value:
-            #     - "${LB_EMQX_IP}"
