@@ -69,6 +69,8 @@ spec:
       config:
         enabled: true
         existingClaim: home-assistant-config-v1
+    podAnnotations:
+      secret.reloader.stakater.com/reload: "home-assistant"
     addons:
       codeserver:
         enabled: true
