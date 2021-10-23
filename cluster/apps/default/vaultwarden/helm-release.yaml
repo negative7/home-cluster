@@ -26,7 +26,7 @@ spec:
         ingressClassName: "traefik"
         annotations:
           hajimari.io/enable: "true"
-          hajimari.io/icon: "form-textbox-password"
+          hajimari.io/icon: "shield-key"
           traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
         hosts:
           - host: bw.${SECRET_DOMAIN}
