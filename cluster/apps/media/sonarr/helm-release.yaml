@@ -35,14 +35,6 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
-      api:
-        enabled: true
-        ingressClassName: "traefik"
-        hosts:
-          - host: "sonarr.${HOMELAB_DOMAIN}"
-            paths:
-              - path: /api
-                pathType: Prefix
     metrics:
       enabled: true
       serviceMonitor:
