@@ -26,6 +26,6 @@ spec:
         traefik.ingress.kubernetes.io/router.entrypoints: "web"
       hosts:
         - host: openfaas.${HOMELAB_DOMAIN}
-          paths:
-            - path: /
-              pathType: Prefix
+          serviceName: gateway
+          servicePort: 8080
+          path: /
