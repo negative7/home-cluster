@@ -10,7 +10,7 @@ spec:
     spec:
       # renovate: registryUrl=https://k8s-at-home.com/charts/
       chart: radarr
-      version: 14.0.0
+      version: 15.0.3
       sourceRef:
         kind: HelmRepository
         name: k8s-at-home-charts
@@ -36,20 +36,21 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
-      api:
+    metrics:
+      enabled: true
+      serviceMonitor:
+        interval: 3m
+        scrapeTimeout: 1m
+      prometheusRule:
         enabled: true
-        nameSuffix: "api"
-        ingressClassName: "traefik"
-        annotations:
-          traefik.ingress.kubernetes.io/router.entrypoints: "web"
-        hosts:
-          - host: "radarr.${HOMELAB_DOMAIN}"
-            paths:
-              - path: /api
-                pathType: Prefix
-        tls:
-          - hosts:
-              - "radarr.${HOMELAB_DOMAIN}"
+      exporter:
+        image:
+          repository: ghcr.io/onedr0p/exportarr
+          tag: v0.6.1
+        env:
+          port: 9794
+          additionalMetrics: true
+          unknownQueueItems: false
     persistence:
       config:
         enabled: true
@@ -73,15 +74,3 @@ spec:
         cpu: 500m
       limits:
         memory: 1500Mi
-    exporter:
-      enabled: true
-      image:
-        repository: ghcr.io/onedr0p/exportarr
-        tag: v0.6.1
-      env:
-        port: 32123
-        additionalMetrics: true
-        unknownQueueItems: false
-      podMonitor:
-        interval: 3m
-        scrapeTimeout: 1m
