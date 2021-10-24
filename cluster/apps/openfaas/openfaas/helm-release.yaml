@@ -1,0 +1,31 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: openfaas
+  namespace: openfaas
+spec:
+  interval: 5m
+  chart:
+    spec:
+      # renovate: registryUrl=https://openfaas.github.io/faas-netes//
+      chart: openfaas
+      version: 8.1.0
+      sourceRef:
+        kind: HelmRepository
+        name: faas-charts
+        namespace: flux-system
+      interval: 5m
+  values:
+    ingress:
+      enabled: true
+      ingressClassName: "traefik"
+      annotations:
+        hajimari.io/enable: "true"
+        hajimari.io/icon: "function"
+        traefik.ingress.kubernetes.io/router.entrypoints: "web"
+      hosts:
+        - host: openfaas.${HOMELAB_DOMAIN}
+          paths:
+            - path: /
+              pathType: Prefix

@@ -10,3 +10,4 @@ resources:
   - monitoring
   - flux-system
   - home
+  - openfaas
