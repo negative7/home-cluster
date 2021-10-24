@@ -30,3 +30,7 @@ spec:
           serviceName: gateway
           servicePort: 8080
           path: /
+    operator:
+      create: true
+    ingressOperator:
+      create: true
