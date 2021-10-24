@@ -9,3 +9,5 @@ resources:
   - home.yaml
   - cert-manager.yaml
   - tools.yaml
+  - openfaas-fn.yaml
+  - openfaas.yaml

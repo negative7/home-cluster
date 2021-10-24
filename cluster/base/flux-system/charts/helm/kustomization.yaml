@@ -29,3 +29,4 @@ resources:
   - emqx-charts.yaml
   - metallb-charts.yaml
   - hajimari-charts.yaml
+  - faas-netes-charts.yaml
