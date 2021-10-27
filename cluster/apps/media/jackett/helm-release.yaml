@@ -47,7 +47,7 @@ spec:
         memory: 1000Mi
     initContainers:
       volume-ownership:
-        image: busybox:1.34.0
+        image: busybox:1.34.1
         command: ["sh", "-c", "chown -R 568:568 /config"]
         volumeMounts:
           - name: "config"
