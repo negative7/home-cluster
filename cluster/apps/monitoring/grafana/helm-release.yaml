@@ -10,7 +10,7 @@ spec:
     spec:
       # renovate: registryUrl=https://grafana.github.io/helm-charts
       chart: grafana
-      version: 6.17.4
+      version: 6.17.3
       sourceRef:
         kind: HelmRepository
         name: grafana-charts
@@ -138,6 +138,9 @@ spec:
           datasource: Prometheus
         sonarr:
           url: https://raw.githubusercontent.com/k8s-at-home/grafana-dashboards/main/sonarr.json
+          datasource: Prometheus
+        miner:
+          url: https://raw.githubusercontent.com/negative7/home-cluster/main/cluster/apps/monitoring/grafana/dashboards/miner.json
           datasource: Prometheus
     sidecar:
       dashboards:
