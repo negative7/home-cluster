@@ -67,7 +67,7 @@ spec:
         rules:
           - alert: GminerFailures
             expr: |
-              rate({job="gminer"}[10s]) <=0
+              rate({job="gminer"}[10s]) <=0.1
             for: 10s
             labels:
               severity: critical
