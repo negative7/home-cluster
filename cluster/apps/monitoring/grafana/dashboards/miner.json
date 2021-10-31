@@ -22,7 +22,7 @@
   "fiscalYearStartMonth": 0,
   "gnetId": 14347,
   "graphTooltip": 0,
-  "iteration": 1635641647264,
+  "iteration": 1635713188789,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -676,40 +676,11 @@
               {
                 "color": "green",
                 "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
           }
         },
-        "overrides": [
-          {
-            "__systemRef": "hideSeriesFrom",
-            "matcher": {
-              "id": "byNames",
-              "options": {
-                "mode": "exclude",
-                "names": [
-                  "flexpool_currentNetworkFeePrice{endpoint=\"http\", job=\"gminer-exporter\", namespace=\"monitoring\", prometheus=\"monitoring/prometheus-prometheus\", service=\"gminer-exporter\"}"
-                ],
-                "prefix": "All except:",
-                "readOnly": true
-              }
-            },
-            "properties": [
-              {
-                "id": "custom.hideFrom",
-                "value": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": true
-                }
-              }
-            ]
-          }
-        ]
+        "overrides": []
       },
       "gridPos": {
         "h": 8,
@@ -736,13 +707,14 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "flexpool_currentNetworkFeePrice",
+          "expr": "avg_over_time(flexpool_currentNetworkFeePrice[$smoothing_interval])",
+          "instant": false,
           "interval": "",
-          "legendFormat": "GWEI",
+          "legendFormat": "gwei",
           "refId": "A"
         }
       ],
-      "title": "Network Fee",
+      "title": "Gas Price",
       "type": "timeseries"
     },
     {
@@ -788,7 +760,7 @@
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
-            "lastNotNull"
+            "last"
           ],
           "fields": "",
           "values": false
@@ -801,6 +773,7 @@
         {
           "exemplar": true,
           "expr": "flexpool_currentNetworkFeePrice",
+          "instant": true,
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -861,6 +834,7 @@
         {
           "exemplar": true,
           "expr": "flexpool_currentNetworkFeePrice*21000/10^9",
+          "instant": true,
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -921,6 +895,7 @@
         {
           "exemplar": true,
           "expr": "flexpool_currentNetworkFeePrice*21000/10^9*flexpool_price",
+          "instant": true,
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -981,6 +956,7 @@
         {
           "exemplar": true,
           "expr": "flexpool_currentNetworkFeePrice*21000/10^9/flexpool_balance",
+          "instant": true,
           "interval": "",
           "legendFormat": "",
           "refId": "A"
