@@ -59,10 +59,10 @@ spec:
               match_re:
                 severity: critical
               continue: true
-            # - receiver: "nodered"
-            #   match:
-            #     alertname: MinerGone
-            #   continue: true
+            - receiver: "nodered"
+              match:
+                alertname: MinerDown
+              continue: true
         inhibit_rules:
           - source_match:
               severity: "critical"

@@ -1,0 +1,27 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  creationTimestamp: null
+  labels:
+    app: kube-prometheus-stack
+    release: prometheus
+    role: alert-rules
+  name: prometheus-miner-rules
+  namespace: monitoring
+spec:
+  groups:
+    - name: miner-down
+      rules:
+        - alert: MinerDown
+          annotations:
+            description: >-
+              Miner is Down
+            summary: >-
+              Miner is Down for 1m
+          expr: |-
+            (
+              up{instance="10.0.4.250:9100"} == 0
+            )
+          for: 1m
+          labels:
+            severity: critical
