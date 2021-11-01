@@ -22,7 +22,7 @@
   "fiscalYearStartMonth": 0,
   "gnetId": 14347,
   "graphTooltip": 0,
-  "iteration": 1635713188789,
+  "iteration": 1635806693924,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -420,8 +420,8 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 4,
-        "w": 4,
+        "h": 3,
+        "w": 2,
         "x": 0,
         "y": 4
       },
@@ -480,9 +480,9 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 4,
-        "w": 4,
-        "x": 4,
+        "h": 3,
+        "w": 2,
+        "x": 2,
         "y": 4
       },
       "id": 23,
@@ -540,9 +540,9 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 4,
-        "w": 4,
-        "x": 8,
+        "h": 3,
+        "w": 2,
+        "x": 4,
         "y": 4
       },
       "id": 27,
@@ -600,9 +600,9 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 4,
-        "w": 4,
-        "x": 12,
+        "h": 3,
+        "w": 2,
+        "x": 6,
         "y": 4
       },
       "id": 22,
@@ -635,7 +635,7 @@
       "type": "stat"
     },
     {
-      "datasource": null,
+      "datasource": "Prometheus",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -683,25 +683,22 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 8,
-        "w": 8,
-        "x": 16,
+        "h": 9,
+        "w": 16,
+        "x": 8,
         "y": 4
       },
       "id": 31,
       "options": {
         "legend": {
           "calcs": [
-            "lastNotNull",
-            "min",
-            "max",
-            "mean"
+            "lastNotNull"
           ],
-          "displayMode": "list",
+          "displayMode": "table",
           "placement": "bottom"
         },
         "tooltip": {
-          "mode": "single"
+          "mode": "multi"
         }
       },
       "targets": [
@@ -710,8 +707,24 @@
           "expr": "avg_over_time(flexpool_currentNetworkFeePrice[$smoothing_interval])",
           "instant": false,
           "interval": "",
-          "legendFormat": "gwei",
+          "legendFormat": "network",
           "refId": "A"
+        },
+        {
+          "exemplar": true,
+          "expr": "avg_over_time(flexpool_balance[$smoothing_interval])*$payout_limit/100/21*10^6",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "variable",
+          "refId": "B"
+        },
+        {
+          "exemplar": true,
+          "expr": "avg_over_time(flexpool_maxFeePrice[$smoothing_interval])",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "limit",
+          "refId": "C"
         }
       ],
       "title": "Gas Price",
@@ -747,10 +760,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 4,
-        "w": 4,
+        "h": 3,
+        "w": 2,
         "x": 0,
-        "y": 8
+        "y": 7
       },
       "id": 21,
       "options": {
@@ -808,10 +821,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 4,
-        "w": 4,
-        "x": 4,
-        "y": 8
+        "h": 3,
+        "w": 2,
+        "x": 2,
+        "y": 7
       },
       "id": 26,
       "options": {
@@ -869,10 +882,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 4,
-        "w": 4,
-        "x": 8,
-        "y": 8
+        "h": 3,
+        "w": 2,
+        "x": 4,
+        "y": 7
       },
       "id": 28,
       "options": {
@@ -930,10 +943,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 4,
-        "w": 4,
-        "x": 12,
-        "y": 8
+        "h": 3,
+        "w": 2,
+        "x": 6,
+        "y": 7
       },
       "id": 29,
       "options": {
@@ -966,6 +979,254 @@
       "type": "stat"
     },
     {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 80
+              },
+              {
+                "color": "red",
+                "value": 100
+              }
+            ]
+          },
+          "unit": "Gwei"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 2,
+        "x": 0,
+        "y": 10
+      },
+      "id": 32,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.2.1",
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "flexpool_balance*$payout_limit/100/21*10^6",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Variable Limit",
+      "type": "stat"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "ETH"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 2,
+        "x": 2,
+        "y": 10
+      },
+      "id": 33,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.2.1",
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "flexpool_balance*$payout_limit/100",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Variable Limit",
+      "type": "stat"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "currencyUSD"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 2,
+        "x": 4,
+        "y": 10
+      },
+      "id": 34,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.2.1",
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "flexpool_balance*$payout_limit/100*flexpool_price",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Variable Limit",
+      "type": "stat"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "percentunit"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 2,
+        "x": 6,
+        "y": 10
+      },
+      "id": 35,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.2.1",
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "$payout_limit/100",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Variable Limit",
+      "type": "stat"
+    },
+    {
       "aliasColors": {},
       "bars": false,
       "dashLength": 10,
@@ -984,7 +1245,7 @@
         "h": 9,
         "w": 12,
         "x": 0,
-        "y": 12
+        "y": 13
       },
       "hiddenSeries": false,
       "id": 2,
@@ -1109,7 +1370,7 @@
         "h": 9,
         "w": 12,
         "x": 12,
-        "y": 12
+        "y": 13
       },
       "hiddenSeries": false,
       "id": 7,
@@ -1248,7 +1509,7 @@
         "h": 9,
         "w": 12,
         "x": 0,
-        "y": 21
+        "y": 22
       },
       "id": 9,
       "options": {
@@ -1340,7 +1601,7 @@
         "h": 9,
         "w": 12,
         "x": 12,
-        "y": 21
+        "y": 22
       },
       "id": 8,
       "options": {
@@ -1374,7 +1635,7 @@
       "type": "timeseries"
     }
   ],
-  "refresh": "10s",
+  "refresh": false,
   "schemaVersion": 31,
   "style": "dark",
   "tags": [],
@@ -1459,8 +1720,8 @@
       {
         "current": {
           "selected": false,
-          "text": "1",
-          "value": "1"
+          "text": "0.5",
+          "value": "0.5"
         },
         "description": null,
         "error": null,
@@ -1470,11 +1731,11 @@
         "options": [
           {
             "selected": true,
-            "text": "1",
-            "value": "1"
+            "text": "0.5",
+            "value": "0.5"
           }
         ],
-        "query": "1",
+        "query": "0.5",
         "skipUrlSync": false,
         "type": "textbox"
       }
