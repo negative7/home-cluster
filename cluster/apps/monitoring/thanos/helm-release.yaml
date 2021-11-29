@@ -63,3 +63,5 @@ spec:
       enabled: true
       serviceMonitor:
         enabled: true
+    volumePermissions:
+      enabled: true
