@@ -124,7 +124,7 @@ spec:
           loki.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
           thanos.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
           openfaas.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
-          freenas.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
+          freenas.${HOMELAB_DOMAIN}: 10.2.0.10
       prometheus:
         enable: true
         path: /metrics
