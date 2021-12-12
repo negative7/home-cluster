@@ -18,7 +18,7 @@ metadata:
   namespace: flux-system
 spec:
   providerRef:
-    name: discord
+    name: slack
   eventSeverity: error
   eventSources:
     # - kind: GitRepository
