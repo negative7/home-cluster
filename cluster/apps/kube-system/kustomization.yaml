@@ -5,5 +5,4 @@ resources:
   - intel-gpu-plugin
   - kured
   - node-feature-discovery
-  - node-problem-detector
   - reloader
