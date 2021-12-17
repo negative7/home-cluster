@@ -19,6 +19,7 @@ spec:
   values:
     image:
       repository: ghcr.io/k8s-at-home/loki
+      tag: 2.4.1
     ingress:
       enabled: true
       # ingressClassName: "traefik"
@@ -74,3 +75,30 @@ spec:
               category: logs
             annotations:
               summary: "Gminer logs are missing"
+  postRenderers:
+    - kustomize:
+        patchesJson6902:
+          - target:
+              version: v1beta1
+              kind: Ingress
+              name: loki
+            patch:
+              - op: add
+                path: /spec/ingressClassName
+                value: nginx
+              - op: replace
+                path: /apiVersion
+                value: networking.k8s.io/v1
+              - op: remove
+                path: /spec/rules/0/http/paths/0/backend/servicePort
+              - op: remove
+                path: /spec/rules/0/http/paths/0/backend/serviceName
+              - op: add
+                path: /spec/rules/0/http/paths/0/backend/service
+                value:
+                  name: loki
+                  port:
+                    name: http-metrics
+              - op: add
+                path: /spec/rules/0/http/paths/0/pathType
+                value: Prefix
