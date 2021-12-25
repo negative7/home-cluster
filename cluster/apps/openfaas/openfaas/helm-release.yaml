@@ -37,4 +37,4 @@ spec:
     queueWorkerPro:
       enabled: false
     faasIdler:
-      create: true
+      create: false
