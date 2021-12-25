@@ -34,3 +34,7 @@ spec:
       create: true
     ingressOperator:
       create: true
+    queueWorkerPro:
+      enabled: false
+    faasIdler:
+      create: true
