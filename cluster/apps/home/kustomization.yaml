@@ -7,3 +7,4 @@ resources:
   - hajimari
   - homebridge
   - node-red
+  - frigate
