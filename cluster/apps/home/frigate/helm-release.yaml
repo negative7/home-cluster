@@ -67,10 +67,13 @@ spec:
         password: ${SECRET_MQTT_PASSWORD}
       database:
         path: /data/frigate.db
-      cpu1:
-        type: cpu
-      cpu2:
-        type: cpu
+      detectors:
+        cpu1:
+          type: cpu
+          num_threads: 3
+        cpu2:
+          type: cpu
+          num_threads: 3
       # Global objects configuration
       objects:
         track:
