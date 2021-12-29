@@ -98,10 +98,10 @@ spec:
         frigate_driveway:
           ffmpeg:
             inputs:
-              - path: rtsps://192.168.1.175:7441/LqrS7Bz3DzwymlvZ?enableSrtp
+              - path: rtsp://192.168.1.175:7441/LqrS7Bz3DzwymlvZ?enableSrtp
                 roles:
                   - detect
-              - path: rtsps://192.168.1.175:7441/VfdmZnQidLXECRuR?enableSrtp
+              - path: rtsp://192.168.1.175:7441/VfdmZnQidLXECRuR?enableSrtp
                 roles:
                   - rtmp
                   - record
