@@ -3,7 +3,7 @@ kind: PersistentVolume
 metadata:
   name: nfs-data-pv
 spec:
-  storageClassName: data
+  storageClassName: nfs-data
   capacity:
     storage: 1Mi
   accessModes:
@@ -21,7 +21,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteMany
-  storageClassName: data
+  storageClassName: nfs-data
   resources:
     requests:
       storage: 1Mi
