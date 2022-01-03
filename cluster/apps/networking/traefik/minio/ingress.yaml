@@ -14,9 +14,9 @@ spec:
   ingressClassName: traefik
   tls:
     - hosts:
-        - "minio.${HOMELAB_DOMAIN}"
+        - "minio.${SECRET_DOMAIN}"
   rules:
-    - host: "minio.${HOMELAB_DOMAIN}"
+    - host: "minio.${SECRET_DOMAIN}"
       http:
         paths:
           - path: /
