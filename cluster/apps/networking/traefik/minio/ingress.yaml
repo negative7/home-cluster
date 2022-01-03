@@ -25,4 +25,4 @@ spec:
               service:
                 name: minio
                 port:
-                  number: 36587
+                  number: 9000
