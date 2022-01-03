@@ -112,8 +112,6 @@ spec:
             height: 720
             fps: 10
           record:
-            width: 1600
-            height: 1200
             enabled: True
             retain_days: 7
             events:
