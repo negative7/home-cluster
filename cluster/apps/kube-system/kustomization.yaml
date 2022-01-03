@@ -6,3 +6,4 @@ resources:
   - kured
   - node-feature-discovery
   - reloader
+  - home-dns
