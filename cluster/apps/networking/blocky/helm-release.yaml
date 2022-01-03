@@ -98,6 +98,9 @@ spec:
             - ads
       clientLookup:
         upstream: tcp+udp:${DNS_SERVER}:9053
+      customDNS:
+        mapping:
+          freenas.${HOMELAB_DOMAIN}: 10.2.0.10
       prometheus:
         enable: true
         path: /metrics
