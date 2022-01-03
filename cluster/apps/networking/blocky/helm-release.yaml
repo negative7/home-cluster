@@ -67,6 +67,9 @@ spec:
       upstream:
         default:
         - tcp+udp:${DNS_SERVER}:9053
+      conditional:
+        mapping:
+          ${SECRET_DOMAIN}: tcp+udp:${DNS_SERVER}:9053
       blocking:
         blackLists:
           ads:
@@ -97,7 +100,9 @@ spec:
       prometheus:
         enable: true
         path: /metrics
+      bootstrapDns: tcp:1.1.1.1
       httpPort: 4000
+      logFormat: json
       logLevel: info
     persistence:
       whitelists:
