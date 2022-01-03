@@ -95,13 +95,13 @@ spec:
       # Specify camera's
       cameras:
         # --
-        frigate_driveway:
+        frigate_doorbell:
           ffmpeg:
             inputs:
-              - path: rtsp://192.168.1.175:7441/LqrS7Bz3DzwymlvZ
+              - path: rtsps://10.0.1.1:7441/ugoKFUmUYJNvIshU
                 roles:
                   - detect
-              - path: rtsp://192.168.1.175:7441/VfdmZnQidLXECRuR
+              - path: rtsp://10.0.1.1:7441/ACDMjj7hyTvuDhID
                 roles:
                   - rtmp
                   - record
