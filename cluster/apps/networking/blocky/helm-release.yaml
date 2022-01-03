@@ -63,6 +63,50 @@ spec:
         scrapeTimeout: 10s
       prometheusRule:
         enabled: true
+    config: |
+      upstream:
+        default:
+        - tcp+udp:${DNS_SERVER}:9053
+      blocking:
+        blackLists:
+          ads:
+            - https://raw.githubusercontent.com/ookangzheng/dbl-oisd-nl/master/dbl.txt
+            - |
+              /^ad([sxv]?[0-9]*|system)[_.-]([^.[:space:]]+\.){1,}|[_.-]ad([sxv]?[0-9]*|system)[_.-]/
+              /^(.+[_.-])?adse?rv(er?|ice)?s?[0-9]*[_.-]/
+              /^(.+[_.-])?telemetry[_.-]/
+              /^adim(age|g)s?[0-9]*[_.-]/
+              /^adtrack(er|ing)?[0-9]*[_.-]/
+              /^advert(s|is(ing|ements?))?[0-9]*[_.-]/
+              /^aff(iliat(es?|ion))?[_.-]/
+              /^analytics?[_.-]/
+              /^banners?[_.-]/
+              /^beacons?[0-9]*[_.-]/
+              /^count(ers?)?[0-9]*[_.-]/
+              /^mads\./
+              /^pixels?[-.]/
+              /^stat(s|istics)?[0-9]*[_.-]/
+        whiteLists:
+          ads:
+            - https://raw.githubusercontent.com/anudeepND/whitelist/master/domains/whitelist.txt
+        clientGroupsBlock:
+          default:
+            - ads
+      clientLookup:
+        upstream: tcp+udp:${DNS_SERVER}:9053
+      prometheus:
+        enable: true
+        path: /metrics
+      httpPort: 4000
+      logLevel: info
+    persistence:
+      whitelists:
+        enabled: true
+        mountPath: /app/whitelists
+        type: custom
+        volumeSpec:
+          configMap:
+            name: blocky-whitelist
     podAnnotations:
       configmap.reloader.stakater.com/reload: "blocky-config"
     resources:
@@ -71,59 +115,3 @@ spec:
         cpu: 50m
       limits:
         memory: 1000Mi
-    config: |
-      upstream:
-        default:
-        - tcp+udp:8.8.8.8
-        - tcp+udp:8.8.4.4
-        - tcp+udp:1.1.1.1
-        - tcp-tls:1.0.0.1:853
-        - https://cloudflare-dns.com/dns-query
-      blocking:
-        blackLists:
-          ads:
-          # https://oisd.nl/
-          - https://raw.githubusercontent.com/ookangzheng/dbl-oisd-nl/master/dbl.txt
-        whiteLists:
-          ads:
-          - https://raw.githubusercontent.com/anudeepND/whitelist/master/domains/whitelist.txt
-        clientGroupsBlock:
-          default:
-          - ads
-      clientLookup:
-        upstream: udp:10.0.1.1
-      customDNS:
-        mapping:
-          emqx.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
-          longhorn.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
-          hass-config.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
-          zigbee2mqtt.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
-          grafana.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
-          alert-manager.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
-          prometheus.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
-          traefik.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
-          jackett.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
-          dashboard.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
-          hass.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
-          nzbget.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
-          prowlarr.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
-          plex.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
-          qb.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
-          radarr.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
-          sonarr.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
-          hajimari.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
-          tautulli.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
-          readarr.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
-          homebridge.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
-          node-red.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
-          minio.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
-          loki.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
-          thanos.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
-          openfaas.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
-          frigate.${HOMELAB_DOMAIN}: ${LB_TRAEFIK_IP}
-          freenas.${HOMELAB_DOMAIN}: 10.2.0.10
-      prometheus:
-        enable: true
-        path: /metrics
-      httpPort: 4000
-      logLevel: info
