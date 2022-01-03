@@ -70,6 +70,7 @@ spec:
       conditional:
         mapping:
           ${SECRET_DOMAIN}: tcp+udp:${DNS_SERVER}:9053
+          ${HOMELAB_DOMAIN}: tcp+udp:${DNS_SERVER}:9053
       blocking:
         blackLists:
           ads:
