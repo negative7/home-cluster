@@ -51,7 +51,6 @@ spec:
       - "--entryPoints.websecure.forwardedHeaders.trustedIPs=10.0.0.0/8,192.168.0.0/16"
     additionalArguments:
       - --providers.kubernetesingress.ingressendpoint.ip=${LB_TRAEFIK_IP}
-      - --providers.file.filename=/data/traefik-config.yaml
       - --entryPoints.web.forwardedHeaders.insecure
       - --certificatesresolvers.lets-prod.acme.email=admin@negative7.com
       - --certificatesresolvers.lets-prod.acme.storage=/certs/acme.json
@@ -87,10 +86,6 @@ spec:
         value: ${SECRET_CLOUDFLARE_EMAIL}
       - name: CF_API_KEY
         value: ${SECRET_CLOUDFLARE_TOKEN}
-    volumes:
-      - mountPath: /data
-        name: "traefik-config"
-        type: configMap
     pilot:
       enabled: true
       token: "56a1d553-c8fb-43e3-ab0b-49dc8b3e6d4a"
