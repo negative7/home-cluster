@@ -58,6 +58,7 @@ spec:
                 pathType: Prefix
     config: |
       #!/bin/sh
-      sudo curl -Lf# https://github.com/homebridge/ffmpeg-for-homebridge/releases/latest/download/ffmpeg-debian-$(uname -m).tar.gz | sudo tar xzf - -C / --no-same-owner
-      npm install homebridge-unifi-protect
-      npm install homebridge-z2m
+      curl -Lf# https://github.com/homebridge/ffmpeg-for-homebridge/releases/latest/download/ffmpeg-debian-$(uname -m).tar.gz | tar xzf - -C / --no-same-owner
+      npm install --unsafe-perm -g ffmpeg-for-homebridge
+      npm install --unsafe-perm -g homebridge-unifi-protect
+      npm install --unsafe-perm -g homebridge-z2m
