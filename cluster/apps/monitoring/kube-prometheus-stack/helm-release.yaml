@@ -210,7 +210,7 @@ spec:
             honor_timestamps: true
             static_configs:
               - targets:
-                  - "10.0.1.10:9149"
+                  - "10.2.0.10:9149"
           - job_name: minio-job
             bearer_token: ${SECRET_MINIO_BEARER_TOKEN}
             metrics_path: /minio/v2/metrics/cluster
