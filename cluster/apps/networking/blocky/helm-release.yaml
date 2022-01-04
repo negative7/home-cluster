@@ -71,6 +71,7 @@ spec:
         mapping:
           ${SECRET_DOMAIN}: tcp+udp:${DNS_SERVER}:9053
           ${HOMELAB_DOMAIN}: tcp+udp:${DNS_SERVER}:9053
+          home.test: tcp+udp:10.0.1.1
       blocking:
         blackLists:
           ads:
