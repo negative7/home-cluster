@@ -7,4 +7,3 @@ resources:
   - middlewares
   - dashboard
   - config-pvc.yaml
-  - minio
