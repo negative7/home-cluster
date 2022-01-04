@@ -97,7 +97,7 @@ spec:
           default:
             - ads
       clientLookup:
-        upstream: tcp+udp:${DNS_SERVER}:9053
+        upstream: tcp+udp:10.0.1.1
       customDNS:
         mapping:
           freenas.${HOMELAB_DOMAIN}: 10.2.0.10
