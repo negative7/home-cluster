@@ -101,6 +101,7 @@ spec:
       customDNS:
         mapping:
           freenas.${HOMELAB_DOMAIN}: 10.2.0.10
+          unifi.${HOMELAB_DOMAIN}: 10.0.1.1
       prometheus:
         enable: true
         path: /metrics
