@@ -55,7 +55,10 @@ spec:
           url: 10.0.4.250
         - module: icmp
           name: freenas
-          url: freenas
+          url: 10.2.0.10
+        - module: icmp
+          name: truenas
+          url: 10.0.1.10
         - module: icmp
           name: unifi
           url: unifi
