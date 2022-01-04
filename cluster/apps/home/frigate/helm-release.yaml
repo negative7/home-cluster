@@ -60,6 +60,8 @@ spec:
         sizeLimit: 2Gi
         mountPath: /dev/shm
     config: |
+      logger:
+        default: debug
       mqtt:
         host: emqx
         topic_prefix: frigate
@@ -70,10 +72,12 @@ spec:
       detectors:
         cpu1:
           type: cpu
-          num_threads: 3
         cpu2:
           type: cpu
-          num_threads: 3
+        cpu3:
+          type: cpu
+        cpu4:
+          type: cpu
       # Global objects configuration
       objects:
         track:
@@ -120,6 +124,7 @@ spec:
           snapshots:
             enabled: True
             timestamp: False
+            bounding_box: True
             retain:
               default: 7
           objects:
