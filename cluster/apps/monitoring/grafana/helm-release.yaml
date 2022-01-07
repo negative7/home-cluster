@@ -111,9 +111,6 @@ spec:
           gnetId: 1860
           revision: 23
           datasource: Prometheus
-        miner:
-          url: https://raw.githubusercontent.com/negative7/home-cluster/main/cluster/apps/monitoring/grafana/dashboards/miner.json
-          datasource: Prometheus
     sidecar:
       dashboards:
         enabled: true

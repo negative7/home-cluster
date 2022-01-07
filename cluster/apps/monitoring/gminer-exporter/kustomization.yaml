@@ -4,3 +4,4 @@ resources:
   - secret.sops.yaml
   - deployment.yaml
   - prom-rules.yaml
+  - dashboard
