@@ -21,7 +21,7 @@ spec:
       tag: v2.20.1
     env:
       FB_DATABASE: "/config/filebrowser.db"
-      FB_ROOT: "/media"
+      FB_ROOT: "/"
       FB_LOG: "stdout"
       FB_NOAUTH: "true"
       TZ: "America/New_York"
