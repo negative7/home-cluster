@@ -128,6 +128,16 @@ spec:
           objects:
             track:
               - person
+    service:
+      main:
+        ports:
+          http:
+            port: 5000
+          rtmp:
+            enabled: true
+            port: 1935
+            protocol: TCP
+            targetPort: 1935
     podAnnotations:
       configmap.reloader.stakater.com/reload: "frigate-config"
     resources:
