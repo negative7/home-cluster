@@ -70,6 +70,12 @@ spec:
         existingClaim: nfs-books-pvc
         accessMode: ReadWriteMany
         mountPath: "/media/books"
+      data:
+        enabled: true
+        type: pvc
+        existingClaim: nfs-data-pvc
+        accessMode: ReadWriteMany
+        mountPath: "/media/data"
     resources:
       requests:
         memory: 100Mi
