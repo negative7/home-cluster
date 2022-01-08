@@ -32,10 +32,13 @@ spec:
           hajimari.io/icon: "chart-bar"
           traefik.ingress.kubernetes.io/router.entrypoints: "web"
         hosts:
-          - host: "tautulli.${HOMELAB_DOMAIN}"
+          - host: "tautulli.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
+        tls:
+          - hosts:
+              - "tautulli.${SECRET_DOMAIN}"
     persistence:
       config:
         enabled: true
