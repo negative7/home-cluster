@@ -117,7 +117,7 @@ spec:
             fps: 10
           record:
             enabled: True
-            retain_days: 7
+            retain_days: 0
             events:
               retain:
                 default: 10
