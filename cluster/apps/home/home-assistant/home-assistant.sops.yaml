@@ -13,7 +13,7 @@ stringData:
     HASS_MQTT_USERNAME: ENC[AES256_GCM,data:HDy7aA==,iv:3sb/x9aOLhlv5B5QRqEBZ2E5cvY4I2IgE3zWrd1ENZg=,tag:L/GmeISIG/CFglR/aAbhDA==,type:str]
     HASS_FLEXPOOL_ADDRESS: ENC[AES256_GCM,data:rRj9xt17PQ5e6ioYl4IOByPmwsyyCw5Ak6z2VgxUDqiPlOcHdDJhH5b5,iv:JPQXqO4gUD8qFOecVCu96XfnG4U20FZG17F7VqFEqA8=,tag:OI2LerYQItmh459l3nOgeQ==,type:str]
     HASS_GITHUB_TOKEN: ENC[AES256_GCM,data:n76EiF/IR4jAvkk4+mz0X91d4THAhhkJiEZOML7DEApFHHqNTm8cDg==,iv:zvkD7GSMwVv4kzsTSz4UBCSxSVdbv2VRxJhSzkxYZQY=,tag:qEwqH8evXJb+AmL+52VTGQ==,type:str]
-    HASS_EXTERNAL_URL: ENC[AES256_GCM,data:wUgNes40/Pe4WVKe3EySFH5ZpV3TClcPE9y0W0dDTmZ5hTGNLkxseSHZSonZwJtnDviQKg==,iv:Q0IsPAYEyL5errHXIm/zstLDmTgAEbly41Uc7E2iWr8=,tag:N+p2skaMcRvg2zqb8csvCw==,type:str]
+    HASS_EXTERNAL_URL: ENC[AES256_GCM,data:SbtON8gvl6t1af6sJ/Q4ZczCVbfXxITyiCU=,iv:9yPGdvB1LAJoXgaN3bC8tNQoxanGdRfaqmnTPNnFQT8=,tag:clHRvL2ttbcDYBKAneTULw==,type:str]
     HASS_INTERNAL_URL: ENC[AES256_GCM,data:lm/218u9xoYG+MTSgARp48wdqu0=,iv:h09iYQ3ZX0Wpdop8id7ZuUtBcuhEmXjZ1Fhd5ftEY/I=,tag:ZHEvMTywM+HeL2A/Kej8VA==,type:str]
 sops:
     kms: []
@@ -21,8 +21,8 @@ sops:
     azure_kv: []
     hc_vault: []
     age: []
-    lastmodified: "2022-01-08T21:19:28Z"
-    mac: ENC[AES256_GCM,data:kiWxylaXz7e3dr1oH5Pw/lFjbw+CrTezNT2Ozg1Oc0afEw/bwqhap8xaLNyByvTSv0wJq36Lijd56JZLU1r7YjkrLAQ3hYmtoCDqdVkQLZ/H4C0vwsY4g4we1B7ds52demj6RSFmigkTqdpNHzDRS42g+buKj5J8KrsP2Ac+UAk=,iv:PW8h+cGU1nM/n5jJnQ1U55TgiBybYUq0WX6CdfTWxoQ=,tag:QMf1u1AecuPfwh9aC6mYBQ==,type:str]
+    lastmodified: "2022-01-08T21:25:23Z"
+    mac: ENC[AES256_GCM,data:T7DrdUCsx5zQzVUm8knhZ41Vc/0Ncw980LF5tMcA5f8R6JOP+ivKJe/5gSEDke3qY7h+YdvVpfuHYTvKBOduHYKqPhKt/y0ZDK1QyCkzqE270nyisK/xg+jQS9yqHVxxh0/TsMI9QeoEcgGwKJFJ/HnRtjXnnN3Z3F35EmBfKaY=,iv:DfGTvXPy9ic/UyGHbwI6ckVMjVzx2b/D/NkVN8e7Rg8=,tag:f0rI73SWLsHP5LEPFkaJ2w==,type:str]
     pgp:
         - created_at: "2021-07-16T19:36:33Z"
           enc: |
