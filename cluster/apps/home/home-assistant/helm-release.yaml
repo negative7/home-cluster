@@ -36,20 +36,19 @@ spec:
       main:
         enabled: true
         ingressClassName: "traefik"
-        annotations:
-          hajimari.io/enable: "true"
-          hajimari.io/icon: "home-assistant"
-          traefik.ingress.kubernetes.io/router.entrypoints: "web"
         hosts:
           - host: "hass.${HOMELAB_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
       external:
+        annotations:
+          external-dns.alpha.kubernetes.io/target: "ipv4.${SECRET_DOMAIN}"
+          external-dns/is-public: "true"
+          hajimari.io/enable: "true"
+          hajimari.io/icon: "home-assistant"
         enabled: true
         ingressClassName: "traefik"
-        annotations:
-          traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
         hosts:
           - host: "hass.${SECRET_DOMAIN}"
             paths:
