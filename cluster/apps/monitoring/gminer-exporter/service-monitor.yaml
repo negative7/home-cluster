@@ -1,3 +1,4 @@
+---
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
@@ -12,9 +13,9 @@ spec:
       port: http
       scrapeTimeout: 10s
       metricRelabelings:
-        - regex: 'instance'
+        - regex: "instance"
           action: labeldrop
-        - regex: 'pod'
+        - regex: "pod"
           action: labeldrop
   selector:
     matchLabels:
