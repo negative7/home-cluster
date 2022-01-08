@@ -13,9 +13,7 @@
   ],
   "timezone": "America/New_York",
   "dependencyDashboardTitle": "Renovate Dashboard 🤖",
-  "suppressNotifications": [
-    "prIgnoreNotification"
-  ],
+  "suppressNotifications": ["prIgnoreNotification"],
   "rebaseWhen": "conflicted",
   // set up renovate managers
   "docker-compose": {
