@@ -30,7 +30,6 @@ spec:
           external-dns/is-public: "true"
           hajimari.io/enable: "true"
           hajimari.io/icon: "chart-bar"
-          traefik.ingress.kubernetes.io/router.entrypoints: "web"
         hosts:
           - host: "tautulli.${SECRET_DOMAIN}"
             paths:
