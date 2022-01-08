@@ -60,8 +60,6 @@ spec:
         sizeLimit: 2Gi
         mountPath: /dev/shm
     config: |
-      logger:
-        default: debug
       mqtt:
         host: emqx
         topic_prefix: frigate
