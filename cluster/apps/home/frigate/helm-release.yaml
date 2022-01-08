@@ -102,7 +102,7 @@ spec:
         frigate_doorbell:
           ffmpeg:
             inputs:
-              - path: rtsps://10.0.1.1:7441/ugoKFUmUYJNvIshU
+              - path: rtsp://10.0.1.1:7441/ugoKFUmUYJNvIshU
                 roles:
                   - detect
               - path: rtsp://10.0.1.1:7441/ACDMjj7hyTvuDhID
@@ -117,10 +117,10 @@ spec:
             fps: 10
           record:
             enabled: True
-            retain_days: 7
+            retain_days: 0
             events:
               retain:
-                default: 7
+                default: 10
           snapshots:
             enabled: True
             timestamp: False
