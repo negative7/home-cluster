@@ -16,23 +16,14 @@ spec:
         name: node-feature-discovery-charts
         namespace: flux-system
   values:
-    master:
-      tolerations:
-        - key: "node-role.kubernetes.io/master"
-          operator: "Equal"
-          value: ""
-          effect: "NoSchedule"
-      affinity:
-        nodeAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-            - weight: 1
-              preference:
-                matchExpressions:
-                  - key: "node-role.kubernetes.io/master"
-                    operator: In
-                    values: [""]
+    nodeFeatureRule:
+      createCRD: false
     worker:
-      config: |-
+      annotations:
+        configmap.reloader.stakater.com/reload: node-feature-discovery-worker-conf
+      nodeSelector:
+        node-role.kubernetes.io/worker: "true"
+      config:
         core:
           sources:
             - custom
@@ -63,10 +54,3 @@ spec:
                     class: ["ff"]
                     vendor: ["1a86"]
                     device: ["7523"]
-      annotations:
-        configmap.reloader.stakater.com/reload: "nfd-worker-conf"
-      tolerations:
-        - effect: "NoExecute"
-          operator: "Exists"
-        - effect: "NoSchedule"
-          operator: "Exists"

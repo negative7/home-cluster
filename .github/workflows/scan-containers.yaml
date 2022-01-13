@@ -1,5 +1,5 @@
 ---
-name: Trivy Container Scan
+name: Scan Containers
 
 on: # yamllint disable-line rule:truthy
   pull_request:
@@ -11,9 +11,8 @@ on: # yamllint disable-line rule:truthy
 
 jobs:
   detect-file-changes:
-    if: contains(github.event.pull_request.labels.*.name, 'component/container')
     name: Detect File Changes
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: dorny/paths-filter@v2
@@ -29,9 +28,8 @@ jobs:
     outputs:
       yaml_files: ${{ steps.filter.outputs.yaml_files }}
   detect-containers:
-    if: contains(github.event.pull_request.labels.*.name, 'component/container')
     name: Detect Containers
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     needs: detect-file-changes
     strategy:
       matrix:
@@ -45,34 +43,14 @@ jobs:
       - name: Detect Containers in Files
         id: containers
         run: |
-          images=()
-          # flux helm releases
-          images+=("$(yq eval '[.. | select(has("repository")) | select(has("tag"))] | .[] | .repository + ":" + .tag' ${{ matrix.file }})")
-          # kubernetes deployments, statefulsets and daemonsets
-          images+=("$(yq eval '.spec.template.spec.containers.[].image' ${{ matrix.file }})")
-          # kubernetes pods
-          images+=("$(yq eval '.spec.containers.[].image' ${{ matrix.file }})")
-          # kubernetes cronjobs
-          images+=("$(yq eval '.spec.jobTemplate.spec.template.spec.containers.[].image' ${{ matrix.file }})")
-          # docker compose
-          images+=("$(yq eval '.services.*.image' ${{ matrix.file }})")
-          parsed_images=()
-          for i in "${images[@]}"; do
-              if [[ -n "${i}" && "${i}" != "null" ]]; then
-                  for b in ${i//\\n/ }; do
-                      parsed_images+=("${b}")
-                  done
-              fi
-          done
-          containers=$(jo -a "${parsed_images[@]}")
-          echo "${containers}" | jq .
+          containers=$(.github/scripts/container-parser.sh --file "${{ matrix.file }}")
+          echo "${containers}"
           echo ::set-output name=containers::${containers}
     outputs:
-      containers: "{\"container\": ${{ steps.containers.outputs.containers }} }"
-  scan-container:
-    if: contains(github.event.pull_request.labels.*.name, 'component/container')
-    name: Scan Container
-    runs-on: ubuntu-20.04
+      containers: ${{ steps.containers.outputs.containers }}
+  scan-containers:
+    name: Scan Containers
+    runs-on: ubuntu-latest
     needs: detect-containers
     strategy:
       matrix: ${{ fromJSON(needs.detect-containers.outputs.containers) }}
@@ -83,7 +61,7 @@ jobs:
       - name: Scan Container
         uses: aquasecurity/trivy-action@0.2.1
         with:
-          image-ref: ${{ matrix.container }}
+          image-ref: ${{ matrix.containers }}
           vuln-type: os,library
           severity: CRITICAL,HIGH
           format: template
