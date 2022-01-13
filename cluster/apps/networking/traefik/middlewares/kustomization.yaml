@@ -5,3 +5,5 @@ resources:
   - ws.yaml
   - wss.yaml
   - rfc1918.yaml
+  - https.yaml
+  - cloudflare.yaml
