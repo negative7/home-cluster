@@ -102,11 +102,7 @@ spec:
           gnetId: 11312
           revision: 8
           datasource: Prometheus
-        # Ref: https://grafana.com/grafana/dashboards/13665
-        speedtest:
-          gnetId: 13665
-          revision: 1
-          datasource: Prometheus
+        # Ref: https://grafana.com/grafana/dashboards/1860
         node:
           gnetId: 1860
           revision: 23

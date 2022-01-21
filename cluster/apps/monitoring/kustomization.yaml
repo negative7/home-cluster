@@ -11,5 +11,4 @@ resources:
   - promtail
   - unifi-poller
   - gminer-exporter
-  - speedtest-exporter
   - node-problem-detector
