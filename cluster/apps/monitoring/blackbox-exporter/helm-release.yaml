@@ -61,6 +61,12 @@ spec:
         - module: icmp
           name: unifi
           url: unifi
+        - module: http_2xx
+          name: node1
+          url: ${NODE_SERVER1}
+        - module: http_2xx
+          name: node2
+          url: ${NODE_SERVER2}
     prometheusRule:
       enabled: true
       additionalLabels:
