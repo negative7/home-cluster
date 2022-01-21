@@ -3,7 +3,7 @@
 function delete_pod () {
     echo "Deleting pod $1 -n $2"
     kubectl -n $2 patch pod $1 -p '{"metadata":{"finalizers":null}}'
-    kubectl delete pod -n $2  --grace-period=0 --force $pod
+    kubectl delete pod -n $2 --grace-period=0 --force $pod
 }
 
 TERMINATING_PODS=$(kubectl get pods -n networking | grep cloudflare-ddns | grep Terminating | awk '{print $1}')
@@ -12,4 +12,12 @@ NS="networking"
 for pod in $TERMINATING_PODS
 do
     delete_pod $pod $NS
+done
+
+TERMINATING_PODS2=$(kubectl get pods -n media | grep Terminating | awk '{print $1}')
+NS2="media"
+
+for pod2 in $TERMINATING_PODS2
+do
+    delete_pod $pod2 $NS2
 done
