@@ -13,6 +13,7 @@
     "github>negative7/home-cluster//.github/renovate/semanticCommits"
   ],
   "platform": "github",
+  "username": "negative-7-bot[bot]",
   "repositories": ["negative7/home-cluster"],
   "onboarding": false,
   "requireConfig": false,
