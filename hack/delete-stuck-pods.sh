@@ -6,10 +6,17 @@ function delete_pod () {
     kubectl delete pod -n $2 --grace-period=0 --force $pod
 }
 
-TERMINATING_PODS=$(kubectl get pods -n networking | grep cloudflare-ddns | grep Terminating | awk '{print $1}')
+TERMINATING_PODS=$(kubectl get pods -n networking | grep Terminating | awk '{print $1}')
 NS="networking"
 
 for pod in $TERMINATING_PODS
+do
+    delete_pod $pod $NS
+done
+
+TERMINATING_PODS3=$(kubectl get pods -n networking | grep Unknown | awk '{print $1}')
+
+for pod in $TERMINATING_PODS3
 do
     delete_pod $pod $NS
 done
