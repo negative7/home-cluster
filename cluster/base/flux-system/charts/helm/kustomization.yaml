@@ -31,3 +31,4 @@ resources:
   - hajimari-charts.yaml
   - faas-netes-charts.yaml
   - external-dns-charts.yaml
+  - itzg-minecraft-charts.yaml
