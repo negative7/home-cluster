@@ -33,6 +33,8 @@ spec:
         externalTrafficPolicy: Local
     ingress:
       main:
+        annotations:
+          traefik.ingress.kubernetes.io/router.entrypoints: "web"
         enabled: true
         ingressClassName: "traefik"
         hosts:
@@ -46,6 +48,7 @@ spec:
           external-dns/is-public: "true"
           hajimari.io/enable: "true"
           hajimari.io/icon: "home-assistant"
+          traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
           traefik.ingress.kubernetes.io/router.middlewares: networking-redirect@kubernetescrd
         enabled: true
         ingressClassName: "traefik"
