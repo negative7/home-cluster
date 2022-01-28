@@ -76,7 +76,7 @@ spec:
       # Define this if you want a specific map generation seed.
       levelSeed:
       # One of: creative, survival, adventure, spectator
-      gameMode: creative
+      gameMode: survival
       # Message of the Day
       motd: "Homecraft by negative7"
       # If true, enable player-vs-player damage.
