@@ -15,6 +15,11 @@ spec:
         name: k8s-at-home-charts
         namespace: flux-system
       interval: 5m
+  install:
+    createNamespace: true
+  dependsOn:
+    - name: emqx
+      namespace: home
   values:
     image:
       repository: ghcr.io/home-assistant/home-assistant
@@ -48,18 +53,18 @@ spec:
           external-dns/is-public: "true"
           hajimari.io/enable: "true"
           hajimari.io/icon: "home-assistant"
-          traefik.ingress.kubernetes.io/router.entrypoints: "web,websecure"
+          traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
           traefik.ingress.kubernetes.io/router.middlewares: networking-redirect@kubernetescrd
         enabled: true
         ingressClassName: "traefik"
         hosts:
-          - host: "hass.${SECRET_DOMAIN}"
+          - host: &host "hass.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
         tls:
           - hosts:
-              - "hass.${SECRET_DOMAIN}"
+              - *host
     probes:
       liveness:
         enabled: false
@@ -93,19 +98,12 @@ spec:
           enabled: true
           ingressClassName: "traefik"
           annotations:
-            traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+            traefik.ingress.kubernetes.io/router.entrypoints: "web"
           hosts:
             - host: "hass-config.${HOMELAB_DOMAIN}"
               paths:
                 - path: /
                   pathType: Prefix
-            - host: "hass-config.${SECRET_DOMAIN}"
-              paths:
-                - path: /
-                  pathType: Prefix
-          tls:
-            - hosts:
-                - "hass-config.${SECRET_DOMAIN}"
         volumeMounts:
           - name: config
             mountPath: /config
