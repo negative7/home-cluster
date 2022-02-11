@@ -37,7 +37,8 @@
         "tautulli",
         "qbittorrent",
         "readarr",
-        "renovatebot/github-action"
+        "renovatebot/github-action",
+        "lycheeverse/lychee-action"
       ]
     }
   ]
