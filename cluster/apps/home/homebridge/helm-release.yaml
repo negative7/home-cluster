@@ -18,7 +18,7 @@ spec:
   values:
     image:
       repository: ghcr.io/oznu/homebridge
-      tag: latest@sha256:3525d8874a73da463be17da6acb6279c0d567965651dbd92ff05bf1ef1821ae5
+      tag: latest@sha256:072a7f5dd6d40d0785d002ea13b2f6220f1d96b32738cc00c8e059a359464564
     controller:
       enabled: true
       replicas: 1
