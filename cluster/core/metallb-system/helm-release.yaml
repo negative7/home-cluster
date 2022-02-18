@@ -22,12 +22,17 @@ spec:
           protocol: layer2
           addresses:
             - "${METALLB_LB_RANGE}"
-    prometheus:
-      podMonitor:
-        enabled: true
-      prometheusRule:
-        enabled: true
+
+    prometheusRule:
+      enabled: true
+    controller:
+      prometheus:
+        serviceMonitor:
+          enabled: true
     speaker:
+      prometheus:
+        serviceMonitor:
+          enabled: true
       tolerations:
         - effect: "NoExecute"
           operator: "Exists"
