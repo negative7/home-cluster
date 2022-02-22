@@ -18,8 +18,8 @@ spec:
   values:
     image:
       repository: public.ecr.aws/emqx/emqx
-    replicaCount: 3
     recreatePods: true
+    replicaCount: 3
     service:
       enabled: true
       type: LoadBalancer
@@ -29,10 +29,18 @@ spec:
         enabled: true
         ingressClassName: "traefik"
         annotations:
-          traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+          traefik.ingress.kubernetes.io/router.entrypoints: "web"
         path: /
         hosts:
           - emqx.${HOMELAB_DOMAIN}
+      mgmt:
+        enabled: true
+        ingressClassName: "traefik"
+        annotations:
+          traefik.ingress.kubernetes.io/router.entrypoints: "web"
+        path: /
+        hosts:
+          - api-emqx.${HOMELAB_DOMAIN}
     emqxConfig:
       EMQX_ALLOW_ANONYMOUS: "false"
       EMQX_ADMIN_PASSWORD: "${SECRET_EMQX_ADMIN_PASSWORD}"
@@ -63,14 +71,3 @@ spec:
       size: 100Mi
       storageClass: "longhorn"
       accessMode: ReadWriteOnce
-  # TODO https://github.com/emqx/emqx/pull/5201
-  postRenderers:
-    - kustomize:
-        patchesJson6902:
-          - target:
-              kind: Ingress
-              name: emqx-dashboard
-            patch:
-              - op: add
-                path: /spec/ingressClassName
-                value: traefik
