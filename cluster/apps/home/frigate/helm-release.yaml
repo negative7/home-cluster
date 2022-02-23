@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: frigate
-      version: 7.1.0
+      version: 8.0.0
       sourceRef:
         kind: HelmRepository
         name: k8s-at-home-charts
@@ -58,75 +58,76 @@ spec:
         medium: Memory
         sizeLimit: 2Gi
         mountPath: /dev/shm
-    config: |
-      mqtt:
-        host: emqx
-        topic_prefix: frigate
-        user: ${SECRET_MQTT_USERNAME}
-        password: ${SECRET_MQTT_PASSWORD}
-      database:
-        path: /data/frigate.db
-      detectors:
-        cpu1:
-          type: cpu
-        cpu2:
-          type: cpu
-        cpu3:
-          type: cpu
-        cpu4:
-          type: cpu
-      # Global objects configuration
-      objects:
-        track:
-          - person
-        filters:
-          person:
-            min_area: 2500
-            max_area: 100000
-            threshold: 0.7
-      # Global ffmpeg configuration
-      ffmpeg:
-        hwaccel_args:
-          - -hwaccel
-          - vaapi
-          - -hwaccel_device
-          - /dev/dri/renderD128
-          - -hwaccel_output_format
-          - yuv420p
-      # Specify camera's
-      cameras:
-        # --
-        frigate_doorbell:
-          ffmpeg:
-            inputs:
-              - path: rtsps://10.0.1.1:7441/ugoKFUmUYJNvIshU
-                roles:
-                  - detect
-              - path: rtsps://10.0.1.1:7441/ACDMjj7hyTvuDhID
-                roles:
-                  - rtmp
-                  - record
-          rtmp:
-            enabled: True
-          detect:
-            width: 960
-            height: 720
-            fps: 10
-          record:
-            enabled: True
-            retain_days: 0
-            events:
+    configmap:
+      config: |
+        mqtt:
+          host: emqx
+          topic_prefix: frigate
+          user: ${SECRET_MQTT_USERNAME}
+          password: ${SECRET_MQTT_PASSWORD}
+        database:
+          path: /data/frigate.db
+        detectors:
+          cpu1:
+            type: cpu
+          cpu2:
+            type: cpu
+          cpu3:
+            type: cpu
+          cpu4:
+            type: cpu
+        # Global objects configuration
+        objects:
+          track:
+            - person
+          filters:
+            person:
+              min_area: 2500
+              max_area: 100000
+              threshold: 0.7
+        # Global ffmpeg configuration
+        ffmpeg:
+          hwaccel_args:
+            - -hwaccel
+            - vaapi
+            - -hwaccel_device
+            - /dev/dri/renderD128
+            - -hwaccel_output_format
+            - yuv420p
+        # Specify camera's
+        cameras:
+          # --
+          frigate_doorbell:
+            ffmpeg:
+              inputs:
+                - path: rtsps://10.0.1.1:7441/ugoKFUmUYJNvIshU
+                  roles:
+                    - detect
+                - path: rtsps://10.0.1.1:7441/ACDMjj7hyTvuDhID
+                  roles:
+                    - rtmp
+                    - record
+            rtmp:
+              enabled: True
+            detect:
+              width: 960
+              height: 720
+              fps: 10
+            record:
+              enabled: True
+              retain_days: 0
+              events:
+                retain:
+                  default: 10
+            snapshots:
+              enabled: True
+              timestamp: False
+              bounding_box: True
               retain:
-                default: 10
-          snapshots:
-            enabled: True
-            timestamp: False
-            bounding_box: True
-            retain:
-              default: 7
-          objects:
-            track:
-              - person
+                default: 7
+            objects:
+              track:
+                - person
     service:
       main:
         ports:
