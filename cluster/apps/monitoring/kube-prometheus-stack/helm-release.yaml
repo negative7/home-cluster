@@ -162,6 +162,7 @@ spec:
       serviceMonitor:
         enabled: true
         https: true
+        insecureSkipVerify: true
     kubeEtcd:
       enabled: false
     prometheusOperator:
