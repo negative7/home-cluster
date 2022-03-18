@@ -6,7 +6,6 @@ resources:
   - zigbee2mqtt
   - home-assistant
   - emqx
-  - hajimari
   - homebridge
   - node-red
   - frigate

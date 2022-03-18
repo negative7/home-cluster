@@ -25,10 +25,6 @@ spec:
       main:
         enabled: true
         ingressClassName: "traefik"
-        annotations:
-          hajimari.io/enable: "true"
-          hajimari.io/icon: "cloud-search"
-          traefik.ingress.kubernetes.io/router.entrypoints: "web"
         hosts:
           - host: "prowlarr.${HOMELAB_DOMAIN}"
             paths:

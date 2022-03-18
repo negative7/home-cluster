@@ -48,10 +48,6 @@ spec:
       main:
         enabled: true
         ingressClassName: "traefik"
-        annotations:
-          hajimari.io/enable: "true"
-          hajimari.io/icon: "resistor-nodes"
-          traefik.ingress.kubernetes.io/router.entrypoints: "web"
         hosts:
           - host: &host "node-red.${HOMELAB_DOMAIN}"
             paths:

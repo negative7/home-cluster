@@ -19,11 +19,6 @@ spec:
     ingress:
       enabled: true
       ingressClassName: "traefik"
-      annotations:
-        kubernetes.io/ingress.class: "traefik"
-        hajimari.io/enable: "true"
-        hajimari.io/icon: "function"
-        traefik.ingress.kubernetes.io/router.entrypoints: "web"
       hosts:
         - host: openfaas.${HOMELAB_DOMAIN}
           serviceName: gateway

@@ -27,8 +27,6 @@ spec:
         ingressClassName: "traefik"
         annotations:
           external-dns/is-public: "true"
-          hajimari.io/enable: "true"
-          hajimari.io/icon: "chart-bar"
         hosts:
           - host: "tautulli.${SECRET_DOMAIN}"
             paths:

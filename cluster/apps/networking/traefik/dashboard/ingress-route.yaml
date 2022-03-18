@@ -4,11 +4,6 @@ kind: Ingress
 metadata:
   name: traefik-dashboard
   namespace: networking
-  annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: "web"
-    hajimari.io/enable: "true"
-    hajimari.io/icon: "web"
-    hajimari.io/appName: "traefik"
 spec:
   rules:
     - host: "traefik.${HOMELAB_DOMAIN}"
