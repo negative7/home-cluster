@@ -4,6 +4,6 @@ kind: Kustomization
 resources:
   - traefik
   - cloudflare-ddns
-#  - wildcard-certificate
+  - wildcard-certificate
   - blocky
   - external-dns
