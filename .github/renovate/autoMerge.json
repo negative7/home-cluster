@@ -22,7 +22,6 @@
         "peter-evans/create-or-update-comment",
         "peter-evans/create-issue-from-file",
         "zricethezav/gitleaks"
-
       ]
     },
     {
