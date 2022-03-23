@@ -23,14 +23,13 @@ spec:
                 - secretRef:
                     name: cloudflare-ddns
               command:
-                - "/bin/sh"
+                - "/bin/bash"
                 - "/app/cloudflare-ddns.sh"
               volumeMounts:
                 - name: cloudflare-ddns
                   mountPath: /app/cloudflare-ddns.sh
                   subPath: cloudflare-ddns.sh
                   readOnly: true
-
           volumes:
             - name: cloudflare-ddns
               projected:
