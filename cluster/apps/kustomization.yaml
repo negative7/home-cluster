@@ -11,3 +11,4 @@ resources:
   - flux-system
   - home
   - openfaas
+  - cert-manager
