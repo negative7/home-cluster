@@ -136,7 +136,7 @@ spec:
       enabled: true
     ingress:
       enabled: true
-      ingressClassName: "nginx"
+      ingressClassName: "traefik"
       hosts:
         - &host "grafana.${SECRET_DOMAIN}"
       tls:
