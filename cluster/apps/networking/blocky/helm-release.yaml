@@ -100,7 +100,7 @@ spec:
         upstream: tcp+udp:10.0.1.1
       customDNS:
         mapping:
-          freenas.${HOMELAB_DOMAIN}: 10.2.0.10
+          freenas.${HOMELAB_DOMAIN}: ${SECRET_MINIO_IP}
           unifi.${HOMELAB_DOMAIN}: 10.0.1.1
       prometheus:
         enable: true

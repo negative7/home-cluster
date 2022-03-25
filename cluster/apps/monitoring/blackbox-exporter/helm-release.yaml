@@ -54,7 +54,7 @@ spec:
           url: 10.0.4.250
         - module: icmp
           name: freenas
-          url: 10.2.0.10
+          url: ${SECRET_MINIO_IP}
         - module: icmp
           name: truenas
           url: 10.0.1.10

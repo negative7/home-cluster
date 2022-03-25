@@ -7,3 +7,4 @@ resources:
   - blocky
   - external-dns
   - ingress-nginx
+  - minio-proxy

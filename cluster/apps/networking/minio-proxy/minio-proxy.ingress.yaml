@@ -1,0 +1,48 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: minio-proxy
+  namespace: monitoring
+  labels:
+    app: minio-proxy
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - "minio.${SECRET_DOMAIN}"
+  rules:
+    - host: "minio.${SECRET_DOMAIN}"
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: minio-proxy
+                port:
+                  name: http
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: minio-proxy-ui
+  namespace: monitoring
+  labels:
+    app: minio-proxy-ui
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - "minio-ui.${SECRET_DOMAIN}"
+  rules:
+    - host: "minio-ui.${SECRET_DOMAIN}"
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: minio-proxy-ui
+                port:
+                  name: http
