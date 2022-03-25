@@ -5,6 +5,10 @@ metadata:
   name: "${HOMELAB_DOMAIN/./-}"
   namespace: networking
 spec:
+  secretTemplate:
+    annotations:
+      reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true"
+      reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: "default,media,longhorn-system,home,monitoring"
   secretName: "${HOMELAB_DOMAIN/./-}-tls"
   issuerRef:
     name: selfsigned-issuer
