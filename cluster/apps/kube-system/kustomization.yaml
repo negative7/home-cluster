@@ -8,3 +8,4 @@ resources:
   - node-feature-discovery
   - reloader
   - home-dns
+  - reflector
