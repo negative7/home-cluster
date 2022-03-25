@@ -38,8 +38,6 @@ spec:
         externalTrafficPolicy: Local
     ingress:
       main:
-        annotations:
-          traefik.ingress.kubernetes.io/router.entrypoints: "web"
         enabled: true
         ingressClassName: "nginx"
         hosts:
@@ -51,7 +49,6 @@ spec:
         annotations:
           external-dns.alpha.kubernetes.io/target: "ipv4.${SECRET_DOMAIN}"
           external-dns/is-public: "true"
-          traefik.ingress.kubernetes.io/router.middlewares: networking-redirect@kubernetescrd
         enabled: true
         ingressClassName: "nginx"
         hosts:
@@ -94,8 +91,6 @@ spec:
         ingress:
           enabled: true
           ingressClassName: "nginx"
-          annotations:
-            traefik.ingress.kubernetes.io/router.entrypoints: "web"
           hosts:
             - host: "hass-config.${HOMELAB_DOMAIN}"
               paths:

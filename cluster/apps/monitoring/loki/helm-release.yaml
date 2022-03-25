@@ -20,10 +20,7 @@ spec:
       repository: ghcr.io/k8s-at-home/loki
     ingress:
       enabled: true
-      # ingressClassName: "nginx"
-      annotations:
-        kubernetes.io/ingress.class: "traefik"
-        traefik.ingress.kubernetes.io/router.entrypoints: "web"
+      ingressClassName: "nginx"
       hosts:
         - host: "loki.${HOMELAB_DOMAIN}"
           paths:

@@ -28,16 +28,12 @@ spec:
       dashboard:
         enabled: true
         ingressClassName: "nginx"
-        annotations:
-          traefik.ingress.kubernetes.io/router.entrypoints: "web"
         path: /
         hosts:
           - emqx.${HOMELAB_DOMAIN}
       mgmt:
         enabled: true
         ingressClassName: "nginx"
-        annotations:
-          traefik.ingress.kubernetes.io/router.entrypoints: "web"
         path: /
         hosts:
           - api-emqx.${HOMELAB_DOMAIN}

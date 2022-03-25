@@ -29,8 +29,6 @@ spec:
       main:
         enabled: true
         ingressClassName: "nginx"
-        annotations:
-          traefik.ingress.kubernetes.io/router.entrypoints: "web"
         hosts:
           - host: &host "zigbee2mqtt.${HOMELAB_DOMAIN}"
             paths:

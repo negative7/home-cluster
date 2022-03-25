@@ -30,8 +30,6 @@ spec:
         enabled: true
         hostname: "thanos.${HOMELAB_DOMAIN}"
         ingressClassName: "nginx"
-        annotations:
-          traefik.ingress.kubernetes.io/router.entrypoints: "web"
         tls: false
     existingObjstoreSecret: thanos-objstore
     queryFrontend:
