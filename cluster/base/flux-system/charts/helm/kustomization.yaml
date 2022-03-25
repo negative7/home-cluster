@@ -32,3 +32,4 @@ resources:
   - faas-netes-charts.yaml
   - external-dns-charts.yaml
   - itzg-minecraft-charts.yaml
+  - emberstack-charts.yaml
