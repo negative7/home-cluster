@@ -16,3 +16,4 @@ data:
   SVC_BLOCKY_ADDR: 10.2.0.200
   LB_LOKI_IP2: 10.2.0.111
   LB_HOMECRAFT: 10.2.0.120
+  TIMEZONE: "America/New_York"
