@@ -224,4 +224,4 @@ spec:
             scheme: http
             static_configs:
               - targets:
-                  - "10.0.1.10:9000"
+                  - "10.2.0.10:9000"
