@@ -29,7 +29,7 @@ spec:
       ingress:
         enabled: true
         hostname: "thanos.${HOMELAB_DOMAIN}"
-        ingressClassName: "traefik"
+        ingressClassName: "nginx"
         annotations:
           traefik.ingress.kubernetes.io/router.entrypoints: "web"
         tls: false

@@ -23,7 +23,7 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: "traefik"
+        ingressClassName: "nginx"
         hosts:
           - host: bw.${SECRET_DOMAIN}
             paths:

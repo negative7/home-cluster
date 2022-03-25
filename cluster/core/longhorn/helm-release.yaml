@@ -47,6 +47,6 @@ spec:
     ingress:
       enabled: true
       host: longhorn.${HOMELAB_DOMAIN}
-      ingressClassName: "traefik"
+      ingressClassName: "nginx"
       annotations:
         traefik.ingress.kubernetes.io/router.middlewares: networking-svc-ws-headers@kubernetescrd, networking-svc-wss-headers@kubernetescrd

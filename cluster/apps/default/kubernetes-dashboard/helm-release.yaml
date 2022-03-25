@@ -23,7 +23,7 @@ spec:
       enabled: true
     ingress:
       enabled: true
-      ingressClassName: "traefik"
+      ingressClassName: "nginx"
       hosts:
         - dashboard.${HOMELAB_DOMAIN}
       tls:

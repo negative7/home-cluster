@@ -24,7 +24,7 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: "traefik"
+        ingressClassName: "nginx"
         hosts:
           - host: "plex.${HOMELAB_DOMAIN}"
             paths:
