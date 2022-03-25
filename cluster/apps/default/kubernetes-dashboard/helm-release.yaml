@@ -23,9 +23,6 @@ spec:
       enabled: true
     ingress:
       enabled: true
-      annotations:
-        kubernetes.io/ingress.class: nginx
-        kubernetes.io/tls-acme: 'true'
       className: "nginx"
       hosts:
         - dashboard.${HOMELAB_DOMAIN}
