@@ -6,3 +6,5 @@ resources:
   - deployment.yaml
   - prom-rules.yaml
   - dashboard
+  - service-monitor.yaml
+  - service.yaml
