@@ -1,69 +1,69 @@
----
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
-kind: HelmRelease
-metadata:
-  name: emqx
-  namespace: home
-spec:
-  interval: 5m
-  chart:
-    spec:
-      chart: emqx
-      version: 4.4.2
-      sourceRef:
-        kind: HelmRepository
-        name: emqx-charts
-        namespace: flux-system
-      interval: 5m
-  values:
-    image:
-      repository: public.ecr.aws/emqx/emqx
-    recreatePods: true
-    replicaCount: 3
-    service:
-      enabled: true
-      type: LoadBalancer
-      loadBalancerIP: ${LB_EMQX_IP}
-    ingress:
-      dashboard:
-        enabled: true
-        ingressClassName: "nginx"
-        path: /
-        hosts:
-          - emqx.${HOMELAB_DOMAIN}
-      mgmt:
-        enabled: true
-        ingressClassName: "nginx"
-        path: /
-        hosts:
-          - api-emqx.${HOMELAB_DOMAIN}
-    emqxConfig:
-      EMQX_ALLOW_ANONYMOUS: "false"
-      EMQX_ADMIN_PASSWORD: "${SECRET_EMQX_ADMIN_PASSWORD}"
-      EMQX_AUTH__MNESIA__PASSWORD_HASH: plain
-      EMQX_AUTH__USER__1__USERNAME: "${SECRET_MQTT_USERNAME}"
-      EMQX_AUTH__USER__1__PASSWORD: "${SECRET_MQTT_PASSWORD}"
-      EMQX_AUTH__USER__2__USERNAME: "${SECRET_Z2MQTT_USERNAME}"
-      EMQX_AUTH__USER__2__PASSWORD: "${SECRET_Z2MQTT_PASSWORD}"
-      EMQX_AUTH__USER__3__USERNAME: "${SECRET_HIVE_USERNAME}"
-      EMQX_AUTH__USER__3__PASSWORD: "${SECRET_HIVE_PASSWORD}"
-    emqxLoadedPlugins: >
-      {emqx_management, true}.
-      {emqx_recon, true}.
-      {emqx_retainer, true}.
-      {emqx_dashboard, true}.
-      {emqx_telemetry, false}.
-      {emqx_rule_engine, true}.
-      {emqx_bridge_mqtt, false}.
-      {emqx_auth_mnesia, true}.
-    resources:
-      requests:
-        cpu: 100m
-        memory: 150Mi
-      limits:
-        memory: 512Mi
-    persistence:
-      enabled: true
-      size: 100Mi
-      storageClass: "longhorn"
-      accessMode: ReadWriteOnce
+# ---
+# apiVersion: helm.toolkit.fluxcd.io/v2beta1
+# kind: HelmRelease
+# metadata:
+#   name: emqx
+#   namespace: home
+# spec:
+#   interval: 5m
+#   chart:
+#     spec:
+#       chart: emqx
+#       version: 4.4.2
+#       sourceRef:
+#         kind: HelmRepository
+#         name: emqx-charts
+#         namespace: flux-system
+#       interval: 5m
+#   values:
+#     image:
+#       repository: public.ecr.aws/emqx/emqx
+#     recreatePods: true
+#     replicaCount: 3
+#     service:
+#       enabled: true
+#       type: LoadBalancer
+#       loadBalancerIP: ${LB_EMQX_IP}
+#     ingress:
+#       dashboard:
+#         enabled: true
+#         ingressClassName: "nginx"
+#         path: /
+#         hosts:
+#           - emqx.${HOMELAB_DOMAIN}
+#       mgmt:
+#         enabled: true
+#         ingressClassName: "nginx"
+#         path: /
+#         hosts:
+#           - api-emqx.${HOMELAB_DOMAIN}
+#     emqxConfig:
+#       EMQX_ALLOW_ANONYMOUS: "false"
+#       EMQX_ADMIN_PASSWORD: "${SECRET_EMQX_ADMIN_PASSWORD}"
+#       EMQX_AUTH__MNESIA__PASSWORD_HASH: plain
+#       EMQX_AUTH__USER__1__USERNAME: "${SECRET_MQTT_USERNAME}"
+#       EMQX_AUTH__USER__1__PASSWORD: "${SECRET_MQTT_PASSWORD}"
+#       EMQX_AUTH__USER__2__USERNAME: "${SECRET_Z2MQTT_USERNAME}"
+#       EMQX_AUTH__USER__2__PASSWORD: "${SECRET_Z2MQTT_PASSWORD}"
+#       EMQX_AUTH__USER__3__USERNAME: "${SECRET_HIVE_USERNAME}"
+#       EMQX_AUTH__USER__3__PASSWORD: "${SECRET_HIVE_PASSWORD}"
+#     emqxLoadedPlugins: >
+#       {emqx_management, true}.
+#       {emqx_recon, true}.
+#       {emqx_retainer, true}.
+#       {emqx_dashboard, true}.
+#       {emqx_telemetry, false}.
+#       {emqx_rule_engine, true}.
+#       {emqx_bridge_mqtt, false}.
+#       {emqx_auth_mnesia, true}.
+#     resources:
+#       requests:
+#         cpu: 100m
+#         memory: 150Mi
+#       limits:
+#         memory: 512Mi
+#     persistence:
+#       enabled: true
+#       size: 100Mi
+#       storageClass: "longhorn"
+#       accessMode: ReadWriteOnce

@@ -5,7 +5,7 @@ resources:
   - _pvc
   - zigbee2mqtt
   - home-assistant
-  - emqx
+  - mosquitto
   - homebridge
   - node-red
   - frigate
