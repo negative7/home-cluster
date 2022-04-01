@@ -38,21 +38,13 @@ spec:
         externalTrafficPolicy: Local
     ingress:
       main:
-        enabled: true
-        ingressClassName: "nginx"
-        hosts:
-          - host: "hass.${HOMELAB_DOMAIN}"
-            paths:
-              - path: /
-                pathType: Prefix
-      external:
         annotations:
-          external-dns.alpha.kubernetes.io/target: "ipv4.${SECRET_DOMAIN}"
+          external-dns.alpha.kubernetes.io/target: "ipv4.${SECRET_PUBLIC_DOMAIN}"
           external-dns/is-public: "true"
         enabled: true
         ingressClassName: "nginx"
         hosts:
-          - host: &host "hass.${SECRET_DOMAIN}"
+          - host: &host "hass.${SECRET_PUBLIC_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
@@ -92,7 +84,7 @@ spec:
           enabled: true
           ingressClassName: "nginx"
           hosts:
-            - host: "hass-config.${HOMELAB_DOMAIN}"
+            - host: "hass-config.${SECRET_PUBLIC_DOMAIN}"
               paths:
                 - path: /
                   pathType: Prefix

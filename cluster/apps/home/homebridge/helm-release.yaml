@@ -47,7 +47,7 @@ spec:
         enabled: true
         ingressClassName: "nginx"
         hosts:
-          - host: "homebridge.${HOMELAB_DOMAIN}"
+          - host: "homebridge.${SECRET_PUBLIC_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix

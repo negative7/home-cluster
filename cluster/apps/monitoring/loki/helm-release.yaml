@@ -22,7 +22,7 @@ spec:
       enabled: true
       ingressClassName: "nginx"
       hosts:
-        - host: "loki.${HOMELAB_DOMAIN}"
+        - host: "loki.${SECRET_PUBLIC_DOMAIN}"
           paths:
             - /
     serviceMonitor:

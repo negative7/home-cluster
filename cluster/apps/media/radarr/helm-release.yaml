@@ -28,7 +28,7 @@ spec:
         annotations:
           external-dns/is-public: "true"
         hosts:
-          - host: "radarr.${HOMELAB_DOMAIN}"
+          - host: "radarr.${SECRET_PUBLIC_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix

@@ -32,11 +32,10 @@ spec:
       enabled: true
       className: "nginx"
       hosts:
-        - dashboard.${HOMELAB_DOMAIN}
+        - dashboard.${SECRET_PUBLIC_DOMAIN}
       tls:
-        - secretName: lab-test-tls
-          hosts:
-            - dashboard.${HOMELAB_DOMAIN}
+        - hosts:
+            - dashboard.${SECRET_PUBLIC_DOMAIN}
     extraArgs:
       - "--enable-insecure-login"
       - "--namespace=default"

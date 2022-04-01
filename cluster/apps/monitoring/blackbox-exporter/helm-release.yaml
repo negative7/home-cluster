@@ -23,13 +23,13 @@ spec:
       enabled: true
       className: "nginx"
       hosts:
-        - host: "blackbox.${SECRET_DOMAIN}"
+        - host: "blackbox.${SECRET_PUBLIC_DOMAIN}"
           paths:
             - path: /
               pathType: Prefix
       tls:
         - hosts:
-            - "blackbox.${SECRET_DOMAIN}"
+            - "blackbox.${SECRET_PUBLIC_DOMAIN}"
     allowIcmp: true
     config:
       modules:

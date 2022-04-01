@@ -20,7 +20,7 @@ spec:
       enabled: true
       ingressClassName: "nginx"
       hosts:
-        - host: openfaas.${HOMELAB_DOMAIN}
+        - host: openfaas.${SECRET_PUBLIC_DOMAIN}
           serviceName: gateway
           servicePort: 8080
           path: /

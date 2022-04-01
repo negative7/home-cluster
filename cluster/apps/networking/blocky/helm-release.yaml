@@ -68,8 +68,7 @@ spec:
         - tcp+udp:${DNS_SERVER}:9053
       conditional:
         mapping:
-          ${SECRET_DOMAIN}: tcp+udp:${DNS_SERVER}:9053
-          ${HOMELAB_DOMAIN}: tcp+udp:${DNS_SERVER}:9053
+          ${SECRET_PUBLIC_DOMAIN}: tcp+udp:${DNS_SERVER}:9053
           home.test: tcp+udp:10.0.1.1
       blocking:
         blackLists:
@@ -100,8 +99,8 @@ spec:
         upstream: tcp+udp:10.0.1.1
       customDNS:
         mapping:
-          freenas.${HOMELAB_DOMAIN}: ${SECRET_MINIO_IP}
-          unifi.${HOMELAB_DOMAIN}: 10.0.1.1
+          freenas.${SECRET_PUBLIC_DOMAIN}: ${SECRET_MINIO_IP}
+          unifi.${SECRET_PUBLIC_DOMAIN}: 10.0.1.1
       prometheus:
         enable: true
         path: /metrics

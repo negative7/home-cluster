@@ -85,7 +85,7 @@ spec:
         pathType: Prefix
         ingressClassName: "nginx"
         hosts:
-          - &host "alert-manager.${SECRET_DOMAIN}"
+          - &host "alert-manager.${SECRET_PUBLIC_DOMAIN}"
         tls:
           - hosts:
               - *host
@@ -174,7 +174,7 @@ spec:
         pathType: Prefix
         ingressClassName: "nginx"
         hosts:
-          - &host "prometheus.${SECRET_DOMAIN}"
+          - &host "prometheus.${SECRET_PUBLIC_DOMAIN}"
         tls:
           - hosts:
               - *host

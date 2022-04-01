@@ -26,7 +26,7 @@ spec:
         enabled: true
         ingressClassName: "nginx"
         hosts:
-          - host: "jackett.${HOMELAB_DOMAIN}"
+          - host: "jackett.${SECRET_PUBLIC_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix

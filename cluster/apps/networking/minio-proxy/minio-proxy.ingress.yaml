@@ -10,9 +10,9 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - "minio.${SECRET_DOMAIN}"
+        - "minio.${SECRET_PUBLIC_DOMAIN}"
   rules:
-    - host: "minio.${SECRET_DOMAIN}"
+    - host: "minio.${SECRET_PUBLIC_DOMAIN}"
       http:
         paths:
           - path: /
@@ -34,9 +34,9 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - "minio-ui.${SECRET_DOMAIN}"
+        - "minio-ui.${SECRET_PUBLIC_DOMAIN}"
   rules:
-    - host: "minio-ui.${SECRET_DOMAIN}"
+    - host: "minio-ui.${SECRET_PUBLIC_DOMAIN}"
       http:
         paths:
           - path: /

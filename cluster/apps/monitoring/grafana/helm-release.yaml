@@ -35,7 +35,7 @@ spec:
     adminPassword: "${SECRET_GRAFANA_PASSWORD}"
     grafana.ini:
       server:
-        root_url: "https://grafana.${SECRET_DOMAIN}"
+        root_url: "https://grafana.${SECRET_PUBLIC_DOMAIN}"
       paths:
         data: /var/lib/grafana/data
         logs: /var/log/grafana
@@ -138,7 +138,7 @@ spec:
       enabled: true
       ingressClassName: "nginx"
       hosts:
-        - &host "grafana.${SECRET_DOMAIN}"
+        - &host "grafana.${SECRET_PUBLIC_DOMAIN}"
       tls:
         - hosts:
             - *host

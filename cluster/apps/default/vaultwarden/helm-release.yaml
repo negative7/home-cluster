@@ -25,7 +25,7 @@ spec:
         enabled: true
         ingressClassName: "nginx"
         hosts:
-          - host: bw.${SECRET_DOMAIN}
+          - host: bw.${SECRET_PUBLIC_DOMAIN}
             paths:
               - path: /
                 pathType: Prefix
@@ -36,7 +36,7 @@ spec:
                 servicePort: 3012
         tls:
           - hosts:
-              - bw.${SECRET_DOMAIN}
+              - bw.${SECRET_PUBLIC_DOMAIN}
     persistence:
       config:
         enabled: true

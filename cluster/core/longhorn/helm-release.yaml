@@ -46,5 +46,5 @@ spec:
       storageMinimalAvailablePercentage: 10
     ingress:
       enabled: true
-      host: longhorn.${HOMELAB_DOMAIN}
+      host: longhorn.${SECRET_PUBLIC_DOMAIN}
       ingressClassName: "nginx"

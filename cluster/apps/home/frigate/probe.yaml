@@ -15,4 +15,4 @@ spec:
     staticConfig:
       static:
         - "http://frigate.home:5000"
-        - "http://frigate.${HOMELAB_DOMAIN}"
+        - "http://frigate.${SECRET_PUBLIC_DOMAIN}"

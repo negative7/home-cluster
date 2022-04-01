@@ -28,13 +28,13 @@ spec:
         annotations:
           external-dns/is-public: "true"
         hosts:
-          - host: "tautulli.${SECRET_DOMAIN}"
+          - host: "tautulli.${SECRET_PUBLIC_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
         tls:
           - hosts:
-              - "tautulli.${SECRET_DOMAIN}"
+              - "tautulli.${SECRET_PUBLIC_DOMAIN}"
     persistence:
       config:
         enabled: true
