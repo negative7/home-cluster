@@ -16,7 +16,7 @@ spec:
         namespace: flux-system
       interval: 5m
   dependsOn:
-    - name: emqx
+    - name: mosquitto
       namespace: home
   values:
     image:
@@ -51,7 +51,7 @@ spec:
       permit_join: false
       mqtt:
         base_topic: zigbee2mqtt
-        server: "mqtt://emqx"
+        server: "mqtt://mosquitto"
         user: "${SECRET_Z2MQTT_USERNAME}"
         password: "${SECRET_Z2MQTT_PASSWORD}"
       serial:

@@ -16,7 +16,7 @@ spec:
         namespace: flux-system
       interval: 5m
   dependsOn:
-    - name: emqx
+    - name: mosquitto
       namespace: home
   values:
     image:
@@ -60,7 +60,7 @@ spec:
         data:
           config.yml: |
             mqtt:
-              host: emqx
+              host: mosquitto
               topic_prefix: frigate
               user: ${SECRET_MQTT_USERNAME}
               password: ${SECRET_MQTT_PASSWORD}
