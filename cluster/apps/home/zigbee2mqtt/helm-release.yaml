@@ -15,15 +15,14 @@ spec:
         name: k8s-at-home-charts
         namespace: flux-system
       interval: 5m
-  dependsOn:
-    - name: mosquitto
-      namespace: home
+  install:
+    createNamespace: true
   values:
     image:
       repository: ghcr.io/koenkk/zigbee2mqtt
       tag: 1.25.0
     env:
-      TZ: "America/New_York"
+      TZ: "${TIMEZONE}"
       ZIGBEE2MQTT_DATA: /data
     ingress:
       main:
@@ -44,6 +43,12 @@ spec:
         type: hostPath
         hostPath: /dev/serial/by-id/usb-1a86_USB_Serial-if00-port0
         hostPathType: CharDevice
+    resources:
+      requests:
+        memory: 100Mi
+        cpu: 100m
+      limits:
+        memory: 500Mi
     config:
       homeassistant: true
       device_options:
@@ -61,8 +66,6 @@ spec:
           - console
       frontend:
         port: 8080
-      experimental:
-        new_api: true
     securityContext:
       privileged: true
     affinity:
