@@ -45,7 +45,6 @@ spec:
                   {{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{- end -}}
                   ] {{ .CommonLabels.alertname }}
                 pretext: '{{ .CommonAnnotations.summary }}'
-                icon_emoji:
                 text: |-
                   {{- range .Alerts }}
                     {{- if ne .Labels.severity "" }}
