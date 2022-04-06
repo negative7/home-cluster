@@ -48,23 +48,23 @@ spec:
                 text: |-
                   {{- range .Alerts }}
                     {{- if ne .Labels.severity "" }}
-                      <b>Severity:</b> <i>{{ .Labels.severity }}</i>
+                      **Severity:** _{{ .Labels.severity }}_
                     {{- else }}
-                      <b>Severity:</b> <i>N/A</i>
+                      **Severity:** _N/A_
                     {{- end }}
                     {{- if ne .Annotations.description "" }}
-                      <b>Description:</b> <i>{{ .Annotations.description }}</i>
+                      **Description:** _{{ .Annotations.description }}_
                     {{- else if ne .Annotations.summary "" }}
-                      <b>Summary:</b> <i>{{ .Annotations.summary }}</i>
+                      **Summary:** _{{ .Annotations.summary }}_
                     {{- else if ne .Annotations.message "" }}
-                      <b>Message:</b> <i>{{ .Annotations.message }}</i>
+                      **Message:** _{{ .Annotations.message }}_
                     {{- else }}
-                      <b>Description:</b> <i>N/A</i>
+                      **Description:** _N/A_
                     {{- end }}
                     {{- if gt (len .Labels.SortedPairs) 0 }}
-                      <b>Details:</b>
+                      **Details:**
                       {{- range .Labels.SortedPairs }}
-                        • <b>{{ .Name }}:</b> <i>{{ .Value }}</i>
+                        • *{{ .Name }}:* _{{ .Value }}_
                       {{- end }}
                     {{- end }}
                   {{- end }}
