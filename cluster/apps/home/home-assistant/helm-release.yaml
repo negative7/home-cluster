@@ -67,7 +67,7 @@ spec:
         type: custom
         volumeSpec:
           nfs:
-            server: "freenas.${SECRET_PRIVATE_DOMAIN}"
+            server: "freenas.${SECRET_PUBLIC_DOMAIN}"
             path: /mnt/tank/backups
         mountPath: /config/backups
         readOnly: false
