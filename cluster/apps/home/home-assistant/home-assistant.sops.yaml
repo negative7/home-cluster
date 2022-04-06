@@ -13,17 +13,15 @@ stringData:
     HASS_GITHUB_TOKEN: ENC[AES256_GCM,data:n76EiF/IR4jAvkk4+mz0X91d4THAhhkJiEZOML7DEApFHHqNTm8cDg==,iv:zvkD7GSMwVv4kzsTSz4UBCSxSVdbv2VRxJhSzkxYZQY=,tag:qEwqH8evXJb+AmL+52VTGQ==,type:str]
     HASS_EXTERNAL_URL: ENC[AES256_GCM,data:SbtON8gvl6t1af6sJ/Q4ZczCVbfXxITyiCU=,iv:9yPGdvB1LAJoXgaN3bC8tNQoxanGdRfaqmnTPNnFQT8=,tag:clHRvL2ttbcDYBKAneTULw==,type:str]
     HASS_INTERNAL_URL: ENC[AES256_GCM,data:lm/218u9xoYG+MTSgARp48wdqu0=,iv:h09iYQ3ZX0Wpdop8id7ZuUtBcuhEmXjZ1Fhd5ftEY/I=,tag:ZHEvMTywM+HeL2A/Kej8VA==,type:str]
-    HASS_PG_USER: ENC[AES256_GCM,data:Cjv0OP1E5wY=,iv:P7UcfTIB1SbBM62wuq74UbRzUU17qjOuF6QpLY4kYOA=,tag:581B2bjl9K0tucLhaLCIEQ==,type:str]
-    HASS_PG_PASSWORD: ENC[AES256_GCM,data:7JcGRE3+IL1pc8juqtEr,iv:w+KQvL4wOiNLttsr/cX5qOwLatcjRbV5tCr1YYmS9MY=,tag:2E8ywAKdGrWZRi3rWprp1w==,type:str]
-    HASS_PG_DB: ENC[AES256_GCM,data:wyiMMwW1RilY,iv:zWb8HNg/jNsOu0TA9Y3CNv4DoExY0bhnQTr114PTLzA=,tag:00vNqFtpC2zGojb1TGZEvg==,type:str]
+    HASS_PG_DB: ENC[AES256_GCM,data:2tb1IAVg9gqd0csHlELw90bK6mABrAGODvtueMzDCgELgB8eETA/y75wrrmezY9lpueM8YHokZ+X/tk1jyrMjIPQullCkKAJiJ4ovkw=,iv:E1aO3ajIKiKqtb6fUzu1+Kjzve9vODoiCG5wSY0g/yw=,tag:r0ng+9bq0nlxZIYIiYHzsw==,type:str]
 sops:
     kms: []
     gcp_kms: []
     azure_kv: []
     hc_vault: []
     age: []
-    lastmodified: "2022-04-06T17:12:45Z"
-    mac: ENC[AES256_GCM,data:P+1/enUa0UCcZzlWIZ04CONYg09AfQte9VkOwiGcP2C2YpoeCzZ7YzbTbT+6acQGonZFhYf8K3+s3aw97rWLcxw/12WP4O5tneOPIlk7k/X/qZ1gLyT3Z+GvEXw6AdTFvP4joI7qhYB9G9sf42GANhL4QaDLS/m4LBGChxvm6us=,iv:eIRRd48sYT7lNqwfZOMwgKejwS9OZ/z6haNm6ky0LjU=,tag:QZ0Hyp7ryep5+ybo4o53kQ==,type:str]
+    lastmodified: "2022-04-06T17:15:50Z"
+    mac: ENC[AES256_GCM,data:2gTkAvS/L9BGRfFERsXZIRx26xTCa6MK2DtvA9obzl5YjgOFGlGfMsBZfdMeNAu9MVh7gxvJ/LBSAX7cjSVz0pREEK4+CtC1aXXekJDBuG8aLyvJyzkh8UBhAXtAu2hW3e8Ily4rYJzDSmlk2v9kKgMZA9YvMBCHssgnPk6pg3w=,iv:KlCnWAxrZ8nIO5Fjt2Isc4qxfLeu/ww4G5AHsSY5PY0=,tag:qRfKwovNMfTi/U3c2kbD/g==,type:str]
     pgp:
         - created_at: "2021-07-16T19:36:33Z"
           enc: |
