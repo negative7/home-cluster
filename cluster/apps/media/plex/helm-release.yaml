@@ -23,6 +23,12 @@ spec:
       tag: v1.25.8.5663-e071c3d62
     env:
       TZ: "${TIMEZONE}"
+    service:
+      main:
+        type: LoadBalancer
+        externalIPs:
+          - "${SVC_PLEX_ADDR}"
+        externalTrafficPolicy: Local
     ingress:
       main:
         enabled: true
