@@ -68,7 +68,7 @@ spec:
         volumeSpec:
           nfs:
             server: "freenas.${SECRET_PUBLIC_DOMAIN}"
-            path: /mnt/tank/backups
+            path: /mnt/tank/backups/hass
         mountPath: /config/backups
         readOnly: false
     podAnnotations:
