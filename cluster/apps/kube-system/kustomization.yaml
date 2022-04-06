@@ -6,6 +6,7 @@ resources:
   - intel-gpu-plugin
   - kured
   - node-feature-discovery
+  - nfs-subdir-external-provisioner
   - reloader
   - home-dns
   - reflector
