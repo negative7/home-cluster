@@ -20,7 +20,7 @@ spec:
   values:
     replicaCount: 3
     nfs:
-      server: "freenass.${SECRET_PUBLIC_DOMAIN}"
+      server: "freenas.${SECRET_PUBLIC_DOMAIN}"
       path: /mnt/tank/pvcs
       mountOptions:
         - noatime
