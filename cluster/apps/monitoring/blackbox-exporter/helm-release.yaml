@@ -58,9 +58,6 @@ spec:
         - module: icmp
           name: truenas
           url: 10.0.1.10
-        - module: icmp
-          name: unifi
-          url: unifi
         - module: http_2xx
           name: node1
           url: ${NODE_SERVER1}
