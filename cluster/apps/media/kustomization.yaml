@@ -8,9 +8,7 @@ resources:
   - sonarr
   - radarr
   - prowlarr
-  - jackett
   - overseerr
   - tautulli
   - qbittorrent
-  - readarr
   - media-browser
