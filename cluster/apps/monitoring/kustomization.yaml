@@ -11,3 +11,4 @@ resources:
   - unifi-poller
   - gminer-exporter
   - node-problem-detector
+  - karma
