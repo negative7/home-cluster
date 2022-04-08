@@ -15,13 +15,16 @@ spec:
         name: k8s-at-home-charts
         namespace: flux-system
       interval: 5m
+  install:
+    createNamespace: true
   values:
     image:
       repository: ghcr.io/k8s-at-home/qbittorrent
       tag: v4.4.2
     env:
-      TZ: "America/New_York"
-      # WAIT_FOR_VPN: "true"
+      TZ: "${TIMEZONE}"
+    settings:
+      automaticPortSetup: false
     service:
       main:
         ports:
@@ -43,10 +46,24 @@ spec:
         enabled: true
         ingressClassName: "nginx"
         hosts:
-          - host: "qb.${SECRET_PUBLIC_DOMAIN}"
+          - host: &host "qb.${SECRET_PUBLIC_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
+        tls:
+          - hosts:
+              - *host
+    metrics:
+      enabled: true
+      exporter:
+        image:
+          repository: ghcr.io/k8s-at-home/prometheus-qbittorrent-exporter
+          tag: v1.2.0
+      serviceMonitor:
+        interval: 1m
+        scrapeTimeout: 10s
+      prometheusRule:
+        enabled: true
     persistence:
       config:
         enabled: true
@@ -72,3 +89,5 @@ spec:
       runAsUser: 1001
       runAsGroup: 1001
       fsGroup: 1001
+      supplementalGroups:
+        - 100
