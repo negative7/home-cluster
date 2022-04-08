@@ -68,6 +68,19 @@ spec:
         type: pvc
         existingClaim: nfs-books-pvc
         accessMode: ReadWriteMany
+      backup:
+        enabled: true
+        type: custom
+        volumeSpec:
+          nfs:
+            server: "freenas.${SECRET_PUBLIC_DOMAIN}"
+            path: /mnt/tank/backups/plex
+        mountPath: /config/Backups
+        readOnly: false
+      transcode:
+        enabled: true
+        type: emptyDir
+        medium: Memory
     affinity:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:

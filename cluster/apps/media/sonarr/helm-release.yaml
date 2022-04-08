@@ -15,21 +15,32 @@ spec:
         name: k8s-at-home-charts
         namespace: flux-system
       interval: 5m
+  install:
+    createNamespace: true
   values:
     image:
       repository: ghcr.io/k8s-at-home/sonarr
       tag: v3.0.7.1477
     env:
-      TZ: "America/New_York"
+      TZ: "${TIMEZONE}"
     ingress:
       main:
         enabled: true
         ingressClassName: "nginx"
         hosts:
-          - host: "sonarr.${SECRET_PUBLIC_DOMAIN}"
+          - host: &host "sonarr.${SECRET_PUBLIC_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
+        tls:
+          - hosts:
+              - *host
+    podSecurityContext:
+      runAsUser: 1001
+      runAsGroup: 1001
+      fsGroup: 1001
+      supplementalGroups:
+        - 100
     metrics:
       enabled: true
       serviceMonitor:
@@ -44,7 +55,7 @@ spec:
         env:
           port: 9794
           additionalMetrics: true
-          unknownQueueItems: false
+          unknownQueueItems: true
     persistence:
       config:
         enabled: true
@@ -57,13 +68,18 @@ spec:
         type: pvc
         existingClaim: nfs-data-pvc
         accessMode: ReadWriteMany
-    podSecurityContext:
-      runAsUser: 1001
-      runAsGroup: 1001
-      fsGroup: 1001
+      backup:
+        enabled: true
+        type: custom
+        volumeSpec:
+          nfs:
+            server: "freenas.${SECRET_PUBLIC_DOMAIN}"
+            path: /mnt/tank/backups/sonarr
+        mountPath: /config/Backups
+        readOnly: false
     resources:
       requests:
         memory: 250Mi
         cpu: 500m
       limits:
-        memory: 1500Mi
+        memory: 2000Mi

@@ -57,6 +57,15 @@ spec:
         type: pvc
         existingClaim: nfs-data-pvc
         accessMode: ReadWriteMany
+      backup:
+        enabled: true
+        type: custom
+        volumeSpec:
+          nfs:
+            server: "freenas.${SECRET_PUBLIC_DOMAIN}"
+            path: /mnt/tank/backups/radarr
+        mountPath: /config/Backups
+        readOnly: false
     podSecurityContext:
       runAsUser: 1001
       runAsGroup: 1001
