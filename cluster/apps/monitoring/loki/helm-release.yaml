@@ -110,8 +110,8 @@ spec:
         rules:
           - alert: GminerFailures
             expr: |
-              rate({job="gminer"}[1m]) <=0.1
-            for: 1s
+              absent_over_time({job="gminer"}[2m])
+            for: 2m
             labels:
               severity: critical
               category: logs
