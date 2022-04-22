@@ -23,3 +23,4 @@ resources:
   - node-feature-discovery-charts.yaml
   - prometheus-community-charts.yaml
   - stakater-charts.yaml
+  - weaveworks-kured-charts.yaml
