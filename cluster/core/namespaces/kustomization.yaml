@@ -14,3 +14,4 @@ resources:
   - openfaas.yaml
   - games.yaml
   - system-upgrade.yaml
+  - kyverno.yaml
