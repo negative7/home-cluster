@@ -53,5 +53,6 @@ spec:
                 pathType: Prefix
     config: |
       #!/bin/sh
+      apk add --no-cache ffmpeg ffmpeg-libs
       npm install --unsafe-perm -g homebridge-unifi-protect
       npm install --unsafe-perm -g homebridge-z2m
