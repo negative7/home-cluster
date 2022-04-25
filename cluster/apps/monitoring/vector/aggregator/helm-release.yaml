@@ -87,9 +87,9 @@ spec:
       tag: 0.21.1-debian
     role: Stateless-Aggregator
     replicas: 1
-    # env:
-    #   - name: VECTOR_LOG
-    #     value: debug
+    env:
+      - name: VECTOR_LOG
+        value: debug
     podMonitor:
       enabled: true
     service:
