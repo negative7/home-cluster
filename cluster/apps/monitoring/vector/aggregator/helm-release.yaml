@@ -38,10 +38,10 @@ spec:
           address: 0.0.0.0:6010
           version: "2"
         syslog_logs:
-          type: "syslog"
+          type: syslog
           address: 0.0.0.0:6020
           max_length: 102_400
-          mode: "udp"
+          mode: udp
           path: "/tmp/syslog_udp"
       #
       # Transformations
