@@ -41,8 +41,6 @@ spec:
           type: syslog
           address: 0.0.0.0:6020
           max_length: 102_400
-          mode: udp
-          path: "/tmp/syslog_udp"
       #
       # Transformations
       #
@@ -50,11 +48,25 @@ spec:
       # Sinks
       #
       sinks:
+        loki_syslog:
+          type: loki
+          inputs:
+            - syslog_logs
+          endpoint: http://loki:3100
+          encoding:
+            codec: json
+          batch:
+            max_bytes: 2049000
+          out_of_order_action: accept
+          remove_label_fields: true
+          remove_timestamp: true
+          labels:
+            hostname: >-
+              {{`{{ host }}`}}
         loki_journal:
           type: loki
           inputs:
             - journal_logs
-            - syslog_logs
           endpoint: http://loki:3100
           encoding:
             codec: json
