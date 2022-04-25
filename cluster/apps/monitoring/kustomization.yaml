@@ -11,3 +11,4 @@ resources:
   - gminer-exporter
   - node-problem-detector
   - karma
+  - vector
