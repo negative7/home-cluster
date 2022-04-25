@@ -63,6 +63,7 @@ spec:
           remove_label_fields: true
           remove_timestamp: true
           labels:
+            from: syslog
             hostname: >-
               {{`{{ host }}`}}
         loki_journal:
