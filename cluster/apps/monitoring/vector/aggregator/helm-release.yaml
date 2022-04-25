@@ -37,6 +37,12 @@ spec:
           type: vector
           address: 0.0.0.0:6010
           version: "2"
+        syslog_logs:
+          type: "syslog"
+          address: 0.0.0.0:6020
+          max_length: 102_400
+          mode: "udp"
+          path: "/tmp/syslog_udp"
       #
       # Transformations
       #
@@ -48,6 +54,7 @@ spec:
           type: loki
           inputs:
             - journal_logs
+            - syslog_logs
           endpoint: http://loki:3100
           encoding:
             codec: json
