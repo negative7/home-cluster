@@ -24,3 +24,4 @@ resources:
   - prometheus-community-charts.yaml
   - stakater-charts.yaml
   - weaveworks-kured-charts.yaml
+  - vector-charts.yaml
