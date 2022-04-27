@@ -23,7 +23,6 @@ spec:
     remediation:
       retries: 3
   values:
-    fullnameOverride: prometheus
     alertmanager:
       config:
         global:
@@ -79,24 +78,24 @@ spec:
           receiver: "slack"
           routes:
             - receiver: "null"
-              match:
-                alertname: InfoInhibitor
+              matchers:
+                - alertname =~ "InfoInhibitor|Watchdog"
             - receiver: "null"
               match:
                 alertname: Watchdog
             - receiver: "slack"
-              match_re:
-                severity: critical
+              matchers:
+                - severity = "critical"
               continue: true
             - receiver: "nodered"
-              match:
-                alertname: MinerDown
+              matchers:
+                - alertname = "MinerDown"
               continue: true
         inhibit_rules:
-          - source_match:
-              severity: "critical"
-            target_match:
-              severity: "warning"
+          - source_matchers:
+              - severity = "critical"
+            target_matchers:
+              - severity = "warning"
             equal: ["alertname", "namespace"]
       ingress:
         enabled: true
@@ -108,6 +107,9 @@ spec:
           - hosts:
               - *host
       alertmanagerSpec:
+        alertmanagerSpec:
+        replicas: 3
+        podAntiAffinity: hard
         storage:
           volumeClaimTemplate:
             spec:
@@ -115,10 +117,6 @@ spec:
               resources:
                 requests:
                   storage: 1Gi
-    kube-state-metrics:
-      fullnameOverride: kube-state-metrics
-    prometheus-node-exporter:
-      fullnameOverride: node-exporter
       prometheus:
         monitor:
           enabled: true
@@ -177,15 +175,6 @@ spec:
         - 10.2.0.21
     kubeEtcd:
       enabled: false
-    prometheusOperator:
-      prometheusConfigReloader:
-        resources:
-          requests:
-            cpu: 100m
-            memory: 50Mi
-          limits:
-            cpu: 200m
-            memory: 100Mi
     prometheus:
       ingress:
         enabled: true
@@ -201,8 +190,9 @@ spec:
       thanosServiceMonitor:
         enabled: true
       prometheusSpec:
-        replicas: 1
+        replicas: 3
         replicaExternalLabelName: "replica"
+        podAntiAffinity: hard
         ruleSelectorNilUsesHelmValues: false
         serviceMonitorSelectorNilUsesHelmValues: false
         podMonitorSelectorNilUsesHelmValues: false
@@ -223,6 +213,12 @@ spec:
           objectStorageConfig:
             name: thanos-objstore
             key: objstore.yml
+        resources:
+          requests:
+            cpu: 250m
+            memory: 2000Mi
+          limits:
+            memory: 6000Mi
         additionalScrapeConfigs:
           - job_name: "node-exporter"
             honor_timestamps: true
