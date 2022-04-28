@@ -17,38 +17,112 @@ spec:
       interval: 5m
   install:
     createNamespace: true
+    remediation:
+      retries: 5
+  upgrade:
+    remediation:
+      retries: 5
+  dependsOn:
+    - name: kube-prometheus-stack
+      namespace: monitoring
   values:
     image:
       registry: public.ecr.aws
       repository: bitnami/thanos
+    existingObjstoreSecret: thanos-objstore
     query:
       enabled: true
+      replicaCount: 3
+      podAntiAffinityPreset: hard
       replicaLabels:
         - replica
       dnsDiscovery:
-        sidecarsService: prometheus-thanos-discovery
+        sidecarsService: kube-prometheus-stack-thanos-discovery
         sidecarsNamespace: monitoring
       ingress:
         enabled: true
-        hostname: "thanos.${SECRET_PUBLIC_DOMAIN}"
+        hostname: &host "thanos-query.${SECRET_PUBLIC_DOMAIN}"
         ingressClassName: "nginx"
         tls: true
-    existingObjstoreSecret: thanos-objstore
+        extraTls:
+          - hosts:
+              - *host
     queryFrontend:
       enabled: false
     bucketweb:
       enabled: true
+      replicaCount: 3
+      podAntiAffinityPreset: hard
+      ingress:
+        enabled: true
+        hostname: &host "thanos-bucketweb.${SECRET_PUBLIC_DOMAIN}"
+        ingressClassName: "nginx"
+        tls: true
+        extraTls:
+          - hosts:
+              - *host
     compactor:
       enabled: true
-      persistence:
-        enabled: false
-    storegateway:
-      enabled: true
+      retentionResolutionRaw: 14d
+      retentionResolution5m: 30d
+      retentionResolution1h: 180d
+      ingress:
+        enabled: true
+        hostname: &host "thanos-compactor.${SECRET_PUBLIC_DOMAIN}"
+        ingressClassName: "nginx"
+        tls: true
+        extraTls:
+          - hosts:
+              - *host
       persistence:
         enabled: true
+        storageClass: "longhorn"
         size: 5Gi
+    storegateway:
+      enabled: true
+      replicaCount: 3
+      podAntiAffinityPreset: hard
+      ingress:
+        enabled: true
+        hostname: &host "thanos-storegateway.${SECRET_PUBLIC_DOMAIN}"
+        ingressClassName: "nginx"
+        tls: true
+        extraTls:
+          - hosts:
+              - *host
+      persistence:
+        enabled: true
+        storageClass: "longhorn"
+        size: 250Mi
     ruler:
-      enabled: false
+      enabled: true
+      replicaCount: 3
+      podAntiAffinityPreset: hard
+      dnsDiscovery:
+        enabled: true
+      alertmanagers:
+        - http://alertmanager-operated.monitoring:9093
+      clusterName: home-ops
+      extraFlags:
+        - "--web.prefix-header=X-Forwarded-Prefix"
+      config: |-
+        groups:
+          - name: "PrometheusWatcher"
+            rules:
+              - alert: "PrometheusDown"
+                expr: absent(up{job="kube-prometheus-stack-prometheus"})
+      ingress:
+        enabled: true
+        hostname: &host "thanos-ruler.${SECRET_PUBLIC_DOMAIN}"
+        ingressClassName: "nginx"
+        tls: true
+        extraTls:
+          - hosts:
+              - *host
+      persistence:
+        enabled: true
+        storageClass: "longhorn"
+        size: 250Mi
     metrics:
       enabled: true
       serviceMonitor:
