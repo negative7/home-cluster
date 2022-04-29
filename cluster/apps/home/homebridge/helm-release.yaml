@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: homebridge
-      version: 4.3.1
+      version: 5.0.0
       sourceRef:
         kind: HelmRepository
         name: k8s-at-home-charts
@@ -18,7 +18,7 @@ spec:
   values:
     image:
       repository: ghcr.io/oznu/homebridge
-      tag: "2022-04-24"
+      tag: "2022-04-28"
     controller:
       enabled: true
       replicas: 1
@@ -51,8 +51,12 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
-    config: |
-      #!/bin/sh
-      apk add --no-cache ffmpeg ffmpeg-libs
-      npm install --unsafe-perm -g homebridge-unifi-protect
-      npm install --unsafe-perm -g homebridge-z2m
+    configmap:
+      scripts:
+        enabled: true
+        data:
+          startup.sh: |
+            #!/bin/sh
+            apk add --no-cache ffmpeg ffmpeg-libs
+            npm install homebridge-unifi-protect
+            npm install homebridge-z2m
