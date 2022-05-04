@@ -8,9 +8,10 @@
     ":separatePatchReleases",
     "docker:enableMajor",
     ":enablePreCommit",
-    "github>negative7/home-cluster//.github/renovate/autoMerge",
-    "github>negative7/home-cluster//.github/renovate/labels",
-    "github>negative7/home-cluster//.github/renovate/semanticCommits"
+    "github>negative7/home-cluster//.github/renovate/allowedVersions.json5",
+    "github>negative7/home-cluster//.github/renovate/autoMerge.json5",
+    "github>negative7/home-cluster//.github/renovate/labels.json5",
+    "github>negative7/home-cluster//.github/renovate/semanticCommits.json5"
   ],
   "platform": "github",
   "username": "negative-7-bot[bot]",
@@ -19,9 +20,7 @@
   "requireConfig": false,
   "gitAuthor": "negative-7-bot <98169174+negative-7-bot[bot]@users.noreply.github.com>",
   "dependencyDashboardTitle": "Renovate Dashboard 🤖",
-  "suppressNotifications": [
-    "prIgnoreNotification"
-  ],
+  "suppressNotifications": ["prIgnoreNotification"],
   "rebaseWhen": "conflicted",
   "commitBodyTable": true,
   "ignoreDeps": [
@@ -34,29 +33,19 @@
   ],
   // set up renovate managers
   "docker-compose": {
-    "fileMatch": [
-      "ansible/.+/docker-compose.*\\.ya?ml(\\.j2)?$"
-    ]
+    "fileMatch": ["ansible/.+/docker-compose.*\\.ya?ml(\\.j2)?$"]
   },
   "flux": {
-    "fileMatch": [
-      "cluster/.+\\.ya?ml$"
-    ]
+    "fileMatch": ["cluster/.+\\.ya?ml$"]
   },
   "helm-values": {
-    "fileMatch": [
-      "cluster/.+\\.ya?ml$"
-    ]
+    "fileMatch": ["cluster/.+\\.ya?ml$"]
   },
   "helmv3": {
-    "fileMatch": [
-      "charts/.+/Chart\\.ya?ml$"
-    ]
+    "fileMatch": ["charts/.+/Chart\\.ya?ml$"]
   },
   "kubernetes": {
-    "fileMatch": [
-      "cluster/.+\\.ya?ml$"
-    ]
+    "fileMatch": ["cluster/.+\\.ya?ml$"]
   },
   "regexManagers": [
     // Read and process GitHub Releases
@@ -67,17 +56,16 @@
         "hack/.+\\.sh$"
       ],
       "matchStrings": [
-        "datasource=(?<datasource>.*?)\n *url: https:\/\/github\\.com\/(?<depName>.*?)\\.git\n *ref:\n *tag: (?<currentValue>.*)\n",
-        "datasource=(?<datasource>.*?) depName=(?<depName>.*?)\n.*?_version: \"(?<currentValue>.*)\"\n",
-        "datasource=(?<datasource>.*?) depName=(?<depName>.*?)\n.*?_VERSION=\"(?<currentValue>.*)\"\n"
+        "datasource=(?<datasource>.*?)( versioning=(?<versioning>.*?))?\n *url: https://github\\.com/(?<depName>.*?)\\.git\n *ref:\n *tag: (?<currentValue>.*)\n",
+        "datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\n.*?_version: \"(?<currentValue>.*)\"\n",
+        "datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\n.*?_VERSION=\"(?<currentValue>.*)\"\n"
       ],
-      "datasourceTemplate": "github-releases"
+      "datasourceTemplate": "{{#if datasource}}{{{datasource}}}{{else}}github-releases{{/if}}",
+      "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
     },
     // Read and process Custom Resource Definitions
     {
-      "fileMatch": [
-        "cluster/.+\\.ya?ml$"
-      ],
+      "fileMatch": ["cluster/.+\\.ya?ml$"],
       "matchStrings": [
         "registryUrl=(?<registryUrl>.*?)\n *tag: (?<depName>[a-zA-Z-]+)-(?<currentValue>.*)\n",
         "registryUrl=(?<registryUrl>.*?) chart=(?<depName>.*?)\n.*\\/(?<currentValue>.*?)\\/"
@@ -86,9 +74,7 @@
     },
     // Read and process Custom Resources
     {
-      "fileMatch": [
-        "cluster/.+\\.ya?ml$"
-      ],
+      "fileMatch": ["cluster/.+\\.ya?ml$"],
       "matchStrings": [
         "datasource=(?<datasource>.*?) depName=(?<depName>.*?)\n .*: (?<currentValue>.*=?)"
       ],
@@ -98,42 +84,22 @@
   "packageRules": [
     // setup datasources
     {
-      "matchDatasources": [
-        "helm"
-      ],
+      "matchDatasources": ["helm"],
       "ignoreDeprecated": true
     },
     {
-      "matchDatasources": [
-        "docker"
-      ],
+      "matchDatasources": ["docker"],
       "commitMessageExtra": "to {{newVersion}}"
     },
     // packages with custom versioning
     {
-      "matchDatasources": [
-        "docker"
-      ],
+      "matchDatasources": ["docker"],
       "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)-(?<compatibility>.*)$",
-      "matchPackageNames": [
-        "docker.io/blakeblackshear/frigate"
-      ]
-    },
-    {
-      "matchDatasources": [
-        "docker"
-      ],
-      "versioning": "regex:^RELEASE\\.(?<major>\\d+)-(?<minor>\\d+)-(?<patch>\\d+)T.*Z(-(?<compatibility>.*))?$",
-      "matchPackageNames": [
-        "quay.io/minio/minio"
-      ]
+      "matchPackageNames": ["docker.io/blakeblackshear/frigate"]
     },
     // packages with loose versioning
     {
-      "matchDatasources": [
-        "docker",
-        "github-releases"
-      ],
+      "matchDatasources": ["docker", "github-releases"],
       "versioning": "loose",
       "matchPackageNames": [
         "ghcr.io/k8s-at-home/plex",
@@ -142,14 +108,23 @@
     },
     // group packages
     {
+      "groupName": "external-snapshotter-suite",
+      "matchDatasources": ["docker", "github-releases"],
+      "matchPackagePatterns": ["external-snapshotter", "snapshot-controller"],
+      "additionalBranchPrefix": "",
+      "separateMinorPatch": true
+    },
+    {
       "groupName": "system-upgrade-controller-suite",
-      "matchDatasources": [
-        "docker",
-        "github-tags"
-      ],
-      "matchPackagePatterns": [
-        "rancher/system-upgrade-controller"
-      ],
+      "matchDatasources": ["docker", "github-tags"],
+      "matchPackagePatterns": ["rancher/system-upgrade-controller"],
+      "additionalBranchPrefix": "",
+      "separateMinorPatch": true
+    },
+    {
+      "groupName": "vector-suite",
+      "matchDatasources": ["docker", "github-releases", "helm"],
+      "matchPackagePatterns": ["vector"],
       "additionalBranchPrefix": "",
       "separateMinorPatch": true
     }
