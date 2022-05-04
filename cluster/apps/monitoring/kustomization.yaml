@@ -12,3 +12,5 @@ resources:
   - node-problem-detector
   - karma
   - vector
+  - goldilocks
+  - vpa

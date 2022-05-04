@@ -25,3 +25,4 @@ resources:
   - stakater-charts.yaml
   - weaveworks-kured-charts.yaml
   - vector-charts.yaml
+  - fairwinds-charts.yaml
