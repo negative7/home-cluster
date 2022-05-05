@@ -38,6 +38,8 @@ spec:
                 pathType: Prefix
     resources:
       requests:
-        memory: 256Mi
+        cpu: 15m
+        memory: 105M
       limits:
-        memory: 768Mi
+        cpu: 15m
+        memory: 105M
