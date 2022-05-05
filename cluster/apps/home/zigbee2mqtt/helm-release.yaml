@@ -76,6 +76,6 @@ spec:
         requiredDuringSchedulingIgnoredDuringExecution:
           nodeSelectorTerms:
             - matchExpressions:
-                - key: "feature.node.kubernetes.io/custom-zigbee"
-                  operator: In,
+                - key: feature.node.kubernetes.io/custom-zigbee
+                  operator: In
                   values: ["true"]
