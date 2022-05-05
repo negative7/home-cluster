@@ -11,3 +11,4 @@ metadata:
     role: openfaas-system
     access: openfaas-system
     istio-injection: enabled
+    goldilocks.fairwinds.com/enabled: "true"

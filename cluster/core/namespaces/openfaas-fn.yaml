@@ -10,3 +10,4 @@ metadata:
   labels:
     istio-injection: enabled
     role: openfaas-fn
+    goldilocks.fairwinds.com/enabled: "true"
