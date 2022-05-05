@@ -65,6 +65,8 @@ spec:
       advanced:
         log_output:
           - console
+        network_key: GENERATE
+        pan_id: GENERATE
       frontend:
         port: 8080
     securityContext:
@@ -74,8 +76,6 @@ spec:
         requiredDuringSchedulingIgnoredDuringExecution:
           nodeSelectorTerms:
             - matchExpressions:
-                - {
-                  key: "feature.node.kubernetes.io/custom-zigbee",
+                - key: "feature.node.kubernetes.io/custom-zigbee"
                   operator: In,
-                  values: ["true"],
-                }
+                  values: ["true"]
