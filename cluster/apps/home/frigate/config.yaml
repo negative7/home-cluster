@@ -1,0 +1,79 @@
+---
+logger:
+  default: info
+  logs:
+    frigate.record: debug
+
+mqtt:
+  host: mosquitto
+  topic_prefix: frigate
+  user: ${SECRET_MQTT_USERNAME}
+  password: ${SECRET_MQTT_PASSWORD}
+
+database:
+  path: /data/frigate.db
+
+detectors:
+  cpu1:
+    type: cpu
+  cpu2:
+    type: cpu
+  cpu3:
+    type: cpu
+  cpu4:
+    type: cpu
+
+objects:
+  track:
+    - person
+  filters:
+    person:
+      min_area: 2500
+      max_area: 100000
+      threshold: 0.7
+
+ffmpeg:
+  hwaccel_args:
+    - -hwaccel
+    - vaapi
+    - -hwaccel_device
+    - /dev/dri/renderD128
+    - -hwaccel_output_format
+    - yuv420p
+
+rtmp:
+  enabled: true
+
+snapshots:
+  enabled: true
+  timestamp: false
+  bounding_box: true
+  retain:
+    default: 7
+
+record:
+  enabled: true
+  retain:
+    days: 2
+    mode: motion
+  events:
+    retain:
+      default: 5
+      mode: active_objects
+
+cameras:
+  # --
+  frigate_doorbell:
+    ffmpeg:
+      inputs:
+        - path: rtsps://10.0.1.1:7441/ugoKFUmUYJNvIshU
+          roles:
+            - detect
+        - path: rtsps://10.0.1.1:7441/ACDMjj7hyTvuDhID
+          roles:
+            - rtmp
+            - record
+    detect:
+      width: 960
+      height: 720
+      fps: 15
