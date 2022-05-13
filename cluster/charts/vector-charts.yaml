@@ -2,9 +2,9 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
 metadata:
-  name: stakater-charts
+  name: vector-charts
   namespace: flux-system
 spec:
-  interval: 10m
-  url: https://stakater.github.io/stakater-charts
+  interval: 1h
+  url: https://helm.vector.dev
   timeout: 3m
