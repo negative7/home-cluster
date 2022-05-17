@@ -13,7 +13,6 @@ env:
   KUBECONFIG: "{{.CLUSTER_DIR}}/kubeconfig"
 
 includes:
-  blocky: .taskfiles/blocky.yml
   formatter: .taskfiles/formatter.yml
   linter: .taskfiles/linter.yml
 
