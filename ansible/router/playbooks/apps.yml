@@ -6,4 +6,4 @@
   any_errors_fatal: true
   roles:
     - role: adguardhome.router
-#    - role: coredns.router
+    - role: coredns.router
