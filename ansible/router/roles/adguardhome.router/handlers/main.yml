@@ -1,0 +1,4 @@
+---
+- name: Restart adguardhome
+  ansible.builtin.shell: |
+    podman restart adguardhome
