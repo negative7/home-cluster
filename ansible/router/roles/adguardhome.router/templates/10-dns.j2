@@ -3,6 +3,7 @@
 ## configuration variables:
 VLAN=5
 IPV4_IP="10.0.5.3"
+IPV4_IP_CORE="10.0.5.53"
 # This is the IP address of the container. You may want to set it to match
 # your own network structure such as 192.168.5.3 or similar.
 IPV4_GW="10.0.5.1/24"
@@ -56,6 +57,7 @@ ip link set "br${VLAN}.mac" up
 
 # add IPv4 route to DNS container
 ip route add "${IPV4_IP}/32" dev "br${VLAN}.mac"
+ip route add "${IPV4_IP_CORE}/32" dev "br${VLAN}.mac"
 
 # (optional) add IPv6 route to DNS container
 if [ -n "${IPV6_IP}" ]; then
