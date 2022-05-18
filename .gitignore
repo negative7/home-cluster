@@ -24,9 +24,9 @@ terraform.tfstate*
 *.agekey
 # Kubernetes
 kubeconfig*
-talosconfig
-# NAS
-secrets.json
+talosconfig*
+*.pub
+*.key
 # Other
 report.html
 init.md

@@ -1,14 +1,14 @@
 ---
 creation_rules:
-
   - path_regex: terraform/.*\.sops\.ya?ml
-    unencrypted_regex: '^(kind)$'
-    pgp: >-
-      496684211657C1F26B55D744102C78295E1CC929,
-      48F8FDE41601D8035FEB645AE7023041350E9E81
-
+    unencrypted_regex: "^(kind)$"
+    age: >-
+      age1tlmg2hsr6nag9cq6ws3h5r7fpzw6ekdh35av69uzetrth46f9vpsa8hqz9
+  - path_regex: ansible/.*\.sops\.ya?ml
+    unencrypted_regex: "^(kind)$"
+    age: >-
+      age1tlmg2hsr6nag9cq6ws3h5r7fpzw6ekdh35av69uzetrth46f9vpsa8hqz9
   - path_regex: cluster/.*\.ya?ml
-    encrypted_regex: '^(data|stringData)$'
-    pgp: >-
-      496684211657C1F26B55D744102C78295E1CC929,
-      48F8FDE41601D8035FEB645AE7023041350E9E81
+    encrypted_regex: "^(data|stringData)$"
+    age: >-
+      age1tlmg2hsr6nag9cq6ws3h5r7fpzw6ekdh35av69uzetrth46f9vpsa8hqz9
