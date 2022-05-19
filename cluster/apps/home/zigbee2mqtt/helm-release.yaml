@@ -53,6 +53,8 @@ spec:
         type: hostPath
         hostPath: /dev/serial/by-id/usb-1a86_USB_Serial-if00-port0
         hostPathType: CharDevice
+    securityContext:
+      privileged: true
     affinity:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
