@@ -2,14 +2,14 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: zigbee2mqtt
+  name: &app zigbee2mqtt
   namespace: home
 spec:
   interval: 5m
   chart:
     spec:
-      chart: zigbee2mqtt
-      version: 9.3.2
+      chart: kah-common-chart
+      version: 1.1.2
       sourceRef:
         kind: HelmRepository
         name: k8s-at-home-charts
@@ -18,21 +18,31 @@ spec:
   install:
     createNamespace: true
   values:
+    global:
+      nameOverride: *app
     image:
       repository: ghcr.io/koenkk/zigbee2mqtt
       tag: 1.25.1
     env:
       TZ: "${TIMEZONE}"
       ZIGBEE2MQTT_DATA: /data
+    service:
+      main:
+        ports:
+          http:
+            port: 8080
     ingress:
       main:
         enabled: true
         ingressClassName: "nginx"
         hosts:
-          - host: &host "zigbee2mqtt.${SECRET_PUBLIC_DOMAIN}"
+          - host: &host "{{ .Release.Name }}.${SECRET_PUBLIC_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
+        tls:
+          - hosts:
+              - *host
     persistence:
       config:
         enabled: true
@@ -43,34 +53,6 @@ spec:
         type: hostPath
         hostPath: /dev/serial/by-id/usb-1a86_USB_Serial-if00-port0
         hostPathType: CharDevice
-    resources:
-      requests:
-        memory: 100Mi
-        cpu: 100m
-      limits:
-        memory: 500Mi
-    config:
-      homeassistant: true
-      device_options:
-        retain: true
-      permit_join: false
-      mqtt:
-        base_topic: zigbee2mqtt
-        server: "mqtt://mosquitto"
-        user: "${SECRET_Z2MQTT_USERNAME}"
-        password: "${SECRET_Z2MQTT_PASSWORD}"
-        include_device_information: true
-      serial:
-        port: /dev/serial/by-id/usb-1a86_USB_Serial-if00-port0
-      advanced:
-        log_output:
-          - console
-        network_key: GENERATE
-        pan_id: GENERATE
-      frontend:
-        port: 8080
-    securityContext:
-      privileged: true
     affinity:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
@@ -79,3 +61,9 @@ spec:
                 - key: feature.node.kubernetes.io/custom-zigbee
                   operator: In
                   values: ["true"]
+    resources:
+      requests:
+        cpu: 100m
+        memory: 100Mi
+      limits:
+        memory: 500Mi
