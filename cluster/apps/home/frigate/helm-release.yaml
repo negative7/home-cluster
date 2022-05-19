@@ -17,13 +17,22 @@ spec:
       interval: 5m
   install:
     createNamespace: true
+  dependsOn:
+    - name: intel-gpu-plugin
+      namespace: kube-system
+    - name: node-feature-discovery
+      namespace: kube-system
   values:
-    fullnameOverride: *app
+    global:
+      nameOverride: *app
     image:
       repository: docker.io/blakeblackshear/frigate
-      tag: 0.10.1-amd64
+      tag: 0.11.0-beta2
     env:
       TZ: "${TIMEZONE}"
+    envFrom:
+      - secretRef:
+          name: *app
     service:
       main:
         ports:
@@ -66,7 +75,7 @@ spec:
         enabled: true
         ingressClassName: "nginx"
         hosts:
-          - host: &host "frigate.${SECRET_PUBLIC_DOMAIN}"
+          - host: &host "{{ .Release.Name }}.${SECRET_PUBLIC_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
@@ -108,9 +117,3 @@ spec:
       limits:
         memory: 6000Mi
         gpu.intel.com/i915: "1"
-  valuesFrom:
-    - kind: Secret
-      name: *app
-      valuesKey: mqtt_password
-      targetPath: env.FRIGATE_MQTT_PASSWORD
-      optional: false
