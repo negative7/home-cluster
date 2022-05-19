@@ -34,6 +34,9 @@ spec:
         type: LoadBalancer
         LoadBalancerIP: "${SVC_HOME_ASSISTANT_ADDRESS}"
         externalTrafficPolicy: Local
+        ports:
+          http:
+            port: 8123
     ingress:
       main:
         enabled: true
