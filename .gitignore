@@ -30,4 +30,3 @@ talosconfig*
 # Other
 report.html
 init.md
-ansible/router/roles/coredns.router/*
