@@ -19,24 +19,7 @@ spec:
     persistence:
       defaultClass: true
       defaultClassReplicaCount: 3
-      reclaimPolicy: Retain
-      recurringJobs:
-        enable: false
-        jobList:
-          [
-            {
-              "name": "snap",
-              "task": "snapshot",
-              "cron": "0 2 * * * *",
-              "retain": 10,
-            },
-            {
-              "name": "backup",
-              "task": "backup",
-              "cron": "0 2 * * *",
-              "retain": 10,
-            },
-          ]
+      reclaimPolicy: Delete
     csi:
       kubeletRootDir: /var/lib/kubelet
     defaultSettings:
