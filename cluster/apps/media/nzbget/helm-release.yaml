@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: nzbget
+  name: &app nzbget
   namespace: media
 spec:
   interval: 5m
