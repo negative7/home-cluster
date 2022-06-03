@@ -5,7 +5,7 @@ metadata:
   name: kyverno
   namespace: kyverno
 spec:
-  interval: 5m
+  interval: 15m
   chart:
     spec:
       chart: kyverno
@@ -14,7 +14,7 @@ spec:
         kind: HelmRepository
         name: kyverno-charts
         namespace: flux-system
-      interval: 5m
+      interval: 15m
   install:
     createNamespace: true
     remediation:
@@ -24,15 +24,6 @@ spec:
       retries: 5
   values:
     installCRDs: false
-    # TODO(kyverno): change mode to ha on next version
-    mode: standalone
     replicaCount: 3
-    topologySpreadConstraints:
-      - maxSkew: 1
-        topologyKey: kubernetes.io/hostname
-        whenUnsatisfiable: DoNotSchedule
-        labelSelector:
-          matchLabels:
-            app.kubernetes.io/instance: kyverno
     serviceMonitor:
       enabled: true
