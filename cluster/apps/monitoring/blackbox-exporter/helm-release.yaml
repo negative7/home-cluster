@@ -50,9 +50,6 @@ spec:
           name: udm
           url: 10.0.1.1
         - module: icmp
-          name: miner
-          url: 10.0.4.250
-        - module: icmp
           name: freenas
           url: ${SECRET_MINIO_IP}
         - module: icmp

@@ -87,10 +87,6 @@ spec:
               matchers:
                 - severity = "critical"
               continue: true
-            - receiver: "nodered"
-              matchers:
-                - alertname = "MinerDown"
-              continue: true
         inhibit_rules:
           - source_matchers:
               - severity = "critical"

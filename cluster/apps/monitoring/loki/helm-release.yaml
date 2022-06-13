@@ -103,17 +103,3 @@ spec:
               category: logs
             annotations:
               summary: "Zigbee2mqtt is unable to reach MQTT"
-      #
-      # Miner Failures
-      #
-      - name: gminer-failure
-        rules:
-          - alert: GminerFailures
-            expr: |
-              absent_over_time({job="gminer"}[2m])
-            for: 2m
-            labels:
-              severity: critical
-              category: logs
-            annotations:
-              summary: "Gminer logs are missing"

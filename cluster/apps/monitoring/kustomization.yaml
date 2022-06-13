@@ -8,7 +8,6 @@ resources:
   - loki
   - thanos
   - unifi-poller
-  - gminer-exporter
   - node-problem-detector
   - karma
   - vector
