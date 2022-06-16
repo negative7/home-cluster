@@ -221,7 +221,6 @@ spec:
             static_configs:
               - targets:
                   - ${SECRET_MINIO_IP}:9100
-                  - 10.0.4.250:9100
                   - 10.0.1.1:9100
           - job_name: coredns
             honor_timestamps: true
