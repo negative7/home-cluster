@@ -61,8 +61,8 @@ spec:
         existingClaim: esphome-config-v1
     resources:
       requests:
-        cpu: 15m
-        memory: 105M
+        cpu: 45m
+        memory: 127M
       limits:
-        cpu: 15m
-        memory: 105M
+        cpu: 45m
+        memory: 127M
