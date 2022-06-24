@@ -1,5 +1,5 @@
 sonarr:
-  - base_url: http://sonarr.organizarrs:8989
+  - base_url: http://sonarr:8989
     api_key: ${SONARR_APIKEY}
     quality_definition: hybrid
     release_profiles:
