@@ -9,7 +9,6 @@ resources:
   - thanos
   - unifi-poller
   - node-problem-detector
-  - karma
   - vector
   - goldilocks
   - vpa
