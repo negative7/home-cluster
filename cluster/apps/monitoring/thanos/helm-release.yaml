@@ -77,7 +77,7 @@ spec:
       persistence:
         enabled: true
         storageClass: "longhorn"
-        size: 5Gi
+        size: 20Gi
     storegateway:
       enabled: true
       replicaCount: 3
@@ -93,7 +93,7 @@ spec:
       persistence:
         enabled: true
         storageClass: "longhorn"
-        size: 1Gi
+        size: 20Gi
     ruler:
       enabled: true
       replicaCount: 3
@@ -122,7 +122,7 @@ spec:
       persistence:
         enabled: true
         storageClass: "longhorn"
-        size: 250Mi
+        size: 20Gi
     metrics:
       enabled: true
       serviceMonitor:
