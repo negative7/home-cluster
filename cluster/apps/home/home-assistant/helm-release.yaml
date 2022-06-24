@@ -34,6 +34,7 @@ spec:
       - secretRef:
           name: *app
     dnsPolicy: ClusterFirstWithHostNet
+    hostNetwork: true
     service:
       main:
         type: LoadBalancer
