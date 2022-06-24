@@ -30,12 +30,13 @@ spec:
       tag: 2022.6.2
     env:
       TZ: "${TIMEZONE}"
-      ESPHOME_DASHBOARD_USE_PING: true
     service:
       main:
         ports:
           http:
             port: 6052
+    hostNetwork: true
+    dnsPolicy: ClusterFirstWithHostNet
     ingress:
       main:
         enabled: true
