@@ -5,7 +5,7 @@ metadata:
   name: kube-prometheus-stack
   namespace: monitoring
 spec:
-  interval: 5m
+  interval: 15m
   chart:
     spec:
       chart: kube-prometheus-stack
@@ -14,14 +14,14 @@ spec:
         kind: HelmRepository
         name: prometheus-community-charts
         namespace: flux-system
-      interval: 5m
+      interval: 15m
   install:
     createNamespace: true
     remediation:
-      retries: 3
+      retries: 5
   upgrade:
     remediation:
-      retries: 3
+      retries: 5
   values:
     alertmanager:
       config:
@@ -113,6 +113,9 @@ spec:
               resources:
                 requests:
                   storage: 1Gi
+    kube-state-metrics:
+      metricLabelsAllowlist:
+        - "persistentvolumeclaims=[*]"
       prometheus:
         monitor:
           enabled: true
@@ -187,13 +190,16 @@ spec:
         enabled: true
       prometheusSpec:
         replicas: 3
-        replicaExternalLabelName: "replica"
+        replicaExternalLabelName: __replica__
+        externalLabels:
+          cluster: home-ops
         podAntiAffinity: hard
+        retentionSize: "6GB"
         ruleSelectorNilUsesHelmValues: false
         serviceMonitorSelectorNilUsesHelmValues: false
         podMonitorSelectorNilUsesHelmValues: false
         probeSelectorNilUsesHelmValues: false
-        retention: 6h
+        retention: 2d
         enableAdminAPI: true
         walCompression: true
         storageSpec:
@@ -205,16 +211,17 @@ spec:
                   storage: 10Gi
         thanos:
           image: quay.io/thanos/thanos:v0.26.0
-          version: v0.22.0
+          # renovate: datasource=docker depName=quay.io/thanos/thanos
+          version: "v0.26.0"
           objectStorageConfig:
             name: thanos-objstore
             key: objstore.yml
         resources:
           requests:
-            cpu: 250m
+            cpu: 10m
             memory: 2000Mi
           limits:
-            memory: 6000Mi
+            memory: 8000Mi
         additionalScrapeConfigs:
           - job_name: "node-exporter"
             honor_timestamps: true
