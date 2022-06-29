@@ -6,3 +6,4 @@ resources:
   - kube-prometheus-stack
   - system-upgrade-controller
   - kyverno
+  - node-feature-discovery
