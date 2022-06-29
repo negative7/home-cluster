@@ -69,5 +69,4 @@ spec:
         data:
           startup.sh: |
             #!/bin/sh
-            apk add --no-cache ffmpeg ffmpeg-libs
             npm install homebridge-unifi-protect
