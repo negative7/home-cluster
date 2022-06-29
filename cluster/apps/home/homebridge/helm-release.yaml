@@ -5,37 +5,40 @@ metadata:
   name: homebridge
   namespace: home
 spec:
-  interval: 5m
+  interval: 10m
   chart:
     spec:
       chart: homebridge
       version: 5.1.2
       sourceRef:
         kind: HelmRepository
-        name: k8s-at-home-charts
+        name: k8s-at-home
         namespace: flux-system
-      interval: 5m
+  install:
+    remediation:
+      retries: 5
+  upgrade:
+    remediation:
+      retries: 5
   values:
     image:
       repository: ghcr.io/oznu/homebridge
-      tag: "2022-04-28"
-    controller:
-      enabled: true
-      replicas: 1
-      strategy: RollingUpdate
+      tag: latest@sha256:f36c618ada44490c5a25c15f65f9a42fee6a5b2e408ede121f6edce67eedb6a9
     env:
       TZ: "America/New_York"
       PUID: 568
       PGID: 568
       HOMEBRIDGE_CONFIG_UI: 1
       HOMEBRIDGE_CONFIG_UI_PORT: 8581
+      ENABLE_AVAHI: 1
     hostNetwork: true
     dnsPolicy: ClusterFirstWithHostNet
     service:
       main:
+        enabled: true
         ports:
           http:
-            port: 8581
+            port: &port 8581
     persistence:
       config:
         enabled: true
@@ -51,6 +54,15 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
+    probes:
+      liveness:
+        enabled: true
+        custom: true
+        spec:
+          httpGet:
+            path: /login
+            port: *port
+          initialDelaySeconds: 30
     configmap:
       scripts:
         enabled: true
@@ -59,4 +71,3 @@ spec:
             #!/bin/sh
             apk add --no-cache ffmpeg ffmpeg-libs
             npm install homebridge-unifi-protect
-            npm install homebridge-z2m
