@@ -188,6 +188,18 @@ spec:
         enabled: true
       thanosServiceMonitor:
         enabled: true
+      thanosIngress:
+        enabled: true
+        pathType: Prefix
+        ingressClassName: "nginx"
+        annotations:
+          nginx.ingress.kubernetes.io/ssl-redirect: "true"
+          nginx.ingress.kubernetes.io/backend-protocol: "GRPC"
+        hosts:
+          - &host "thanos-sidecar.${SECRET_PUBLIC_DOMAIN}"
+        tls:
+          - hosts:
+              - *host
       prometheusSpec:
         replicas: 3
         replicaExternalLabelName: __replica__
