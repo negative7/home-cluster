@@ -80,9 +80,6 @@ spec:
             - receiver: "null"
               matchers:
                 - alertname =~ "InfoInhibitor|Watchdog"
-            - receiver: "null"
-              match:
-                alertname: Watchdog
             - receiver: "slack"
               matchers:
                 - severity = "critical"
