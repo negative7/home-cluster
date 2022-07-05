@@ -5,18 +5,23 @@ metadata:
   name: loki
   namespace: monitoring
 spec:
-  interval: 5m
+  interval: 15m
   chart:
     spec:
-      chart: loki
-      version: 2.12.2
+      chart: loki-simple-scalable
+      version: 1.4.3
       sourceRef:
         kind: HelmRepository
         name: grafana-charts
         namespace: flux-system
-      interval: 5m
+      interval: 15m
   install:
     createNamespace: true
+    remediation:
+      retries: 5
+  upgrade:
+    remediation:
+      retries: 5
   values:
     ingress:
       enabled: true
