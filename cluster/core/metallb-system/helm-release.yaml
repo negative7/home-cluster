@@ -16,22 +16,12 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
-    configInline:
-      address-pools:
-        - name: default
-          protocol: layer2
-          addresses:
-            - "${METALLB_LB_RANGE}"
-    prometheusRule:
-      enabled: true
-    controller:
-      prometheus:
-        serviceMonitor:
-          enabled: true
+    prometheus:
+      podMonitor:
+        enabled: true
+      prometheusRule:
+        enabled: true
     speaker:
-      prometheus:
-        serviceMonitor:
-          enabled: true
       tolerations:
         - effect: "NoExecute"
           operator: "Exists"
