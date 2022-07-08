@@ -7,3 +7,4 @@ resources:
   - system-upgrade-controller
   - kyverno
   - node-feature-discovery
+  - metallb
