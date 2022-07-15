@@ -6,6 +6,5 @@ resources:
   - home-assistant
   - mosquitto
   - homebridge
-  - node-red
   - frigate
   - esphome
