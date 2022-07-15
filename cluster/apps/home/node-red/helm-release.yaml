@@ -26,7 +26,7 @@ spec:
     global:
       nameOverride: *app
     image:
-      repository: nodered/node-red-docker
+      repository: nodered/node-red
       tag: v3.0.0
     env:
       TZ: "${TIMEZONE}"
