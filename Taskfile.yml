@@ -12,13 +12,11 @@ env:
 includes:
   ansible: .taskfiles/AnsibleTasks.yml
   cluster: .taskfiles/ClusterTasks.yml
-  format: .taskfiles/FormatTasks.yml
-  linter: .taskfiles/LintTasks.yml
+  debug: .taskfiles/DebugTasks.yml
   precommit: .taskfiles/PreCommitTasks.yml
   terraform: .taskfiles/TerraformTasks.yml
 
 tasks:
-
   kubeconfig:
     desc: Remotely fetch kubeconfig from Kubernetes
     cmds:
