@@ -2,26 +2,38 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: overseerr
-  namespace: media
+  name: &app overseerr
+  namespace: default
 spec:
-  interval: 5m
+  interval: 15m
   chart:
     spec:
-      chart: overseerr
-      version: 5.3.2
+      chart: app-template
+      version: 0.1.1
       sourceRef:
         kind: HelmRepository
-        name: k8s-at-home-charts
+        name: bjw-s-charts
         namespace: flux-system
-      interval: 5m
+  install:
+    createNamespace: true
+    remediation:
+      retries: 5
+  upgrade:
+    remediation:
+      retries: 5
   values:
     image:
-      repository: sctx/overseerr
+      repository: ghcr.io/sct/overseerr
       tag: 1.29.1
     env:
-      TZ: "America/New_York"
+      TZ: "${TIMEZONE}"
       LOG_LEVEL: "info"
+      PORT: &port 80
+    service:
+      main:
+        ports:
+          http:
+            port: *port
     ingress:
       main:
         enabled: true
@@ -29,13 +41,13 @@ spec:
         annotations:
           external-dns.home.arpa/enabled: "true"
         hosts:
-          - host: "requests.${SECRET_PUBLIC_DOMAIN}"
+          - host: &host "requests.${SECRET_PUBLIC_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
         tls:
           - hosts:
-              - "requests.${SECRET_PUBLIC_DOMAIN}"
+              - *host
     persistence:
       config:
         enabled: true
@@ -43,7 +55,7 @@ spec:
         mountPath: /app/config
     resources:
       requests:
+        cpu: 10m
         memory: 250Mi
-        cpu: 500m
       limits:
-        memory: 1500Mi
+        memory: 500Mi

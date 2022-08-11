@@ -3,11 +3,11 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: home-assistant-config-v1
-  namespace: home
+  namespace: default
   labels:
-    recurring-job-group.longhorn.io/default: enabled
-    recurring-job.longhorn.io/snapshot-1: enabled
-    recurring-job.longhorn.io/backup-1: enabled
+    app.kubernetes.io/name: &name home-assistant
+    app.kubernetes.io/instance: *name
+    snapshot.home.arpa/enabled: "true"
 spec:
   accessModes:
     - ReadWriteOnce

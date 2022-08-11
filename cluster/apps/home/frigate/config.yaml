@@ -33,6 +33,11 @@ objects:
       threshold: 0.7
 
 ffmpeg:
+  global_args:
+    - -hide_banner
+    - -loglevel
+    - warning
+    - -an
   hwaccel_args:
     - -hwaccel
     - vaapi
@@ -40,8 +45,8 @@ ffmpeg:
     - /dev/dri/renderD128
     - -hwaccel_output_format
     - yuv420p
-  output_args:
-    record: -f segment -segment_time 10 -segment_format mp4 -reset_timestamps 1 -strftime 1 -c:v copy -c:a aac
+  # output_args:
+  #   record: -f segment -segment_time 10 -segment_format mp4 -reset_timestamps 1 -strftime 1 -c:v copy -c:a aac
 
 rtmp:
   enabled: true
@@ -77,4 +82,4 @@ cameras:
     detect:
       width: 960
       height: 720
-      fps: 15
+      fps: 10

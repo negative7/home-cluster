@@ -2,49 +2,59 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: radarr
-  namespace: media
+  name: &app radarr
+  namespace: default
 spec:
-  interval: 5m
+  interval: 15m
   chart:
     spec:
-      chart: radarr
-      version: 16.2.3
+      chart: app-template
+      version: 0.1.1
       sourceRef:
         kind: HelmRepository
-        name: k8s-at-home-charts
+        name: bjw-s-charts
         namespace: flux-system
-      interval: 5m
+  install:
+    createNamespace: true
+    remediation:
+      retries: 5
+  upgrade:
+    remediation:
+      retries: 5
   values:
     image:
       repository: ghcr.io/k8s-at-home/radarr-develop
       tag: v4.2.0.6438
     env:
-      TZ: "America/New_York"
+      TZ: "${TIMEZONE}"
+      RADARR__INSTANCE_NAME: Radarr (UHD)
+      RADARR__PORT: &port 80
+      RADARR__APPLICATION_URL: "https://{{ .Release.Name }}.${SECRET_PUBLIC_DOMAIN}"
+      RADARR__LOG_LEVEL: info
+    service:
+      main:
+        ports:
+          http:
+            port: *port
     ingress:
       main:
         enabled: true
         ingressClassName: "nginx"
         hosts:
-          - host: "radarr.${SECRET_PUBLIC_DOMAIN}"
+          - host: *host
             paths:
               - path: /
                 pathType: Prefix
-    metrics:
-      enabled: true
-      serviceMonitor:
-        interval: 3m
-        scrapeTimeout: 1m
-      prometheusRule:
-        enabled: true
-      exporter:
-        image:
-          repository: ghcr.io/onedr0p/exportarr
-          tag: v1.1.0
-        env:
-          port: 9794
-          additionalMetrics: true
-          unknownQueueItems: false
+        tls:
+          - hosts:
+              - *host
+    podSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
+      fsGroupChangePolicy: "OnRootMismatch"
+      supplementalGroups:
+        - 100
     persistence:
       config:
         enabled: true
@@ -59,20 +69,20 @@ spec:
         accessMode: ReadWriteMany
       backup:
         enabled: true
-        type: custom
-        volumeSpec:
-          nfs:
-            server: "freenas.${SECRET_PUBLIC_DOMAIN}"
-            path: /mnt/tank/backups/radarr
+        type: nfs
+        server: "freenas.${SECRET_PUBLIC_DOMAIN}"
+        path: /mnt/tank/backups/radarr
         mountPath: /config/Backups
-        readOnly: false
-    podSecurityContext:
-      runAsUser: 1001
-      runAsGroup: 1001
-      fsGroup: 1001
+    # podSecurityContext:
+    #   runAsUser: 1001
+    #   runAsGroup: 1001
+    #   fsGroup: 1001
+    podAnnotations:
+      configmap.reloader.stakater.com/reload: radarr
+      secret.reloader.stakater.com/reload: radarr
     resources:
       requests:
+        cpu: 10m
         memory: 250Mi
-        cpu: 500m
       limits:
-        memory: 1500Mi
+        memory: 1000Mi

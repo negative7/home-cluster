@@ -2,21 +2,30 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: plex
-  namespace: media
+  name: &app plex
+  namespace: default
 spec:
-  interval: 5m
+  interval: 15m
   chart:
     spec:
-      chart: plex
-      version: 6.3.4
+      chart: app-template
+      version: 0.1.1
       sourceRef:
         kind: HelmRepository
-        name: k8s-at-home-charts
+        name: bjw-s-charts
         namespace: flux-system
-      interval: 5m
   install:
     createNamespace: true
+    remediation:
+      retries: 5
+  upgrade:
+    remediation:
+      retries: 5
+  dependsOn:
+    - name: intel-gpu-plugin
+      namespace: kube-system
+    - name: node-feature-discovery
+      namespace: kube-system
   values:
     image:
       repository: ghcr.io/k8s-at-home/plex
@@ -28,21 +37,32 @@ spec:
         type: LoadBalancer
         loadBalancerIP: ${SVC_PLEX_ADDR}
         externalTrafficPolicy: Local
+        ports:
+          http:
+            port: 32400
     ingress:
       main:
         enabled: true
         ingressClassName: "nginx"
         annotations:
           external-dns.home.arpa/enabled: "true"
-          nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
         hosts:
-          - host: &host "plex.${SECRET_PUBLIC_DOMAIN}"
+          - host: &host "{{ .Release.Name }}.${SECRET_PUBLIC_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
         tls:
           - hosts:
               - *host
+    podSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
+      fsGroupChangePolicy: "OnRootMismatch"
+      supplementalGroups:
+        - 44
+        - 109
+        - 100
     persistence:
       config:
         enabled: true
@@ -89,20 +109,18 @@ spec:
                   operator: In
                   values:
                     - "true"
-    podSecurityContext:
-      runAsUser: 1000
-      runAsGroup: 1000
-      supplementalGroups:
-        - 44
-        - 109
-        - 100
-    podAnnotations:
-      configmap.reloader.stakater.com/reload: "plex-promtail"
+    # podSecurityContext:
+    #   runAsUser: 1000
+    #   runAsGroup: 1000
+    #   supplementalGroups:
+    #     - 44
+    #     - 109
+    #     - 100
     resources:
       requests:
         gpu.intel.com/i915: 1
-        cpu: 1000m
-        memory: 1000Mi
+        cpu: 100m
+        memory: 2000Mi
       limits:
         gpu.intel.com/i915: 1
-        memory: 16000Mi
+        memory: 10000Mi

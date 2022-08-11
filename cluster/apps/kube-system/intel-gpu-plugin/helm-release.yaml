@@ -5,20 +5,26 @@ metadata:
   name: &app intel-gpu-plugin
   namespace: kube-system
 spec:
-  interval: 5m
+  interval: 15m
   chart:
     spec:
-      chart: kah-common-chart
-      version: 1.1.2
+      chart: app-template
+      version: 0.1.1
       sourceRef:
         kind: HelmRepository
-        name: k8s-at-home-charts
+        name: bjw-s-charts
         namespace: flux-system
-      interval: 5m
   install:
     createNamespace: true
+    remediation:
+      retries: 5
+  upgrade:
+    remediation:
+      retries: 5
+  dependsOn:
+    - name: node-feature-discovery
+      namespace: kube-system
   values:
-    fullnameOverride: *app
     controller:
       type: daemonset
       strategy: RollingUpdate
@@ -27,10 +33,11 @@ spec:
       tag: 0.24.0
     args:
       - -shared-dev-num
-      - "1"
+      - "4"
     service:
       main:
         enabled: false
+    # TODO(intel-gpu-plugin): Write probes to check for something to tell if it's working
     probes:
       liveness:
         enabled: false
