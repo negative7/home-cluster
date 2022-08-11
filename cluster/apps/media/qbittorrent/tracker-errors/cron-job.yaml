@@ -3,7 +3,7 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: qbittorrent-tracker-errors
-  namespace: default
+  namespace: media
 spec:
   schedule: "@hourly"
   jobTemplate:
