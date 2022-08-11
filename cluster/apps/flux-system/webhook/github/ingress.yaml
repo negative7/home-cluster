@@ -5,15 +5,14 @@ metadata:
   name: webhook-receiver
   namespace: flux-system
   annotations:
-    external-dns/is-public: "true"
-    external-dns.alpha.kubernetes.io/target: "ipv4.${SECRET_PUBLIC_DOMAIN}"
+    external-dns.home.arpa/enabled: "true"
 spec:
   ingressClassName: "nginx"
   rules:
     - host: "flux-webhook.${SECRET_PUBLIC_DOMAIN}"
       http:
         paths:
-          - path: /
+          - path: /hook/
             pathType: Prefix
             backend:
               service:
