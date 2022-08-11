@@ -1,33 +1,33 @@
 {
   "packageRules": [
     {
-      "matchDatasources": [
-        "docker",
-        "github-actions",
-        "github-releases",
-        "github-tags",
-        "helm"
-      ],
+      "description": "Auto merge container digests",
+      "matchDatasources": ["docker"],
+      "automerge": true,
+      "automergeType": "branch",
+      "requiredStatusChecks": null,
+      "matchUpdateTypes": ["digest"],
+      "matchPackagePattern": ["ghcr.io/k8s-at-home", "ghcr.io/onedr0p"]
+    },
+    {
+      "description": "Auto merge containers",
+      "matchDatasources": ["docker"],
+      "automerge": true,
+      "automergeType": "branch",
+      "requiredStatusChecks": null,
+      "matchUpdateTypes": ["minor", "patch"],
+      "matchPackageNames": ["ghcr.io/onedr0p/prowlarr-nightly"]
+    },
+    {
+      "description": "Auto merge GitHub Actions",
+      "matchDatasources": ["github-tags"],
       "automerge": true,
       "automergeType": "branch",
       "requiredStatusChecks": null,
       "matchUpdateTypes": ["minor", "patch"],
       "matchPackageNames": [
-        "ghcr.io/k8s-at-home/plex",
-        "ghcr.io/k8s-at-home/prowlarr-nightly",
-        "ghcr.io/k8s-at-home/jackett",
-        "ghcr.io/k8s-at-home/radarr",
-        "ghcr.io/k8s-at-home/readarr",
-        "ghcr.io/k8s-at-home/sonarr-develop",
-        "ghcr.io/k8s-at-home/plex",
-        "ghcr.io/k8s-at-home/nzbget",
-        "ghcr.io/k8s-at-home/tautulli",
-        "renovatebot/github-action",
         "lycheeverse/lychee-action",
-        "peter-evans/find-comment",
-        "peter-evans/create-or-update-comment",
-        "peter-evans/create-issue-from-file",
-        "zricethezav/gitleaks"
+        "renovatebot/github-action"
       ]
     }
   ]
