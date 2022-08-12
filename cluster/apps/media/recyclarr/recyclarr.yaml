@@ -1,5 +1,5 @@
 sonarr:
-  - base_url: http://sonarr:8989
+  - base_url: http://sonarr
     api_key: ${SONARR_APIKEY}
     quality_definition: hybrid
     release_profiles:
@@ -10,7 +10,7 @@ sonarr:
 
 # Configuration specific to Radarr.
 radarr:
-  - base_url: http://radarr:7878
+  - base_url: http://radarr
     api_key: ${RADARR_APIKEY}
     delete_old_custom_formats: true
     quality_definition:
