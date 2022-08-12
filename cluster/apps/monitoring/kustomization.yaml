@@ -7,7 +7,6 @@ resources:
   - kube-prometheus-stack
   - loki
   - thanos
-  - node-problem-detector
   - vector
   - goldilocks
   - vpa
