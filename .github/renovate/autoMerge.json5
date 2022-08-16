@@ -29,6 +29,21 @@
         "lycheeverse/lychee-action",
         "renovatebot/github-action"
       ]
+    },
+    {
+      "description": "Auto merge pre-commit hooks",
+      "matchDatasources": ["github-release"],
+      "automerge": true,
+      "automergeType": "branch",
+      "requiredStatusChecks": null,
+      "matchUpdateTypes": ["minor", "patch"],
+      "matchPackageNames": [
+        "Lucas-C/pre-commit-hooks",
+        "adrienverge/yamllint",
+        "pre-commit/pre-commit-hooks",
+        "sirosen/texthooks",
+        "k8s-at-home/sops-pre-commit"
+      ]
     }
   ]
 }
