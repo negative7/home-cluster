@@ -20,14 +20,15 @@
     },
     {
       "description": "Auto merge GitHub Actions",
-      "matchDatasources": ["github-tags"],
+      "matchDatasources": ["github-tags", "github-actions"],
       "automerge": true,
       "automergeType": "branch",
       "requiredStatusChecks": null,
       "matchUpdateTypes": ["minor", "patch"],
       "matchPackageNames": [
         "lycheeverse/lychee-action",
-        "renovatebot/github-action"
+        "renovatebot/github-action",
+        "oxsecurity/megalinter"
       ]
     },
     {
@@ -44,6 +45,15 @@
         "sirosen/texthooks",
         "k8s-at-home/sops-pre-commit"
       ]
+    },
+    {
+      "description": "Auto merge Helm Realeases",
+      "matchDatasources": ["helm"],
+      "automerge": true,
+      "automergeType": "branch",
+      "requiredStatusChecks": null,
+      "matchUpdateTypes": ["minor", "patch"],
+      "matchPackageNames": ["kube-prometheus-stack"]
     }
   ]
 }
