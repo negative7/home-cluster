@@ -54,6 +54,15 @@
       "requiredStatusChecks": null,
       "matchUpdateTypes": ["minor", "patch"],
       "matchPackageNames": ["kube-prometheus-stack"]
+    },
+    {
+      "description": "Auto merge Helm Realeases",
+      "matchDatasources": ["galaxy", "galaxy-collection"],
+      "automerge": true,
+      "automergeType": "branch",
+      "requiredStatusChecks": null,
+      "matchUpdateTypes": ["minor", "patch"],
+      "matchPackageNames": ["community.docker"]
     }
   ]
 }
