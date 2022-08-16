@@ -9,12 +9,11 @@ spec:
   chart:
     spec:
       chart: loki-simple-scalable
-      version: 1.7.5
+      version: 1.8.9
       sourceRef:
         kind: HelmRepository
         name: grafana-charts
         namespace: flux-system
-      interval: 15m
   install:
     createNamespace: true
     remediation:
@@ -31,7 +30,7 @@ spec:
           http_listen_port: 3100
           grpc_listen_port: 9095
         memberlist:
-          join_members: ["loki-memberlist"]
+          join_members: ['loki-memberlist']
         limits_config:
           retention_period: 14d
           enforce_metric_name: false
@@ -43,7 +42,7 @@ spec:
           ingestion_burst_size_mb: 16
         schema_config:
           configs:
-            - from: "2021-08-01"
+            - from: '2021-08-01'
               store: boltdb-shipper
               object_store: s3
               schema: v11
@@ -56,9 +55,9 @@ spec:
           storage:
             s3:
               bucketnames: loki
-              endpoint: "minio.${SECRET_PUBLIC_DOMAIN}"
-              access_key_id: "${SECRET_MINIO_ACCESS_KEY}"
-              secret_access_key: "${SECRET_MINIO_SECRET_KEY}"
+              endpoint: 'minio.${SECRET_PUBLIC_DOMAIN}'
+              access_key_id: '${SECRET_MINIO_ACCESS_KEY}'
+              secret_access_key: '${SECRET_MINIO_SECRET_KEY}'
               s3forcepathstyle: true
           ring:
             kvstore:
@@ -99,11 +98,9 @@ spec:
       replicas: 3
       ingress:
         enabled: true
-        ingressClassName: "nginx"
-        annotations:
-          nginx.ingress.kubernetes.io/whitelist-source-range: "10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
+        ingressClassName: 'nginx'
         hosts:
-          - host: &host "loki.${SECRET_PUBLIC_DOMAIN}"
+          - host: &host 'loki.${SECRET_PUBLIC_DOMAIN}'
             paths:
               - path: /
                 pathType: Prefix
