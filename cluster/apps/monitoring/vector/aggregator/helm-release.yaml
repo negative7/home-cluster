@@ -5,7 +5,7 @@ metadata:
   name: vector-aggregator
   namespace: monitoring
 spec:
-  interval: 5m
+  interval: 15m
   chart:
     spec:
       chart: vector
@@ -14,13 +14,22 @@ spec:
         kind: HelmRepository
         name: vector-charts
         namespace: flux-system
-      interval: 5m
   install:
     createNamespace: true
+    remediation:
+      retries: 5
+  upgrade:
+    remediation:
+      retries: 5
   dependsOn:
     - name: loki
       namespace: monitoring
   values:
+    image:
+      repository: timberio/vector
+      tag: 0.23.3-debian
+    role: Stateless-Aggregator
+    replicas: 3
     customConfig:
       data_dir: /vector-data-dir
       api:
@@ -37,40 +46,28 @@ spec:
           type: vector
           address: 0.0.0.0:6010
           version: "2"
-        syslog_logs:
-          type: syslog
-          address: 0.0.0.0:6020
-          max_length: 102_400
-          mode: tcp
-          path: "/tmp/syslog_udp"
+        vector_metrics:
+          type: internal_metrics
       #
       # Transformations
       #
+      transforms:
+        kubernetes_logs_remap:
+          type: remap
+          inputs:
+            - kubernetes_logs
+          source: |
+            # Standardize 'app' index
+            .custom_app_name = .pod_labels."app.kubernetes.io/name" || .pod_labels.app || .pod_labels."k8s-app" || "unknown"
       #
       # Sinks
       #
       sinks:
-        loki_syslog:
-          type: loki
-          inputs:
-            - syslog_logs
-          endpoint: http://loki:3100
-          encoding:
-            codec: json
-          batch:
-            max_bytes: 2049000
-          out_of_order_action: accept
-          remove_label_fields: true
-          remove_timestamp: true
-          labels:
-            from: syslog
-            hostname: >-
-              {{`{{ host }}`}}
         loki_journal:
           type: loki
           inputs:
             - journal_logs
-          endpoint: http://loki:3100
+          endpoint: http://loki-gateway:80
           encoding:
             codec: json
           batch:
@@ -84,8 +81,8 @@ spec:
         loki_kubernetes:
           type: loki
           inputs:
-            - kubernetes_logs
-          endpoint: http://loki:3100
+            - kubernetes_logs_remap
+          endpoint: http://loki-gateway:80
           encoding:
             codec: json
           batch:
@@ -95,30 +92,23 @@ spec:
           remove_timestamp: true
           labels:
             app: >-
-              {{`{{ kubernetes.pod_labels.app\.kubernetes\.io/name }}`}}
-            container: >-
-              {{`{{ kubernetes.container_name }}`}}
+              {{`{{ custom_app_name }}`}}
             namespace: >-
               {{`{{ kubernetes.pod_namespace }}`}}
             node: >-
               {{`{{ kubernetes.pod_node_name }}`}}
-            pod: >-
-              {{`{{ kubernetes.pod_name }}`}}
-    image:
-      repository: timberio/vector
-      tag: 0.23.3-debian
-    role: Stateless-Aggregator
-    replicas: 1
-    env:
-      - name: VECTOR_LOG
-        value: debug
-    podMonitor:
-      enabled: true
+        prometheus_sink:
+          type: prometheus_exporter
+          inputs:
+            - vector_metrics
+          address: 0.0.0.0:9090
     service:
       enabled: true
       type: LoadBalancer
-      loadBalancerIP: ${SVC_SYSLOG_ADDR}
-      externalTrafficPolicy: Local
+    podMonitor:
+      enabled: true
+      jobLabel: vector-aggregator
+      port: prometheus-sink
     affinity:
       podAntiAffinity:
         preferredDuringSchedulingIgnoredDuringExecution:
