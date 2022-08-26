@@ -28,3 +28,13 @@ for pod2 in $TERMINATING_PODS2
 do
     delete_pod $pod2 $NS2
 done
+
+
+
+TERMINATING_PODS=$(kubectl get pods -n monitoring | grep Terminating | awk '{print $1}')
+NS="monitoring"
+
+for pod in $TERMINATING_PODS
+do
+    delete_pod $pod $NS
+done

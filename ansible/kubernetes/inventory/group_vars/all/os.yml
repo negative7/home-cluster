@@ -1,0 +1,39 @@
+---
+timezone: America/New_York
+
+public_ssh_keys:
+  - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINA5JhveQ+MDY+3RkV1hlYC41ILxN4SCxX14552frUde negative7@github/47256011 # ssh-import-id gh:negative7"
+  - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKG08qMRmcCdhJJAKHJlxBAEtRddUkEqh227cna6AILu negative7@github/47270094 # ssh-import-id gh:negative7"
+
+os_timezone: "America/New_York"
+os_packages_install:
+  - ubuntu-release-upgrader-core
+  - apt-transport-https
+  - ca-certificates
+  - curl
+  - git
+  - htop
+  - lolcat
+  - nano
+  - neofetch
+  - ntpdate
+  - psmisc
+  - rclone
+  - software-properties-common
+  - tree
+  - uidmap
+  - unzip
+  - apparmor
+os_packages_remove:
+  - apport
+  - byobu
+  - friendly-recovery
+  - landscape-common
+  - lxd-agent-loader
+  - plymouth
+  - plymouth-theme-ubuntu-text
+  - popularity-contest
+  - snapd
+  - sosreport
+  - ubuntu-advantage-tools
+  - ufw

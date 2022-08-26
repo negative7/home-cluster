@@ -1,0 +1,133 @@
+---
+- hosts:
+    - master
+    - worker
+  become: true
+  gather_facts: true
+  any_errors_fatal: true
+  pre_tasks:
+    - name: Pausing for 2 seconds...
+      ansible.builtin.pause:
+        seconds: 2
+  tasks:
+    - name: Locale
+      block:
+        - name: Locale | Set timezone
+          community.general.timezone:
+            name: "{{ timezone | default('America/New_York') }}"
+    - name: Networking
+      block:
+        - name: Set hostname to inventory hostname
+          ansible.builtin.hostname:
+            name: "{{ inventory_hostname }}"
+          when:
+            - ansible_hostname != inventory_hostname
+
+        - name: Update /etc/hosts to include hostname
+          ansible.builtin.blockinfile:
+            path: /etc/hosts
+            mode: 0644
+            create: true
+            block: |
+              127.0.0.1 localhost
+              127.0.1.1 {{ inventory_hostname }}
+              # The following lines are desirable for IPv6 capable hosts
+              ::1 ip6-localhost ip6-loopback
+              fe00::0 ip6-localnet
+              ff00::0 ip6-mcastprefix
+              ff02::1 ip6-allnodes
+              ff02::2 ip6-allrouters
+    - name: Swap
+      block:
+        - name: Disable swap at runtime
+          ansible.builtin.command: swapoff -a
+          when: ansible_swaptotal_mb > 0
+
+        - name: Disable swap on boot
+          ansible.posix.mount:
+            name: "{{ item }}"
+            fstype: swap
+            state: absent
+          loop:
+            - swap
+            - none
+
+    - name: Packages
+      block:
+        - name: Disable APT recommends
+          ansible.builtin.blockinfile:
+            path: /etc/apt/apt.conf.d/02norecommends
+            mode: 0644
+            create: true
+            block: |
+              APT::Install-Recommends "false";
+              APT::Install-Suggests "false";
+              APT::Get::Install-Recommends "false";
+              APT::Get::Install-Suggests "false";
+
+        - name: Enable APT auto-upgrades
+          ansible.builtin.blockinfile:
+            path: /etc/apt/apt.conf.d/20auto-upgrades
+            mode: 0644
+            create: true
+            block: |
+              APT::Periodic::Update-Package-Lists "1";
+              APT::Periodic::Unattended-Upgrade "1";
+
+        - name: Upgrade all system packages
+          ansible.builtin.apt:
+            upgrade: full
+          register: apt_upgrade
+          retries: 5
+          until: apt_upgrade is success
+
+        - name: Install common packages
+          ansible.builtin.apt:
+            name: "{{ os_packages_install | default([]) }}"
+            install_recommends: false
+          register: apt_install_common
+          retries: 5
+          until: apt_install_common is success
+
+        - name: Gather installed packages
+          ansible.builtin.package_facts:
+            manager: auto
+
+        - name: Remove snapd
+          block:
+            - name: Check if snap is installed
+              ansible.builtin.debug:
+                msg: "snapd is installed"
+              register: snapd_check
+            - name: Remove snap packages
+              ansible.builtin.command: snap remove {{ item }}
+              loop:
+                - lxd
+                - core18
+                - core20
+                - snapd
+              when:
+                - snapd_check.failed is defined
+            - name: Remove files
+              ansible.builtin.file:
+                state: absent
+                path: "{{ item }}"
+              loop:
+                - "/home/{{ ansible_user }}/.snap"
+                - "/snap"
+                - "/var/snap"
+                - "/var/lib/snapd"
+                - "/var/cache/snapd"
+                - "/usr/lib/snapd"
+          when:
+            - "'snapd' in os_packages_remove"
+            - "'snapd' in ansible_facts.packages"
+
+        - name: Remove packages
+          ansible.builtin.apt:
+            name: "{{ os_packages_remove | default([]) }}"
+            state: absent
+            autoremove: true
+        - name: Remove dependencies that are no longer required.
+          ansible.builtin.apt:
+            autoremove: true
