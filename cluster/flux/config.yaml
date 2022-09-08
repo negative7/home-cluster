@@ -5,12 +5,12 @@ metadata:
   name: config
   namespace: flux-system
 spec:
-  interval: 10m0s
+  interval: 10m
   path: ./cluster/config
   prune: true
   sourceRef:
     kind: GitRepository
-    name: flux-system
+    name: flux-cluster
   decryption:
     provider: sops
     secretRef:

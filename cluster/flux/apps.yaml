@@ -5,24 +5,19 @@ metadata:
   name: apps
   namespace: flux-system
 spec:
-  timeout: 10m0s
-  interval: 10m0s
+  interval: 10m
   dependsOn:
-    - name: charts
-    - name: config
     - name: core
-    - name: crds
   path: ./cluster/apps
   prune: true
   sourceRef:
     kind: GitRepository
-    name: flux-system
+    name: flux-cluster
   decryption:
     provider: sops
     secretRef:
       name: sops-age
   postBuild:
-    substitute: {}
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings
