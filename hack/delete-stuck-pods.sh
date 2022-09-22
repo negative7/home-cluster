@@ -38,3 +38,12 @@ for pod in $TERMINATING_PODS
 do
     delete_pod $pod $NS
 done
+
+
+TERMINATING_PODS=$(kubectl get pods -n home | grep Terminating | awk '{print $1}')
+NS="home"
+
+for pod in $TERMINATING_PODS
+do
+    delete_pod $pod $NS
+done
