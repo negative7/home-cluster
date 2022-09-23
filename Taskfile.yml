@@ -15,6 +15,7 @@ includes:
   debug: .taskfiles/DebugTasks.yml
   precommit: .taskfiles/PreCommitTasks.yml
   terraform: .taskfiles/TerraformTasks.yml
+  backup: .taskfiles/BackupTasks.yml
 
 tasks:
   kubeconfig:

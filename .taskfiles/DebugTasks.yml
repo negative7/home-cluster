@@ -1,5 +1,5 @@
 ---
-version: "3"
+version: '3'
 
 tasks:
   network:
@@ -31,10 +31,6 @@ tasks:
                     {
                       "name": "config",
                       "mountPath": "/data/config"
-                    },
-                    {
-                      "name": "backups",
-                      "mountPath": "/data/backups"
                     }
                   ]
                 }
@@ -44,13 +40,6 @@ tasks:
                   "name": "config",
                   "persistentVolumeClaim": {
                     "claimName": "{{.PVC}}"
-                  }
-                },
-                {
-                  "name": "backups",
-                  "nfs": {
-                    "server": "{{.NAS_ADDRESS | default "expanse"}}",
-                    "path": "{{.NAS_PATH | default "/tycho/Apps/External/Backups"}}"
                   }
                 }
               ],
