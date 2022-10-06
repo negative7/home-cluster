@@ -14,7 +14,7 @@ spec:
       port: 9000
       targetPort: 9000
   selector:
-    app: minio-proxy
+    app.kubernetes.io/name: minio-proxy
 ---
 apiVersion: v1
 kind: Service
@@ -31,4 +31,4 @@ spec:
       port: 9001
       targetPort: 9001
   selector:
-    app: minio-proxy-ui
+    app.kubernetes.io/name: minio-proxy-ui
