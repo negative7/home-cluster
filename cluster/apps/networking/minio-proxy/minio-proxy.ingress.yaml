@@ -5,7 +5,7 @@ metadata:
   name: minio-proxy
   namespace: monitoring
   labels:
-    app: minio-proxy
+    app.kubernetes.io/name: minio-proxy
 spec:
   ingressClassName: nginx
   tls:
@@ -29,7 +29,7 @@ metadata:
   name: minio-proxy-ui
   namespace: monitoring
   labels:
-    app: minio-proxy-ui
+    app.kubernetes.io/name: minio-proxy-ui
 spec:
   ingressClassName: nginx
   tls:

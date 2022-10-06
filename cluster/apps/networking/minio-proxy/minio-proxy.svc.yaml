@@ -5,7 +5,7 @@ metadata:
   name: minio-proxy
   namespace: monitoring
   labels:
-    app: minio-proxy
+    app.kubernetes.io/name: minio-proxy
 spec:
   type: ClusterIP
   ports:
@@ -22,7 +22,7 @@ metadata:
   name: minio-proxy-ui
   namespace: monitoring
   labels:
-    app: minio-proxy-ui
+    app.kubernetes.io/name: minio-proxy-ui
 spec:
   type: ClusterIP
   ports:

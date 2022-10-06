@@ -5,7 +5,7 @@ metadata:
   name: minio-proxy
   namespace: monitoring
   labels:
-    app: minio-proxy
+    app.kubernetes.io/name: minio-proxy
 subsets:
   - addresses:
       - ip: ${SECRET_MINIO_IP}
@@ -20,7 +20,7 @@ metadata:
   name: minio-proxy-ui
   namespace: monitoring
   labels:
-    app: minio-proxy-ui
+    app.kubernetes.io/name: minio-proxy-ui
 subsets:
   - addresses:
       - ip: ${SECRET_MINIO_IP}
