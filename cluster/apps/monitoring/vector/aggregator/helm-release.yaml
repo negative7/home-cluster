@@ -34,20 +34,15 @@ spec:
       data_dir: /vector-data-dir
       api:
         enabled: false
-      #
-      # Sources
-      #
       sources:
         journal_logs:
           type: vector
           address: 0.0.0.0:6000
-          version: "2"
+          version: '2'
         kubernetes_logs:
           type: vector
           address: 0.0.0.0:6010
-          version: "2"
-        vector_metrics:
-          type: internal_metrics
+          version: '2'
       #
       # Transformations
       #
@@ -97,18 +92,9 @@ spec:
               {{`{{ kubernetes.pod_namespace }}`}}
             node: >-
               {{`{{ kubernetes.pod_node_name }}`}}
-        prometheus_sink:
-          type: prometheus_exporter
-          inputs:
-            - vector_metrics
-          address: 0.0.0.0:9090
     service:
       enabled: true
       type: LoadBalancer
-    podMonitor:
-      enabled: true
-      jobLabel: vector-aggregator
-      port: prometheus-sink
     affinity:
       podAntiAffinity:
         preferredDuringSchedulingIgnoredDuringExecution:
@@ -130,7 +116,7 @@ spec:
             patch:
               - op: add
                 path: /spec/loadBalancerIP
-                value: "${SVC_SYSLOG_ADDR}"
+                value: '${SVC_SYSLOG_ADDR}'
               - op: replace
                 path: /spec/externalTrafficPolicy
                 value: Local
