@@ -6,20 +6,23 @@ on: # yamllint disable-line rule:truthy
     branches:
       - main
     paths:
-      - "cluster/**.yaml"
+      - 'cluster/**.yaml'
 
 env:
   # Currently no way to detect automatically
   DEFAULT_BRANCH: main
-  BOT_USERNAME: "negative-7-bot[bot]"
+  BOT_USERNAME: 'negative-7-bot[bot]'
 
 jobs:
   detect-file-changes:
     name: Detect File Changes
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: dorny/paths-filter@v2
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Filter Helm Releases
+        uses: dorny/paths-filter@v2
         id: filter
         with:
           list-files: json
@@ -28,6 +31,7 @@ jobs:
               - added|modified: "**/helm-release.yaml"
     outputs:
       yaml_files: ${{ steps.filter.outputs.yaml_files }}
+
   helm-release-differ:
     name: Helm Release Differ
     runs-on: ubuntu-latest
@@ -38,21 +42,25 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
       - name: Generate Token
         uses: tibdex/github-app-token@v1
         id: generate-token
         with:
           app_id: ${{ secrets.BOT_APP_ID }}
           private_key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
+
       - name: Checkout default branch
         uses: actions/checkout@v3
         with:
-          ref: "${{ env.DEFAULT_BRANCH }}"
+          ref: '${{ env.DEFAULT_BRANCH }}'
           path: default
+
       - name: Install Helm
         uses: azure/setup-helm@v3
         with:
-          version: v3.6.3
+          version: latest
+
       - name: Helm Release Differ
         id: diff
         run: |
@@ -66,14 +74,15 @@ jobs:
         uses: peter-evans/find-comment@v2
         id: find-comment
         with:
-          issue-number: "${{ github.event.pull_request.number }}"
-          comment-author: "${{ env.BOT_USERNAME }}"
-          body-includes: "${{ matrix.file }}"
+          issue-number: '${{ github.event.pull_request.number }}'
+          comment-author: '${{ env.BOT_USERNAME }}'
+          body-includes: '${{ matrix.file }}'
+
       - name: Create or update comment
         uses: peter-evans/create-or-update-comment@v2
         with:
-          token: "${{ steps.generate-token.outputs.token }}"
-          comment-id: "${{ steps.find-comment.outputs.comment-id }}"
-          issue-number: "${{ github.event.pull_request.number }}"
-          body: "${{ steps.diff.outputs.diff }}"
+          token: '${{ steps.generate-token.outputs.token }}'
+          comment-id: '${{ steps.find-comment.outputs.comment-id }}'
+          issue-number: '${{ github.event.pull_request.number }}'
+          body: '${{ steps.diff.outputs.diff }}'
           edit-mode: replace
