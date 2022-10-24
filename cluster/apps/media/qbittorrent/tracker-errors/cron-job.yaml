@@ -15,7 +15,7 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: qbittorrent-scripts
-              image: ghcr.io/onedr0p/qbittorrent-scripts:v1.0.2
+              image: ghcr.io/onedr0p/qbittorrent-scripts:v1.0.3
               env:
                 - name: QB_HOST
                   value: http://qbittorrent:80
