@@ -41,4 +41,3 @@ tasks:
       VOLUME: "{{.VOLUME}}"
       PVC1: "{{.PVC1}}"
     preconditions: *preconditions
-  
