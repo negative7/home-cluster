@@ -8,5 +8,3 @@ resources:
   - loki
   - thanos
   - vector
-  - goldilocks
-  - vpa
