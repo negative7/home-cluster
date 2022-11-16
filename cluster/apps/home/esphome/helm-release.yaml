@@ -27,7 +27,7 @@ spec:
       nameOverride: *app
     image:
       repository: esphome/esphome
-      tag: 2022.10.2
+      tag: 2022.11.0
     env:
       TZ: "${TIMEZONE}"
     service:
