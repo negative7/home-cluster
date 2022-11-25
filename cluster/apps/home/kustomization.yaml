@@ -4,7 +4,6 @@ kind: Kustomization
 resources:
   - zigbee2mqtt
   - home-assistant
-  - home-assistant-code
   - mosquitto
   - homebridge
   - frigate
