@@ -40,12 +40,13 @@ spec:
           http:
             port: 2049
             protocol: TCP
+    securityContext:
+      privileged: true
     podSecurityContext:
-      allowPrivilegeEscalation: true
       runAsUser: 568
       runAsGroup: 568
       fsGroup: 568
-      fsGroupChangePolicy: "OnRootMismatch"
+      fsGroupChangePolicy: 'OnRootMismatch'
       supplementalGroups:
         - 100
     persistence:
