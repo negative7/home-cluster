@@ -33,3 +33,4 @@ resources:
   - stakater-charts.yaml
   - vector-charts.yaml
   - weaveworks-kured-charts.yaml
+  - obeone-charts.yaml
