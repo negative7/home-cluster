@@ -8,3 +8,4 @@ resources:
   - homebridge
   - frigate
   - esphome
+  - sshd
