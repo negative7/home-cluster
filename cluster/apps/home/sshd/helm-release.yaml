@@ -28,9 +28,6 @@ spec:
     env:
       TZ: "${TIMEZONE}"
       PUBLIC_KEY_URL: "https://github.com/negative7.keys"
-    envFrom:
-      - secretRef:
-          name: *app
     dnsPolicy: ClusterFirstWithHostNet
     hostNetwork: true
     service:
@@ -67,3 +64,15 @@ spec:
         memory: 100Mi
       limits:
         memory: 750Mi
+    affinity:
+      podAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+                - key: app.kubernetes.io/name
+                  operator: In
+                  values: ['home-assistant']
+                - key: app.kubernetes.io/instance
+                  operator: In
+                  values: ['home-assistant']
+            topologyKey: kubernetes.io/hostname
