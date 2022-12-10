@@ -1,11 +1,12 @@
 ---
 roles:
-  - src: xanmanning.k3s
+  - name: xanmanning.k3s
+    src: https://github.com/PyratLabs/ansible-role-k3s.git
     version: v3.3.1
   - src: mabunixda.ansible_udmp
     version: v1.1.0
-  - src: sladkoff.ansible_role_grafana_kiosk
 collections:
+<<<<<<< HEAD
   - name: community.docker
     version: 3.3.2
   - name: community.general
@@ -14,5 +15,13 @@ collections:
     version: 2.0.1
   - name: community.sops
     version: 1.5.0
+=======
+>>>>>>> 86d1fda4 (ansible)
   - name: ansible.posix
     version: 1.4.0
+  - name: community.general
+    version: 6.1.0
+  - name: kubernetes.core
+    version: 2.3.2
+  - name: community.sops
+    version: 1.5.0
