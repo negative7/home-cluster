@@ -30,17 +30,12 @@
     },
     {
       "description": "Auto merge GitHub Actions",
-      "matchDatasources": ["github-tags", "github-actions"],
+      "matchManagers": ["github-actions"],
+      "matchDatasources": ["github-tags"],
       "automerge": true,
       "automergeType": "branch",
       "requiredStatusChecks": null,
-      "matchUpdateTypes": ["minor", "patch"],
-      "matchPackageNames": [
-        "lycheeverse/lychee-action",
-        "renovatebot/github-action",
-        "oxsecurity/megalinter",
-        "aquasecurity/trivy-action"
-      ]
+      "matchUpdateTypes": ["minor", "patch"]
     },
     {
       "description": "Auto merge pre-commit hooks",

@@ -34,7 +34,7 @@ parse_command_line() {
             -h|--help)
                 show_help
                 exit
-                ;;
+            ;;
             --source-file)
                 if [[ -n "${2:-}" ]]; then
                     source_file="$2"
@@ -44,7 +44,7 @@ parse_command_line() {
                     show_help
                     exit 1
                 fi
-                ;;
+            ;;
             --target-file)
                 if [[ -n "${2:-}" ]]; then
                     target_file="$2"
@@ -54,13 +54,13 @@ parse_command_line() {
                     show_help
                     exit 1
                 fi
-                ;;
+            ;;
             --remove-common-labels)
                 remove_common_labels=true
-                ;;
+            ;;
             *)
                 break
-                ;;
+            ;;
         esac
         shift
     done
