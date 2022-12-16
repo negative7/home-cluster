@@ -9,5 +9,4 @@ resources:
   - media
   - monitoring
   - home
-  - openfaas
   - cert-manager
