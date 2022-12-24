@@ -59,9 +59,6 @@ spec:
           name: node1
           url: ${NODE_SERVER1}
         - module: http_2xx
-          name: node2
-          url: ${NODE_SERVER2}
-        - module: http_2xx
           name: gate
           url: http://10.0.4.10/
     prometheusRule:
