@@ -35,7 +35,7 @@ spec:
           http:
             port: 6052
 
-    # hostNetwork: true
+    hostNetwork: true
     dnsPolicy: ClusterFirstWithHostNet
 
     ingress:
