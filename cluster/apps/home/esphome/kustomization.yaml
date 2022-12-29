@@ -8,3 +8,5 @@ resources:
 commonLabels:
   app.kubernetes.io/name: esphome
   app.kubernetes.io/instance: esphome
+patchesStrategicMerge:
+  - ./patches/addons.yaml
