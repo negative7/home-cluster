@@ -36,7 +36,7 @@ spec:
             port: 6052
 
     # hostNetwork: true
-    # dnsPolicy: ClusterFirstWithHostNet
+    dnsPolicy: ClusterFirstWithHostNet
 
     ingress:
       main:
@@ -51,11 +51,16 @@ spec:
           - hosts:
               - *host-release
 
-
     persistence:
       config:
         enabled: true
         existingClaim: esphome-config-v1
+      secrets:
+        enabled: true
+        type: secret
+        name: esphome-secrets
+        mountPath: /config/secrets.yaml
+        subPath: secrets.yaml
       deploy-key:
         enabled: true
         type: secret
@@ -64,6 +69,7 @@ spec:
         subPath:
           - path: id_ed25519
             mountPath: /root/.ssh/id_ed25519
+
     resources:
       requests:
         cpu: 300m
