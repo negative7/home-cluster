@@ -61,14 +61,6 @@ spec:
         name: esphome-secrets
         mountPath: /config/secrets.yaml
         subPath: secrets.yaml
-      deploy-key:
-        enabled: true
-        type: secret
-        name: esphome-config-deploykey
-        defaultMode: 256
-        subPath:
-          - path: id_ed25519
-            mountPath: /root/.ssh/id_ed25519
 
     resources:
       requests:
