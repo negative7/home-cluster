@@ -23,7 +23,7 @@ spec:
   values:
     image:
       repository: ghcr.io/oznu/homebridge
-      tag: latest@sha256:ef363dbaa15ee4ea714abf9240f60506128bbcf2e9abc095fcd8acb8e6edd15f
+      tag: latest@sha256:defcd3b5b89d86ed44abe6d6b6d9e0393df1479da164c1ba88f0762586e81c54
     env:
       TZ: "America/New_York"
       PUID: 568
