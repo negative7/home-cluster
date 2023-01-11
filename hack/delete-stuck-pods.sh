@@ -47,3 +47,20 @@ for pod in $TERMINATING_PODS
 do
     delete_pod $pod $NS
 done
+
+
+TERMINATING_PODS=$(kubectl get pods -n kube-system | grep Evicted | awk '{print $1}')
+NS="kube-system"
+
+for pod in $TERMINATING_PODS
+do
+    delete_pod $pod $NS
+done
+
+TERMINATING_PODS=$(kubectl get pods -n networking | grep Evicted | awk '{print $1}')
+NS="networking"
+
+for pod in $TERMINATING_PODS
+do
+    delete_pod $pod $NS
+done
