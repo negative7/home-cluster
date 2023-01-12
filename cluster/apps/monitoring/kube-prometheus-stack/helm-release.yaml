@@ -14,26 +14,36 @@ spec:
         kind: HelmRepository
         name: prometheus-community-charts
         namespace: flux-system
+  maxHistory: 3
   install:
     createNamespace: true
+    crds: CreateReplace
     remediation:
-      retries: 5
+      retries: 3
   upgrade:
+    cleanupOnFail: true
+    crds: CreateReplace
     remediation:
-      retries: 5
+      retries: 3
+  uninstall:
+    keepHistory: false
   values:
+    cleanPrometheusOperatorObjectNames: true
+    prometheusOperator:
+      serviceMonitor:
+        sampleLimit: 0
     alertmanager:
       config:
         global:
-          slack_api_url: "${SECRET_ALERT_MANAGER_SLACK_WEBHOOK}"
+          slack_api_url: '${SECRET_ALERT_MANAGER_SLACK_WEBHOOK}'
           resolve_timeout: 5m
         receivers:
-          - name: "null"
-          - name: "slack"
+          - name: 'null'
+          - name: 'slack'
             slack_configs:
-              - channel: "alerts"
+              - channel: 'alerts'
                 icon_url: https://avatars3.githubusercontent.com/u/3380462
-                username: "Alertmanager"
+                username: 'Alertmanager'
                 color: '{{ if eq .Status "firing" }}danger{{ else }}good{{ end }}'
                 send_resolved: true
                 title_link: |-
@@ -65,21 +75,17 @@ spec:
                       {{- end }}
                     {{- end }}
                   {{- end }}
-          - name: "nodered"
-            webhook_configs:
-              - url: "http://node-red.home:1880/alertmanager"
-                send_resolved: true
         route:
-          group_by: ["alertname", "job"]
+          group_by: ['alertname', 'job']
           group_wait: 30s
           group_interval: 5m
           repeat_interval: 6h
-          receiver: "slack"
+          receiver: 'slack'
           routes:
-            - receiver: "null"
+            - receiver: 'null'
               matchers:
                 - alertname =~ "InfoInhibitor|Watchdog"
-            - receiver: "slack"
+            - receiver: 'slack'
               matchers:
                 - severity = "critical"
               continue: true
@@ -88,30 +94,31 @@ spec:
               - severity = "critical"
             target_matchers:
               - severity = "warning"
-            equal: ["alertname", "namespace"]
+            equal: ['alertname', 'namespace']
       ingress:
         enabled: true
         pathType: Prefix
-        ingressClassName: "nginx"
+        ingressClassName: 'nginx'
+        annotations:
+          hajimari.io/appName: 'Alert Manager'
+          hajimari.io/icon: mdi:alert-decagram-outline
         hosts:
-          - &host "alert-manager.${SECRET_PUBLIC_DOMAIN}"
+          - &host 'alert-manager.${SECRET_PUBLIC_DOMAIN}'
         tls:
           - hosts:
               - *host
       alertmanagerSpec:
-        alertmanagerSpec:
         replicas: 3
         podAntiAffinity: hard
         storage:
           volumeClaimTemplate:
             spec:
-              storageClassName: "longhorn"
+              storageClassName: 'longhorn'
               resources:
                 requests:
                   storage: 1Gi
     kube-state-metrics:
-      metricLabelsAllowlist:
-        - "persistentvolumeclaims=[*]"
+      metricLabelsAllowlist: ['persistentvolumeclaims=[*]']
       prometheus:
         monitor:
           enabled: true
@@ -119,8 +126,7 @@ spec:
             - action: replace
               regex: (.*)
               replacement: $1
-              sourceLabels:
-                - __meta_kubernetes_pod_node_name
+              sourceLabels: ['__meta_kubernetes_pod_node_name']
               targetLabel: kubernetes_node
     grafana:
       enabled: false
@@ -174,9 +180,12 @@ spec:
       ingress:
         enabled: true
         pathType: Prefix
-        ingressClassName: "nginx"
+        ingressClassName: 'nginx'
+        annotations:
+          hajimari.io/appName: Prometheus
+          hajimari.io/icon: simple-icons:prometheus
         hosts:
-          - &host "prometheus.${SECRET_PUBLIC_DOMAIN}"
+          - &host 'prometheus.${SECRET_PUBLIC_DOMAIN}'
         tls:
           - hosts:
               - *host
@@ -184,18 +193,6 @@ spec:
         enabled: true
       thanosServiceMonitor:
         enabled: true
-      thanosIngress:
-        enabled: true
-        pathType: Prefix
-        ingressClassName: "nginx"
-        annotations:
-          nginx.ingress.kubernetes.io/ssl-redirect: "true"
-          nginx.ingress.kubernetes.io/backend-protocol: "GRPC"
-        hosts:
-          - &host "thanos-sidecar.${SECRET_PUBLIC_DOMAIN}"
-        tls:
-          - hosts:
-              - *host
       prometheusSpec:
         replicas: 3
         replicaExternalLabelName: __replica__
@@ -204,23 +201,23 @@ spec:
         thanos:
           image: quay.io/thanos/thanos:v0.30.1
           # renovate: datasource=docker depName=quay.io/thanos/thanos
-          version: "v0.29.0"
+          version: "v0.30.1"
           objectStorageConfig:
-            name: thanos-objstore
+            name: thanos-objstore-secret
             key: objstore.yml
         podAntiAffinity: hard
         ruleSelectorNilUsesHelmValues: false
         serviceMonitorSelectorNilUsesHelmValues: false
         podMonitorSelectorNilUsesHelmValues: false
         probeSelectorNilUsesHelmValues: false
-        retention: 14d
-        retentionSize: 45GB
+        retention: 2d
+        retentionSize: 6GB
         enableAdminAPI: true
         walCompression: true
         storageSpec:
           volumeClaimTemplate:
             spec:
-              storageClassName: "longhorn"
+              storageClassName: 'longhorn'
               resources:
                 requests:
                   storage: 50Gi
@@ -231,7 +228,7 @@ spec:
           limits:
             memory: 8000Mi
         additionalScrapeConfigs:
-          - job_name: "node-exporter"
+          - job_name: 'node-exporter'
             honor_timestamps: true
             static_configs:
               - targets:
@@ -248,4 +245,4 @@ spec:
             scheme: http
             static_configs:
               - targets:
-                  - "${SECRET_MINIO_IP}:9000"
+                  - '${SECRET_MINIO_IP}:9000'
