@@ -5,7 +5,7 @@ metadata:
   name: kubernetes-dashboard
   namespace: default
 spec:
-  interval: 5m
+  interval: 15m
   chart:
     spec:
       chart: kubernetes-dashboard
@@ -15,28 +15,34 @@ spec:
         name: kubernetes-dashboard-charts
         namespace: flux-system
       interval: 5m
+  maxHistory: 3
   install:
     createNamespace: true
     remediation:
       retries: 3
   upgrade:
+    cleanupOnFail: true
     remediation:
       retries: 3
+  uninstall:
+    keepHistory: false
   values:
-    image:
-      repository: kubernetesui/dashboard
-      tag: v2.7.0
-    metricsScraper:
-      enabled: true
     ingress:
       enabled: true
-      className: "nginx"
+      className: nginx
+      annotations:
+        hajimari.io/icon: mdi:kubernetes
       hosts:
-        - dashboard.${SECRET_PUBLIC_DOMAIN}
+        - &host dashboard.${SECRET_PUBLIC_DOMAIN}
       tls:
         - hosts:
-            - dashboard.${SECRET_PUBLIC_DOMAIN}
+            - *host
     extraArgs:
-      - "--enable-insecure-login"
-      - "--namespace=default"
-      - "--insecure-bind-address=0.0.0.0"
+      - --enable-skip-login
+      - --disable-settings-authorizer
+      - --enable-insecure-login
+      - --token-ttl=43200
+    metricsScraper:
+      enabled: true
+    serviceMonitor:
+      enabled: false
