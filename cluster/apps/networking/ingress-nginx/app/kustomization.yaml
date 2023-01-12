@@ -9,6 +9,6 @@ resources:
 configMapGenerator:
   - name: cloudflare-networks
     files:
-      - ./cloudflare-proxied-networks.txt
+      - ./cloudflare-networks.txt
 generatorOptions:
   disableNameSuffixHash: true
