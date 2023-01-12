@@ -2,10 +2,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: minio-proxy
-  namespace: monitoring
+  name: &app minio-proxy
+  namespace: networking
   labels:
-    app.kubernetes.io/name: minio-proxy
+    app.kubernetes.io/name: *app
+    app.kubernetes.io/instance: *app
 spec:
   type: ClusterIP
   ports:
@@ -14,15 +15,15 @@ spec:
       port: 9000
       targetPort: 9000
   selector:
-    app.kubernetes.io/name: minio-proxy
+    app.kubernetes.io/name: *app
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: minio-proxy-ui
+  name: &appui minio-proxy-ui
   namespace: monitoring
   labels:
-    app.kubernetes.io/name: minio-proxy-ui
+    app.kubernetes.io/name: &appui
 spec:
   type: ClusterIP
   ports:
@@ -31,4 +32,4 @@ spec:
       port: 9001
       targetPort: 9001
   selector:
-    app.kubernetes.io/name: minio-proxy-ui
+    app.kubernetes.io/name: &appui
