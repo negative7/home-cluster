@@ -12,7 +12,7 @@ spec:
       version: 2.6.5
       sourceRef:
         kind: HelmRepository
-        name: kyverno
+        name: kyverno-charts
         namespace: flux-system
   maxHistory: 3
   install:
@@ -30,10 +30,10 @@ spec:
     replicaCount: 3
     serviceMonitor:
       enabled: true
-    # topologySpreadConstraints:
-    #   - maxSkew: 1
-    #     topologyKey: kubernetes.io/hostname
-    #     whenUnsatisfiable: DoNotSchedule
-    #     labelSelector:
-    #       matchLabels:
-    #         app.kubernetes.io/instance: kyverno
+    topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: DoNotSchedule
+        labelSelector:
+          matchLabels:
+            app.kubernetes.io/instance: kyverno
