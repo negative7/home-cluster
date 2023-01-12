@@ -39,7 +39,7 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: *app
+  name: &app minio-proxy
   namespace: networking
   labels:
     app.kubernetes.io/name: *app
@@ -64,7 +64,7 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: *appui
+  name: &appui minio-proxy-ui
   namespace: networking
   labels:
     app.kubernetes.io/name: *appui
