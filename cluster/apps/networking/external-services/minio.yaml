@@ -85,3 +85,43 @@ spec:
   tls:
     - hosts:
         - *hostui
+
+---
+apiVersion: discovery.k8s.io/v1
+kind: EndpointSlice
+metadata:
+  name: &app minio-proxy
+  namespace: monitoring
+  labels:
+    app.kubernetes.io/name: *app
+    kubernetes.io/service-name: *app
+addressType: IPv4
+ports:
+  - name: http
+    port: 9000
+    protocol: TCP
+endpoints:
+  - addresses:
+      - ${SECRET_MINIO_IP}
+    conditions:
+      ready: true
+
+---
+apiVersion: discovery.k8s.io/v1
+kind: EndpointSlice
+metadata:
+  name: &appui minio-proxy-ui
+  namespace: monitoring
+  labels:
+    app.kubernetes.io/name: *appui
+    kubernetes.io/service-name: *appui
+addressType: IPv4
+ports:
+  - name: http
+    port: 9001
+    protocol: TCP
+endpoints:
+  - addresses:
+      - ${SECRET_MINIO_IP}
+    conditions:
+      ready: true
