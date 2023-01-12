@@ -23,8 +23,8 @@ metadata:
   name: &appui minio-proxy-ui
   namespace: networking
   labels:
-    app.kubernetes.io/name: *app
-    app.kubernetes.io/instance: *app
+    app.kubernetes.io/name: *appui
+    app.kubernetes.io/instance: *appui
 spec:
   type: ClusterIP
   ports:
