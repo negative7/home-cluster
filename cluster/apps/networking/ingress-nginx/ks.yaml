@@ -29,6 +29,7 @@ metadata:
 spec:
   dependsOn:
     - name: cluster-apps-ingress-nginx-certificates
+    - name: cluster-apps-metallb-addresses
     - name: cluster-apps-kyverno
   path: ./cluster/apps/networking/ingress-nginx/app
   prune: true
