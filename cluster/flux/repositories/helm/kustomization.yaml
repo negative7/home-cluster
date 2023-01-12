@@ -17,7 +17,7 @@ resources:
   - ./grafana-charts.yaml
   - ./ingress-nginx-charts.yaml
   - ./itzg-minecraft-charts.yaml
-  - ./jetstack-charts.yaml
+  - ./jetstack.yaml
   - ./k8s-at-home-charts.yaml
   - ./kasten-charts.yaml
   - ./kubernetes-dashboard-charts.yaml
