@@ -29,7 +29,7 @@ spec:
     image:
       registry: public.ecr.aws
       repository: bitnami/thanos
-    existingObjstoreSecret: thanos-objstore
+    existingObjstoreSecret: thanos-objstore-secret
     query:
       enabled: true
       replicaCount: 3
