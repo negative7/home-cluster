@@ -17,117 +17,138 @@
             name: "{{ timezone | default('America/New_York') }}"
     - name: Networking
       block:
-        - name: Set hostname to inventory hostname
+        - name: Networking | Set hostname to inventory hostname
           ansible.builtin.hostname:
             name: "{{ inventory_hostname }}"
-          when:
-            - ansible_hostname != inventory_hostname
-
-        - name: Update /etc/hosts to include hostname
+        - name: Networking | Update /etc/hosts to include inventory hostname
           ansible.builtin.blockinfile:
             path: /etc/hosts
-            mode: 0644
-            create: true
             block: |
-              127.0.0.1 localhost
-              127.0.1.1 {{ inventory_hostname }}
-              # The following lines are desirable for IPv6 capable hosts
-              ::1 ip6-localhost ip6-loopback
-              fe00::0 ip6-localnet
-              ff00::0 ip6-mcastprefix
-              ff02::1 ip6-allnodes
-              ff02::2 ip6-allrouters
-    - name: Swap
+              127.0.1.1   {{ inventory_hostname }}
+    - name: Packages
       block:
-        - name: Disable swap at runtime
+        - name: Packages | Install required packages
+          ansible.builtin.apt:
+            name: "{{ ubuntu.packages | default([]) }}"
+            state: present
+            update_cache: true
+    - name: Gather installed packages
+      ansible.builtin.package_facts:
+        manager: auto
+    - name: Packages | Uninstall Snap
+      block:
+        - name: Packages | Uninstall Snap | Check if snap is installed
+          ansible.builtin.debug:
+            msg: "snapd is installed"
+          register: snapd_check
+        - name: Packages | Uninstall Snap | Remove snap packages
+          ansible.builtin.command: snap remove {{ item }}
+          loop: ["lxd", "core20", "snapd"]
+          when: snapd_check.failed is defined
+        - name: Packages | Uninstall Snap | Remove snap from packages
+          ansible.builtin.apt:
+            name: snapd
+            state: absent
+            autoremove: true
+      when: "'snapd' in ansible_facts.packages"
+    - name: User Configuration
+      block:
+        - name: Add user to sudoers
+          ansible.builtin.copy:
+            content: "{{ ansible_user }} ALL=(ALL:ALL) NOPASSWD:ALL"
+            dest: "/etc/sudoers.d/{{ ansible_user }}_nopasswd"
+            mode: 0440
+        - name: User Configuration | Add additional SSH public keys
+          ansible.posix.authorized_key:
+            user: "{{ ansible_user }}"
+            key: "{{ item }}"
+          loop: "{{ public_ssh_keys | default([]) }}"
+        - name: Silence the login prompt
+          ansible.builtin.file:
+            dest: "/home/{{ ansible_user }}/.hushlogin"
+            state: touch
+            owner: "{{ ansible_user }}"
+            mode: 0775
+            modification_time: preserve
+            access_time: preserve
+    - name: System Configuration (1)
+      block:
+        - name: System Configuration (1) | Disable ufw
+          ansible.builtin.systemd:
+            service: ufw.service
+            enabled: false
+            masked: true
+            state: stopped
+        - name: System Configuration (1) | Enable fstrim
+          ansible.builtin.systemd:
+            service: fstrim.timer
+            enabled: true
+        - name: System Configuration (1) | Disable cloud-init
+          ansible.builtin.file:
+            dest: /etc/cloud/cloud-init.disabled
+            state: touch
+            owner: root
+            mode: 0775
+            modification_time: preserve
+            access_time: preserve
+    - name: System Configuration (2)
+      block:
+        - name: System Configuration (2) | Enable kernel modules now
+          community.general.modprobe:
+            name: "{{ item }}"
+            state: present
+          loop: ["br_netfilter", "overlay", "rbd"]
+        - name: System Configuration (2) | Enable kernel modules on boot
+          ansible.builtin.copy:
+            mode: 0644
+            content: "{{ item }}"
+            dest: "/etc/modules-load.d/{{ item }}.conf"
+          loop: ["br_netfilter", "overlay", "rbd"]
+        - name: System Configuration (2) | Set sysctls
+          ansible.posix.sysctl:
+            name: "{{ item.key }}"
+            value: "{{ item.value }}"
+            sysctl_file: /etc/sysctl.d/99-kubernetes.conf
+            reload: true
+          with_dict: "{{ sysctl_config }}"
+          vars:
+            sysctl_config:
+              net.ipv4.ip_forward: 1
+              net.ipv4.conf.all.forwarding: 1
+              net.ipv4.conf.all.rp_filter: 0
+              net.ipv4.conf.default.rp_filter: 0
+              net.ipv6.conf.all.forwarding: 1
+              net.bridge.bridge-nf-call-iptables: 1
+              net.bridge.bridge-nf-call-ip6tables: 1
+              fs.inotify.max_user_watches: 524288
+              fs.inotify.max_user_instances: 512
+        - name: System Configuration (2) | Disable swap at runtime
           ansible.builtin.command: swapoff -a
           when: ansible_swaptotal_mb > 0
-
-        - name: Disable swap on boot
+        - name: System Configuration (2) | Disable swap at boot
           ansible.posix.mount:
             name: "{{ item }}"
             fstype: swap
             state: absent
-          loop:
-            - swap
-            - none
+          loop: ["none", "swap"]
+        - name: System Configuration (2) | Disable mitigations
+          ansible.builtin.replace:
+            path: /etc/default/grub
+            regexp: '^(GRUB_CMDLINE_LINUX=(?:(?![" ]{{ item.key | regex_escape }}=).)*)(?:[" ]{{ item.key | regex_escape }}=\S+)?(.*")$'
+            replace: '\1 {{ item.key }}={{ item.value }}\2'
+          with_dict: "{{ grub_config }}"
+          vars:
+            grub_config:
+              apparmor: "0"
+              mitigations: "off"
+          register: grub_status
+        - name: System Configuration (2) | Reconfigure grub and initramfs
+          ansible.builtin.command: update-grub
+          when: grub_status.changed
+      notify: Reboot
 
-    - name: Packages
-      block:
-        - name: Disable APT recommends
-          ansible.builtin.blockinfile:
-            path: /etc/apt/apt.conf.d/02norecommends
-            mode: 0644
-            create: true
-            block: |
-              APT::Install-Recommends "false";
-              APT::Install-Suggests "false";
-              APT::Get::Install-Recommends "false";
-              APT::Get::Install-Suggests "false";
-
-        - name: Enable APT auto-upgrades
-          ansible.builtin.blockinfile:
-            path: /etc/apt/apt.conf.d/20auto-upgrades
-            mode: 0644
-            create: true
-            block: |
-              APT::Periodic::Update-Package-Lists "1";
-              APT::Periodic::Unattended-Upgrade "1";
-
-        - name: Upgrade all system packages
-          ansible.builtin.apt:
-            upgrade: full
-          register: apt_upgrade
-          retries: 5
-          until: apt_upgrade is success
-
-        - name: Install common packages
-          ansible.builtin.apt:
-            name: "{{ os_packages_install | default([]) }}"
-            install_recommends: false
-          register: apt_install_common
-          retries: 5
-          until: apt_install_common is success
-
-        - name: Gather installed packages
-          ansible.builtin.package_facts:
-            manager: auto
-
-        - name: Remove snapd
-          block:
-            - name: Check if snap is installed
-              ansible.builtin.debug:
-                msg: "snapd is installed"
-              register: snapd_check
-            - name: Remove snap packages
-              ansible.builtin.command: snap remove {{ item }}
-              loop:
-                - lxd
-                - core18
-                - core20
-                - snapd
-              when:
-                - snapd_check.failed is defined
-            - name: Remove files
-              ansible.builtin.file:
-                state: absent
-                path: "{{ item }}"
-              loop:
-                - "/home/{{ ansible_user }}/.snap"
-                - "/snap"
-                - "/var/snap"
-                - "/var/lib/snapd"
-                - "/var/cache/snapd"
-                - "/usr/lib/snapd"
-          when:
-            - "'snapd' in os_packages_remove"
-            - "'snapd' in ansible_facts.packages"
-
-        - name: Remove packages
-          ansible.builtin.apt:
-            name: "{{ os_packages_remove | default([]) }}"
-            state: absent
-            autoremove: true
-        - name: Remove dependencies that are no longer required.
-          ansible.builtin.apt:
-            autoremove: true
+  handlers:
+    - name: Reboot
+      ansible.builtin.reboot:
+        msg: Rebooting nodes
+        reboot_timeout: 3600
