@@ -59,7 +59,7 @@
       "automergeType": "branch",
       "requiredStatusChecks": null,
       "matchUpdateTypes": ["minor", "patch"],
-      "matchPackageNames": ["kube-prometheus-stack", "grafana"]
+      "matchPackageNames": ["grafana"]
     },
     {
       "description": "Auto merge Helm Realeases",
