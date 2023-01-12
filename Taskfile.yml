@@ -4,6 +4,7 @@ version: "3"
 vars:
   PROJECT_DIR:
     sh: "git rev-parse --show-toplevel"
+  ANSIBLE_DIR: "{{.PROJECT_DIR}}/ansible"
   CLUSTER_DIR: "{{.PROJECT_DIR}}/cluster"
 
 env:
@@ -16,15 +17,19 @@ includes:
   precommit: .taskfiles/PreCommitTasks.yml
   terraform: .taskfiles/TerraformTasks.yml
   backup: .taskfiles/BackupTasks.yml
+  ku: .taskfiles/Kubernetes/Tasks.yml
 
 tasks:
+  default:
+    silent: true
+    cmds: ["task -l"]
   kubeconfig:
     desc: Remotely fetch kubeconfig from Kubernetes
     cmds:
-      - rsync --verbose --progress --partial --rsync-path="sudo rsync" {{.K3S_PRIMARY_MASTER_NODE_USERNAME}}@{{.K3S_PRIMARY_MASTER_NODE_ADDR}}:/etc/rancher/k3s/k3s.yaml "{{.CLUSTER_DIR}}/kubeconfig"
+      - rsync --verbose --progress --partial --rsync-path="sudo rsync" {{.MASTER_USERNAME}}@{{.MASTER_HOST}}:/etc/rancher/k3s/k3s.yaml "{{.CLUSTER_DIR}}/kubeconfig"
       - sed -i '' 's/127.0.0.1/{{.K3S_LB_ADDR}}/g' "{{.CLUSTER_DIR}}/kubeconfig"
       - chmod go-r "{{.CLUSTER_DIR}}/kubeconfig"
     vars:
-      K3S_PRIMARY_MASTER_NODE_USERNAME: "worker"
-      K3S_PRIMARY_MASTER_NODE_ADDR: "10.2.0.21"
-      K3S_LB_ADDR: "10.2.0.21"
+      MASTER_USERNAME: "worker"
+      MASTER_HOST: "10.2.0.21"
+      KUBERNETES_API: "10.2.0.21"
