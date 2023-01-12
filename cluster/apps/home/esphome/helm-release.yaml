@@ -55,13 +55,6 @@ spec:
       config:
         enabled: true
         existingClaim: esphome-config-v1
-      # secrets:
-      #   enabled: true
-      #   type: secret
-      #   name: esphome-secrets
-      #   mountPath: /config/secrets.yaml
-      #   subPath: secrets.yaml
-
     resources:
       requests:
         cpu: 300m
