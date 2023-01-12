@@ -12,18 +12,21 @@ spec:
       version: 2.6.5
       sourceRef:
         kind: HelmRepository
-        name: kyverno-charts
+        name: kyverno
         namespace: flux-system
-      interval: 15m
+  maxHistory: 3
   install:
     createNamespace: true
     remediation:
-      retries: 5
+      retries: 3
   upgrade:
+    cleanupOnFail: true
     remediation:
-      retries: 5
+      retries: 3
+  uninstall:
+    keepHistory: false
   values:
-    installCRDs: false
+    installCRDs: true
     replicaCount: 3
     serviceMonitor:
       enabled: true
