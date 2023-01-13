@@ -28,9 +28,9 @@ resources:
   # - ./n8n/ks.yaml
   # - ./navidrome/ks.yaml
   # - ./opnsense/ks.yaml
-  # - ./overseerr/ks.yaml
+  - ./overseerr/ks.yaml
   - ./plex/ks.yaml
-  # - ./prowlarr/ks.yaml
+  - ./prowlarr/ks.yaml
   # - ./qbittorrent/ks.yaml
   # - ./radarr/ks.yaml
   # - ./recyclarr/ks.yaml
