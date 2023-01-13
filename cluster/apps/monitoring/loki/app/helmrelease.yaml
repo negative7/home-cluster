@@ -61,7 +61,7 @@ spec:
           storage:
             s3:
               s3: null
-              bucketnames: loki
+              bucketnames: loki-logs
               endpoint: minio.${SECRET_PUBLIC_DOMAIN}
               access_key_id: ${SECRET_MINIO_ACCESS_KEY}
               secret_access_key: ${SECRET_MINIO_SECRET_KEY}
