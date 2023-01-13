@@ -31,6 +31,7 @@ spec:
       pspEnabled: false
     testFramework:
       enabled: false
+    adminPassword: "${SECRET_GRAFANA_PASSWORD}"
     grafana.ini:
       auth.basic:
         disable_login_form: false
