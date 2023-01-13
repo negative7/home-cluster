@@ -1,4 +1,5 @@
 {
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:base",
     "docker:enableMajor",
@@ -20,7 +21,7 @@
   "username": "negative-7-bot[bot]",
   "repositories": ["negative7/home-cluster"],
   "onboarding": false,
-  "requireConfig": false,
+  "requireConfig": "optional",
   "gitAuthor": "negative-7-bot <98169174+negative-7-bot[bot]@users.noreply.github.com>",
   "dependencyDashboardTitle": "Renovate Dashboard 🤖",
   "suppressNotifications": ["prIgnoreNotification"],
@@ -38,7 +39,7 @@
   "regexManagers": [
     {
       "description": "Process custom dependencies",
-      "fileMatch": ["ansible/.+\\.ya?ml$", "kubernetes/.+\\.ya?ml$"],
+      "fileMatch": ["ansible/.+\\.ya?ml$", "cluster/.+\\.ya?ml$"],
       "matchStrings": [
         "datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( versioning=(?<versioning>\\S+))?\n.*?\"(?<currentValue>.*)\"\n"
       ],
@@ -48,15 +49,20 @@
   ],
   "packageRules": [
     {
-      "description": "Use loose versioning for certain dependencies",
-      "matchDatasources": ["docker", "github-releases"],
+      "description": "Loose versioning for non-semver packages",
+      "matchDatasources": ["docker"],
       "versioning": "loose",
-      "matchPackagePatterns": ["immich", "plex", "qbittorrent"]
+      "matchPackagePatterns": [
+        "changedetection",
+        "immich",
+        "plex",
+        "qbittorrent"
+      ]
     },
     {
       "description": "Use custom versioning for Minio",
       "matchDatasources": ["docker"],
-      "versioning": "regex:^RELEASE\\.(?<major>\\d+)-(?<minor>\\d+)-(?<patch>\\d+)T.*Z(-(?<compatibility>.*))?$",
+      "versioning": "regex:^RELEASE\\.(?<major>\\d+)-(?<minor>\\d+)-(?<patch>\\d+)T.*Z$",
       "matchPackagePatterns": ["minio"]
     }
   ]

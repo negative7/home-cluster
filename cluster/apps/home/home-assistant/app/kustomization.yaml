@@ -5,6 +5,6 @@ namespace: home
 resources:
   - config-pvc.yaml
   - secret.sops.yaml
-  - helm-release.yaml
+  - helmrelease.yaml
 patchesStrategicMerge:
   - ./patches/addons.yaml

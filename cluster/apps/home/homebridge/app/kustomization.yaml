@@ -4,4 +4,4 @@ kind: Kustomization
 namespace: home
 resources:
   - config-pvc.yaml
-  - helm-release.yaml
+  - helmrelease.yaml

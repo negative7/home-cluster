@@ -1,41 +1,30 @@
-# Trash
+.decrypted~*
 .DS_Store
-Thumbs.db
-# Binaries
-bin
-/flux
-*.iso
-# Temp folders
-.temp*
-.private/
 .logs/
+.private/
 .task/
-# Ansible
-xanmanning.k3s*
-mrlesmithjr.zfs*
-geerlingguy.docker*
-geerlingguy.pip*
-# Terraform
+.temp*
 .terraform
 .terraform.tfstate*
-terraform.tfstate*
-# Sops
-.decrypted~*
 *.agekey
-# Kubernetes
-kubeconfig*
-github-deploy-key
-talosconfig*
-*.pub
+*.iso
 *.key
 *.pem
-cluster/local
-# Extras
-config.xml
 *.pid
-# Node
+*.pub
+*.tfvars
+config.xml
+geerlingguy.docker*
+geerlingguy.pip*
+github-deploy-key
+init.md
+kubeconfig*
+kubernetes/schemas
+mrlesmithjr.zfs*
 node_modules
 package-lock.json
-# Other
 report.html
-init.md
+talosconfig*
+terraform.tfstate*
+Thumbs.db
+xanmanning.k3s*
