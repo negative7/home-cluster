@@ -1,0 +1,97 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: &app nzbget
+  namespace: default
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 1.2.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts-charts
+        namespace: flux-system
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    controller:
+      type: statefulset
+      annotations:
+        reloader.stakater.com/auto: 'true'
+    image:
+      repository: ghcr.io/onedr0p/nzbget
+      tag: v21.1
+    env:
+      TZ: '${TIMEZONE}'
+    service:
+      main:
+        ports:
+          http:
+            port: 6789
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: nginx
+        annotations:
+          nginx.ingress.kubernetes.io/configuration-snippet: |
+            proxy_set_header Accept-Encoding "";
+            sub_filter '</head>' '<link rel="stylesheet" type="text/css" href="https://theme-park.${SECRET_PUBLIC_DOMAIN}/css/base/nabget/nord.css"></head>';
+            sub_filter_once on;
+          hajimari.io/icon: mdi:filmstrip
+        hosts:
+          - host: &host '{{ .Release.Name }}.${SECRET_PUBLIC_DOMAIN}'
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - hosts:
+              - *host
+    podSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
+      fsGroupChangePolicy: 'OnRootMismatch'
+      supplementalGroups:
+        - 100
+    volumeClaimTemplates:
+      - name: config
+        mountPath: /config
+        accessMode: ReadWriteOnce
+        size: 10Gi
+        storageClass: longhorn
+        labels:
+          recurring-job.longhorn.io/backup-1: enabled
+          recurring-job.longhorn.io/snapshot-1: enabled
+      - name: downloads
+        mountPath: /downloads
+        accessMode: ReadWriteOnce
+        size: 200Gi
+        storageClass: longhorn
+        labels:
+          recurring-job.longhorn.io/backup-1: enabled
+          recurring-job.longhorn.io/snapshot-1: enabled
+    persistence:
+      completed:
+        enabled: true
+        type: nfs
+        server: freenas.${SECRET_PUBLIC_DOMAIN}
+        path: /mnt/tank/data
+        readOnly: false
+    resources:
+      requests:
+        cpu: 100m
+        memory: 250Mi
+      limits:
+        memory: 8000Mi
