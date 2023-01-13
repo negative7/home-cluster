@@ -78,17 +78,20 @@ spec:
       config:
         enabled: true
         existingClaim: plex-config-v1
+        mountPath: /config
       tv:
         enabled: true
         type: nfs
         server: "freenas.${SECRET_PUBLIC_DOMAIN}"
         path: /mnt/tank/media/tv
+        mountPath: /media/tv
         readOnly: false
       movies:
         enabled: true
         type: nfs
         server: "freenas.${SECRET_PUBLIC_DOMAIN}"
         path: /mnt/tank/media/movies
+        mountPath: /media/movies
         readOnly: false
       backup:
         enabled: true
