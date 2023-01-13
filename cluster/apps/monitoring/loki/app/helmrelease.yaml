@@ -144,7 +144,7 @@ spec:
           emptyDir: {}
       persistence:
         size: 10Gi
-        storageClass: local-path
+        storageClass: longhorn
     monitoring:
       serviceMonitor:
         enabled: false
