@@ -17,7 +17,9 @@ spec:
             - /bin/bash
             - -c
             - |-
-              cp -a /backup/${NAMESPACE}/${APP}/* /data/${NAMESPACE}/${APP}/
+              rm -rf /data/${NAMESPACE}/${APP}/*
+              cp -a /backup/${NAMESPACE}/${APP} /data/${NAMESPACE}
+
           volumeMounts:
             - name: ${APP}-data
               mountPath: /data/${NAMESPACE}/${APP}
