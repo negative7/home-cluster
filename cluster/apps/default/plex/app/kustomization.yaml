@@ -4,6 +4,4 @@ kind: Kustomization
 namespace: default
 resources:
   - ./helmrelease.yaml
-  - ./backups
-  - ./cronjobs
   - ./config-pvc.yaml
