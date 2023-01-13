@@ -70,7 +70,6 @@ spec:
       config:
         enabled: true
         existingClaim: plex-config-v1
-        mountPath: /config
       tv:
         enabled: true
         type: nfs
