@@ -5,7 +5,9 @@ metadata:
   name: homebridge-config-v1
   namespace: home
   labels:
-    kasten.io/backup-volume: "enabled"
+    app.kubernetes.io/name: &name homebridge
+    app.kubernetes.io/instance: *name
+    snapshot.home.arpa/enabled: "true"
 spec:
   accessModes:
     - ReadWriteOnce
