@@ -36,3 +36,4 @@ resources:
   - ./obeone-charts.yaml
   - ./weave-gitops.yaml
   - ./intel.yaml
+  - ./actions-runner-controller.yaml
