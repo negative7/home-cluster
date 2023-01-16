@@ -62,7 +62,7 @@ spec:
             s3:
               s3: null
               bucketnames: loki-logs
-              endpoint: 10.2.0.10:9000
+              endpoint: ${SECRET_MINIO_ADDRESS}
               access_key_id: ${SECRET_MINIO_ACCESS_KEY}
               secret_access_key: ${SECRET_MINIO_SECRET_KEY}
               region: us-east-1
