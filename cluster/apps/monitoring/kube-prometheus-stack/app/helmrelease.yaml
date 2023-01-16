@@ -142,7 +142,7 @@ spec:
             targetLabel: instance
     kubeApiServer:
       enabled: true
-    kkubeControllerManager:
+    kubeControllerManager:
       enabled: true
       endpoints:
         - 10.2.0.21
