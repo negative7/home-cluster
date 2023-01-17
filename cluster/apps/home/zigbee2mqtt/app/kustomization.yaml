@@ -4,7 +4,7 @@ kind: Kustomization
 namespace: home
 resources:
   - ./helmrelease.yaml
-  # - ./secret.sops.yaml
+  - ./secret.sops.yaml
 patchesStrategicMerge:
   - ./patches/env.yaml
   # - ./patches/exporter.yaml
