@@ -38,7 +38,7 @@
         mode: 0755
     - name: Copy kubeconfig
       ansible.builtin.copy:
-        src: "{{ playbook_dir }}/../../../cluster/kubeconfig"
+        src: "{{ playbook_dir }}/../../kubernetes/kubeconfig"
         dest: /mnt/data/coredns-workdir/kubeconfig
     - name: Start Coredns
       ansible.builtin.command: "/mnt/data/on_boot.d/53-coredns.sh"
