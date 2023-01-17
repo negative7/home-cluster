@@ -33,9 +33,9 @@ spec:
     image:
       repository: ghcr.io/koenkk/zigbee2mqtt
       tag: 1.29.2
-    envFrom:
-      - secretRef:
-          name: zigbee2mqtt-secret
+    # envFrom:
+    #   - secretRef:
+    #       name: zigbee2mqtt-secret
     service:
       main:
         ports:
