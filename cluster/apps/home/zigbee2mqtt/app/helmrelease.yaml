@@ -24,32 +24,51 @@ spec:
   values:
     image:
       repository: ghcr.io/koenkk/zigbee2mqtt
-      tag: latest-dev
-    env:
-      TZ: "${TIMEZONE}"
-      ZIGBEE2MQTT_DATA: /data
+      tag: 1.29.2
+    envFrom:
+      - secretRef:
+          name: zigbee2mqtt-secret
     service:
       main:
         ports:
           http:
             port: 8080
+    #       metrics:
+    #         enabled: true
+    #         port: 80
+    # serviceMonitor:
+    #   main:
+    #     enabled: true
+    #     endpoints:
+    #       - port: metrics
+    #         scheme: http
+    #         path: /metrics
+    #         interval: 1m
+    #         scrapeTimeout: 10s
     ingress:
       main:
         enabled: true
-        ingressClassName: "nginx"
+        ingressClassName: 'nginx'
+        annotations:
+          hajimari.io/icon: mdi:zigbee
         hosts:
-          - host: &host "{{ .Release.Name }}.${SECRET_PUBLIC_DOMAIN}"
+          - host: &host '{{ .Release.Name }}.${SECRET_PUBLIC_DOMAIN}'
             paths:
               - path: /
                 pathType: Prefix
         tls:
           - hosts:
               - *host
-    persistence:
-      config:
-        enabled: true
-        existingClaim: zigbee2mqtt-config-v1
+    volumeClaimTemplates:
+      - name: config
         mountPath: /data
+        accessMode: ReadWriteOnce
+        size: 1Gi
+        storageClass: longhorn
+        labels:
+          recurring-job.longhorn.io/backup-1: enabled
+          recurring-job.longhorn.io/snapshot-1: enabled
+    persistence:
       usb:
         enabled: true
         type: hostPath
@@ -57,6 +76,11 @@ spec:
         hostPathType: CharDevice
     securityContext:
       privileged: true
+    podSecurityContext:
+      runAsUser: 1000
+      runAsGroup: 1000
+      fsGroup: 1000
+      fsGroupChangePolicy: 'OnRootMismatch'
     affinity:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
@@ -64,7 +88,7 @@ spec:
             - matchExpressions:
                 - key: feature.node.kubernetes.io/usb-ff_1a86_7523.present
                   operator: In
-                  values: ["true"]
+                  values: ['true']
     resources:
       requests:
         cpu: 10m

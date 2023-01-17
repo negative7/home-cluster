@@ -4,4 +4,6 @@ kind: Kustomization
 namespace: home
 resources:
   - helmrelease.yaml
-  - config-pvc.yaml
+patchesStrategicMerge:
+  - ./patches/env.yaml
+  # - ./patches/exporter.yaml
