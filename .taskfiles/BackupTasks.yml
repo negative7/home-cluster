@@ -18,7 +18,7 @@ x-vars: &vars
   NAME:
     sh: kubectl get deploy,sts -n {{.NAMESPACE}} | awk '/{{.APP}}\s/{print $1}'
   VOLUME:
-    sh: kubectl get pvc -n {{.NAMESPACE}} --no-headers -l "app.kubernetes.io/name={{.APP}}" | awk '{print $1}'
+    sh: kubectl get pvc -n {{.NAMESPACE}} --no-headers -l "app.kubernetes.io/name={{.APP}}" | awk 'NR==1{print $1}'
   TS: '{{now | date "20060102150405"}}'
 
 tasks:
