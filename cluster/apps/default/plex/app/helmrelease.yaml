@@ -32,8 +32,8 @@ spec:
       repository: ghcr.io/onedr0p/plex
       tag: 1.30.1.6562-915986d62@sha256:50315e766947f766b529d6b3ef50f4aef8cc0f96b6c7d9ec0cc3cdf1bdc428de
     env:
-      TZ: "${TIMEZONE}"
-      PLEX_CLAIM: "${PLEX_CLAIM}"
+      TZ: '${TIMEZONE}'
+      PLEX_CLAIM: '${PLEX_CLAIM}'
     service:
       main:
         type: LoadBalancer
@@ -47,10 +47,10 @@ spec:
         enabled: true
         ingressClassName: nginx
         annotations:
-          external-dns.home.arpa/enabled: "true"
+          external-dns.home.arpa/enabled: 'true'
           hajimari.io/icon: mdi:plex
         hosts:
-          - host: &host "{{ .Release.Name }}.${SECRET_PUBLIC_DOMAIN}"
+          - host: &host '{{ .Release.Name }}.${SECRET_PUBLIC_DOMAIN}'
             paths:
               - path: /
                 pathType: Prefix
@@ -61,33 +61,39 @@ spec:
       runAsUser: 568
       runAsGroup: 568
       fsGroup: 568
-      fsGroupChangePolicy: "OnRootMismatch"
+      fsGroupChangePolicy: 'OnRootMismatch'
       supplementalGroups:
-        - 44 b
+        - 44
         - 109
         - 100
+    volumeClaimTemplates:
+      - name: config
+        mountPath: /config
+        accessMode: ReadWriteOnce
+        size: 100Gi
+        storageClass: longhorn
+        labels:
+          recurring-job.longhorn.io/backup-1: enabled
+          recurring-job.longhorn.io/snapshot-1: enabled
     persistence:
-      config:
-        enabled: true
-        existingClaim: plex-config-v1
       tv:
         enabled: true
         type: nfs
-        server: "freenas.${SECRET_PUBLIC_DOMAIN}"
+        server: 'freenas.${SECRET_PUBLIC_DOMAIN}'
         path: /mnt/tank/media/tv
         mountPath: /media/tv
         readOnly: false
       movies:
         enabled: true
         type: nfs
-        server: "freenas.${SECRET_PUBLIC_DOMAIN}"
+        server: 'freenas.${SECRET_PUBLIC_DOMAIN}'
         path: /mnt/tank/media/movies
         mountPath: /media/movies
         readOnly: false
       backup:
         enabled: true
         type: nfs
-        server: "freenas.${SECRET_PUBLIC_DOMAIN}"
+        server: 'freenas.${SECRET_PUBLIC_DOMAIN}'
         path: /mnt/tank/backups/plex
         mountPath: /config/Backups
         readOnly: false
@@ -96,8 +102,8 @@ spec:
         type: emptyDir
         medium: Memory
     nodeSelector:
-      node-role.kubernetes.io/worker: "true"
-      intel.feature.node.kubernetes.io/gpu: "true"
+      node-role.kubernetes.io/worker: 'true'
+      intel.feature.node.kubernetes.io/gpu: 'true'
     affinity:
       podAntiAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
@@ -105,7 +111,7 @@ spec:
               matchExpressions:
                 - key: app.kubernetes.io/name
                   operator: In
-                  values: ["frigate"]
+                  values: ['frigate']
             topologyKey: kubernetes.io/hostname
     resources:
       requests:
