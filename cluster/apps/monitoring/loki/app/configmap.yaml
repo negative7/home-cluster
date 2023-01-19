@@ -128,3 +128,17 @@ data:
               category: logs
             annotations:
               summary: "Node-Red is unable to connect to Home Assistant"
+      #
+      # Orphan Pods
+      #
+      - name: orphans
+        rules:
+          - alert: OrphanPodsOnNodes
+            expr: |
+              sum by (hostname) (count_over_time({hostname=~"dnipro|kharkiv|kyiv|vinnytsia"} |~ "were many similar errors" [2m])) > 0
+            for: 2m
+            labels:
+              severity: critical
+              category: logs
+            annotations:
+              summary: "{{ $labels.hostname }} has orpahaned pods"
