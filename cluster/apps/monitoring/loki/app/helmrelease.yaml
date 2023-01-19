@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: loki
-      version: 3.10.0
+      version: 4.3.0
       sourceRef:
         kind: HelmRepository
         name: grafana-charts
@@ -34,7 +34,7 @@ spec:
           http_listen_port: 3100
           grpc_listen_port: 9095
         memberlist:
-          join_members: ["loki-memberlist"]
+          join_members: ['loki-memberlist']
         limits_config:
           retention_period: 14d
           enforce_metric_name: false
@@ -48,7 +48,7 @@ spec:
             enabled: true
         schema_config:
           configs:
-            - from: "2021-08-01"
+            - from: '2021-08-01'
               store: boltdb-shipper
               object_store: s3
               schema: v11
@@ -103,7 +103,6 @@ spec:
         analytics:
           reporting_enabled: false
     gateway:
-      enabled: true
       replicas: 3
       image:
         registry: ghcr.io
@@ -113,7 +112,7 @@ spec:
         enabled: true
         ingressClassName: nginx
         annotations:
-          hajimari.io/enable: "false"
+          hajimari.io/enable: 'false'
         hosts:
           - host: &host loki.${SECRET_PUBLIC_DOMAIN}
             paths:
@@ -125,28 +124,24 @@ spec:
     write:
       replicas: 3
       persistence:
-        size: 10Gi
         storageClass: longhorn
     read:
       replicas: 3
+    backend:
+      replicas: 3
+      persistence:
+        storageClass: longhorn
       extraVolumeMounts:
-        - name: loki-rules
+        - name: rules
           mountPath: /rules/fake
-        - name: loki-rules-tmp
+        - name: scratch
           mountPath: /tmp/scratch
-        - name: loki-tmp
-          mountPath: /tmp/loki-tmp
       extraVolumes:
-        - name: loki-rules
+        - name: rules
           configMap:
             name: loki-alerting-rules
-        - name: loki-rules-tmp
+        - name: scratch
           emptyDir: {}
-        - name: loki-tmp
-          emptyDir: {}
-      persistence:
-        size: 10Gi
-        storageClass: longhorn
     monitoring:
       serviceMonitor:
         enabled: false
