@@ -25,8 +25,6 @@ spec:
     image:
       repository: esphome/esphome
       tag: 2022.12.3
-    podAnnotations:
-      secret.reloader.stakater.com/reload: esphome-config-deploykey
     env:
       TZ: '${TIMEZONE}'
     service:
@@ -55,6 +53,16 @@ spec:
       config:
         enabled: true
         existingClaim: esphome-config-v1
+      secrets:
+        enabled: true
+        type: secret
+        name: esphome-secrets
+        mountPath: /config/secrets.yaml
+        subPath: secrets.yaml
+      esphome-cache:
+          enabled: true
+          type: emptyDir
+          mountPath: /config/.esphome
     resources:
       requests:
         cpu: 300m
