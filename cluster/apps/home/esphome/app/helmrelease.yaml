@@ -53,16 +53,16 @@ spec:
       config:
         enabled: true
         existingClaim: esphome-config-v1
-      # secrets:
-      #   enabled: true
-      #   type: secret
-      #   name: esphome-secrets
-      #   mountPath: /config/secrets.yaml
-      #   subPath: secrets.yaml
-      # esphome-cache:
-      #     enabled: true
-      #     type: emptyDir
-      #     mountPath: /config/.esphome
+      secrets:
+        enabled: true
+        type: secret
+        name: esphome-secrets
+        mountPath: /config/secrets.yaml
+        subPath: secrets.yaml
+      esphome-cache:
+          enabled: true
+          type: emptyDir
+          mountPath: /config/.esphome
     resources:
       requests:
         cpu: 300m
