@@ -38,7 +38,7 @@ spec:
       LIBVA_DRIVER_NAME: i965
     envFrom:
       - secretRef:
-          name: *app
+          name: frigate-secret
     service:
       main:
         ports:
