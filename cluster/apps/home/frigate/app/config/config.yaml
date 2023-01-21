@@ -8,7 +8,7 @@ mqtt:
   host: mosquitto.home.svc.cluster.local
   topic_prefix: frigate
   user: home
-  password: "${FRIGATE_MQTT_PASSWORD}"
+  password: "{FRIGATE_MQTT_PASSWORD}"
 
 database:
   path: /data/frigate.db
