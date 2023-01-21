@@ -33,9 +33,6 @@ ffmpeg:
   output_args:
     record: -f segment -segment_time 10 -segment_format mp4 -reset_timestamps 1 -strftime 1 -map 0:v:0 -map 0:a:0 -c copy
 
-rtmp:
-  enabled: true
-
 snapshots:
   enabled: true
   timestamp: false
