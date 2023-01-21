@@ -12,8 +12,6 @@ spec:
   nfs:
     server: "${TRUENAS_SERVER}"
     path: /mnt/tank/data/frigate
-  # Note: The first two options are strictly for NFSv4.2
-  mountOptions: ["nfsvers=4.2", "nconnect=8", "hard", "noatime"]
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
