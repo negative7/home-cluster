@@ -4,7 +4,7 @@ kind: Kustomization
 namespace: home
 resources:
   - config-pvc.yaml
-  # - secret.sops.yaml
+  - secret.sops.yaml
   - helmrelease.yaml
 commonLabels:
   app.kubernetes.io/name: esphome
