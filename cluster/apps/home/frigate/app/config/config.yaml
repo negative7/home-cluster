@@ -61,8 +61,8 @@ objects:
 
 go2rtc:
   streams:
-    frigate_doorbell_lq: ffmpeg:rtspx://10.0.1.1:7441/ugoKFUmUYJNvIshU
-    frigate_doorbell_hq: ffmpeg:rtspx://10.0.1.1:7441/ACDMjj7hyTvuDhID
+    frigate_doorbell_lq: ffmpeg:rtsp://10.0.1.1:7447/ugoKFUmUYJNvIshU
+    frigate_doorbell_hq: ffmpeg:rtsp://10.0.1.1:7447/ACDMjj7hyTvuDhID
 
 
 cameras:
