@@ -1,11 +1,11 @@
 ---
 logger:
   default: info
-  logs:
-    frigate.record: debug
+  # logs:
+  #   frigate.record: debug
 
 mqtt:
-  host: mosquitto
+  host: mosquitto.home.svc.cluster.local
   topic_prefix: frigate
   user: home
   password: "{FRIGATE_MQTT_PASSWORD}"
@@ -14,37 +14,24 @@ database:
   path: /data/frigate.db
 
 detectors:
-  cpu1:
-    type: cpu
-  cpu2:
-    type: cpu
-  cpu3:
-    type: cpu
-  cpu4:
-    type: cpu
+  ov:
+    type: openvino
+    device: AUTO
+    model:
+      path: /openvino-model/ssdlite_mobilenet_v2.xml
 
-objects:
-  track:
-    - person
-  filters:
-    person:
-      min_area: 2500
-      max_area: 100000
-      threshold: 0.7
+model:
+  width: 300
+  height: 300
+  input_tensor: nhwc
+  input_pixel_format: bgr
+  labelmap_path: /openvino-model/coco_91cl_bkgr.txt
 
 ffmpeg:
-  global_args:
-    - -hide_banner
-    - -loglevel
-    - warning
-    - -an
-  hwaccel_args:
-    - -hwaccel
-    - vaapi
-    - -hwaccel_device
-    - /dev/dri/renderD128
-    - -hwaccel_output_format
-    - yuv420p
+  global_args: ["-hide_banner", "-loglevel", "warning"]
+  hwaccel_args: ["-hwaccel", "vaapi", "-hwaccel_device", "/dev/dri/renderD128", "-hwaccel_output_format", "yuv420p"]
+  output_args:
+    record: -f segment -segment_time 10 -segment_format mp4 -reset_timestamps 1 -strftime 1 -map 0:v:0 -map 0:a:0 -c copy
 
 rtmp:
   enabled: true
@@ -66,16 +53,30 @@ record:
       default: 7
       mode: active_objects
 
+objects:
+  track: ["person"]
+  filters:
+    person:
+      min_area: 5000
+      max_area: 100000
+      threshold: 0.7
+
+
+go2rtc:
+  streams:
+    frigate_doorbell_lq: ffmpeg:rtsp://10.0.1.1:7441/ugoKFUmUYJNvIshU
+    frigate_doorbell_hq: ffmpeg:rtsp://10.0.1.1:7441/ACDMjj7hyTvuDhID
+
+
 cameras:
   frigate_doorbell:
     ffmpeg:
       inputs:
-        - path: rtsps://10.0.1.1:7441/ugoKFUmUYJNvIshU
+        - path: rtsp://localhost:8554/frigate_doorbell_lq
           roles:
             - detect
-        - path: rtsps://10.0.1.1:7441/ACDMjj7hyTvuDhID
+        - path: rtsp://localhost:8554/frigate_doorbell_hq
           roles:
-            - rtmp
             - record
     detect:
       width: 960
