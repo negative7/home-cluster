@@ -5,7 +5,7 @@ resources:
   # Pre Flux-Kustomizations
   - ./namespace.yaml
   # Flux-Kustomizations
-  # - ./audiobookshelf/ks.yaml
+  - ./audiobookshelf/ks.yaml
   # - ./authelia/ks.yaml
   # - ./bazarr/ks.yaml
   # - ./changedetection/ks.yaml
@@ -18,7 +18,7 @@ resources:
   - ./hajimari/ks.yaml
   # - ./home-assistant/ks.yaml
   # - ./immich/ks.yaml
-  # - ./jellyfin/ks.yaml
+  - ./jellyfin/ks.yaml
   # - ./kubernetes-schemas/ks.yaml
   # - ./letsblockit/ks.yaml
   # - ./lidarr/ks.yaml
