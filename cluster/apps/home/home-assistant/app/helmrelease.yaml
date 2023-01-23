@@ -22,12 +22,12 @@ spec:
     remediation:
       retries: 5
   values:
-    # initContainers:
-    #   init-db:
-    #     image: ghcr.io/onedr0p/postgres-initdb:14.6
-    #     envFrom:
-    #       - secretRef:
-    #           name: *app
+    initContainers:
+      init-db:
+        image: ghcr.io/onedr0p/postgres-initdb:14.6
+        envFrom:
+          - secretRef:
+              name: *app
     image:
       repository: ghcr.io/home-assistant/home-assistant
       tag: 2023.1.7
