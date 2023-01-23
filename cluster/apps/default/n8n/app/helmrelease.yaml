@@ -38,9 +38,6 @@ spec:
       TZ: America/New_York
       N8N_PORT: &port 80
       N8N_METRICS: "true"
-    envFrom:
-      - secretRef:
-          name: n8n-secret
     service:
       main:
         ports:
