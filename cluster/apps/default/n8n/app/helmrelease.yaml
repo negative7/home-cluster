@@ -26,10 +26,16 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    initContainers:
+      init-db:
+        image: ghcr.io/onedr0p/postgres-initdb:14.6
+        envFrom:
+          - secretRef:
+              name: n8n-secret
     controller:
       type: statefulset
       annotations:
-        reloader.stakater.com/auto: "true"
+        reloader.stakater.com/auto: 'true'
     image:
       repository: docker.io/n8nio/n8n
       tag: 0.212.0
@@ -37,7 +43,7 @@ spec:
       GENERIC_TIMEZONE: America/New_York
       TZ: America/New_York
       N8N_PORT: &port 80
-      N8N_METRICS: "true"
+      N8N_METRICS: 'true'
     service:
       main:
         ports:
@@ -64,7 +70,7 @@ spec:
         size: 1Gi
         storageClass: longhorn
         labels:
-          snapshot.home.arpa/enabled: "true"
+          snapshot.home.arpa/enabled: 'true'
     resources:
       requests:
         cpu: 10m
