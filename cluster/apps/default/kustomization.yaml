@@ -33,10 +33,10 @@ resources:
   - ./prowlarr/ks.yaml
   # - ./qbittorrent/ks.yaml
   - ./radarr/ks.yaml
-  # - ./recyclarr/ks.yaml
+  - ./recyclarr/ks.yaml
   # - ./redis/ks.yaml
   - ./nzbget/ks.yaml
-  # - ./semaphore/ks.yaml
+  - ./semaphore/ks.yaml
   # - ./shlink/ks.yaml
   - ./sonarr/ks.yaml
   - ./tautulli/ks.yaml
