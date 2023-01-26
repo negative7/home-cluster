@@ -46,8 +46,10 @@ metadata:
     app.kubernetes.io/instance: *app
 spec:
   ingressClassName: nginx
+  annotations:
+    hajimari.io/enable: 'false'
   rules:
-    - host: &host "minio.${SECRET_PUBLIC_DOMAIN}"
+    - host: &host 'minio.${SECRET_PUBLIC_DOMAIN}'
       http:
         paths:
           - path: /
@@ -72,7 +74,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: &hostui "minio-ui.${SECRET_PUBLIC_DOMAIN}"
+    - host: &hostui 'minio-ui.${SECRET_PUBLIC_DOMAIN}'
       http:
         paths:
           - path: /
