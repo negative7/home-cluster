@@ -29,6 +29,7 @@ resources:
   # - ./navidrome/ks.yaml
   # - ./opnsense/ks.yaml
   - ./overseerr/ks.yaml
+  - ./pgadmin/ks.yaml
   - ./plex/ks.yaml
   - ./prowlarr/ks.yaml
   # - ./qbittorrent/ks.yaml

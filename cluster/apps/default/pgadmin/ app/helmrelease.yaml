@@ -1,0 +1,83 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: &app pgadmin
+  namespace: default
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 1.2.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+      interval: 15m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    controller:
+      type: statefulset
+      annotations:
+        reloader.stakater.com/auto: 'true'
+        configmap.reloader.stakater.com/reload: *app
+    image:
+      repository: docker.io/dpage/pgadmin4
+      tag: 6.19
+    envFrom:
+      - secretRef:
+          name: *app
+    service:
+      main:
+        ports:
+          http:
+            port: 80
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: 'nginx'
+        annotations:
+          ingress.home.arpa: 'internal'
+        hosts:
+          - host: '{{ .Release.Name }}.${SECRET_PUBLIC_DOMAIN}'
+            paths:
+              - path: /
+                pathType: Prefix
+    podSecurityContext:
+      runAsUser: 5050
+      runAsGroup: 5050
+      fsGroup: 5050
+      fsGroupChangePolicy: 'OnRootMismatch'
+    volumeClaimTemplates:
+      - name: config
+        mountPath: /var/lib/pgadmin
+        accessMode: ReadWriteOnce
+        size: 1Gi
+        storageClass: longhorn
+        labels:
+          recurring-job.longhorn.io/backup-1: enabled
+          recurring-job.longhorn.io/snapshot-1: enabled
+    persistence:
+      server-json:
+        enabled: true
+        type: configMap
+        name: servers-json
+        subPath: servers.json
+        mountPath: /pgadmin4/servers.json
+    resources:
+      requests:
+        cpu: 15m
+        memory: 164M
+      limits:
+        memory: 236M
