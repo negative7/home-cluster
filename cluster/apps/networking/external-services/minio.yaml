@@ -41,10 +41,11 @@ kind: Ingress
 metadata:
   name: &app minio-proxy
   namespace: networking
+  annotations:
+    hajimari.io/enable: false
   labels:
     app.kubernetes.io/name: *app
     app.kubernetes.io/instance: *app
-    hajimari.io/enable: 'false'
 spec:
   ingressClassName: nginx
   rules:
