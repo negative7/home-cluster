@@ -70,6 +70,7 @@ metadata:
   namespace: networking
   annotations:
     hajimari.io/icon: simple-icons:amazons3
+    hajimari.io/appName: 'Minio'
   labels:
     app.kubernetes.io/name: *appui
     app.kubernetes.io/instance: *appui
