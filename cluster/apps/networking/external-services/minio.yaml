@@ -45,7 +45,7 @@ metadata:
     app.kubernetes.io/name: *app
     app.kubernetes.io/instance: *app
     hajimari.io/enable: 'false'
-    hajimari.io/icon: simple-icons:amazons3
+    hajimari.io/icon: 'simple-icons:amazons3'
 spec:
   ingressClassName: nginx
   rules:
