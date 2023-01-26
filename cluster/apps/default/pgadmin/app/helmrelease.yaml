@@ -37,7 +37,7 @@ spec:
       tag: "6.19"
     envFrom:
       - secretRef:
-          name: *app
+          name: pgadmin-secret
     service:
       main:
         ports:
