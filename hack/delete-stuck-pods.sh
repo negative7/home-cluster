@@ -6,7 +6,7 @@ function delete_pod () {
     kubectl delete pod -n $2 --grace-period=0 --force $pod
 }
 
-NAMESPACES=(actions-runner-system cert-manager default home kube-system kyverno longhorn-system metallb-system monitoring networking system-upgrade)
+NAMESPACES=(actions-runner-system cert-manager default home kube-system kyverno longhorn-system monitoring networking system-upgrade)
 
 for NS in ${NAMESPACES[@]}; do
     TERMINATING_PODS=$(kubectl get pods -n $NS | grep Terminating | awk '{print $1}')

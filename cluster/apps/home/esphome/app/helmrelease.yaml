@@ -14,14 +14,22 @@ spec:
         kind: HelmRepository
         name: bjw-s-charts
         namespace: flux-system
+  maxHistory: 3
   install:
     createNamespace: true
     remediation:
-      retries: 5
+      retries: 3
   upgrade:
+    cleanupOnFail: true
     remediation:
-      retries: 5
+      retries: 3
+  uninstall:
+    keepHistory: false
   values:
+    controller:
+      type: statefulset
+      annotations:
+        reloader.stakater.com/auto: 'true'
     image:
       repository: esphome/esphome
       tag: 2022.12.8
@@ -62,9 +70,9 @@ spec:
         mountPath: /config/secrets.yaml
         subPath: secrets.yaml
       esphome-cache:
-          enabled: true
-          type: emptyDir
-          mountPath: /config/.esphome
+        enabled: true
+        type: emptyDir
+        mountPath: /config/.esphome
     resources:
       requests:
         cpu: 300m
