@@ -7,14 +7,14 @@ metadata:
 spec:
   template:
     spec:
-      image: ghcr.io/actions-runner-controller/actions-runner-controller/actions-runner-dind:ubuntu-22.04@sha256:b3bcb9d912e50227d9959faec49b5a4f7cb31c15775dde207d070c0de8b898af
+      image: ghcr.io/actions/actions-runner-controller/actions-runner-dind:v2.299.1-ubuntu-22.04
       imagePullPolicy: Always
       dockerdWithinRunnerContainer: true
       ephemeral: true
       repository: negative7/home-cluster
-      labels: ["self-hosted"]
+      labels: ['self-hosted']
       nodeSelector:
-        node-role.kubernetes.io/worker: "true"
+        node-role.kubernetes.io/worker: 'true'
       securityContext:
         supplementalGroups:
           - 65542
@@ -37,13 +37,12 @@ spec:
   scaleUpTriggers:
     - githubEvent:
         checkRun:
-          types: ["created"]
-          status: "queued"
+          types: ['created']
+          status: 'queued'
       amount: 1
-      duration: "1m"
+      duration: 30m
   minReplicas: 1
   maxReplicas: 3
   metrics:
     - type: TotalNumberOfQueuedAndInProgressWorkflowRuns
-      repositoryNames:
-        - negative7/home-cluster
+      repositoryNames: ['home-cluster']

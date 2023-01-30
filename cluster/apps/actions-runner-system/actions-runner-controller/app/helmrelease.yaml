@@ -46,8 +46,8 @@ spec:
       ingress:
         enabled: true
         annotations:
-          external-dns.home.arpa/enabled: "true"
-          hajimari.io/enable: "false"
+          external-dns.home.arpa/enabled: 'true'
+          hajimari.io/enable: 'false'
         ingressClassName: nginx
         hosts:
           - host: &host arc-webhook.${SECRET_PUBLIC_DOMAIN}
@@ -62,10 +62,14 @@ spec:
       port: 8080
       proxy:
         enabled: false
-    # actionsMetricsServer:
-    #   enabled: true
-    # actionsMetrics:
-    #   serviceMonitor: true
-    #   port: 8080
-    #   proxy:
-    #     enabled: false
+    actionsMetricsServer:
+      enabled: true
+      secret:
+        enabled: true
+        create: false
+        name: *secret
+    actionsMetrics:
+      serviceMonitor: true
+      port: 8080
+      proxy:
+        enabled: false
