@@ -4,11 +4,7 @@ kind: Kustomization
 metadata:
   name: cluster-apps-node-feature-discovery
   namespace: flux-system
-<<<<<<< HEAD
-  spec:
-=======
 spec:
->>>>>>> 544dc184 (feat: switch substitution.flux.home.arpa label to be enabled by default)
   path: ./cluster/apps/kube-system/node-feature-discovery/app
   prune: true
   sourceRef:

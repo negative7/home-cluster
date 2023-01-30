@@ -4,11 +4,7 @@ kind: Kustomization
 metadata:
   name: cluster-apps-metallb
   namespace: flux-system
-<<<<<<< HEAD
-  spec:
-=======
 spec:
->>>>>>> 544dc184 (feat: switch substitution.flux.home.arpa label to be enabled by default)
   path: ./cluster/apps/networking/metallb/app
   prune: true
   sourceRef:
@@ -28,8 +24,6 @@ kind: Kustomization
 metadata:
   name: cluster-apps-metallb-config
   namespace: flux-system
-  labels:
-    substitution.flux.home.arpa/enabled: 'true'
 spec:
   dependsOn:
     - name: cluster-apps-metallb

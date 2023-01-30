@@ -4,11 +4,7 @@ kind: Kustomization
 metadata:
   name: cluster-apps-flux-monitoring
   namespace: flux-system
-<<<<<<< HEAD
-  spec:
-=======
 spec:
->>>>>>> 544dc184 (feat: switch substitution.flux.home.arpa label to be enabled by default)
   path: ./cluster/apps/flux-system/addons/monitoring
   prune: true
   sourceRef:
@@ -24,11 +20,7 @@ kind: Kustomization
 metadata:
   name: cluster-apps-flux-notifications
   namespace: flux-system
-<<<<<<< HEAD
-  spec:
-=======
 spec:
->>>>>>> 544dc184 (feat: switch substitution.flux.home.arpa label to be enabled by default)
   path: ./cluster/apps/flux-system/addons/notifications
   prune: true
   sourceRef:
@@ -44,11 +36,7 @@ kind: Kustomization
 metadata:
   name: cluster-apps-flux-webhooks
   namespace: flux-system
-<<<<<<< HEAD
-  spec:
-=======
 spec:
->>>>>>> 544dc184 (feat: switch substitution.flux.home.arpa label to be enabled by default)
   path: ./cluster/apps/flux-system/addons/webhooks
   prune: true
   sourceRef:

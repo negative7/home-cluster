@@ -4,11 +4,7 @@ kind: Kustomization
 metadata:
   name: cluster-apps-home-assistant
   namespace: flux-system
-<<<<<<< HEAD
-  spec:
-=======
 spec:
->>>>>>> 544dc184 (feat: switch substitution.flux.home.arpa label to be enabled by default)
   dependsOn:
     - name: cluster-apps-mosquitto
     - name: cluster-apps-longhorn
