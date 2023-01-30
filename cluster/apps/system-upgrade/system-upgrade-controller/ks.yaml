@@ -4,7 +4,11 @@ kind: Kustomization
 metadata:
   name: cluster-apps-system-upgrade-controller
   namespace: flux-system
+<<<<<<< HEAD
   spec:
+=======
+spec:
+>>>>>>> 544dc184 (feat: switch substitution.flux.home.arpa label to be enabled by default)
   path: ./cluster/apps/system-upgrade/system-upgrade-controller/app
   prune: true
   sourceRef:
@@ -20,7 +24,11 @@ kind: Kustomization
 metadata:
   name: cluster-apps-system-upgrade-controller-plans
   namespace: flux-system
+<<<<<<< HEAD
   spec:
+=======
+spec:
+>>>>>>> 544dc184 (feat: switch substitution.flux.home.arpa label to be enabled by default)
   dependsOn:
     - name: cluster-apps-system-upgrade-controller
   path: ./cluster/apps/system-upgrade/system-upgrade-controller/plans

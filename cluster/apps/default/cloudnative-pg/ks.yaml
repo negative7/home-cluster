@@ -26,7 +26,11 @@ kind: Kustomization
 metadata:
   name: cluster-apps-cloudnative-pg-cluster
   namespace: flux-system
+<<<<<<< HEAD
   spec:
+=======
+spec:
+>>>>>>> 544dc184 (feat: switch substitution.flux.home.arpa label to be enabled by default)
   dependsOn:
     - name: cluster-apps-cloudnative-pg
     - name: cluster-apps-kyverno
