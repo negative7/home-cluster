@@ -4,9 +4,7 @@ kind: Kustomization
 metadata:
   name: cluster-apps-longhorn
   namespace: flux-system
-  labels:
-    substitution.flux.home.arpa/enabled: "true"
-spec:
+  spec:
   path: ./cluster/apps/longhorn-system/longhorn/app
   prune: true
   sourceRef:

@@ -4,9 +4,7 @@ kind: Kustomization
 metadata:
   name: cluster-apps-hajimari
   namespace: flux-system
-  labels:
-    substitution.flux.home.arpa/enabled: "true"
-spec:
+  spec:
   path: ./cluster/apps/default/hajimari/app
   prune: true
   sourceRef:

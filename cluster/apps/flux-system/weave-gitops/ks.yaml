@@ -4,9 +4,7 @@ kind: Kustomization
 metadata:
   name: cluster-apps-weave-gitops
   namespace: flux-system
-  labels:
-    substitution.flux.home.arpa/enabled: "true"
-spec:
+  spec:
   path: ./cluster/apps/flux-system/weave-gitops/app
   prune: true
   sourceRef:

@@ -4,9 +4,7 @@ kind: Kustomization
 metadata:
   name: cluster-apps-vpa
   namespace: flux-system
-  labels:
-    substitution.flux.home.arpa/enabled: "true"
-spec:
+  spec:
   dependsOn:
     - name: cluster-apps-thanos
   path: ./cluster/apps/monitoring/vpa/app

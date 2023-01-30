@@ -3,9 +3,7 @@ kind: Kustomization
 metadata:
   name: cluster-apps-zigbee2mqtt
   namespace: flux-system
-  labels:
-    substitution.flux.home.arpa/enabled: "true"
-spec:
+  spec:
   dependsOn:
     - name: cluster-apps-longhorn
   path: ./cluster/apps/home/zigbee2mqtt/app

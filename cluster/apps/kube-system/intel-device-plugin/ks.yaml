@@ -4,9 +4,7 @@ kind: Kustomization
 metadata:
   name: cluster-apps-intel-device-plugin-operator
   namespace: flux-system
-  labels:
-    substitution.flux.home.arpa/enabled: "true"
-spec:
+  spec:
   dependsOn:
     - name: cluster-apps-node-feature-discovery
   path: ./cluster/apps/kube-system/intel-device-plugin/app
@@ -28,9 +26,7 @@ kind: Kustomization
 metadata:
   name: cluster-apps-intel-device-plugin-gpu
   namespace: flux-system
-  labels:
-    substitution.flux.home.arpa/enabled: "true"
-spec:
+  spec:
   dependsOn:
     - name: cluster-apps-intel-device-plugin-operator
   path: ./cluster/apps/kube-system/intel-device-plugin/gpu
@@ -52,9 +48,7 @@ kind: Kustomization
 metadata:
   name: cluster-apps-intel-device-plugin-gpu-exporter
   namespace: flux-system
-  labels:
-    substitution.flux.home.arpa/enabled: "true"
-spec:
+  spec:
   dependsOn:
     - name: cluster-apps-intel-device-plugin-gpu
   path: ./cluster/apps/kube-system/intel-device-plugin/exporter

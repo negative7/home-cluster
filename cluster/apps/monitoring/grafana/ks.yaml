@@ -4,9 +4,7 @@ kind: Kustomization
 metadata:
   name: cluster-apps-grafana
   namespace: flux-system
-  labels:
-    substitution.flux.home.arpa/enabled: "true"
-spec:
+  spec:
   path: ./cluster/apps/monitoring/grafana/app
   prune: true
   sourceRef:

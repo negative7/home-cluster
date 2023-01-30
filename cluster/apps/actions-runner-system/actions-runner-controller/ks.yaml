@@ -4,9 +4,7 @@ kind: Kustomization
 metadata:
   name: cluster-apps-actions-runner-controller
   namespace: flux-system
-  labels:
-    substitution.flux.home.arpa/enabled: "true"
-spec:
+  spec:
   dependsOn:
     - name: cluster-apps-longhorn
   path: ./cluster/apps/actions-runner-system/actions-runner-controller/app
@@ -28,9 +26,7 @@ kind: Kustomization
 metadata:
   name: cluster-apps-actions-runner-controller-runners
   namespace: flux-system
-  labels:
-    substitution.flux.home.arpa/enabled: "true"
-spec:
+  spec:
   dependsOn:
     - name: cluster-apps-actions-runner-controller
   path: ./cluster/apps/actions-runner-system/actions-runner-controller/runners

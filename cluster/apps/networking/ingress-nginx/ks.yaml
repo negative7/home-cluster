@@ -4,9 +4,7 @@ kind: Kustomization
 metadata:
   name: cluster-apps-ingress-nginx-certificates
   namespace: flux-system
-  labels:
-    substitution.flux.home.arpa/enabled: "true"
-spec:
+  spec:
   dependsOn:
     - name: cluster-apps-cert-manager-issuers
   path: ./cluster/apps/networking/ingress-nginx/certificates
@@ -24,9 +22,7 @@ kind: Kustomization
 metadata:
   name: cluster-apps-ingress-nginx
   namespace: flux-system
-  labels:
-    substitution.flux.home.arpa/enabled: "true"
-spec:
+  spec:
   dependsOn:
     - name: cluster-apps-ingress-nginx-certificates
     - name: cluster-apps-metallb-config

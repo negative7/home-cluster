@@ -4,9 +4,7 @@ kind: Kustomization
 metadata:
   name: cluster-apps-loki
   namespace: flux-system
-  labels:
-    substitution.flux.home.arpa/enabled: "true"
-spec:
+  spec:
   dependsOn:
     - name: cluster-apps-longhorn
   path: ./cluster/apps/monitoring/loki/app

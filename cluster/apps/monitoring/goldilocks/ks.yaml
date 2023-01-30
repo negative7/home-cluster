@@ -4,9 +4,7 @@ kind: Kustomization
 metadata:
   name: cluster-apps-goldilocks
   namespace: flux-system
-  labels:
-    substitution.flux.home.arpa/enabled: "true"
-spec:
+  spec:
   dependsOn:
     - name: cluster-apps-vpa
   path: ./cluster/apps/monitoring/goldilocks/app

@@ -4,9 +4,7 @@ kind: Kustomization
 metadata:
   name: cluster-apps-vector-aggregator
   namespace: flux-system
-  labels:
-    substitution.flux.home.arpa/enabled: "true"
-spec:
+  spec:
   dependsOn:
     - name: cluster-apps-loki
   path: ./cluster/apps/monitoring/vector/aggregator
@@ -28,9 +26,7 @@ kind: Kustomization
 metadata:
   name: cluster-apps-vector-agent
   namespace: flux-system
-  labels:
-    substitution.flux.home.arpa/enabled: "true"
-spec:
+  spec:
   dependsOn:
     - name: cluster-apps-vector-aggregator
   path: ./cluster/apps/monitoring/vector/agent

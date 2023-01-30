@@ -4,9 +4,7 @@ kind: Kustomization
 metadata:
   name: cluster-apps-semaphore
   namespace: flux-system
-  labels:
-    substitution.flux.home.arpa/enabled: "true"
-spec:
+  spec:
   dependsOn:
     - name: cluster-apps-cloudnative-pg
   path: ./cluster/apps/default/semaphore/app
