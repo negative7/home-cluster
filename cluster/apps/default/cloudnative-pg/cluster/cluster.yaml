@@ -32,7 +32,6 @@ spec:
         maxParallel: 8
       destinationPath: s3://postgresql
       endpointURL: http://${SECRET_MINIO_ADDRESS}
-      serverName: postgres-v1
       s3Credentials:
         accessKeyId:
           name: cloudnative-pg-secret
@@ -49,7 +48,6 @@ spec:
           maxParallel: 8
         destinationPath: s3://postgresql
         endpointURL: http://${SECRET_MINIO_ADDRESS}
-        serverName: postgres-v1
         s3Credentials:
           accessKeyId:
             name: cloudnative-pg-secret
