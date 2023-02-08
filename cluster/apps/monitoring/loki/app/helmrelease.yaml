@@ -78,7 +78,7 @@ spec:
           storage:
             type: local
             local:
-              directory: /rules
+              directory: /var/loki/rules
           rule_path: /tmp/scratch
           ring:
             kvstore:
