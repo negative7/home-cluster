@@ -35,7 +35,7 @@ resources:
   # - ./qbittorrent/ks.yaml
   - ./radarr/ks.yaml
   - ./recyclarr/ks.yaml
-  # - ./redis/ks.yaml
+  - ./redis/ks.yaml
   - ./nzbget/ks.yaml
   - ./semaphore/ks.yaml
   # - ./shlink/ks.yaml
