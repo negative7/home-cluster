@@ -9,6 +9,7 @@ on:
 env:
   DEFAULT_CLOUDFLARE_NETWORKS_FILE: |-
     cluster/apps/networking/ingress-nginx/app/cloudflare-networks.txt
+
 jobs:
   cloudflare-networks:
     name: Cloudflare Networks

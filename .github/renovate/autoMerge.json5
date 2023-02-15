@@ -33,8 +33,8 @@
       "matchManagers": ["github-actions"],
       "matchDatasources": ["github-tags"],
       "automerge": true,
+      "ignoreTests": true,
       "automergeType": "branch",
-      "requiredStatusChecks": null,
       "matchUpdateTypes": ["minor", "patch"]
     },
     {
@@ -51,15 +51,6 @@
         "sirosen/texthooks",
         "k8s-at-home/sops-pre-commit"
       ]
-    },
-    {
-      "description": "Auto merge GitHub Actions",
-      "matchManagers": ["github-actions"],
-      "matchDatasources": ["github-tags"],
-      "automerge": true,
-      "ignoreTests": true,
-      "automergeType": "branch",
-      "matchUpdateTypes": ["minor", "patch"]
     }
   ]
 }
