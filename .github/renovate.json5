@@ -36,7 +36,10 @@
   "regexManagers": [
     {
       "description": "Process custom dependencies",
-      "fileMatch": ["ansible/.+\\.ya?ml$", "cluster/.+\\.ya?ml$"],
+      "fileMatch": [
+        "ansible/.+\\.ya?ml$",
+        "cluster/.+\\.ya?ml$"
+      ],
       "matchStrings": [
         "datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( versioning=(?<versioning>\\S+))?\n.*?\"(?<currentValue>.*)\"\n"
       ],
