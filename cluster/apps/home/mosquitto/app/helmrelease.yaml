@@ -64,7 +64,8 @@ spec:
     podAnnotations:
       secret.reloader.stakater.com/reload: mosquitto
     persistence:
-      data:
+      config:
+        mountPath: /data
         enabled: true
         existingClaim: mosquitto-config-v1
       config-file:
