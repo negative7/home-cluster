@@ -107,7 +107,7 @@ spec:
         env:
           - { name: LOG_LEVEL, value: DEBUG }
           - { name: LOG_MQTT_MESSAGE, value: "True" }
-          - { name: MQTT_ADDRESS, value: mosquitto.default.svc.cluster.local }
+          - { name: MQTT_ADDRESS, value: mosquitto.home.svc.cluster.local }
           - { name: MQTT_TOPIC, value: "zigbee2mqtt/#" }
           - { name: MQTT_V5_PROTOCOL, value: "True" }
           - { name: PROMETHEUS_PORT, value: "80" }
