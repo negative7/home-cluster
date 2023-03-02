@@ -30,7 +30,7 @@ spec:
               name: *app
     image:
       repository: ghcr.io/home-assistant/home-assistant
-      tag: 2023.3.0
+      tag: 2023.3.1
     env:
       TZ: '${TIMEZONE}'
     envFrom:
