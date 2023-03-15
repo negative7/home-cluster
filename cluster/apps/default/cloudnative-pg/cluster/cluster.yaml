@@ -8,16 +8,16 @@ metadata:
     kyverno.io/ignore: 'true'
 spec:
   instances: 3
-  imageName: ghcr.io/cloudnative-pg/postgresql:14.5
+  imageName: ghcr.io/cloudnative-pg/postgresql:14.7
   primaryUpdateStrategy: unsupervised
   storage:
     size: 20Gi
     storageClass: longhorn
   superuserSecret:
     name: cloudnative-pg-secret
-  # bootstrap:
-  #   recovery:
-  #     source: &active-cluster postgres-v2
+  bootstrap:
+    recovery:
+      source: &previous-cluster postgres-v1
   postgresql:
     parameters:
       max_connections: '300'
@@ -41,7 +41,7 @@ spec:
           key: aws-secret-access-key
   # externalClusters is needed when recovering from an existing cnpg cluster
   externalClusters:
-    - name: postgres-v1
+    - name: *previous-cluster
       barmanObjectStore:
         wal:
           compression: bzip2
