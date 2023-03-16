@@ -106,25 +106,13 @@ spec:
               - *host
       alertmanagerSpec:
         replicas: 3
-        podAntiAffinity: hard
         storage:
           volumeClaimTemplate:
             spec:
-              storageClassName: longhorn
+              storageClassName: local-path
               resources:
                 requests:
                   storage: 1Gi
-    kube-state-metrics:
-      metricLabelsAllowlist: ['persistentvolumeclaims=[*]']
-      prometheus:
-        monitor:
-          enabled: true
-          relabelings:
-            - action: replace
-              regex: (.*)
-              replacement: $1
-              sourceLabels: ['__meta_kubernetes_pod_node_name']
-              targetLabel: kubernetes_node
     grafana:
       enabled: false
       forceDeployDashboards: true
@@ -140,6 +128,17 @@ spec:
           - action: replace
             sourceLabels: ['node']
             targetLabel: instance
+    kube-state-metrics:
+      metricLabelsAllowlist: ['persistentvolumeclaims=[*]']
+      prometheus:
+        monitor:
+          enabled: true
+          relabelings:
+            - action: replace
+              regex: (.*)
+              replacement: $1
+              sourceLabels: ['__meta_kubernetes_pod_node_name']
+              targetLabel: kubernetes_node
     kubeApiServer:
       enabled: true
     kubeControllerManager:
@@ -169,44 +168,19 @@ spec:
         tls:
           - hosts:
               - *host
-      thanosService:
-        enabled: true
-      thanosServiceMonitor:
-        enabled: true
       prometheusSpec:
         replicas: 3
         replicaExternalLabelName: __replica__
-        externalLabels:
-          cluster: home-ops
-        thanos:
-          image: quay.io/thanos/thanos:v0.30.2
-          # renovate: datasource=docker depName=quay.io/thanos/thanos
-          version: 'v0.30.1'
-          objectStorageConfig:
-            name: thanos-objstore-secret
-            key: objstore.yml
-        podAntiAffinity: hard
+        scrapeInterval: 1m
         ruleSelectorNilUsesHelmValues: false
         serviceMonitorSelectorNilUsesHelmValues: false
         podMonitorSelectorNilUsesHelmValues: false
         probeSelectorNilUsesHelmValues: false
-        retention: 2d
-        retentionSize: 6GB
         enableAdminAPI: true
         walCompression: true
-        storageSpec:
-          volumeClaimTemplate:
-            spec:
-              storageClassName: longhorn
-              resources:
-                requests:
-                  storage: 20Gi
-        resources:
-          requests:
-            cpu: 10m
-            memory: 2000Mi
-          limits:
-            memory: 8000Mi
+        remoteWrite:
+          - url: http://thanos-receive.monitoring.svc.cluster.local:19291/api/v1/receive
+        remoteWriteDashboards: true
         additionalScrapeConfigs:
           - job_name: 'node-exporter'
             honor_timestamps: true
