@@ -28,6 +28,10 @@ spec:
         envFrom:
           - secretRef:
               name: *app
+    controller:
+      type: statefulset
+      annotations:
+        reloader.stakater.com/auto: 'true'
     image:
       repository: ghcr.io/home-assistant/home-assistant
       tag: 2023.3.4
@@ -72,7 +76,7 @@ spec:
       runAsUser: 568
       runAsGroup: 568
       fsGroup: 568
-      fsGroupChangePolicy: 'OnRootMismatch'
+      fsGroupChangePolicy: OnRootMismatch
       supplementalGroups:
         - 100
     persistence:
@@ -86,10 +90,9 @@ spec:
         path: /mnt/tank/backups/hass
         mountPath: /config/backups
         readOnly: false
-    podAnnotations:
-      secret.reloader.stakater.com/reload: *app
     resources:
       requests:
+        cpu: 10m
         memory: 100Mi
       limits:
         memory: 750Mi
