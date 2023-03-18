@@ -177,10 +177,20 @@ spec:
         podMonitorSelectorNilUsesHelmValues: false
         probeSelectorNilUsesHelmValues: false
         enableAdminAPI: true
-        walCompression: true
-        remoteWrite:
-          - url: http://thanos-receive.monitoring.svc.cluster.local:19291/api/v1/receive
-        remoteWriteDashboards: true
+        thanos:
+          image: quay.io/thanos/thanos:v0.30.2
+          objectStorageConfig:
+            name: thanos-objstore-secret
+            key: objstore.yml
+        retention: 2d
+        retentionSize: 15GB
+        storageSpec:
+          volumeClaimTemplate:
+            spec:
+              storageClassName: local-path
+              resources:
+                requests:
+                  storage: 20Gi
         additionalScrapeConfigs:
           - job_name: 'node-exporter'
             honor_timestamps: true

@@ -26,6 +26,10 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    image:
+      registry: quay.io
+      repository: thanos/thanos
+      tag: v0.30.2
     existingObjstoreSecret: thanos-objstore-secret
     queryFrontend:
       enabled: true
@@ -46,6 +50,9 @@ spec:
       enabled: true
       replicaCount: 3
       replicaLabel: ["__replica__"]
+      dnsDiscovery:
+        sidecarsService: kube-prometheus-stack-thanos-discovery
+        sidecarsNamespace: monitoring
     bucketweb:
       enabled: true
       replicaCount: 3
@@ -72,29 +79,19 @@ spec:
       enabled: true
       replicaCount: 3
       replicaLabel: __replica__
-      dnsDiscovery:
-        enabled: true
       alertmanagers: ["http://kube-prometheus-stack-alertmanager.monitoring.svc.cluster.local:9093"]
       extraFlags: ["--web.prefix-header=X-Forwarded-Prefix"]
       config: |-
         groups:
-          - name: "PrometheusWatcher"
+          - name: PrometheusWatcher
             rules:
-              - alert: "PrometheusDown"
+              - alert: PrometheusDown
+                annotations:
+                  summary: A Prometheus has disappeared from Prometheus target discovery
                 expr: absent(up{job="kube-prometheus-stack-prometheus"})
-      persistence:
-        enabled: true
-        storageClass: local-path
-        size: 20Gi
-    receive:
-      enabled: true
-      replicaCount: 3
-      mode: standalone # dual-mode
-      replicaLabel: __replica__
-      tsdbRetention: 2d
-      extraFlags:
-        - --tsdb.wal-compression
-        - --receive.hashrings-algorithm=ketama
+                for: 5m
+                labels:
+                  severity: critical
       persistence:
         enabled: true
         storageClass: local-path
