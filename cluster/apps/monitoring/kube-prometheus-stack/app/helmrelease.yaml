@@ -168,6 +168,10 @@ spec:
         tls:
           - hosts:
               - *host
+      thanosService:
+        enabled: true
+      thanosServiceMonitor:
+        enabled: true
       prometheusSpec:
         replicas: 3
         replicaExternalLabelName: __replica__
