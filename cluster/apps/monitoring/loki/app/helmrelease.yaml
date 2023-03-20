@@ -34,7 +34,7 @@ spec:
           http_listen_port: 3100
           grpc_listen_port: 9095
         memberlist:
-          join_members: ['loki-memberlist']
+          join_members: ["loki-memberlist"]
         limits_config:
           retention_period: 14d
           enforce_metric_name: false
@@ -48,7 +48,7 @@ spec:
             enabled: true
         schema_config:
           configs:
-            - from: '2021-08-01'
+            - from: "2021-08-01"
               store: boltdb-shipper
               object_store: s3
               schema: v11
@@ -108,7 +108,9 @@ spec:
         enabled: true
         ingressClassName: nginx
         annotations:
-          hajimari.io/enable: 'false'
+          nginx.ingress.kubernetes.io/whitelist-source-range: |
+            10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
+          hajimari.io/enable: "false"
         hosts:
           - host: &host loki.${SECRET_PUBLIC_DOMAIN}
             paths:
