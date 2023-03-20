@@ -120,6 +120,7 @@ spec:
           - hosts:
               - *host
     read:
+      legacyReadTarget: false
       replicas: 3
       persistence:
         storageClass: local-path
