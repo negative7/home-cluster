@@ -74,12 +74,12 @@ spec:
         ruler:
           enable_api: true
           enable_alertmanager_v2: true
-          alertmanager_url: http://kube-prometheus-stack-alertmanager:9093
+          alertmanager_url: http://kube-prometheus-stack-alertmanager.monitoring.svc.cluster.local:9093
           storage:
             type: local
             local:
               directory: /rules
-          rule_path: /tmp/scratch
+          rule_path: /rules
           ring:
             kvstore:
               store: memberlist
@@ -137,7 +137,7 @@ spec:
         storageClass: local-path
       extraVolumeMounts:
         - name: rules
-          mountPath: /rules/fake
+          mountPath: /rules
         - name: scratch
           mountPath: /tmp/scratch
       extraVolumes:
