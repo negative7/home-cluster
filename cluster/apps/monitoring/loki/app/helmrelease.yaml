@@ -129,7 +129,7 @@ spec:
         storageClass: local-path
       extraVolumeMounts:
         - name: rules
-          mountPath: /rules/fake
+          mountPath: /rules
         - name: scratch
           mountPath: /tmp/scratch
       extraVolumes:
@@ -148,7 +148,7 @@ spec:
         storageClass: local-path
       extraVolumeMounts:
         - name: rules
-          mountPath: /rules/fake
+          mountPath: /rules
         - name: scratch
           mountPath: /tmp/scratch
       extraVolumes:
