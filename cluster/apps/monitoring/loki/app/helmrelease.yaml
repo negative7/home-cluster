@@ -27,9 +27,9 @@ spec:
     keepHistory: false
   values:
     loki:
-      image:
-        repository: 'grafana/loki'
-        tag: 'main-f5fbfab-amd64'
+      # image:
+      #   repository: 'grafana/loki'
+      #   tag: 'main-f5fbfab-amd64'
       structuredConfig:
         auth_enabled: false
         server:
@@ -123,15 +123,20 @@ spec:
           - hosts:
               - *host
     read:
-      legacyReadTarget: false
+      # legacyReadTarget: false
       replicas: 3
       persistence:
         storageClass: local-path
       extraVolumeMounts:
         - name: rules
-          mountPath: /rules
+          mountPath: /rules/fake
+        - name: scratch
+          mountPath: /tmp/scratch
       extraVolumes:
         - name: rules
+          configMap:
+            name: loki-alerting-rules
+        - name: scratch
           emptyDir: {}
     write:
       replicas: 3
