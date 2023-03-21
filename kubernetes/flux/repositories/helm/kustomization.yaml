@@ -2,20 +2,25 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - ./bjw-s.yaml
+  - ./actions-runner-controller.yaml
   - ./aqua-charts.yaml
   - ./bitnami.yaml
+  - ./bjw-s.yaml
+  - ./cloudnative-pg.yaml
   - ./deliveryhero-charts.yaml
   - ./descheduler-charts.yaml
   - ./emberstack-charts.yaml
   - ./emqx-charts.yaml
   - ./external-dns-charts.yaml
+  - ./external-secrets.yaml
   - ./faas-netes-charts.yaml
   - ./fairwinds-charts.yaml
   - ./falco-security-charts.yaml
   - ./gitea-charts.yaml
   - ./grafana-charts.yaml
+  - ./hajimari.yaml
   - ./ingress-nginx-charts.yaml
+  - ./intel.yaml
   - ./itzg-minecraft-charts.yaml
   - ./jetstack.yaml
   - ./k8s-at-home-charts.yaml
@@ -28,14 +33,10 @@ resources:
   - ./nfs-subdir-external-provisioner-charts.yaml
   - ./node-feature-discovery-charts.yaml
   - ./oauth2-proxy-charts.yaml
+  - ./obeone-charts.yaml
   - ./prometheus-community-charts.yaml
   - ./rook-ceph-charts.yaml
   - ./stakater-charts.yaml
   - ./vector-charts.yaml
-  - ./weaveworks-kured-charts.yaml
-  - ./obeone-charts.yaml
   - ./weave-gitops.yaml
-  - ./intel.yaml
-  - ./actions-runner-controller.yaml
-  - ./cloudnative-pg.yaml
-  - ./hajimari.yaml
+  - ./weaveworks-kured-charts.yaml
