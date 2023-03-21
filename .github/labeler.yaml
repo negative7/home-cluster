@@ -1,11 +1,11 @@
 ---
 area/ansible:
-  - 'ansible/**/*'
+  - "ansible/**/*"
 area/github:
-  - '.github/**/*'
-area/cluster:
-  - 'cluster/**/*'
+  - ".github/**/*"
+area/kubernetes:
+  - "kubernetes/**/*"
 area/hack:
-  - 'hack/**/*'
+  - "hack/**/*"
 area/terraform:
-  - 'terraform/**/*'
+  - "terraform/**/*"

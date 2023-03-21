@@ -4,11 +4,11 @@ name: 'HelmRelease Diff'
 on:
   pull_request:
     branches: ['main']
-    paths: ['cluster/**/helmrelease.yaml']
+    paths: ['kubernetes/**/helmrelease.yaml']
 
 env:
   BOT_USERNAME: 'negative-7-bot[bot]'
-  KUBERNETES_DIR: cluster/
+  KUBERNETES_DIR: kubernetes/
 
 jobs:
   changed-files:
@@ -35,7 +35,7 @@ jobs:
         with:
           json: true
           files: |
-            cluster/**/helmrelease.yaml
+            kubernetes/**/helmrelease.yaml
       - id: set-matrix
         run: echo "matrix={\"file\":${{ steps.changed-files.outputs.all_changed_files }}}" >> "${GITHUB_OUTPUT}"
 

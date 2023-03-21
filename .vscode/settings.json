@@ -15,7 +15,7 @@
   "prettier.configPath": ".github/linters/.prettierrc.yaml",
   "prettier.ignorePath": ".github/linters/.prettierignore",
   "yaml.schemas": {
-    "Kubernetes": "cluster/*.yaml"
+    "Kubernetes": "kubernetes/*.yaml"
   },
   "editor.fontFamily": "FiraCode Nerd Font",
   "editor.fontLigatures": true,
