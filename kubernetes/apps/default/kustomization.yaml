@@ -6,6 +6,7 @@ resources:
   - ./namespace.yaml
   # Flux-Kustomizations
   - ./cloudnative-pg/ks.yaml
+  - ./glauth/ks.yaml
   - ./hajimari/ks.yaml
   - ./immich/ks.yaml
   - ./jellyfin/ks.yaml
