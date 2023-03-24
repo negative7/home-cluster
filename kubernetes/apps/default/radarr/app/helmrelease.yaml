@@ -39,6 +39,9 @@ spec:
       RADARR__PORT: &port 80
       RADARR__APPLICATION_URL:   "https://{{ .Release.Name }}.${SECRET_PUBLIC_DOMAIN}"
       RADARR__LOG_LEVEL: info
+    envFrom:
+      - secretRef:
+          name: radarr-secret
     service:
       main:
         ports:

@@ -38,6 +38,9 @@ spec:
       SONARR__INSTANCE_NAME: Sonarr
       SONARR__PORT: &port 80
       SONARR__LOG_LEVEL: info
+    envFrom:
+      - secretRef:
+          name: sonarr-secret
     service:
       main:
         ports:
@@ -54,7 +57,7 @@ spec:
             sub_filter_once on;
           hajimari.io/icon: mdi:television-classic
         hosts:
-          - host: &host "{{ .Release.Name }}.${SECRET_PUBLIC_DOMAIN}"
+          - host: &host '{{ .Release.Name }}.${SECRET_PUBLIC_DOMAIN}'
             paths:
               - path: /
                 pathType: Prefix
@@ -81,13 +84,13 @@ spec:
       media:
         enabled: true
         type: nfs
-        server: "freenas.${SECRET_PUBLIC_DOMAIN}"
+        server: 'freenas.${SECRET_PUBLIC_DOMAIN}'
         path: /mnt/tank/media/tv
         readOnly: false
       completed:
         enabled: true
         type: nfs
-        server: "freenas.${SECRET_PUBLIC_DOMAIN}"
+        server: 'freenas.${SECRET_PUBLIC_DOMAIN}'
         path: /mnt/tank/data
         readOnly: false
       backup:
