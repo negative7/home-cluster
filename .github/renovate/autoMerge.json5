@@ -5,28 +5,10 @@
       "description": "Auto merge container digests",
       "matchDatasources": ["docker"],
       "automerge": true,
-      "automergeType": "branch",
-      "requiredStatusChecks": null,
-      "matchUpdateTypes": ["digest"],
-      "matchPackagePattern": ["ghcr.io/k8s-at-home", "ghcr.io/onedr0p"]
-    },
-    {
-      "description": "Auto merge containers",
-      "matchDatasources": ["docker"],
-      "automerge": true,
-      "automergeType": "branch",
       "ignoreTests": true,
-      "matchUpdateTypes": ["minor", "patch"],
-      "matchPackageNames": [
-        "ghcr.io/onedr0p/jackett",
-        "ghcr.io/onedr0p/readarr",
-        "ghcr.io/onedr0p/plex",
-        "ghcr.io/onedr0p/nzbget",
-        "ghcr.io/onedr0p/tautulli",
-        "ghcr.io/onedr0p/sonarr-develop",
-        "ghcr.io/onedr0p/radarr-develop",
-        "ghcr.io/onedr0p/prowlarr-nightly"
-      ]
+      "automergeType": "branch",
+      "matchUpdateTypes": ["digest"],
+      "matchPackagePattern": ["ghcr.io/onedr0p"]
     },
     {
       "description": "Auto merge GitHub Actions",
@@ -36,21 +18,6 @@
       "ignoreTests": true,
       "automergeType": "branch",
       "matchUpdateTypes": ["minor", "patch"]
-    },
-    {
-      "description": "Auto merge pre-commit hooks",
-      "matchDatasources": ["github-release"],
-      "automerge": true,
-      "automergeType": "branch",
-      "requiredStatusChecks": null,
-      "matchUpdateTypes": ["minor", "patch"],
-      "matchPackageNames": [
-        "Lucas-C/pre-commit-hooks",
-        "adrienverge/yamllint",
-        "pre-commit/pre-commit-hooks",
-        "sirosen/texthooks",
-        "k8s-at-home/sops-pre-commit"
-      ]
     }
   ]
 }
