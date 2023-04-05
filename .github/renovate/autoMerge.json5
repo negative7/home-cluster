@@ -7,7 +7,7 @@
       "automerge": true,
       "ignoreTests": true,
       "automergeType": "branch",
-      "matchUpdateTypes": ["digest"],
+      "matchUpdateTypes": ["digest","patch", "minor"],
       "matchPackagePattern": ["ghcr.io/onedr0p"]
     },
     {
