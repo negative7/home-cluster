@@ -8,6 +8,7 @@ spec:
   dependsOn:
     - name: cluster-apps-mosquitto
     - name: cluster-apps-longhorn
+    - name: cluster-apps-external-secrets-stores
     - name: cluster-apps-intel-device-plugin-gpu
   path: ./kubernetes/apps/home/frigate/app
   prune: true
