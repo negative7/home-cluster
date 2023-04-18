@@ -196,6 +196,11 @@ spec:
                 requests:
                   storage: 20Gi
         additionalScrapeConfigs:
+          - job_name: 'smartctl-exporter'
+            honor_timestamps: true
+            static_configs:
+              - targets:
+                  - ${SECRET_MINIO_IP}:9633
           - job_name: 'node-exporter'
             honor_timestamps: true
             static_configs:
