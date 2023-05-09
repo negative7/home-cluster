@@ -17,8 +17,6 @@ access_control:
     - name: internal
       networks: ["10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16"]
   rules:
-    - domain: ["grafana.negative7.com"]
-      policy: bypass
     - domain: ["jellyfin.negative7.com"]
       resources: ["^/metrics.*$"]
       policy: deny
