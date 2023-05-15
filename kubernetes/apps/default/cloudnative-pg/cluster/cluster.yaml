@@ -18,9 +18,9 @@ spec:
     storageClass: longhorn
   superuserSecret:
     name: cloudnative-pg-secret
-  # bootstrap:
-  #   recovery:
-  #     source: &previous-cluster postgres
+  bootstrap:
+    recovery:
+      source: &previous-cluster postgres
   postgresql:
     parameters:
       max_connections: "600"
@@ -44,18 +44,18 @@ spec:
           name: cloudnative-pg-secret
           key: aws-secret-access-key
   # externalClusters is needed when recovering from an existing cnpg cluster
-  # externalClusters:
-  #   - name: *previous-cluster
-  #     barmanObjectStore:
-  #       wal:
-  #         compression: bzip2
-  #         maxParallel: 8
-  #       destinationPath: s3://postgresql
-  #       endpointURL: http://${SECRET_MINIO_ADDRESS}
-  #       s3Credentials:
-  #         accessKeyId:
-  #           name: cloudnative-pg-secret
-  #           key: aws-access-key-id
-  #         secretAccessKey:
-  #           name: cloudnative-pg-secret
-  #           key: aws-secret-access-key
+  externalClusters:
+    - name: *previous-cluster
+      barmanObjectStore:
+        wal:
+          compression: bzip2
+          maxParallel: 8
+        destinationPath: s3://postgresql
+        endpointURL: http://${SECRET_MINIO_ADDRESS}
+        s3Credentials:
+          accessKeyId:
+            name: cloudnative-pg-secret
+            key: aws-access-key-id
+          secretAccessKey:
+            name: cloudnative-pg-secret
+            key: aws-secret-access-key
