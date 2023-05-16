@@ -1,10 +1,10 @@
 ---
-name: 'HelmRelease Diff'
+name: "HelmRelease Diff"
 
 on:
   pull_request:
-    branches: ['main']
-    paths: ['kubernetes/**/helmrelease.yaml']
+    branches: ["main"]
+    paths: ["kubernetes/**/helmrelease.yaml"]
 
 env:
   BOT_USERNAME: 'negative-7-bot[bot]'
@@ -21,13 +21,13 @@ jobs:
         uses: tibdex/github-app-token@b62528385c34dbc9f38e5f4225ac829252d1ea92 # v1.8.0
         id: generate-token
         with:
-          app_id: '${{ secrets.BOT_APP_ID }}'
-          private_key: '${{ secrets.BOT_APP_PRIVATE_KEY }}'
+          app_id: "${{ secrets.BOT_APP_ID }}"
+          private_key: "${{ secrets.BOT_APP_PRIVATE_KEY }}"
 
       - name: Checkout
         uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
         with:
-          token: '${{ steps.generate-token.outputs.token }}'
+          token: "${{ steps.generate-token.outputs.token }}"
 
       - name: Get changed files
         id: changed-files
@@ -36,6 +36,7 @@ jobs:
           json: true
           files: |
             kubernetes/**/helmrelease.yaml
+
       - id: set-matrix
         run: echo "matrix={\"file\":${{ steps.changed-files.outputs.all_changed_files }}}" >> "${GITHUB_OUTPUT}"
 
@@ -50,19 +51,19 @@ jobs:
         uses: tibdex/github-app-token@b62528385c34dbc9f38e5f4225ac829252d1ea92 # v1.8.0
         id: generate-token
         with:
-          app_id: '${{ secrets.BOT_APP_ID }}'
-          private_key: '${{ secrets.BOT_APP_PRIVATE_KEY }}'
+          app_id: "${{ secrets.BOT_APP_ID }}"
+          private_key: "${{ secrets.BOT_APP_PRIVATE_KEY }}"
 
       - name: Checkout
         uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
         with:
-          token: '${{ steps.generate-token.outputs.token }}'
+          token: "${{ steps.generate-token.outputs.token }}"
 
       - name: Checkout default branch
         uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
         with:
-          token: '${{ steps.generate-token.outputs.token }}'
-          ref: '${{ github.event.repository.default_branch }}'
+          token: "${{ steps.generate-token.outputs.token }}"
+          ref: "${{ github.event.repository.default_branch }}"
           path: default
 
       - name: Setup Homebrew
@@ -71,6 +72,7 @@ jobs:
       - name: Setup Tools
         run: |
           brew install helm homeport/tap/dyff kustomize yq
+
       - name: Diff
         id: diff
         run: |
@@ -81,6 +83,7 @@ jobs:
           echo "diff<<EOF" >> "${GITHUB_OUTPUT}"
           echo "${diff}" >> "${GITHUB_OUTPUT}"
           echo "EOF" >> "${GITHUB_OUTPUT}"
+
       - name: Find Comment
         if: ${{ always() && steps.diff.outputs.diff != '' }}
         uses: peter-evans/find-comment@a54c31d7fa095754bfef525c0c8e5e5674c4b4b1 # v2.4.0
@@ -99,6 +102,7 @@ jobs:
           issue-number: ${{ github.event.pull_request.number }}
           body: |
             Helm Release: `${{ matrix.file }}`
+
             ```
             ${{ steps.diff.outputs.diff }}
             ```
