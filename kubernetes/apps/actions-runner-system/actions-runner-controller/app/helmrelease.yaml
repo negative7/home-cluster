@@ -14,7 +14,7 @@ spec:
         kind: HelmRepository
         name: actions-runner-controller
         namespace: flux-system
-  maxHistory: 3
+  maxHistory: 2
   install:
     createNamespace: true
     crds: CreateReplace
@@ -58,7 +58,7 @@ spec:
           - hosts:
               - *host
     metrics:
-      serviceMonitor: true
+      serviceMonitor: false
       port: 8080
       proxy:
         enabled: false
@@ -69,7 +69,7 @@ spec:
         create: false
         name: *secret
     actionsMetrics:
-      serviceMonitor: true
+      serviceMonitor: false
       port: 8080
       proxy:
         enabled: false

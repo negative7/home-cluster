@@ -13,11 +13,6 @@ spec:
       ephemeral: true
       repository: negative7/home-cluster
       labels: ['self-hosted']
-      nodeSelector:
-        node-role.kubernetes.io/worker: 'true'
-      securityContext:
-        supplementalGroups:
-          - 65542
       volumeMounts:
         - name: cache-volume
           mountPath: /cache
@@ -36,9 +31,7 @@ spec:
     name: home-ops
   scaleUpTriggers:
     - githubEvent:
-        checkRun:
-          types: ['created']
-          status: 'queued'
+        workflowJob: {}
       amount: 1
       duration: 30m
   minReplicas: 1
