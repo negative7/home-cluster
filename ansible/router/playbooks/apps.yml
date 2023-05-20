@@ -1,9 +1,0 @@
----
-- hosts:
-    - unifi
-  become: false
-  gather_facts: false
-  any_errors_fatal: true
-  roles:
-    - role: adguardhome.router
-    - role: coredns.router
