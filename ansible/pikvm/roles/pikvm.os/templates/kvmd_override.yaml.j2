@@ -3,8 +3,23 @@ kvmd:
         drivers:
             tes:
                 type: tesmart
-                host: 10.10.1.10
+                host: 10.2.0.3
                 port: 5000
+            wol_server0:
+                type: wol
+                mac: 1c:69:7a:ad:11:85
+            wol_server1:
+                type: wol
+                mac: a4:bb:6d:ab:c3:16
+            wol_server2:
+                type: wol
+                mac: e4:54:e8:5d:9d:ef
+            wol_server3:
+                type: wol
+                mac: e4:54:e8:8a:8a:1f
+            wol_server4:
+                type: wol
+                mac: 6c:2b:59:d2:74:e6
         scheme:
             server0_led:
                 driver: tes
@@ -14,7 +29,7 @@ kvmd:
                 driver: tes
                 pin: 0
                 mode: output
-                switch: false    
+                switch: false
             server1_led:
                 driver: tes
                 pin: 1
@@ -23,7 +38,7 @@ kvmd:
                 driver: tes
                 pin: 1
                 mode: output
-                switch: false    
+                switch: false
             server2_led:
                 driver: tes
                 pin: 2
@@ -32,7 +47,7 @@ kvmd:
                 driver: tes
                 pin: 2
                 mode: output
-                switch: false    
+                switch: false
             server3_led:
                 driver: tes
                 pin: 3
@@ -41,7 +56,7 @@ kvmd:
                 driver: tes
                 pin: 3
                 mode: output
-                switch: false    
+                switch: false
             server4_led:
                 driver: tes
                 pin: 4
@@ -50,13 +65,36 @@ kvmd:
                 driver: tes
                 pin: 4
                 mode: output
-                switch: false        
+                switch: false
+            wol_server0:
+                driver: wol_server0
+                pin: 0
+                mode: output
+                switch: false
+            wol_server1:
+                driver: wol_server1
+                pin: 0
+                mode: output
+                switch: false
+            wol_server2:
+                driver: wol_server2
+                pin: 0
+                mode: output
+                switch: false
+            wol_server3:
+                driver: wol_server3
+                pin: 0
+                mode: output
+                switch: false
+            wol_server4:
+                driver: wol_server4
+                pin: 0
+                mode: output
+                switch: false
         view:
             table:
-                - ["TESMART Switch"]
-                - []
-                - ["#Server 1", server0_led, server0_switch|Switch]
-                - ["#Server 2", server1_led, server1_switch|Switch]
-                - ["#Server 3", server2_led, server2_switch|Switch]
-                - ["#Server 4", server3_led, server3_switch|Switch]
-                - ["#Server 5", server4_led, server3_switch|Switch]
+                - ["#TrueNas",   server0_led, server0_switch|Switch,wol_server0|WoL]
+                - ["#Kharkiv",   server1_led, server1_switch|Switch,wol_server1|WoL]
+                - ["#Vinnytsia", server2_led, server2_switch|Switch,wol_server2|WoL]
+                - ["#Dnipro",    server3_led, server3_switch|Switch,wol_server3|WoL]
+                - ["#Kyiv",      server4_led, server4_switch|Switch,wol_server4|WoL]

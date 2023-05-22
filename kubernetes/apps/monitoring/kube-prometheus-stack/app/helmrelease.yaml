@@ -215,3 +215,10 @@ spec:
             static_configs:
               - targets:
                   - '${SECRET_MINIO_IP}:9000'
+          - job_name: pikvm
+            metrics_path: /api/export/prometheus/metrics
+            basic_auth:
+              username: admin
+              password: ${SECRET_PIKVM_PASSWORD}
+            static_configs:
+              - targets: ["10.2.0.6"]
