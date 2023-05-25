@@ -6,6 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   dependsOn:
+    - name: cluster-apps-external-secrets-stores
     - name: cluster-apps-radarr
     - name: cluster-apps-sonarr
   path: ./kubernetes/apps/default/recyclarr/app
@@ -16,4 +17,4 @@ spec:
   wait: true
   interval: 30m
   retryInterval: 1m
-  timeout: 3m
+  timeout: 5m
