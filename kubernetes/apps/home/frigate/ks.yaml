@@ -6,20 +6,17 @@ metadata:
   namespace: flux-system
 spec:
   dependsOn:
-    - name: cluster-apps-mosquitto
-    - name: cluster-apps-longhorn
     - name: cluster-apps-external-secrets-stores
     - name: cluster-apps-intel-device-plugin-gpu
-  path: ./kubernetes/apps/home/frigate/app
+    - name: cluster-apps-mosquitto
+    - name: cluster-apps-node-feature-rules
+    - name: cluster-apps-longhorn
+  path: ./kubernetes/apps/default/frigate/app
   prune: true
   sourceRef:
     kind: GitRepository
     name: home-ops-kubernetes
-  healthChecks:
-    - apiVersion: helm.toolkit.fluxcd.io/v2beta1
-      kind: HelmRelease
-      name: frigate
-      namespace: home
+  wait: true
   interval: 30m
   retryInterval: 1m
-  timeout: 3m
+  timeout: 5m

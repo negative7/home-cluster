@@ -31,23 +31,23 @@ ffmpeg:
   global_args: ["-hide_banner", "-loglevel", "warning"]
   hwaccel_args: ["-hwaccel", "vaapi", "-hwaccel_device", "/dev/dri/renderD128", "-hwaccel_output_format", "yuv420p"]
   output_args:
-    record: -f segment -segment_time 10 -segment_format mp4 -reset_timestamps 1 -strftime 1 -map 0:v:0 -map 0:a:0 -c copy
+    record: preset-record-ubiquiti
 
 snapshots:
   enabled: true
   timestamp: false
   bounding_box: true
   retain:
-    default: 7
+    default: 2
 
 record:
   enabled: true
   retain:
-    days: 3
+    days: 2
     mode: all
   events:
     retain:
-      default: 7
+      default: 2
       mode: active_objects
 
 objects:
@@ -70,11 +70,9 @@ cameras:
     ffmpeg:
       inputs:
         - path: rtsp://localhost:8554/frigate_doorbell_lq
-          roles:
-            - detect
+          roles: ["detect"]
         - path: rtsp://localhost:8554/frigate_doorbell_hq
-          roles:
-            - record
+          roles: ["record"]
     detect:
       width: 960
       height: 720
