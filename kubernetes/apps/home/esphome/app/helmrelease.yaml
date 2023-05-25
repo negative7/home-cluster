@@ -31,7 +31,7 @@ spec:
       annotations:
         reloader.stakater.com/auto: 'true'
     image:
-      repository: esphome/esphome
+      repository: ghcr.io/esphome/esphome
       tag: 2023.5.4
     env:
       TZ: '${TIMEZONE}'
@@ -73,9 +73,17 @@ spec:
         enabled: true
         type: emptyDir
         mountPath: /config/.esphome
+    probes:
+      liveness:
+        enabled: false
+      readiness:
+        enabled: false
+      startup:
+        enabled: false
+
     resources:
       requests:
-        cpu: 300m
-        memory: 512M
+        cpu: 5m
+        memory: 1374M
       limits:
-        memory: 2048M
+        memory: 1374M
