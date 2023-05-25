@@ -5,7 +5,7 @@ metadata:
   name: node-feature-discovery
   namespace: kube-system
 spec:
-  interval: 15m
+  interval: 30m
   chart:
     spec:
       chart: node-feature-discovery
@@ -14,7 +14,7 @@ spec:
         kind: HelmRepository
         name: node-feature-discovery
         namespace: flux-system
-  maxHistory: 3
+  maxHistory: 2
   install:
     createNamespace: true
     crds: CreateReplace
@@ -36,15 +36,3 @@ spec:
           usb:
             deviceClassWhitelist: ["02", "03", "0e", "ef", "fe", "ff"]
             deviceLabelFields: ["class", "vendor", "device"]
-      custom:
-        - name: "intel-gpu"
-          matchOn:
-            - pciId:
-                class: ["0300"]
-                vendor: ["8086"]
-        - name: "zigbee"
-          matchOn:
-            - usbId:
-                class: ["ff"]
-                vendor: ["1a86"]
-                device: ["7523"]
