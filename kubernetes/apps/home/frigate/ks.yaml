@@ -11,7 +11,7 @@ spec:
     - name: cluster-apps-mosquitto
     - name: cluster-apps-node-feature-rules
     - name: cluster-apps-longhorn
-  path: ./kubernetes/apps/default/frigate/app
+  path: ./kubernetes/apps/home/frigate/app
   prune: true
   sourceRef:
     kind: GitRepository
