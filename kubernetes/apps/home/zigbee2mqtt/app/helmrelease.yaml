@@ -86,14 +86,8 @@ spec:
       privileged: true
     podSecurityContext:
       privileged: true
-    affinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-            - matchExpressions:
-                - key: feature.node.kubernetes.io/usb-ff_1a86_7523.present
-                  operator: In
-                  values: ['true']
+    nodeSelector:
+      electrolama.feature.node.kubernetes.io/zzh: "true"
     resources:
       requests:
         cpu: 10m
