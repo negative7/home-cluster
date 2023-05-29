@@ -9,6 +9,7 @@ resources:
   - ./cloudnative-pg/ks.yaml
   - ./glauth/ks.yaml
   - ./hajimari/ks.yaml
+  - ./immich/ks.yaml
   - ./jellyfin/ks.yaml
   - ./n8n/ks.yaml
   - ./nzbget/ks.yaml
