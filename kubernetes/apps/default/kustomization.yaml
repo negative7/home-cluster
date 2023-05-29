@@ -15,6 +15,7 @@ resources:
   - ./nzbget/ks.yaml
   - ./overseerr/ks.yaml
   - ./pgadmin/ks.yaml
+  - ./paperless/ks.yaml
   - ./plex/ks.yaml
   - ./prowlarr/ks.yaml
   - ./radarr/ks.yaml
