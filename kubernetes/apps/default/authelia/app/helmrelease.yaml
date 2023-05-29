@@ -5,7 +5,7 @@ metadata:
   name: &app authelia
   namespace: default
 spec:
-  interval: 15m
+  interval: 30m
   chart:
     spec:
       chart: app-template
@@ -40,8 +40,7 @@ spec:
         reloader.stakater.com/auto: "true"
     image:
       repository: ghcr.io/authelia/authelia
-      # TODO Switch to Authelia release tag on next release
-      tag: master@sha256:3a320daefab6bde0e5f44d63750ddb76691f231328203b0fb0c8b00a39f86607
+      tag: v4.38.0-beta2
     args: ["--config", "/config/configuration.yml", "--config.experimental.filters", "expand-env"]
     env:
       AUTHELIA_AUTHENTICATION_BACKEND_LDAP_ADDITIONAL_USERS_DN: ou=users
@@ -66,7 +65,7 @@ spec:
       AUTHELIA_SERVER_PORT: &port 80
       AUTHELIA_SESSION_DOMAIN: negative7.com
       AUTHELIA_SESSION_REDIS_DATABASE_INDEX: 14
-      AUTHELIA_SESSION_REDIS_HOST: redis.default.svc.cluster.local
+      AUTHELIA_SESSION_REDIS_HOST: redis.database.svc.cluster.local
       AUTHELIA_TELEMETRY_METRICS_ADDRESS: "tcp://0.0.0.0:8080"
       AUTHELIA_TELEMETRY_METRICS_ENABLED: "true"
       AUTHELIA_THEME: grey
@@ -96,7 +95,7 @@ spec:
             scrapeTimeout: 10s
     probes:
       liveness: &probes
-        enabled: false
+        enabled: true
         custom: true
         spec:
           httpGet:
