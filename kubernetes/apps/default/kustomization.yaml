@@ -11,14 +11,13 @@ resources:
   - ./hajimari/ks.yaml
   - ./jellyfin/ks.yaml
   - ./n8n/ks.yaml
+  - ./nzbget/ks.yaml
   - ./overseerr/ks.yaml
   - ./pgadmin/ks.yaml
   - ./plex/ks.yaml
   - ./prowlarr/ks.yaml
   - ./radarr/ks.yaml
   - ./recyclarr/ks.yaml
-  - ./redis/ks.yaml
-  - ./nzbget/ks.yaml
   - ./semaphore/ks.yaml
   - ./sonarr/ks.yaml
   - ./tautulli/ks.yaml
