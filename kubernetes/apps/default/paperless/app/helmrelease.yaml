@@ -66,6 +66,8 @@ spec:
           name: paperless-secret
     service:
       main:
+        LoadBalancerIP: '${QB_PLEX_IP}'
+        externalTrafficPolicy: Local
         ports:
           http:
             port: *port
