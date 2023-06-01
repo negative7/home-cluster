@@ -19,6 +19,7 @@ metadata:
   name: cluster-apps-paperless
   namespace: flux-system
 spec:
+  interval: 10m
   dependsOn:
     - name: cluster-apps-paperless-redis
     - name: cluster-apps-cloudnative-pg
