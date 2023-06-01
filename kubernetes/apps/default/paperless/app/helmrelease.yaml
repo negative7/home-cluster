@@ -69,6 +69,10 @@ spec:
         ports:
           http:
             port: *port
+      flower:
+        ports:
+          http:
+            port: 5555
     ingress:
       main:
         enabled: true
