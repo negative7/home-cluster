@@ -17,27 +17,18 @@ spec:
       interval: 15m
   maxHistory: 3
   install:
-    createNamespace: true
-    remediation:
-      retries: 3
+    crds: CreateReplace
   upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
+    crds: CreateReplace
   uninstall:
     keepHistory: false
   values:
     crds:
       enabled: true
-    prometheusRule:
-      enabled: true
-    controller:
-      metrics:
+    prometheus:
+      serviceAccount: "kube-prometheus-stack-prometheus"
+      namespace: "monitoring"
+      serviceMonitor:
         enabled: true
-        serviceMonitor:
-          enabled: true
-    speaker:
-      metrics:
+      prometheusRule:
         enabled: true
-        serviceMonitor:
-          enabled: true
