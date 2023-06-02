@@ -27,7 +27,7 @@ spec:
     keepHistory: false
   values:
     runnerScaleSetName: arc-runner-set-home-ops
-    githubConfigUrl: negative7/home-cluster
+    githubConfigUrl: https://github.com/negative7/home-cluster
     minRunners: 1
     maxRunners: 3
     containerMode:
