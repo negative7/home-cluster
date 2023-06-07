@@ -5,7 +5,8 @@ metadata:
   name: loki
   namespace: monitoring
 spec:
-  interval: 15m
+  interval: 30m
+  timeout: 15m
   chart:
     spec:
       chart: loki
@@ -25,6 +26,9 @@ spec:
       retries: 3
   uninstall:
     keepHistory: false
+  dependsOn:
+    - name: local-path-provisioner
+      namespace: kube-system
   values:
     loki:
       structuredConfig:
