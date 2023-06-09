@@ -4,4 +4,3 @@ kind: Kustomization
 resources:
   - ./remove-cpu-limits.yaml
   - ./apply-ingress-external-dns-annotations.yaml
-  - ./apply-ingress-whitelist-annotations.yaml
