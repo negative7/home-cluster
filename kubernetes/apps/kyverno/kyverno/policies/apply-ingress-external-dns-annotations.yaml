@@ -25,4 +25,4 @@ spec:
         patchStrategicMerge:
           metadata:
             annotations:
-              +(external-dns.alpha.kubernetes.io/target): ipv4.negative7.com
+              +(external-dns.alpha.kubernetes.io/target): 'ipv4.negative7.com'
