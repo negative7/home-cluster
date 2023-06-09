@@ -17,4 +17,4 @@ data:
         conditions:
           - "[STATUS] == 200"
         alerts:
-          - type: pushover
+          - type: slack
