@@ -20,7 +20,6 @@ resources:
   - ./prowlarr/ks.yaml
   - ./radarr/ks.yaml
   - ./recyclarr/ks.yaml
-  - ./semaphore/ks.yaml
   - ./sonarr/ks.yaml
   - ./tautulli/ks.yaml
   - ./theme-park/ks.yaml
