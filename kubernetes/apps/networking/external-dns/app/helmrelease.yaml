@@ -41,7 +41,7 @@ spec:
             key: api-key
     extraArgs:
       - --cloudflare-proxied
-      - --annotation-filter=external-dns.home.arpa/enabled in (true)
+      - --annotation-filter=external-dns.alpha.kubernetes.io/target
       - --crd-source-apiversion=externaldns.k8s.io/v1alpha1
       - --crd-source-kind=DNSEndpoint
     policy: sync
