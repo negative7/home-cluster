@@ -113,7 +113,7 @@ spec:
         enabled: true
         ingressClassName: nginx
         annotations:
-          #external-dns.alpha.kubernetes.io/target: 
+          external-dns.home.arpa/enabled: "true"
           nginx.ingress.kubernetes.io/configuration-snippet: |
             add_header Cache-Control "no-store";
             add_header Pragma "no-cache";

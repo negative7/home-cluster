@@ -202,6 +202,7 @@ spec:
       enabled: true
       ingressClassName: nginx
       annotations:
+        external-dns.home.arpa/enabled: "true"
         hajimari.io/icon: simple-icons:grafana
       hosts:
         - &host grafana.${SECRET_PUBLIC_DOMAIN}
