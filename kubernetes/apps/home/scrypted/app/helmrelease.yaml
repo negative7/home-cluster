@@ -38,6 +38,9 @@ spec:
       TZ: America/New_York
     service:
       main:
+        type: LoadBalancer
+        LoadBalancerIP: '${SVC_SCRYPTED_ADDRESS}'
+        externalTrafficPolicy: Local
         ports:
           http:
             port: 11080
