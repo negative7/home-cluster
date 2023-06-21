@@ -44,6 +44,7 @@ spec:
         ports:
           http:
             port: 11080
+    hostNetwork: true
     ingress:
       main:
         enabled: true
