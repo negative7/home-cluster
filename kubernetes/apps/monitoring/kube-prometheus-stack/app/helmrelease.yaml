@@ -222,3 +222,10 @@ spec:
               password: ${SECRET_PIKVM_PASSWORD}
             static_configs:
               - targets: ["10.2.0.6"]
+          - job_name: hass
+            metrics_path: /api/prometheus
+            bearer_token: "${SECRET_HASS_TOKERN}"
+            static_configs:
+              - targets: ["${SVC_HOME_ASSISTANT_ADDRESS}:8123"]
+
+
