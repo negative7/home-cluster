@@ -12,7 +12,6 @@ resources:
   - ./immich/ks.yaml
   - ./jellyfin/ks.yaml
   - ./n8n/ks.yaml
-  - ./nzbget/ks.yaml
   - ./overseerr/ks.yaml
   - ./pgadmin/ks.yaml
   - ./paperless/ks.yaml
