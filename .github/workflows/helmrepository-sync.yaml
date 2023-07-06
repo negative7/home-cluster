@@ -5,11 +5,11 @@ on:
   workflow_dispatch:
     inputs:
       repoName:
-        description: Flux HelmRepository Name
+        description: "Flux HelmRepository Name"
         required: true
       repoNamespace:
-        description: Flux HelmRepository Namespace
-        default: flux-system
+        description: "Flux HelmRepository Namespace"
+        default: "flux-system"
         required: true
   pull_request:
     branches: ["main"]
@@ -28,7 +28,8 @@ jobs:
       - name: Setup Kube Tools
         uses: yokawasa/action-setup-kube-tools@af4ebb1af1efd30c5bd84a2e9773355ad6362a33 # v0.9.3
         with:
-          setup-tools: yq
+          setup-tools: |
+            yq
 
       - name: Setup Flux
         uses: fluxcd/flux2/action@9ea0a535eab2c99121fb3ac742e333b4a9f07970 # v2.0.0
@@ -37,19 +38,19 @@ jobs:
         id: kubeconfig
         uses: timheuer/base64-to-file@ca9e30baf83f7f26708fb0059af9a0973fe5f27e # v1.2
         with:
-          encodedString: "${{ secrets.KUBECONFIG }}"
+          encodedString: ${{ secrets.KUBECONFIG }}
           fileName: kubeconfig
 
       - name: Get changed files
         id: changed-files
         uses: tj-actions/changed-files@54849deb963ca9f24185fb5de2965e002d066e6b # v37.0.5
         with:
-          files: kubernetes/**/helmrelease.yaml
+          files: |
+            kubernetes/**/helmrelease.yaml
 
       - name: Sync HelmRepository
         env:
-          KUBECONFIG: "${{ steps.kubeconfig.outputs.filePath }}"
-        shell: bash
+          KUBECONFIG: ${{ steps.kubeconfig.outputs.filePath }}
         run: |
           declare -a repos=()
           for file in ${{ steps.changed-files.outputs.all_changed_and_modified_files }}; do
@@ -62,11 +63,10 @@ jobs:
             flux --namespace "${repo##*:}" reconcile source helm "${repo%%:*}"
           done
 
-      - if: ${{ github.event.inputs.repoName != '' }}
-        name: Sync HelmRepository
+      - name: Sync HelmRepository
+        if: ${{ github.event.inputs.repoName != '' }}
         env:
           KUBECONFIG: ${{ steps.kubeconfig.outputs.filePath }}
-        shell: bash
         run: |
           flux --namespace ${{ github.event.inputs.repoNamespace }} reconcile \
             source helm ${{ github.event.inputs.repoName }}
