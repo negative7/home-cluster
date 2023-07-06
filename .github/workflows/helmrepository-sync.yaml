@@ -1,5 +1,5 @@
 ---
-  name: "HelmRepository Sync"
+name: "HelmRepository Sync"
 
   on:
     workflow_dispatch:
