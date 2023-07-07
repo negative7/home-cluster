@@ -2,10 +2,10 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: &app plex
+  name: plex
   namespace: default
 spec:
-  interval: 15m
+  interval: 30m
   chart:
     spec:
       chart: app-template
@@ -14,7 +14,7 @@ spec:
         kind: HelmRepository
         name: bjw-s
         namespace: flux-system
-  maxHistory: 3
+  maxHistory: 2
   install:
     createNamespace: true
     remediation:
@@ -25,9 +25,16 @@ spec:
       retries: 3
   uninstall:
     keepHistory: false
+  dependsOn:
+    - name: intel-device-plugin-gpu
+      namespace: kube-system
+    - name: longhorn
+      namespace: longhorn-system
   values:
     controller:
       type: statefulset
+      annotations:
+        reloader.stakater.com/auto: "true"
     image:
       repository: ghcr.io/onedr0p/plex
       tag: 1.32.4.7195-7c8f9d3b6@sha256:39c4ad71d92790d54b2d14be5fdabca940591ab2b9f8291d02653cd4f80d9d4f
@@ -48,6 +55,7 @@ spec:
         ingressClassName: nginx
         annotations:
           external-dns.alpha.kubernetes.io/target: ipv4.${SECRET_PUBLIC_DOMAIN}
+          nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
           hajimari.io/icon: mdi:plex
         hosts:
           - host: &host '{{ .Release.Name }}.${SECRET_PUBLIC_DOMAIN}'
@@ -62,10 +70,7 @@ spec:
       runAsGroup: 568
       fsGroup: 568
       fsGroupChangePolicy: 'OnRootMismatch'
-      supplementalGroups:
-        - 44
-        - 109
-        - 100
+      supplementalGroups: [44, 109, 10000]
     volumeClaimTemplates:
       - name: config
         mountPath: /config
@@ -100,7 +105,10 @@ spec:
       transcode:
         enabled: true
         type: emptyDir
-        medium: Memory
+      local:
+        enabled: true
+        type: emptyDir
+        mountPath: /.local
     nodeSelector:
       node-role.kubernetes.io/worker: 'true'
       intel.feature.node.kubernetes.io/gpu: 'true'
@@ -111,7 +119,7 @@ spec:
               matchExpressions:
                 - key: app.kubernetes.io/name
                   operator: In
-                  values: ['frigate']
+                  values: ["frigate"]
             topologyKey: kubernetes.io/hostname
     resources:
       requests:
