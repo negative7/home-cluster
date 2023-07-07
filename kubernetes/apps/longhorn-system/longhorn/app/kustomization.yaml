@@ -5,3 +5,4 @@ resources:
   - ./servicemonitor.yaml
   - ./helmrelease.yaml
   - ./secret.sops.yaml
+  - ./rules.yaml
