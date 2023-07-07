@@ -5,8 +5,9 @@ metadata:
   name: longhorn
   namespace: longhorn-system
 spec:
+  interval: 30m
+  timeout: 30m
   releaseName: longhorn
-  interval: 5m
   chart:
     spec:
       chart: longhorn
@@ -15,6 +16,17 @@ spec:
         kind: HelmRepository
         name: longhorn-charts
         namespace: flux-system
+  maxHistory: 2
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
   values:
     persistence:
       defaultClass: true

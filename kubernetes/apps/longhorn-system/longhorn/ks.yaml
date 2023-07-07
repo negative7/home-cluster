@@ -15,9 +15,10 @@ spec:
       kind: HelmRelease
       name: longhorn
       namespace: longhorn-system
+  wait: true
   interval: 30m
   retryInterval: 1m
-  timeout: 5m
+  timeout: 15m
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
@@ -32,6 +33,7 @@ spec:
   sourceRef:
     kind: GitRepository
     name: home-ops-kubernetes
+  wait: true
   interval: 30m
   retryInterval: 1m
-  timeout: 3m
+  timeout: 15m
