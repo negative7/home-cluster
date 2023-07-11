@@ -103,7 +103,10 @@ spec:
         imagePullPolicy: IfNotPresent
         env:
           - { name: PUBLIC_KEY_URL, value: https://github.com/negative7.keys }
-          - { name: TZ, value: "${TIMEZONE}" }          
+          - { name: TZ, value: "${TIMEZONE}" }   
+          - { name: USER_NAME, value: "negative7" }       
+          - { name: PUID, value: "568" }    
+          - { name: PGID, value: "568" }    
         volumeMounts:
           - name: config
             mountPath: /config
