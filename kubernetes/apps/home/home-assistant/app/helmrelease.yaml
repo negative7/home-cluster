@@ -50,6 +50,13 @@ spec:
         ports:
           http:
             port: 8123
+      openssh:
+        type: LoadBalancer
+        LoadBalancerIP: '${SVC_HOME_ASSISTANT_ADDRESS}'
+        externalTrafficPolicy: Local
+        ports:
+          http:
+            port: 2222
     ingress:
       main:
         enabled: true
@@ -96,15 +103,7 @@ spec:
         imagePullPolicy: IfNotPresent
         env:
           - { name: PUBLIC_KEY_URL, value: https://github.com/negative7.keys }
-          - { name: TZ, value: "${TIMEZONE}" }
-        service:
-          main:
-            type: LoadBalancer
-            LoadBalancerIP: '${SVC_HOME_ASSISTANT_ADDRESS}'
-            externalTrafficPolicy: Local
-            ports:
-              http:
-                port: 2222
+          - { name: TZ, value: "${TIMEZONE}" }          
         volumeMounts:
           - name: config
             mountPath: /config
