@@ -55,7 +55,7 @@ spec:
         LoadBalancerIP: '${SVC_HOME_ASSISTANT_ADDRESS}'
         externalTrafficPolicy: Local
         ports:
-          http:
+          ssh:
             port: 2222
     ingress:
       main:
