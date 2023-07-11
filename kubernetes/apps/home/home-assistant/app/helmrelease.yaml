@@ -97,6 +97,14 @@ spec:
         env:
           - { name: PUBLIC_KEY_URL, value: https://github.com/negative7.keys }
           - { name: TZ, value: "${TIMEZONE}" }
+        service:
+          main:
+            type: LoadBalancer
+            LoadBalancerIP: '${SVC_HOME_ASSISTANT_ADDRESS}'
+            externalTrafficPolicy: Local
+            ports:
+              http:
+                port: 2222
         volumeMounts:
           - name: config
             mountPath: /config
