@@ -27,7 +27,7 @@ spec:
       annotations:
         reloader.stakater.com/auto: 'true'
     image:
-      repository: docker pull ghcr.io/linuxserver/openssh-server
+      repository: ghcr.io/linuxserver/openssh-server
       tag: 9.3_p1-r3-ls121
     env:
       TZ: '${TIMEZONE}'
