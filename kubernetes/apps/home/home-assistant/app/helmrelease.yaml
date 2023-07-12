@@ -57,6 +57,8 @@ spec:
         ports:
           ssh:
             port: 2222
+            targetPort: 22
+
     ingress:
       main:
         enabled: true
@@ -98,19 +100,18 @@ spec:
         path: /mnt/tank/backups/hass
         mountPath: /config/backups
         readOnly: false
-    # sidecars:
-    #   openssh:
-    #     image: ghcr.io/linuxserver/openssh-server:9.3_p1-r3-ls121
-    #     imagePullPolicy: IfNotPresent
-    #     env:
-    #       - { name: PUBLIC_KEY_URL, value: https://github.com/negative7.keys }
-    #       - { name: TZ, value: "${TIMEZONE}" }   
-    #       - { name: USER_NAME, value: "negative7" }       
-    #       - { name: PUID, value: "568" }    
-    #       - { name: PGID, value: "568" }    
-    #     volumeMounts:
-    #       - name: config
-    #         mountPath: /config
+    sidecars:
+      openssh:
+        image: hermsi/alpine-sshd
+        imagePullPolicy: IfNotPresent
+        env:
+          - { name: PUBLIC_KEY_URL, value: https://github.com/negative7.keys }
+          - { name: TZ, value: "${TIMEZONE}" }   
+          - { name: ROOT_LOGIN_UNLOCKED, value: "true" }       
+          - { name: ROOT_PASSWORD, value: "test" }
+        volumeMounts:
+          - name: config
+            mountPath: /config
     resources:
       requests:
         cpu: 10m
