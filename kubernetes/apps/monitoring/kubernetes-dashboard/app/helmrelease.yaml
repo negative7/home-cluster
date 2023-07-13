@@ -48,7 +48,8 @@ spec:
       extraArgs:
         - --enable-insecure-login
         - --token-ttl=43200
-    
+    metrics-server:
+      enabled: false
     metricsScraper:
       enabled: true
     extras:
