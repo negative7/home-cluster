@@ -5,31 +5,17 @@ metadata:
   name: thanos
   namespace: monitoring
 spec:
-  interval: 15m
+  interval: 30m
   chart:
     spec:
       chart: thanos
-      version: 12.8.5
+      version: 12.8.6
       sourceRef:
         kind: HelmRepository
         name: bitnami
         namespace: flux-system
-  maxHistory: 3
-  install:
-    createNamespace: true
-    remediation:
-      retries: 3
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
-  uninstall:
-    keepHistory: false
+      interval: 30m
   values:
-    image:
-      registry: quay.io
-      repository: thanos/thanos
-      tag: v0.31.0
     existingObjstoreSecret: thanos-objstore-secret
     queryFrontend:
       enabled: true
