@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: thanos
-      version: 1.12.4
+      version: 1.13.0
       sourceRef:
         kind: HelmRepository
         name: stevehipwell
@@ -66,9 +66,9 @@ spec:
           nginx.ingress.kubernetes.io/whitelist-source-range: |
             10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
           hajimari.io/enable: "false"
-        hostname: &host thanos-query-frontend.${SECRET_PUBLIC_DOMAIN}
-        tls: true
-        extraTls:
+        hosts:
+          - &host thanos-query-frontend.${SECRET_PUBLIC_DOMAIN}
+        tls:
           - hosts:
               - *host
     receive:
@@ -121,22 +121,6 @@ spec:
         size: 20Gi
     serviceMonitor:
       enabled: true
-  postRenderers:
-    - kustomize:
-        patchesStrategicMerge:
-          - apiVersion: apps/v1
-            kind: Statefulset
-            metadata:
-              name: thanos-compact
-              namespace: monitoring
-            spec:
-              template:
-                spec:
-                  containers:
-                    - name: thanos-compact
-                      args:
-                        - --deduplication.replica-label=__replica__
-                        - --deduplication.func=penalty
   valuesFrom:
     - targetPath: objstoreConfig.value.config.endpoint
       kind: Secret
