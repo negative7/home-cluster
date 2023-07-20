@@ -42,12 +42,12 @@ spec:
           bucket: thanos
     compact:
       enabled: true
-      extraArgs:
-        - --compact.concurrency=4
-        - --delete-delay=30m
-        - --retention.resolution-1h=14d
-        - --retention.resolution-5m=14d
-        - --retention.resolution-raw=14d
+      # extraArgs:
+      #   - --compact.concurrency=4
+      #   - --delete-delay=30m
+      #   - --retention.resolution-1h=14d
+      #   - --retention.resolution-5m=14d
+      #   - --retention.resolution-raw=14d
       replicaDeduplication: true
       persistence:
         enabled: true
