@@ -24,4 +24,9 @@ for NS in ${NAMESPACES[@]}; do
     do
         delete_pod $pod $NS
     done
+    TERMINATING_PODS=$(kubectl get pods -n $NS | grep ContainerCreating | awk '{print $1}')
+    for pod in $TERMINATING_PODS
+    do
+        delete_pod $pod $NS
+    done
 done
