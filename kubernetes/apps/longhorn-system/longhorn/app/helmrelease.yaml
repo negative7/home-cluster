@@ -31,7 +31,7 @@ spec:
     persistence:
       defaultClass: true
       defaultClassReplicaCount: 3
-      reclaimPolicy: Delete
+      defaultDataLocality: best-effort 
     csi:
       kubeletRootDir: /var/lib/kubelet
     defaultSettings:
