@@ -66,7 +66,7 @@ spec:
       - name: config
         mountPath: /var/lib/pgadmin
         accessMode: ReadWriteOnce
-        size: 1Gi
+        size: 5Gi
         storageClass: longhorn
         labels:
           recurring-job.longhorn.io/backup-1: enabled
