@@ -27,6 +27,8 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    ingress:
+      enabled: false
     tlsIssuer: "letsencrypt-staging"
     email: "${SECRET_EMAIL}"
     ui:
