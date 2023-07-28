@@ -1,0 +1,37 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: s3gw
+  namespace: longhorn-system
+spec:
+  interval: 30m
+  timeout: 30m
+  releaseName: s3gw
+  chart:
+    spec:
+      chart: s3gw
+      version: 0.18.0
+      sourceRef:
+        kind: HelmRepository
+        name: s3gw-charts
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    tlsIssuer: "letsencrypt-staging"
+    email: "${SECRET_EMAIL}"
+    ui:
+      serviceName: "s3gw"
+      publicDomain: "${SECRET_DOMAIN}"
+    storageClass:
+      name: longhorn
+      create: true
