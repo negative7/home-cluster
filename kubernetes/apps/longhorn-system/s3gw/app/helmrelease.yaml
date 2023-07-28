@@ -32,6 +32,7 @@ spec:
     ui:
       serviceName: "s3gw"
       publicDomain: "${SECRET_DOMAIN}"
+    publicDomain: "${SECRET_DOMAIN}"    
     storageClass:
       name: longhorn
       create: true
