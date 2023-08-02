@@ -28,8 +28,8 @@ spec:
   dependsOn:
     - name: local-path-provisioner
       namespace: kube-system
-    - name: longhron
-      namespace: longhron-system
+    - name: longhorn
+      namespace: longhorn-system
   values:
     image:
       registry: quay.io
