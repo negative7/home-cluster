@@ -1,0 +1,13 @@
+---
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: pikvm
+  namespace: monitoring
+spec:
+  basic_auth:
+    username: admin
+    password: ${SECRET_PIKVM_PASSWORD}
+  static_configs:
+    - targets: ["10.2.0.6"]
+  metricsPath: /api/export/prometheus/metrics

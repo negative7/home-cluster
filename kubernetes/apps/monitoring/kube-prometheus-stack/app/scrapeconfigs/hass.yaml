@@ -1,0 +1,11 @@
+---
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: hass-exporter
+  namespace: monitoring
+spec:
+  metrics_path: /api/prometheus
+  bearer_token: "${SECRET_HASS_TOKERN}"
+  static_configs:
+    - targets: ["${SVC_HOME_ASSISTANT_ADDRESS}:8123"]
