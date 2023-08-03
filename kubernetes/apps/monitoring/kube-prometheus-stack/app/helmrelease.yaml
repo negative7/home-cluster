@@ -161,20 +161,6 @@ spec:
                 requests:
                   storage: 20Gi
         additionalScrapeConfigs:
-          - job_name: minio-job
-            bearer_token: ${SECRET_MINIO_BEARER_TOKEN}
-            metrics_path: /minio/v2/metrics/cluster
-            scheme: http
-            static_configs:
-              - targets:
-                  - '${SECRET_MINIO_IP}:9000'
-          - job_name: pikvm
-            metrics_path: /api/export/prometheus/metrics
-            basic_auth:
-              username: admin
-              password: ${SECRET_PIKVM_PASSWORD}
-            static_configs:
-              - targets: ["10.2.0.6"]
           - job_name: hass
             metrics_path: /api/prometheus
             bearer_token: "${SECRET_HASS_TOKERN}"

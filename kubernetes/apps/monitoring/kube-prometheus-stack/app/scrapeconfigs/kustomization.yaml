@@ -5,3 +5,4 @@ namespace: monitoring
 resources:
   - ./node-exporter.yaml
   - ./truenas.yaml
+  - ./pikvm.yaml
