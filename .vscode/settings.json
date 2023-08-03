@@ -15,7 +15,8 @@
   "prettier.configPath": ".github/linters/.prettierrc.yaml",
   "prettier.ignorePath": ".github/linters/.prettierignore",
   "yaml.schemas": {
-    "Kubernetes": "kubernetes/*.yaml"
+    "Kubernetes": "kubernetes/*.yaml",
+    "kubernetes://schema/postgresql.cnpg.io/v1@cluster": "file:///home/negative7/home-cluster/kubernetes/apps/database/cloudnative-pg/cluster/cluster.yaml"
   },
   "editor.fontFamily": "FiraCode Nerd Font",
   "editor.fontLigatures": true,
