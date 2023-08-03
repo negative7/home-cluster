@@ -160,17 +160,17 @@ spec:
               resources:
                 requests:
                   storage: 20Gi
-        grafana:
-          enabled: false
-          forceDeployDashboards: true
-          sidecar:
-            dashboards:
-              multicluster:
-                etcd:
-                  enabled: true
-        nodeExporter:
-          enabled: false
-        kubeStateMetrics:
-          enabled: false
+    grafana:
+      enabled: false
+      forceDeployDashboards: true
+      sidecar:
+        dashboards:
+          multicluster:
+            etcd:
+              enabled: true
+    nodeExporter:
+      enabled: false
+    kubeStateMetrics:
+      enabled: false
 
 
