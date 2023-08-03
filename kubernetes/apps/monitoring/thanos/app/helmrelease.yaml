@@ -36,7 +36,7 @@ spec:
       repository: thanos/thanos
       tag: v0.31.0
     existingObjstoreSecret: thanos-objstore-secret
-    ueryFrontend:
+    queryFrontend:
       enabled: true
       replicaCount: 2
       ingress:
