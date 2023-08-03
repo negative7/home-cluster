@@ -3,7 +3,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: monitoring
 resources:
-  - ./hass.yaml
+  # - ./hass.yaml
   - ./node-exporter.yaml
   - ./pikvm.yaml
   - ./truenas.yaml
