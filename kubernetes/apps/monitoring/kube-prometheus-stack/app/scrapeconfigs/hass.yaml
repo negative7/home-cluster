@@ -6,6 +6,9 @@ metadata:
   namespace: monitoring
 spec:
   metrics_path: /api/prometheus
-  bearer_token: "${SECRET_HASS_TOKERN}"
+  bearer_token: 
   static_configs:
     - targets: ["${SVC_HOME_ASSISTANT_ADDRESS}:8123"]
+  authorization:
+    type: Bearer
+    credentials: "${SECRET_HASS_TOKERN}"
