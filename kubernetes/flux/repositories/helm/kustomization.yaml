@@ -34,7 +34,7 @@ resources:
   - ./node-feature-discovery-charts.yaml
   - ./oauth2-proxy-charts.yaml
   - ./obeone-charts.yaml
-  - ./prometheus-community-charts.yaml
+  - ./prometheus-community.yaml
   - ./rook-ceph-charts.yaml
   - ./s3gw-charts.yaml
   - ./stakater-charts.yaml
