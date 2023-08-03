@@ -11,4 +11,5 @@ spec:
     - targets: ["${SVC_HOME_ASSISTANT_ADDRESS}:8123"]
   authorization:
     type: Bearer
-    credentials: "${SECRET_HASS_TOKERN}"
+    credentials: 
+      key: "${SECRET_HASS_TOKERN}"
