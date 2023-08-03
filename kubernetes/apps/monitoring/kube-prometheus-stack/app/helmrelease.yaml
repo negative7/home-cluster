@@ -48,7 +48,7 @@ spec:
           - hosts:
               - *host
       alertmanagerSpec:
-        replicas: 2
+        replicas: 3
         useExistingSecret: true
         configSecret: alertmanager-secret
         storage:
