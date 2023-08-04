@@ -17,7 +17,6 @@ spec:
         namespace: flux-system
   maxHistory: 2
   install:
-    createNamespace: true
     remediation:
       retries: 3
   upgrade:
@@ -29,6 +28,8 @@ spec:
   dependsOn:
     - name: local-path-provisioner
       namespace: kube-system
+    - name: longhorn
+      namespace: longhorn-system
   values:
     loki:
       structuredConfig:
@@ -63,24 +64,21 @@ spec:
                 period: 24h
         common:
           path_prefix: /var/loki
-          replication_factor: 3
+          replication_factor: 2
           storage:
             s3:
               s3: null
-              bucketnames: loki-logs
-              endpoint: ${SECRET_MINIO_ADDRESS}
-              access_key_id: ${SECRET_MINIO_ACCESS_KEY}
-              secret_access_key: ${SECRET_MINIO_SECRET_KEY}
-              region: us-east-1
-              s3forcepathstyle: true
               insecure: true
+              s3forcepathstyle: true
+              region: us-east-1
+              bucketnames: loki-logs
           ring:
             kvstore:
               store: memberlist
         ruler:
           enable_api: true
           enable_alertmanager_v2: true
-          alertmanager_url: http://kube-prometheus-stack-alertmanager:9093
+          alertmanager_url: http://alertmanager-operated.monitoring.svc.cluster.local:9093
           storage:
             type: local
             local:
@@ -109,7 +107,9 @@ spec:
         analytics:
           reporting_enabled: false
     gateway:
-      replicas: 3
+      replicas: 2
+      image:
+        registry: ghcr.io
       ingress:
         enabled: true
         ingressClassName: nginx
@@ -124,6 +124,7 @@ spec:
           - hosts:
               - *host
     read:
+      replicas: 2
       persistence:
         storageClass: local-path
       extraVolumeMounts:
@@ -133,9 +134,11 @@ spec:
         - name: rules
           emptyDir: {}
     write:
+      replicas: 2
       persistence:
         storageClass: local-path
     backend:
+      replicas: 2
       persistence:
         storageClass: local-path
       extraVolumeMounts:
@@ -152,9 +155,7 @@ spec:
     monitoring:
       dashboards:
         annotations:
-          kustomize.toolkit.fluxcd.io/substitute: disabled
-        labels:
-          grafana_dashboard: "true"
+          grafana_folder: Loki
       serviceMonitor:
         enabled: false
         metricsInstance:
@@ -167,3 +168,16 @@ spec:
         enabled: false
     test:
       enabled: false
+  valuesFrom:
+    - targetPath: loki.structuredConfig.common.storage.s3.endpoint
+      kind: Secret
+      name: loki-secret
+      valuesKey: BUCKET_HOST
+    - targetPath: loki.structuredConfig.common.storage.s3.access_key_id
+      kind: Secret
+      name: loki-secret
+      valuesKey: AWS_ACCESS_KEY_ID
+    - targetPath: loki.structuredConfig.common.storage.s3.secret_access_key
+      kind: Secret
+      name: loki-secret
+      valuesKey: AWS_SECRET_ACCESS_KEY
