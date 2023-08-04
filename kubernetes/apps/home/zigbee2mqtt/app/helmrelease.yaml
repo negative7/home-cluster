@@ -2,10 +2,10 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: &app zigbee2mqtt
+  name: zigbee2mqtt
   namespace: home
 spec:
-  interval: 15m
+  interval: 30m
   chart:
     spec:
       chart: app-template
@@ -14,9 +14,8 @@ spec:
         kind: HelmRepository
         name: bjw-s
         namespace: flux-system
-  maxHistory: 3
+  maxHistory: 2
   install:
-    createNamespace: true
     remediation:
       retries: 3
   upgrade:
@@ -25,6 +24,11 @@ spec:
       retries: 3
   uninstall:
     keepHistory: false
+  dependsOn:
+    - name: mosquitto
+      namespace: home
+    - name: longhorn
+      namespace: longhorn-system
   values:
     controller:
       type: statefulset
@@ -33,17 +37,44 @@ spec:
     image:
       repository: ghcr.io/koenkk/zigbee2mqtt
       tag: 1.32.2
-    # envFrom:
-    #   - secretRef:
-    #       name: zigbee2mqtt-secret
+    env:
+      TZ: America/New_York
+      ZIGBEE2MQTT_DATA: /data
+      ZIGBEE2MQTT_CONFIG_ADVANCED_HOMEASSISTANT_DISCOVERY_TOPIC: homeassistant
+      ZIGBEE2MQTT_CONFIG_ADVANCED_HOMEASSISTANT_LEGACY_ENTITY_ATTRIBUTES: 'false'
+      ZIGBEE2MQTT_CONFIG_ADVANCED_HOMEASSISTANT_LEGACY_TRIGGERS: 'false'
+      ZIGBEE2MQTT_CONFIG_ADVANCED_HOMEASSISTANT_STATUS_TOPIC: homeassistant/status
+      ZIGBEE2MQTT_CONFIG_ADVANCED_LAST_SEEN: ISO_8601
+      ZIGBEE2MQTT_CONFIG_ADVANCED_LEGACY_API: 'false'
+      ZIGBEE2MQTT_CONFIG_ADVANCED_LEGACY_AVAILABILITY_PAYLOAD: 'false'
+      ZIGBEE2MQTT_CONFIG_ADVANCED_LOG_LEVEL: info
+      ZIGBEE2MQTT_CONFIG_ADVANCED_LOG_OUTPUT: '["console"]'
+      ZIGBEE2MQTT_CONFIG_AVAILABILITY_ACTIVE_TIMEOUT: 60
+      ZIGBEE2MQTT_CONFIG_AVAILABILITY_PASSIVE_TIMEOUT: 2000
+      ZIGBEE2MQTT_CONFIG_DEVICE_OPTIONS_LEGACY: 'false'
+      ZIGBEE2MQTT_CONFIG_DEVICE_OPTIONS_RETAIN: 'true'
+      ZIGBEE2MQTT_CONFIG_EXPERIMENTAL_NEW_API: 'true'
+      ZIGBEE2MQTT_CONFIG_FRONTEND_PORT: &port 80
+      ZIGBEE2MQTT_CONFIG_FRONTEND_URL: https://zigbee2mqtt.${SECRET_PUBLIC_DOMAIN}
+      ZIGBEE2MQTT_CONFIG_HOMEASSISTANT: 'true'
+      ZIGBEE2MQTT_CONFIG_MQTT_INCLUDE_DEVICE_INFORMATION: 'true'
+      ZIGBEE2MQTT_CONFIG_MQTT_KEEPALIVE: 60
+      ZIGBEE2MQTT_CONFIG_MQTT_REJECT_UNAUTHORIZED: 'true'
+      ZIGBEE2MQTT_CONFIG_MQTT_SERVER: mqtt://mosquitto.home.svc.cluster.local
+      ZIGBEE2MQTT_CONFIG_MQTT_VERSION: 5
+      ZIGBEE2MQTT_CONFIG_PERMIT_JOIN: "false"
+      ZIGBEE2MQTT_CONFIG_SERIAL_DISABLE_LED: "false"
+      ZIGBEE2MQTT_CONFIG_SERIAL_PORT: /dev/serial/by-id/usb-1a86_USB_Serial-if00-port0
+      ZIGBEE2MQTT_CONFIG_ADVANCED_PAN_ID: 6777
+      ZIGBEE2MQTT_CONFIG_ADVANCED_NETWORK_KEY: ""
+    envFrom:
+      - secretRef:
+          name: zigbee2mqtt-secret
     service:
       main:
         ports:
           http:
-            port: 8080
-          metrics:
-            enabled: true
-            port: 80
+            port: *port
     ingress:
       main:
         enabled: true
