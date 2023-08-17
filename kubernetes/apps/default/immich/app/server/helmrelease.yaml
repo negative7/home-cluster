@@ -16,7 +16,6 @@ spec:
         namespace: flux-system
   maxHistory: 2
   install:
-    createNamespace: true
     remediation:
       retries: 3
   upgrade:
@@ -27,39 +26,52 @@ spec:
     keepHistory: false
   dependsOn:
     - name: immich-typesense
+      namespace: default
+    - name: redis
+      namespace: database
   values:
     initContainers:
       01-init-db:
-        image: ghcr.io/onedr0p/postgres-init:14.9
+        image: ghcr.io/onedr0p/postgres-init:14.8
         imagePullPolicy: IfNotPresent
-        envFrom:
+        envFrom: &envFrom
+          - configMapRef:
+              name: &configMap immich-configmap
           - secretRef:
-              name: immich-secret
+              name: &secret immich-secret
     controller:
-      replicas: 2
       strategy: RollingUpdate
       annotations:
-        configmap.reloader.stakater.com/reload: &configmap immich-configmap
-        secret.reloader.stakater.com/reload: &secret immich-secret
+        configmap.reloader.stakater.com/reload: *configMap
+        secret.reloader.stakater.com/reload: *secret
     image:
       repository: ghcr.io/immich-app/immich-server
       tag: v1.73.0
     args: ["start-server.sh"]
-    envFrom:
-      - configMapRef:
-          name: *configmap
-      - secretRef:
-          name: *secret
+    envFrom: *envFrom
     service:
       main:
         ports:
           http:
             port: 3001
+    podSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
+      fsGroupChangePolicy: OnRootMismatch
     persistence:
       library:
         enabled: true
         existingClaim: immich-nfs
         mountPath: /usr/src/app/upload
+      geocoding-dump:
+        enabled: true
+        type: emptyDir
+        mountPath: /usr/src/app/.reverse-geocoding-dump
+      transformers-cache:
+        enabled: true
+        type: emptyDir
+        mountPath: /usr/src/app/.transformers_cache
     topologySpreadConstraints:
       - maxSkew: 1
         topologyKey: kubernetes.io/hostname

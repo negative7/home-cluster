@@ -6,9 +6,10 @@ resources:
   - ./configmap.yaml
   - ./externalsecret.yaml
   - ./gatus.yaml
-  - ./machine-learning
-  - ./microservices
   - ./nfs-pvc.yaml
-  - ./server
   - ./typesense
+  - ./server
+  - ./microservices
+  - ./machine-learning
   - ./web
+

@@ -1,4 +1,3 @@
----
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
@@ -16,7 +15,6 @@ spec:
         namespace: flux-system
   maxHistory: 2
   install:
-    createNamespace: true
     remediation:
       retries: 3
   upgrade:
@@ -27,19 +25,21 @@ spec:
     keepHistory: false
   dependsOn:
     - name: immich-server
+      namespace: default
+    - name: redis
+      namespace: database
   values:
     controller:
-      replicas: 2
       strategy: RollingUpdate
       annotations:
-        configmap.reloader.stakater.com/reload: &configmap immich-configmap
+        configmap.reloader.stakater.com/reload: &configMap immich-configmap
         secret.reloader.stakater.com/reload: &secret immich-secret
     image:
       repository: ghcr.io/immich-app/immich-web
       tag: v1.73.0
     envFrom:
       - configMapRef:
-          name: *configmap
+          name: *configMap
       - secretRef:
           name: *secret
     service:
@@ -72,6 +72,11 @@ spec:
         tls:
           - hosts:
               - *host
+    podSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
+      fsGroupChangePolicy: OnRootMismatch
     persistence:
       library:
         enabled: true

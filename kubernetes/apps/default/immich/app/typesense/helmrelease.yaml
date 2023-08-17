@@ -1,4 +1,3 @@
----
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
@@ -16,7 +15,6 @@ spec:
         namespace: flux-system
   maxHistory: 2
   install:
-    createNamespace: true
     remediation:
       retries: 3
   upgrade:
@@ -29,14 +27,14 @@ spec:
     controller:
       type: statefulset
       annotations:
-        configmap.reloader.stakater.com/reload: &configmap immich-configmap
+        configmap.reloader.stakater.com/reload: &configMap immich-configmap
         secret.reloader.stakater.com/reload: &secret immich-secret
     image:
       repository: docker.io/typesense/typesense
       tag: 0.25.0
     envFrom:
       - configMapRef:
-          name: *configmap
+          name: *configMap
       - secretRef:
           name: *secret
     service:
@@ -63,7 +61,7 @@ spec:
       - name: config
         mountPath: /config
         accessMode: ReadWriteOnce
-        size: 10Gi
+        size: 5Gi
         storageClass: longhorn
     resources:
       requests:
