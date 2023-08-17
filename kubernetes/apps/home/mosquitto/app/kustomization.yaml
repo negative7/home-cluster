@@ -5,9 +5,4 @@ namespace: home
 resources:
   - ./secret.sops.yaml
   - ./helmrelease.yaml
-configMapGenerator:
-  - name: mosquitto-configmap
-    files:
-      - mosquitto.conf=./config/mosquitto.conf
-configurations:
-  - ./patches/kustomizeconfig.yaml
+  - ./config.yaml
