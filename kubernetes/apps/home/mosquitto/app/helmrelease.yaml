@@ -63,6 +63,11 @@ spec:
         accessMode: ReadWriteOnce
         size: 512Mi
         storageClass: longhorn
+      - name: external-config
+        mountPath: /mosquitto/external_config
+        accessMode: ReadWriteOnce
+        size: 512Mi
+        storageClass: local-path
     persistence:
       config-file:
         enabled: true
@@ -77,10 +82,6 @@ spec:
         subPath: mosquitto_pwd
         mountPath: /data/mosquitto_secret/mosquitto_pwd
         readOnly: true
-      external-config:
-        enabled: true
-        type: emptyDir
-        mountPath: /mosquitto/external_config
     resources:
       requests:
         cpu: 10m
