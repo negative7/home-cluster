@@ -1,0 +1,20 @@
+---
+k3s_control_node: true
+k3s_server:
+  node-ip: "{{ ansible_host }}"
+  tls-san:
+    - "{{ k3s_registration_address }}"
+  docker: false
+  flannel-backend: "vxlan"
+  disable:
+    - local-storage
+    - servicelb
+    - traefik
+  kube-controller-manager-arg:
+    - "bind-address=0.0.0.0"
+  kube-proxy-arg:
+    - "metrics-bind-address=0.0.0.0"
+  kube-scheduler-arg:
+    - "bind-address=0.0.0.0"
+  kube-apiserver-arg:
+    - anonymous-auth=true

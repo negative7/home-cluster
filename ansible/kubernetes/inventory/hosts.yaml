@@ -1,0 +1,18 @@
+---
+kubernetes:
+  vars:
+    ansible_user: worker
+    ansible_ssh_port: 22
+  children:
+    master:
+      hosts:
+        kharkiv:
+          ansible_host: 10.2.0.21
+    worker:
+      hosts:
+        vinnytsia:
+          ansible_host: 10.2.0.22
+        dnipro:
+          ansible_host: 10.2.0.23
+        kyiv:
+          ansible_host: 10.2.0.24
