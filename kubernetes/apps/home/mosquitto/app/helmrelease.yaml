@@ -5,19 +5,17 @@ metadata:
   name: mosquitto
   namespace: home
 spec:
-  interval: 5m
+  interval: 30m
   chart:
     spec:
-      chart: mosquitto
-      version: 4.8.2
+      chart: app-template
+      version: 1.5.1
       sourceRef:
         kind: HelmRepository
-        name: k8s-at-home-charts
+        name: bjw-s
         namespace: flux-system
-      interval: 5m
-  maxHistory: 3
+  maxHistory: 2
   install:
-    createNamespace: true
     remediation:
       retries: 3
   upgrade:
@@ -26,6 +24,9 @@ spec:
       retries: 3
   uninstall:
     keepHistory: false
+  dependsOn:
+    - name: longhorn
+      namespace: longhorn-system
   values:
     initContainers:
       01-init-config:
@@ -41,8 +42,8 @@ spec:
       annotations:
         reloader.stakater.com/auto: "true"
     image:
-      repository: ghcr.io/k8s-at-home/eclipse-mosquitto
-      tag: v2.0.15
+      repository: public.ecr.aws/docker/library/eclipse-mosquitto
+      tag: 2.0.16
     env:
       TZ: '${TIMEZONE}'
     service:
