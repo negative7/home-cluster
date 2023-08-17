@@ -5,6 +5,12 @@
       "matchDatasources": ["docker"],
       "matchPackagePatterns": ["kopia"],
       "allowedVersions": "<10"
+    },
+    {
+      "matchDatasources": ["docker"],
+      "matchPackagePatterns": ["mosquitto"],
+      "allowedVersions": "<=2.0.15"
     }
   ]
 }
+
