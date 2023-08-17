@@ -44,37 +44,32 @@ spec:
     image:
       repository: public.ecr.aws/docker/library/eclipse-mosquitto
       tag: 2.0.15
-    env:
-      TZ: '${TIMEZONE}'
     service:
       main:
         type: LoadBalancer
         loadBalancerIP: '${SVC_MOSQUITTO_ADDR}'
-        externalTrafficPolicy: Local
+        externalTrafficPolicy: Cluster
         ports:
           http:
-            enabled: false
-          mqtt:
-            enabled: true
             port: 1883
     podSecurityContext:
       runAsUser: 568
       runAsGroup: 568
       fsGroup: 568
       fsGroupChangePolicy: OnRootMismatch
-    podAnnotations:
-      secret.reloader.stakater.com/reload: mosquitto
-    persistence:
-      config:
+    volumeClaimTemplates:
+      - name: config
         mountPath: /data
+        accessMode: ReadWriteOnce
+        size: 512Mi
+        storageClass: longhorrn
+    persistence:
+      config-file:
         enabled: true
-        existingClaim: mosquitto-config-v1
-      # config-file:
-      #   enabled: true
-      #   type: configMap
-      #   name: mosquitto-configmap # overriden by kustomizeconfig
-      #   mountPath: /mosquitto/config/mosquitto.conf
-      #   subPath: mosquitto.conf
+        type: configMap
+        name: mosquitto-configmap # overriden by kustomizeconfig
+        mountPath: /mosquitto/config/mosquitto.conf
+        subPath: mosquitto.conf
       secret-file:
         enabled: true
         type: secret
