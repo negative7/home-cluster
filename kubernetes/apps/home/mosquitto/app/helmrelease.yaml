@@ -64,12 +64,12 @@ spec:
         size: 512Mi
         storageClass: longhorn
     persistence:
-      # config-file:
-      #   enabled: true
-      #   type: configMap
-      #   name: mosquitto-configmap
-      #   mountPath: /mosquitto/config/mosquitto.conf
-      #   subPath: mosquitto.conf
+      config-file:
+        enabled: true
+        type: configMap
+        name: mosquitto-configmap
+        mountPath: /mosquitto/config/mosquitto.conf
+        subPath: mosquitto.conf
       secret-file:
         enabled: true
         type: secret
