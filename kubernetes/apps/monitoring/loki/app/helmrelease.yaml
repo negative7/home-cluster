@@ -68,7 +68,7 @@ spec:
           storage:
             s3:
               s3: null
-              insecure: true
+              insecure: false
               s3forcepathstyle: true
               region: us-east-1
               bucketnames: loki-logs
