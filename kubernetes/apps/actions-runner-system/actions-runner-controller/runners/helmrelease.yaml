@@ -26,9 +26,9 @@ spec:
     keepHistory: false
   values:
     runnerScaleSetName: arc-runner-set-home-ops
-    controllerServiceAccount: gha-runner-scale-set-controller
-    namespace: actions-runner-system
-    name: test-arc-gha-runner-scale-set-controller
+    controllerServiceAccount: 
+      namespace: actions-runner-system
+      name: gha-runner-scale-set-controller
     githubConfigUrl: https://github.com/negative7/home-cluster
     minRunners: 1
     maxRunners: 3
