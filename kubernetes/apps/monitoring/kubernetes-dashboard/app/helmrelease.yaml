@@ -36,6 +36,9 @@ spec:
         className: nginx
         annotations:
           hajimari.io/icon: mdi:kubernetes
+        pathType: Prefix
+        issuer:
+          scope: disabled
         hosts:
           - &host dashboard.${SECRET_PUBLIC_DOMAIN}
         tls:
