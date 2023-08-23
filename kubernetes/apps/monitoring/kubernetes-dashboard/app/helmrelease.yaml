@@ -38,7 +38,8 @@ spec:
           hajimari.io/icon: mdi:kubernetes
         pathType: Prefix
         issuer:
-          scope: disabled
+          name: letsencrypt-staging
+          scope: cluster 
         hosts:
           - &host dashboard.${SECRET_PUBLIC_DOMAIN}
         tls:
