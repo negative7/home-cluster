@@ -15,7 +15,7 @@
       register: my_output
       changed_when: my_output.rc != 0
       ansible.builtin.shell: |
-        set -o pipefail && num=$(tail /var/log/syslog | grep "any similar errors. Turn up verbosity to see them." |tail -1 | awk '{print $23}' |sed 's/\\"//g')
+        num=$(tail /var/log/syslog | grep "any similar errors. Turn up verbosity to see them." |tail -1 | awk '{print $23}' |sed 's/\\"//g')
         echo $num
 
         while [ $num ]
