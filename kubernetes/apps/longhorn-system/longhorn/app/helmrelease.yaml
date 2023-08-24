@@ -11,7 +11,7 @@ spec:
   chart:
     spec:
       chart: longhorn
-      version: 1.5.1
+      version: 1.4.2
       sourceRef:
         kind: HelmRepository
         name: longhorn-charts
@@ -34,11 +34,11 @@ spec:
       defaultDataLocality: best-effort 
     csi:
       kubeletRootDir: /var/lib/kubelet
-    defaultSettings:
-      backupstorePollInterval: 1800
-      backupTarget: s3://longhorn@us-east-1/backup
-      backupTargetCredentialSecret: longhorn-backup-secret
-      storageMinimalAvailablePercentage: 10
+    # defaultSettings:
+    #   backupstorePollInterval: 1800
+    #   backupTarget: s3://longhorn@us-east-1/backup
+    #   backupTargetCredentialSecret: longhorn-backup-secret
+    #   storageMinimalAvailablePercentage: 10
     ingress:
       enabled: true
       host: longhorn.${SECRET_PUBLIC_DOMAIN}
