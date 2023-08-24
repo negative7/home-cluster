@@ -66,16 +66,27 @@ spec:
       extraFlags:
         - --compact.concurrency=4
         - --delete-delay=30m
-      retentionResolutionRaw: 30d
-      retentionResolution5m: 60d
-      retentionResolution1h: 90d
+      retentionResolutionRaw: 14d
+      retentionResolution5m: 14d
+      retentionResolution1h: 30d
+      resources:
+        requests:
+          memory: 204M
       persistence:
         enabled: true
         storageClass: local-path
         size: 10Gi
     storegateway:
       enabled: true
-      replicaCount: 2
+      replicaCount: 1
+      resources:
+        requests:
+          memory: 3204M
+      extraFlags: 
+        - --chunk-pool-size=2GB
+        - --index-cache-size=250MB
+        - --cache-index-header
+        - --store.enable-index-header-lazy-reader
       persistence:
         enabled: true
         storageClass: local-path
