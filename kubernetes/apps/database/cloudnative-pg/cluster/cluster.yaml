@@ -20,7 +20,7 @@ spec:
     name: cloudnative-pg-secret
   bootstrap:
     recovery:
-      source: &previousCluster postgres
+      source: &previousCluster postgres-v2
   postgresql:
     parameters:
       max_connections: "600"
@@ -35,7 +35,7 @@ spec:
         maxParallel: 8
       destinationPath: s3://postgresql
       endpointURL: https://minio.${SECRET_PUBLIC_DOMAIN}
-      serverName:  &currentCluster postgres-v2
+      serverName:  &currentCluster postgres-v3
       s3Credentials:
         accessKeyId:
           name: cloudnative-pg-secret
