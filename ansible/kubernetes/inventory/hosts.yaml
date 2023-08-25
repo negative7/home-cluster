@@ -16,3 +16,5 @@ kubernetes:
           ansible_host: 10.2.0.23
         kyiv:
           ansible_host: 10.2.0.24
+          ceph_drives:
+            - /dev/disk/by-id/ata-CT1000MX500SSD1_2012E2952A29
