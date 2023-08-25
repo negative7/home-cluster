@@ -94,7 +94,7 @@ spec:
         mountPath: /data
         accessMode: ReadWriteOnce
         size: 1Gi
-        storageClass: longhorn
+        storageClass: ceph-block
         labels:
           recurring-job.longhorn.io/backup-1: enabled
           recurring-job.longhorn.io/snapshot-1: enabled
