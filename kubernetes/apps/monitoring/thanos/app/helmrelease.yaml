@@ -78,7 +78,7 @@ spec:
         size: 10Gi
     storegateway:
       enabled: true
-      replicaCount: 1
+      replicaCount: 2
       resources:
         requests:
           memory: 3204M
