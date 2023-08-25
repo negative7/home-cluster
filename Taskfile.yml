@@ -18,6 +18,9 @@ env:
   ANSIBLE_VARS_ENABLED: "host_group_vars,community.sops.sops"
   K8S_AUTH_KUBECONFIG: "{{.ROOT_DIR}}/kubeconfig"
 
+includes:
+  migrate: .taskfiles/migrate.yml
+
 tasks:
   default:
     silent: true

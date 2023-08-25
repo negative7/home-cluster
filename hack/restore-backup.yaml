@@ -2,7 +2,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: ${APP}-restore-backup
+  name: ${APP}-migrate-pv
   namespace: ${NAMESPACE}
 spec:
   ttlSecondsAfterFinished: 3600
@@ -11,15 +11,17 @@ spec:
       automountServiceAccountToken: false
       restartPolicy: OnFailure
       containers:
-        - name: restore
+        - name: migrate
           image: ubuntu:rolling
           command:
             - /bin/bash
             - -c
             - |-
-              rm -rf /data/${NAMESPACE}/${APP}/*
-              cp -a /backup/${NAMESPACE}/${APP} /data/${NAMESPACE}
-
+              apt-get update && apt-get install -y rsync &&
+              ls -lah /backup/${NAMESPACE}/${APP}/ /data/${NAMESPACE}/${APP}/ &&
+              df -h &&
+              rsync -avPS --delete /backup/${NAMESPACE}/${APP}/ /data/${NAMESPACE}/${APP}/ &&
+              ls -lah /data/${NAMESPACE}/${APP}/
           volumeMounts:
             - name: ${APP}-data
               mountPath: /data/${NAMESPACE}/${APP}
