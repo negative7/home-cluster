@@ -40,10 +40,8 @@ spec:
         ports:
           http:
             port: 6052
-
     hostNetwork: true
     dnsPolicy: ClusterFirstWithHostNet
-
     ingress:
       main:
         enabled: true
@@ -58,11 +56,7 @@ spec:
         tls:
           - hosts:
               - *host-release
-
     persistence:
-      config:
-        enabled: true
-        existingClaim: esphome-config-v1
       secrets:
         enabled: true
         type: secret
@@ -80,10 +74,15 @@ spec:
         enabled: false
       startup:
         enabled: false
-
     resources:
       requests:
         cpu: 5m
         memory: 1374M
       limits:
         memory: 1374M
+    volumeClaimTemplates:
+      - name: config
+        mountPath: /config
+        accessMode: ReadWriteOnce
+        size: 5Gi
+        storageClass: ceph-block
