@@ -6,7 +6,8 @@ metadata:
   namespace: flux-system
 spec:
   dependsOn:
-    - name: cluster-apps-longhorn
+    - name: cluster-apps-cloudnative-pg-cluster
+    - name: cluster-apps-external-secrets-stores
   path: ./kubernetes/apps/default/sonarr/app
   prune: true
   sourceRef:
@@ -17,6 +18,7 @@ spec:
       kind: HelmRelease
       name: sonarr
       namespace: default
+  wait: false
   interval: 30m
   retryInterval: 1m
-  timeout: 3m
+  timeout: 5m

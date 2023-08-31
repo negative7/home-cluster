@@ -2,10 +2,10 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: &app sonarr
+  name: sonarr
   namespace: default
 spec:
-  interval: 15m
+  interval: 30m
   chart:
     spec:
       chart: app-template
@@ -14,9 +14,8 @@ spec:
         kind: HelmRepository
         name: bjw-s
         namespace: flux-system
-  maxHistory: 3
+  maxHistory: 2
   install:
-    createNamespace: true
     remediation:
       retries: 3
   upgrade:
@@ -25,27 +24,53 @@ spec:
       retries: 3
   uninstall:
     keepHistory: false
+  dependsOn:
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
   values:
+    initContainers:
+      01-init-db:
+        image: ghcr.io/onedr0p/postgres-init:14.8
+        imagePullPolicy: IfNotPresent
+        envFrom: &envFrom
+          - secretRef:
+              name: sonarr-secret
     controller:
-      type: statefulset
       annotations:
-        reloader.stakater.com/auto: 'true'
+        reloader.stakater.com/auto: "true"
     image:
       repository: ghcr.io/onedr0p/sonarr-develop
       tag: 4.0.0.651@sha256:c69522a4e1a70d318943d69e487dde626f36ae635103926ec25a9b6dfec10c01
     env:
       TZ: '${TIMEZONE}'
+      PUSHOVER_DEBUG: "false"
+      SONARR__AUTHENTICATION_METHOD: External
+      SONARR__AUTHENTICATION_REQUIRED: DisabledForLocalAddresses
       SONARR__INSTANCE_NAME: Sonarr
       SONARR__PORT: &port 80
       SONARR__LOG_LEVEL: info
-    envFrom:
-      - secretRef:
-          name: sonarr-secret
+      SONARR__THEME: dark
+    envFrom: *envFrom
     service:
       main:
         ports:
           http:
             port: *port
+    probes:
+      liveness: &probes
+        enabled: true
+        custom: true
+        spec:
+          httpGet:
+            path: /ping
+            port: *port
+          initialDelaySeconds: 0
+          periodSeconds: 10
+          timeoutSeconds: 1
+          failureThreshold: 3
+      readiness: *probes
+      startup:
+        enabled: false
     ingress:
       main:
         enabled: true
@@ -68,19 +93,12 @@ spec:
       runAsUser: 568
       runAsGroup: 568
       fsGroup: 568
-      fsGroupChangePolicy: 'OnRootMismatch'
-      supplementalGroups:
-        - 100
-    volumeClaimTemplates:
-      - name: config
-        mountPath: /config
-        accessMode: ReadWriteOnce
-        size: 10Gi
-        storageClass: longhorn
-        labels:
-          recurring-job.longhorn.io/backup-1: enabled
-          recurring-job.longhorn.io/snapshot-1: enabled
+      fsGroupChangePolicy: OnRootMismatch
+      supplementalGroups: [10000]
     persistence:
+      config:
+        enabled: true
+        existingClaim: sonarr-config
       media:
         enabled: true
         type: nfs
@@ -93,6 +111,14 @@ spec:
         server: 'freenas.${SECRET_PUBLIC_DOMAIN}'
         path: /mnt/tank/data
         readOnly: false
+      scripts:
+        enabled: true
+        type: configMap
+        name: sonarr-configmap
+        subPath: pushover-notify.sh
+        mountPath: /scripts/pushover-notify.sh
+        defaultMode: 0775
+        readOnly: true
       backup:
         enabled: true
         type: nfs
@@ -102,7 +128,7 @@ spec:
         readOnly: false
     resources:
       requests:
-        cpu: 10m
-        memory: 250Mi
+        cpu: 20m
+        memory: 323M
       limits:
-        memory: 2000Mi
+        memory: 323M
