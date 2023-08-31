@@ -59,7 +59,9 @@ spec:
         mountPath: /usr/src/app/upload
       cache:
         enabled: true
-        type: emptyDir
+        type: pvc
+        existingClaim: immich-machine-learning-cache
+        mountPath: /cache
       geocoding-dump:
         enabled: true
         type: emptyDir
@@ -78,4 +80,6 @@ spec:
     resources:
       requests:
         cpu: 100m
-        memory: 250Mi
+        memory: 274M
+      limits:
+        memory: 3949M
