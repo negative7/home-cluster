@@ -163,7 +163,7 @@ spec:
             metrics_path: /api/prometheus
             bearer_token: "${SECRET_HASS_TOKERN}"
             static_configs:
-              - targets: ["${SVC_HOME_ASSISTANT_ADDRESS}:8123"]
+              - targets: ["home-assistant.home.svc.cluster.local:8123"]
     grafana:
       enabled: false
       forceDeployDashboards: true
