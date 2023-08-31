@@ -45,7 +45,7 @@ spec:
           - flux-system
           - monitoring
           - networking
-          - longhorn
+          - rook-ceph
           - home
     ingress:
       main:

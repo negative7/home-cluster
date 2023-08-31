@@ -6,7 +6,6 @@ metadata:
   namespace: flux-system
 spec:
   dependsOn:
-    - name: cluster-apps-longhorn
     - name: cluster-apps-thanos
   path: ./kubernetes/apps/monitoring/kube-prometheus-stack/app
   prune: true
