@@ -25,6 +25,11 @@ spec:
       retries: 3
   uninstall:
     keepHistory: false
+  dependsOn:
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
+    - name: volsync
+      namespace: volsync
   values:
     controller:
       type: statefulset
@@ -67,13 +72,11 @@ spec:
         mountPath: /config
         accessMode: ReadWriteOnce
         size: 5Gi
-        storageClass: longhorn
-        labels:
-          recurring-job.longhorn.io/backup-1: enabled
-          recurring-job.longhorn.io/snapshot-1: enabled
+        storageClass: ceph-block
     resources:
       requests:
-        cpu: 10m
-        memory: 250Mi
+        cpu: 5m
+        memory: 129M
       limits:
-        memory: 500Mi
+        memory: 129M
+    
