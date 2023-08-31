@@ -25,6 +25,11 @@ spec:
       retries: 3
   uninstall:
     keepHistory: false
+  dependsOn:
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
+    - name: volsync
+      namespace: kube-system
   values:
     controller:
       type: statefulset
@@ -37,9 +42,7 @@ spec:
       TZ: America/New_York
     envFrom:
       - secretRef:
-          name: radarr-secret
-      - secretRef:
-          name: sonarr-secret
+          name: recyclarr-secret
     service:
       main:
         enabled: false
@@ -53,7 +56,7 @@ spec:
         mountPath: /config
         accessMode: ReadWriteOnce
         size: 1Gi
-        storageClass: longhorn
+        storageClass: ceph-block
     persistence:
       config-file:
         enabled: true
