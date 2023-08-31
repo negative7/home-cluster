@@ -17,7 +17,6 @@ resources:
   - ./faas-netes-charts.yaml
   - ./fairwinds-charts.yaml
   - ./falco-security-charts.yaml
-  - ./longhorn-charts.yaml
   - ./gitea-charts.yaml
   - ./grafana-charts.yaml
   - ./hajimari.yaml
