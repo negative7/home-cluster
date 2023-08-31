@@ -28,8 +28,6 @@ spec:
   dependsOn:
     - name: local-path-provisioner
       namespace: kube-system
-    - name: longhorn
-      namespace: longhorn-system
   values:
     loki:
       structuredConfig:
