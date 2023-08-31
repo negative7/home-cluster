@@ -27,6 +27,8 @@ spec:
   dependsOn:
     - name: rook-ceph-cluster
       namespace: rook-ceph
+    - name: volsync
+      namespace: volsync
   values:
     initContainers:
       01-init-db:
@@ -51,20 +53,9 @@ spec:
     hostNetwork: true
     service:
       main:
-        type: LoadBalancer
-        LoadBalancerIP: '${SVC_HOME_ASSISTANT_ADDRESS}'
-        externalTrafficPolicy: Local
         ports:
           http:
             port: 8123
-      openssh:
-        type: LoadBalancer
-        LoadBalancerIP: '${SVC_HOME_ASSISTANT_ADDRESS}'
-        externalTrafficPolicy: Local
-        ports:
-          ssh:
-            port: 2222
-            targetPort: 22
     ingress:
       main:
         enabled: true
@@ -105,10 +96,10 @@ spec:
         readOnly: false
     resources:
       requests:
-        cpu: 10m
-        memory: 100Mi
+        cpu: 47m
+        memory: 1254M
       limits:
-        memory: 750Mi
+        memory: 1254M
     volumeClaimTemplates:
       - name: config
         mountPath: /config
