@@ -72,16 +72,10 @@ spec:
       fsGroupChangePolicy: "OnRootMismatch"
       supplementalGroups:
         - 100
-    volumeClaimTemplates:
-      - name: config
-        mountPath: /config
-        accessMode: ReadWriteOnce
-        size: 10Gi
-        storageClass: longhorn
-        labels:
-          recurring-job.longhorn.io/backup-1: enabled
-          recurring-job.longhorn.io/snapshot-1: enabled
     persistence:
+      config:
+        enabled: true
+        existingClaim: radarr-config
       media:
         enabled: true
         type: nfs
