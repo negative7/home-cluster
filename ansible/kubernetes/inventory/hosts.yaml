@@ -16,6 +16,8 @@ kubernetes:
             - /dev/disk/by-id/ata-SHGS31-1000GS-2_FJ07N442411107819
         dnipro:
           ansible_host: 10.2.0.23
+          ceph_drives:
+            - /dev/disk/by-id/ata-CT1000MX500SSD1_2012E2952ACE
         kyiv:
           ansible_host: 10.2.0.24
           ceph_drives:

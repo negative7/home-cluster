@@ -106,6 +106,9 @@ spec:
         config:
           osdsPerDevice: "1"
         nodes:
+          - name: dnipro
+            devices:
+              - name: /dev/disk/by-id/ata-CT1000MX500SSD1_2012E2952ACE
           - name: kyiv
             devices:
               - name: /dev/disk/by-id/ata-CT1000MX500SSD1_2012E2952A29
