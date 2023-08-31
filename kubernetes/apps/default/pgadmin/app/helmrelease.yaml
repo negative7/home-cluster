@@ -72,7 +72,7 @@ spec:
         mountPath: /var/lib/pgadmin
         accessMode: ReadWriteOnce
         size: 5Gi
-        storageClass: longhorn
+        storageClass: ceph-block
     persistence:
       server-json:
         enabled: true
