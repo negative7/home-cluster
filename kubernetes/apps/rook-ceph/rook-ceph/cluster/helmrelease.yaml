@@ -45,6 +45,10 @@ spec:
       bdev_enable_discard = true
       bdev_async_discard = true
     cephClusterSpec:
+      mgr:
+        modules:
+          - name: rook
+            enabled: true
       network:
         provider: host
         connections:
