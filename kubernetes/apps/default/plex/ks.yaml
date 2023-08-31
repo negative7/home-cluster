@@ -5,6 +5,8 @@ metadata:
   name: cluster-apps-plex
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: cluster-apps-external-secrets-stores
   path: ./kubernetes/apps/default/plex/app
   prune: true
   sourceRef:

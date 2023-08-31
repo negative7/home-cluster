@@ -28,8 +28,10 @@ spec:
   dependsOn:
     - name: intel-device-plugin-gpu
       namespace: kube-system
-    - name: longhorn
-      namespace: longhorn-system
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
+    - name: volsync
+      namespace: volsync
   values:
     controller:
       type: statefulset
@@ -40,7 +42,6 @@ spec:
       tag: 1.32.5.7349-8f4248874@sha256:805ad80226d54f03c21efe84979558e7c3d0b07f345b9c929ff11de8cc216151
     env:
       TZ: '${TIMEZONE}'
-      PLEX_CLAIM: '${PLEX_CLAIM}'
     service:
       main:
         type: LoadBalancer
@@ -76,10 +77,7 @@ spec:
         mountPath: /config
         accessMode: ReadWriteOnce
         size: 100Gi
-        storageClass: longhorn
-        labels:
-          recurring-job.longhorn.io/backup-1: enabled
-          recurring-job.longhorn.io/snapshot-1: enabled
+        storageClass: ceph-block
     persistence:
       tv:
         enabled: true
@@ -105,27 +103,13 @@ spec:
       transcode:
         enabled: true
         type: emptyDir
-      local:
-        enabled: true
-        type: emptyDir
-        mountPath: /.local
     nodeSelector:
-      node-role.kubernetes.io/worker: 'true'
       intel.feature.node.kubernetes.io/gpu: 'true'
-    affinity:
-      podAntiAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-                - key: app.kubernetes.io/name
-                  operator: In
-                  values: ["frigate"]
-            topologyKey: kubernetes.io/hostname
     resources:
       requests:
-        gpu.intel.com/i915: 1
         cpu: 100m
-        memory: 2000Mi
+        gpu.intel.com/i915: 1
+        memory: 9248M
       limits:
         gpu.intel.com/i915: 1
-        memory: 10000Mi
+        memory: 9248M
