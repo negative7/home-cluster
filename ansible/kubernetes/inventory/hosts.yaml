@@ -8,6 +8,8 @@ kubernetes:
       hosts:
         kharkiv:
           ansible_host: 10.2.0.21
+          ceph_drives:
+            - /dev/disk/by-id/ata-CT1000MX500SSD1_2045E4C5877B
     worker:
       hosts:
         vinnytsia:
