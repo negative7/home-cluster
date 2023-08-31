@@ -15,7 +15,6 @@ spec:
         namespace: flux-system
   maxHistory: 2
   install:
-    createNamespace: true
     remediation:
       retries: 3
   upgrade:
@@ -25,8 +24,10 @@ spec:
   uninstall:
     keepHistory: false
   dependsOn:
-    - name: longhorn
-      namespace: longhorn-system
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
+    - name: volsync
+      namespace: kube-system
   values:
     controller:
       type: statefulset
@@ -44,7 +45,7 @@ spec:
         sabnzbd.default.svc,
         sabnzbd.default.svc.cluster,
         sabnzbd.default.svc.cluster.local,
-        sabnzbd.${SECRET_PUBLIC_DOMAIN}
+        sabnzbd.devbu.io
     envFrom:
       - secretRef:
           name: sabnzbd-secret
@@ -91,24 +92,13 @@ spec:
       runAsGroup: 568
       fsGroup: 568
       fsGroupChangePolicy: OnRootMismatch
-      supplementalGroups: [100]
+      supplementalGroups: [10000]
     volumeClaimTemplates:
       - name: config
         mountPath: /config
         accessMode: ReadWriteOnce
         size: 1Gi
-        storageClass: longhorn
-        labels:
-          recurring-job.longhorn.io/backup-1: enabled
-          recurring-job.longhorn.io/snapshot-1: enabled
-      - name: downloads
-        mountPath: /downloads
-        accessMode: ReadWriteOnce
-        size: 200Gi
-        storageClass: longhorn
-        labels:
-          recurring-job.longhorn.io/backup-1: enabled
-          recurring-job.longhorn.io/snapshot-1: enabled
+        storageClass: ceph-block
     persistence:
       completed:
         enabled: true
@@ -123,7 +113,7 @@ spec:
       node-role.kubernetes.io/worker: "true"
     resources:
       requests:
-        cpu: 10m
-        memory: 250Mi
+        cpu: 5m
+        memory: "2392M"
       limits:
-        memory: 8000Mi
+        memory: "2392M"
