@@ -116,9 +116,9 @@ spec:
           - name: dnipro
             devices:
               - name: /dev/disk/by-id/ata-CT1000MX500SSD1_2012E2952ACE
-          - name: kyiv
-            devices:
-              - name: /dev/disk/by-id/ata-CT1000MX500SSD1_2012E2952A29
+          # - name: kyiv
+          #   devices:
+          #     - name: /dev/disk/by-id/ata-CT1000MX500SSD1_2012E2952A29
           - name: vinnytsia
             devices:
               - name: /dev/disk/by-id/ata-SHGS31-1000GS-2_FJ07N442411107819
@@ -187,12 +187,12 @@ spec:
           metadataPool:
             failureDomain: host
             replicated:
-              size: 4
+              size: 3
           dataPool:
             failureDomain: host
             erasureCoded:
               dataChunks: 2
-              codingChunks: 2
+              codingChunks: 1
           preservePoolsOnDelete: true
           gateway:
             port: 80
@@ -202,7 +202,7 @@ spec:
                 memory: 128M
               limits:
                 memory: 2Gi
-            instances: 1
+            instances: 2
           healthCheck:
             bucket:
               interval: 60s
