@@ -57,7 +57,6 @@ spec:
           compression:
             enabled: true
           requireMsgr2: true
-  
       resources:
         mgr:
           requests:
@@ -128,15 +127,12 @@ spec:
             devices:
               - name: /dev/disk/by-id/ata-SHGS31-1000GS-2_FJ07N442411107819
 
-    cephBlockPoolsVolumeSnapshotClass:
-      enabled: false
-
     cephBlockPools:
       - name: ceph-blockpool
         spec:
           failureDomain: host
           replicated:
-            size: 4
+            size: 3
         storageClass:
           enabled: true
           name: ceph-block
@@ -159,11 +155,11 @@ spec:
         spec:
           metadataPool:
             replicated:
-              size: 4
+              size: 3
           dataPools:
             - failureDomain: host
               replicated:
-                size: 4
+                size: 3
               name: data0
           metadataServer:
             activeCount: 1
