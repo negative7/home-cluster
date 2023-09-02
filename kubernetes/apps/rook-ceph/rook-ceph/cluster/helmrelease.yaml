@@ -53,6 +53,10 @@ spec:
             enabled: true
       network:
         provider: host
+        connections:
+          compression:
+            enabled: true
+          requireMsgr2: true
   
       resources:
         mgr:
