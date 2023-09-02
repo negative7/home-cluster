@@ -45,7 +45,7 @@ spec:
         sabnzbd.default.svc,
         sabnzbd.default.svc.cluster,
         sabnzbd.default.svc.cluster.local,
-        sabnzbd.devbu.io
+        sabnzbd.negative7.com
     envFrom:
       - secretRef:
           name: sabnzbd-secret
