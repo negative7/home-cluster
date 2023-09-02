@@ -49,6 +49,8 @@ spec:
     cephClusterSpec:
       mgr:
         modules:
+          - name: pg_autoscaler
+            enabled: true
           - name: rook
             enabled: true
       network:
