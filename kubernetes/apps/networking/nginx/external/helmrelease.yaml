@@ -30,7 +30,7 @@ spec:
       replicaCount: 2
       service:
         annotations:
-          external-dns.alpha.kubernetes.io/hostname: external.${SECRET_PUBLIC_DOMAIN}
+          external-dns.alpha.kubernetes.io/hostname: ipv4.${SECRET_PUBLIC_DOMAIN}
         LoadBalancerIP: "${SVC_NGINX_ADDR_EXTERNAL}"
         externalTrafficPolicy: Cluster
       ingressClassResource:
