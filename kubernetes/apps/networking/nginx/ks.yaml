@@ -42,8 +42,6 @@ metadata:
   name: cluster-apps-nginx-internal
   namespace: flux-system
 spec:
-  dependsOn:
-    - name: cluster-apps-nginx-certificates
   path: ./kubernetes/apps/networking/nginx/internal
   prune: true
   sourceRef:
