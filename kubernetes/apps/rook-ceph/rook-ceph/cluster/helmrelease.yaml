@@ -32,7 +32,7 @@ spec:
 
     ingress:
       dashboard:
-        ingressClassName: nginx
+        ingressClassName: nginx-internal
         host:
           name: &host rook.negative7.com
           path: /
