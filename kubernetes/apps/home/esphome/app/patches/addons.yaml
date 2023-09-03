@@ -24,7 +24,7 @@ spec:
           - '/config/.vscode'
         ingress:
           enabled: true
-          ingressClassName: nginx-internal
+          ingressClassName: internal
           annotations:
             hajimari.io/appName: 'Esphome Config'
             hajimari.io/icon: vscode-icons:file-type-esphome

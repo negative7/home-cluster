@@ -47,7 +47,7 @@ metadata:
     app.kubernetes.io/name: *app
     app.kubernetes.io/instance: *app
 spec:
-  ingressClassName: nginx-internal
+  ingressClassName: internal
   rules:
     - host: &host 'minio.${SECRET_PUBLIC_DOMAIN}'
       http:
@@ -75,7 +75,7 @@ metadata:
     app.kubernetes.io/name: *appui
     app.kubernetes.io/instance: *appui
 spec:
-  ingressClassName: nginx-internal
+  ingressClassName: internal
   rules:
     - host: &hostui 'minio-ui.${SECRET_PUBLIC_DOMAIN}'
       http:

@@ -47,7 +47,7 @@ metadata:
     app.kubernetes.io/name: *app
     app.kubernetes.io/instance: *app
 spec:
-  ingressClassName: nginx-internal
+  ingressClassName: internal
   rules:
     - host: &host adguard.${SECRET_PUBLIC_DOMAIN}
       http:

@@ -36,7 +36,7 @@ spec:
       ingress:
         enabled: true
         pathType: Prefix
-        ingressClassName: nginx-internal
+        ingressClassName: internal
         annotations:
           hajimari.io/appName: 'Alert Manager'
           hajimari.io/icon: mdi:alert-decagram-outline
@@ -116,7 +116,7 @@ spec:
     prometheus:
       ingress:
         enabled: true
-        ingressClassName: nginx-internal
+        ingressClassName: internal
         annotations:
           hajimari.io/appName: Prometheus
           hajimari.io/icon: simple-icons:prometheus
