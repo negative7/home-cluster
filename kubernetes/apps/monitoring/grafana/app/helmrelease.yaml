@@ -320,7 +320,7 @@ spec:
       enabled: true
     ingress:
       enabled: true
-      ingressClassName: internal
+      ingressClassName: external
       annotations:
         external-dns.alpha.kubernetes.io/target: ipv4.${SECRET_PUBLIC_DOMAIN}
         hajimari.io/icon: simple-icons:grafana
