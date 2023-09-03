@@ -10,7 +10,7 @@ spec:
   accessModes: ['ReadWriteMany']
   persistentVolumeReclaimPolicy: Retain
   nfs:
-    server: '${TRUENAS_SERVER}'
+    server: "freenas.${SECRET_PUBLIC_DOMAIN}"
     path: /mnt/tank/data/immich
   mountOptions: ['nfsvers=3', 'hard', 'noatime']
 ---
