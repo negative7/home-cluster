@@ -8,3 +8,4 @@ resources:
   - ./addons/ks.yaml
   # - ./tf-controller/ks.yaml
   - ./weave-gitops/ks.yaml
+  - ./tf-controller/ks.yaml

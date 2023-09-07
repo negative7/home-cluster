@@ -42,4 +42,4 @@ resources:
   - ./stevehipwell.yaml
   - ./vector-charts.yaml
   - ./weave-gitops.yaml
-  - ./weaveworks-kured-charts.yaml
+  - ./weaveworks.yaml
