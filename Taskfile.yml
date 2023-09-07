@@ -19,6 +19,9 @@ env:
   K8S_AUTH_KUBECONFIG: "{{.ROOT_DIR}}/kubeconfig"
 
 includes:
+  flux:
+    dir: .taskfiles/flux
+    taskfile: .taskfiles/flux
   migrate: .taskfiles/migrate.yml
   volsync:
     taskfile: ".taskfiles/volsync"
