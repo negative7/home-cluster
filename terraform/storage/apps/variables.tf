@@ -1,5 +1,5 @@
 variable "vector_agent_host" {
-  default = "192.168.42.201"
+  default = "10.2.0.111"
   type    = string
 }
 variable "vector_agent_port" {
