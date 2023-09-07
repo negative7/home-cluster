@@ -24,6 +24,7 @@ includes:
     taskfile: ".taskfiles/volsync"
     dir: .taskfiles/volsync
 tasks:
+
   default:
     silent: true
     cmds: ["task -l"]
@@ -35,17 +36,6 @@ tasks:
       - .venv/bin/python3 -m pip install --upgrade pip setuptools wheel
       - .venv/bin/python3 -m pip install --upgrade --requirement "{{.ROOT_DIR}}/requirements.txt"
       - .venv/bin/ansible-galaxy install --role-file "{{.ROOT_DIR}}/requirements.yaml" --force
-  
-  kubeconfig:
-    desc: Remotely fetch kubeconfig from Kubernetes
-    cmds:
-      - rsync --verbose --progress --partial --rsync-path="sudo rsync" {{.MASTER_USERNAME}}@{{.MASTER_HOST}}:/etc/rancher/k3s/k3s.yaml "{{.CLUSTER_DIR}}/kubeconfig"
-      - sed -i '' 's/127.0.0.1/{{.K3S_LB_ADDR}}/g' "{{.CLUSTER_DIR}}/kubeconfig"
-      - chmod go-r "{{.CLUSTER_DIR}}/kubeconfig"
-    vars:
-      MASTER_USERNAME: "worker"
-      MASTER_HOST: "10.2.0.21"
-      KUBERNETES_API: "10.2.0.21"
 
   flux-apply:
     desc: Apply a resource path that contains Flux substitution variables
