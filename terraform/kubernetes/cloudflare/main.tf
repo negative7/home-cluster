@@ -3,7 +3,7 @@ terraform {
     hostname     = "app.terraform.io"
     organization = "negative7"
     workspaces {
-      name = "home-cluster"
+      name = "home-cluster-cloudflare"
     }
   }
   required_providers {
