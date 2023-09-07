@@ -63,7 +63,7 @@ spec:
         enabled: true
         ingressClassName: external
         annotations:
-          external-dns.alpha.kubernetes.io/target: ipv4.${SECRET_PUBLIC_DOMAIN}
+          external-dns.alpha.kubernetes.io/target: external.${SECRET_PUBLIC_DOMAIN}
         hosts:
           - host: &host status.${SECRET_PUBLIC_DOMAIN}
             paths:
