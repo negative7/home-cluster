@@ -28,6 +28,8 @@ spec:
   dependsOn:
     - name: local-path-provisioner
       namespace: kube-system
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
   values:
     loki:
       structuredConfig:
@@ -66,10 +68,8 @@ spec:
           storage:
             s3:
               s3: null
-              insecure: false
+              insecure: true
               s3forcepathstyle: true
-              region: us-east-1
-              bucketnames: loki-logs
           ring:
             kvstore:
               store: memberlist
@@ -165,15 +165,19 @@ spec:
     test:
       enabled: false
   valuesFrom:
+    - targetPath: loki.structuredConfig.common.storage.s3.bucketnames
+      kind: ConfigMap
+      name: loki-bucket-v2
+      valuesKey: BUCKET_NAME
     - targetPath: loki.structuredConfig.common.storage.s3.endpoint
-      kind: Secret
-      name: loki-secret
+      kind: ConfigMap
+      name: loki-bucket-v2
       valuesKey: BUCKET_HOST
     - targetPath: loki.structuredConfig.common.storage.s3.access_key_id
       kind: Secret
-      name: loki-secret
-      valuesKey: AWS_SECRET_ACCESS_KEY
+      name: loki-bucket-v2
+      valuesKey: AWS_ACCESS_KEY_ID
     - targetPath: loki.structuredConfig.common.storage.s3.secret_access_key
       kind: Secret
-      name: loki-secret
-      valuesKey: AWS_ACCESS_KEY_ID
+      name: loki-bucket-v2
+      valuesKey: AWS_SECRET_ACCESS_KEY
