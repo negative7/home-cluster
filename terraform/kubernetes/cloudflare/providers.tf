@@ -1,4 +1,4 @@
 provider "cloudflare" {
   email   = module.onepassword_item.fields["email"]
-  api_key = module.onepassword_item.fields["CLOUDFLARE_APIKEY"]
+  api_key = module.onepassword_item.fields["api-key"]
 }
