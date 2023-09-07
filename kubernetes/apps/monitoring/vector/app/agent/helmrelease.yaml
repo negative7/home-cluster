@@ -28,7 +28,6 @@ spec:
   dependsOn:
     - name: vector-aggregator
   values:
-    values:
     controller:
       type: daemonset
       strategy: RollingUpdate
