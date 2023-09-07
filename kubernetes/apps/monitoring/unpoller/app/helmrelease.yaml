@@ -35,7 +35,12 @@ spec:
       UP_UNIFI_DEFAULT_VERIFY_SSL: false
       UP_UNIFI_DEFAULT_USER: unifipoller
       UP_UNIFI_DEFAULT_PASS: 1nternalUseOnly
+      UP_UNIFI_DEFAULT_SAVE_IDS: true
+      UP_UNIFI_DEFAULT_SAVE_EVENTS: true
+      UP_UNIFI_DEFAULT_SAVE_ALARMS: true
+      UP_UNIFI_DEFAULT_SAVE_ANOMALIES: true
       UP_INFLUXDB_DISABLE: true
+      UP_LOKI_URL: http://loki-gateway.monitoring.svc.cluster.local
     service:
       main:
         ports:
