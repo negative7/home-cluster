@@ -3,7 +3,7 @@ apiVersion: metallb.io/v1beta1
 kind: IPAddressPool
 metadata:
   name: default
-  namespace: networking
+  namespace: metallb-system
 spec:
   addresses:
-    - "${METALLB_LB_RANGE}"
+    - "10.2.0.100-10.2.0.200"
