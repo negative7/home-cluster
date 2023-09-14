@@ -5,7 +5,7 @@ metadata:
   name: cluster-apps-tautulli
   namespace: flux-system
 spec:
-  path: ./kubernetes/apps/default/tautulli/app
+  path: ./kubernetes/cluster-0/apps/default/tautulli/app
   prune: true
   sourceRef:
     kind: GitRepository

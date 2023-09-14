@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m
-  path: ./kubernetes/apps/default/paperless/redis
+  path: ./kubernetes/cluster-0/apps/default/paperless/redis
   prune: true
   sourceRef:
     kind: GitRepository
@@ -24,7 +24,7 @@ spec:
     - name: cluster-apps-paperless-redis
     - name: cluster-apps-cloudnative-pg
     - name: cluster-apps-external-secrets-stores
-  path: ./kubernetes/apps/default/paperless/app
+  path: ./kubernetes/cluster-0/apps/default/paperless/app
   prune: true
   sourceRef:
     kind: GitRepository

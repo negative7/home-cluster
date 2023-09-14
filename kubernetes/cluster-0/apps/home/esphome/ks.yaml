@@ -8,7 +8,7 @@ spec:
   interval: 10m
   dependsOn:
     - name: cluster-apps-external-secrets-stores
-  path: ./kubernetes/apps/home/esphome/app
+  path: ./kubernetes/cluster-0/apps/home/esphome/app
   prune: true
   sourceRef:
     kind: GitRepository

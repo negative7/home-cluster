@@ -8,7 +8,7 @@ spec:
   dependsOn:
     - name: cluster-apps-cloudnative-pg-cluster
     - name: cluster-apps-external-secrets-stores
-  path: ./kubernetes/apps/default/immich/app
+  path: ./kubernetes/cluster-0/apps/default/immich/app
   prune: true
   sourceRef:
     kind: GitRepository

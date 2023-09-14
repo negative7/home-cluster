@@ -7,7 +7,7 @@ metadata:
 spec:
   dependsOn:
     - name: cluster-apps-cert-manager-issuers
-  path: ./kubernetes/apps/networking/nginx/certificates
+  path: ./kubernetes/cluster-0/apps/networking/nginx/certificates
   prune: true
   sourceRef:
     kind: GitRepository
@@ -26,7 +26,7 @@ spec:
   dependsOn:
     - name: cluster-apps-external-secrets-stores
     - name: cluster-apps-nginx-certificates
-  path: ./kubernetes/apps/networking/nginx/external
+  path: ./kubernetes/cluster-0/apps/networking/nginx/external
   prune: true
   sourceRef:
     kind: GitRepository
@@ -42,7 +42,7 @@ metadata:
   name: cluster-apps-nginx-internal
   namespace: flux-system
 spec:
-  path: ./kubernetes/apps/networking/nginx/internal
+  path: ./kubernetes/cluster-0/apps/networking/nginx/internal
   prune: true
   sourceRef:
     kind: GitRepository

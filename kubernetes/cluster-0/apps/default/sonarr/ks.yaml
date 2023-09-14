@@ -8,7 +8,7 @@ spec:
   dependsOn:
     - name: cluster-apps-cloudnative-pg-cluster
     - name: cluster-apps-external-secrets-stores
-  path: ./kubernetes/apps/default/sonarr/app
+  path: ./kubernetes/cluster-0/apps/default/sonarr/app
   prune: true
   sourceRef:
     kind: GitRepository

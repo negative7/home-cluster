@@ -10,7 +10,7 @@ spec:
     - name: cluster-apps-glauth
     - name: cluster-apps-external-secrets-stores
     - name: cluster-apps-redis
-  path: ./kubernetes/apps/default/authelia/app
+  path: ./kubernetes/cluster-0/apps/default/authelia/app
   prune: true
   sourceRef:
     kind: GitRepository

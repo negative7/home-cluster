@@ -9,7 +9,7 @@ metadata:
 spec:
   dependsOn:
     - name: cluster-apps-external-secrets-stores
-  path: ./kubernetes/apps/networking/cloudflared/app
+  path: ./kubernetes/cluster-0/apps/networking/cloudflared/app
   prune: true
   sourceRef:
     kind: GitRepository
