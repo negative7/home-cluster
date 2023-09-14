@@ -4,10 +4,12 @@ kind: Service
 metadata:
   name: postgres-lb
   namespace: database   
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: postgres.negative7.com
+    io.cilium/lb-ipam-ips: 10.2.0.112
 spec:
   type: LoadBalancer
   externalTrafficPolicy: Cluster
-  loadBalancerIP: "${SVC_POSTGRES_ADDR}"
   ports:
     - name: postgres
       port: 5432

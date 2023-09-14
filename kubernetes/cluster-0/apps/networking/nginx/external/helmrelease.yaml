@@ -31,7 +31,7 @@ spec:
       service:
         annotations:
           external-dns.alpha.kubernetes.io/hostname: external.${SECRET_PUBLIC_DOMAIN}
-        LoadBalancerIP: "${SVC_NGINX_ADDR_EXTERNAL}"
+          io.cilium/lb-ipam-ips: 10.2.0.100
         externalTrafficPolicy: Cluster
       ingressClassResource:
         name: external
