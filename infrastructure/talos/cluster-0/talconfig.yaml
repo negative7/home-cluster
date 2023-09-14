@@ -24,16 +24,8 @@ nodes:
     installDiskSelector:
       busPath: /pci0000:00/0000:00:1b.0/0000:01:00.0/nvme/nvme0/nvme0n1
     networkInterfaces:
-      - interface: eth0
+      - interface: eno1
         dhcp: true
-        vlans:
-          - vlanId: 20
-            mtu: 1500
-            dhcp: true
-            vip:
-              ip: 10.2.0.20
-            dhcpOptions:
-              routeMetric: 4096
 
   - hostname: vinnytsia
     disableSearchDomain: true
@@ -42,16 +34,8 @@ nodes:
     installDiskSelector:
       busPath: /pci0000:00/0000:00:1b.0/0000:01:00.0/nvme/nvme0/nvme0n1
     networkInterfaces:
-      - interface: eth0
+      - interface: eno1
         dhcp: true
-        vlans:
-          - vlanId: 20
-            mtu: 1500
-            dhcp: true
-            vip:
-              ip: 10.2.0.20
-            dhcpOptions:
-              routeMetric: 4096
 
   - hostname: dnipro
     disableSearchDomain: true
@@ -60,16 +44,8 @@ nodes:
     installDiskSelector:
       busPath: /pci0000:00/0000:00:1b.0/0000:01:00.0/nvme/nvme0/nvme0n1
     networkInterfaces:
-      - interface: eth0
+      - interface: eno1
         dhcp: true
-        vlans:
-          - vlanId: 20
-            mtu: 1500
-            dhcp: true
-            vip:
-              ip: 10.2.0.20
-            dhcpOptions:
-              routeMetric: 4096
   
   - hostname: kyiv
     disableSearchDomain: true
@@ -78,14 +54,8 @@ nodes:
     installDiskSelector:
       busPath: /pci0000:00/0000:00:1b.0/0000:01:00.0/nvme/nvme0/nvme0n1
     networkInterfaces:
-      - interface: eth0
+      - interface: eno1
         dhcp: true
-        vlans:
-          - vlanId: 20
-            mtu: 1500
-            dhcp: true
-            dhcpOptions:
-              routeMetric: 4096
 controlPlane:
   patches:
     - |-
@@ -132,7 +102,3 @@ controlPlane:
         sysctls:
           fs.inotify.max_user_watches: "1048576"
           fs.inotify.max_user_instances: "8192"
-        time:
-          disabled: false
-          servers:
-            - 10.2.0.1
