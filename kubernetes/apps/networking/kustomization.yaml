@@ -11,4 +11,3 @@ resources:
   - ./k8s-gateway/ks.yaml
   # # Standard Resources
   - ./external-services
-  - ./metallb/ks.yaml

@@ -42,10 +42,26 @@
         wait_sleep: 10
         wait_timeout: 360
       loop:
+        - { name: cilium, kind: HelmChart, namespace: kube-system }
+        - { name: coredns, kind: HelmChart, namespace: kube-system }
+        - { name: policy, kind: CiliumL2AnnouncementPolicy }
+        - { name: pool, kind: CiliumLoadBalancerIPPool }
         - { name: podmonitors.monitoring.coreos.com, kind: CustomResourceDefinition }
         - { name: prometheusrules.monitoring.coreos.com, kind: CustomResourceDefinition }
         - { name: scrapeconfigs.monitoring.coreos.com, kind: CustomResourceDefinition }
         - { name: servicemonitors.monitoring.coreos.com, kind: CustomResourceDefinition }
+
+    - name: Coredns
+      when: k3s_primary_control_node
+      ansible.builtin.include_tasks: tasks/coredns.yaml
+
+    - name: Cilium
+      when: k3s_primary_control_node
+      ansible.builtin.include_tasks: tasks/cilium.yaml
+
+    - name: Cruft
+      when: k3s_primary_control_node
+      ansible.builtin.include_tasks: tasks/cruft.yaml
 
     - name: Stale Containers
       ansible.builtin.include_tasks: tasks/stale_containers.yaml
