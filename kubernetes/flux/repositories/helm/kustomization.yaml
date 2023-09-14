@@ -29,7 +29,6 @@ resources:
   - ./kubernetes-dashboard-charts.yaml
   - ./kyverno-charts.yaml
   - ./metallb-charts.yaml
-  - ./metrics-server-charts.yaml
   - ./nfs-subdir-external-provisioner-charts.yaml
   - ./node-feature-discovery-charts.yaml
   - ./piraeus.yaml
@@ -45,3 +44,4 @@ resources:
   - ./weaveworks.yaml
   - ./cilium.yaml
   - ./coredns.yaml
+  - ./metrics-server.yaml
