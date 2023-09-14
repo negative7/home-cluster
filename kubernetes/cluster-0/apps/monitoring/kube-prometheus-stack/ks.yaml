@@ -5,14 +5,12 @@ metadata:
   name: cluster-apps-kube-prometheus-stack
   namespace: flux-system
 spec:
-  dependsOn:
-    - name: cluster-apps-thanos
   path: ./kubernetes/cluster-0/apps/monitoring/kube-prometheus-stack/app
   prune: true
   sourceRef:
     kind: GitRepository
     name: home-ops-kubernetes
-  wait: false
+  wait: true
   interval: 30m
   retryInterval: 1m
   timeout: 15m
