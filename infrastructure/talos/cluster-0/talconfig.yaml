@@ -1,0 +1,138 @@
+---
+clusterName: ${clusterName}
+
+talosVersion: v1.5.2
+kubernetesVersion: 1.28.1
+endpoint: "https://${clusterName}.negative7.com:6443"
+allowSchedulingOnMasters: true
+
+cniConfig:
+  name: none
+
+additionalApiServerCertSans:
+  - ${clusterEndpointIP}
+
+additionalMachineCertSans:
+  - ${clusterEndpointIP}
+  - ${clusterName}.negative7.com
+
+nodes:
+  - hostname: kharkiv
+    disableSearchDomain: true
+    ipAddress: 10.2.0.21
+    controlPlane: true
+    installDiskSelector:
+      busPath: /pci0000:00/0000:00:1b.0/0000:01:00.0/nvme/nvme0/nvme0n1
+    networkInterfaces:
+      - interface: eth0
+        dhcp: true
+        vlans:
+          - vlanId: 20
+            mtu: 1500
+            dhcp: true
+            vip:
+              ip: 10.2.0.20
+            dhcpOptions:
+              routeMetric: 4096
+
+  - hostname: vinnytsia
+    disableSearchDomain: true
+    ipAddress: 10.2.0.22
+    controlPlane: true
+    installDiskSelector:
+      busPath: /pci0000:00/0000:00:1b.0/0000:01:00.0/nvme/nvme0/nvme0n1
+    networkInterfaces:
+      - interface: eth0
+        dhcp: true
+        vlans:
+          - vlanId: 20
+            mtu: 1500
+            dhcp: true
+            vip:
+              ip: 10.2.0.20
+            dhcpOptions:
+              routeMetric: 4096
+
+  - hostname: dnipro
+    disableSearchDomain: true
+    ipAddress: 10.2.0.23
+    controlPlane: true
+    installDiskSelector:
+      busPath: /pci0000:00/0000:00:1b.0/0000:01:00.0/nvme/nvme0/nvme0n1
+    networkInterfaces:
+      - interface: eth0
+        dhcp: true
+        vlans:
+          - vlanId: 20
+            mtu: 1500
+            dhcp: true
+            vip:
+              ip: 10.2.0.20
+            dhcpOptions:
+              routeMetric: 4096
+  
+  - hostname: kyiv
+    disableSearchDomain: true
+    ipAddress: 10.2.0.24
+    controlPlane: false
+    installDiskSelector:
+      busPath: /pci0000:00/0000:00:1b.0/0000:01:00.0/nvme/nvme0/nvme0n1
+    networkInterfaces:
+      - interface: eth0
+        dhcp: true
+        vlans:
+          - vlanId: 20
+            mtu: 1500
+            dhcp: true
+            dhcpOptions:
+              routeMetric: 4096
+controlPlane:
+  patches:
+    - |-
+      cluster:
+        allowSchedulingOnMasters: true
+        proxy:
+          disabled: true
+        etcd:
+          advertisedSubnets:
+            - 10.2.0.0/24
+
+    - |-
+      - op: remove
+        path: /cluster/apiServer/admissionControl
+
+    - |-
+      machine:
+        files:
+          - op: create
+            path: /etc/cri/conf.d/20-customization.part
+            content: |
+              [plugins]
+                [plugins."io.containerd.grpc.v1.cri"]
+                  enable_unprivileged_ports = true
+                  enable_unprivileged_icmp = true
+        kubelet:
+          extraArgs:
+            feature-gates: CronJobTimeZone=true,GracefulNodeShutdown=true,NewVolumeManagerReconstruction=false
+            rotate-server-certificates: "true"
+          extraConfig:
+            maxPods: 150
+          nodeIP:
+            validSubnets:
+                - 10.2.0.0/24
+        network:
+          extraHostEntries:
+            - ip: ${clusterEndpointIP}
+              aliases:
+                - ${clusterName}.negative7.com
+        install:
+          extensions:
+            - image: ghcr.io/siderolabs/i915-ucode:20230310
+            - image: ghcr.io/siderolabs/intel-ucode:20230512
+        sysctls:
+          fs.inotify.max_user_watches: "1048576"
+          fs.inotify.max_user_instances: "8192"
+        time:
+          disabled: false
+          servers:
+            - 10.2.0.1
