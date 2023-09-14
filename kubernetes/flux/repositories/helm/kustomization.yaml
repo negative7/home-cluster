@@ -43,3 +43,5 @@ resources:
   - ./vector-charts.yaml
   - ./weave-gitops.yaml
   - ./weaveworks.yaml
+  - ./cilium.yaml
+  - ./coredns.yaml
