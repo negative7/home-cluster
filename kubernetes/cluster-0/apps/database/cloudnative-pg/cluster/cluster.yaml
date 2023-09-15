@@ -51,7 +51,7 @@ spec:
           compression: bzip2
           maxParallel: 8
         destinationPath: s3://postgresql
-        endpointURL: https://minio.${SECRET_PUBLIC_DOMAIN}
+        endpointURL: http://10.2.0.10:9000 #https://minio.${SECRET_PUBLIC_DOMAIN}
         s3Credentials:
           accessKeyId:
             name: cloudnative-pg-secret
