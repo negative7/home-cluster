@@ -126,12 +126,6 @@ spec:
             key: objstore.yml
         retention: 2d
         retentionSize: 6GB
-        resources:
-          requests:
-            cpu: 257m
-            memory: 3760M
-          limits:
-            memory: 3760M
         storageSpec:
           volumeClaimTemplate:
             spec:

@@ -82,9 +82,6 @@ spec:
     storegateway:
       enabled: true
       replicaCount: 2
-      resources:
-        requests:
-          memory: 3204M
       extraFlags: 
         - --chunk-pool-size=2GB
         - --index-cache-size=250MB
