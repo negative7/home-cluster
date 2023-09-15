@@ -77,7 +77,7 @@ spec:
           memory: 204M
       persistence:
         enabled: true
-        storageClass: local-path
+        storageClass: ceph-filesystem
         size: 10Gi
     storegateway:
       enabled: true
@@ -92,7 +92,7 @@ spec:
         - --store.enable-index-header-lazy-reader
       persistence:
         enabled: true
-        storageClass: local-path
+        storageClass: ceph-filesystem
         size: 10Gi
     ruler:
       enabled: true
@@ -113,7 +113,7 @@ spec:
                   severity: critical
       persistence:
         enabled: true
-        storageClass: local-path
+        storageClass: ceph-filesystem
         size: 10Gi
     metrics:
       enabled: true
