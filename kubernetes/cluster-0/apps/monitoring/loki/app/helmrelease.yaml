@@ -109,7 +109,7 @@ spec:
       podAnnotations:
         secret.reloader.stakater.com/reload: loki-secret
     gateway:
-      replicas: 3
+      replicas: 2
       affinity: |
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -139,7 +139,7 @@ spec:
           - hosts:
               - *host
     read:
-      replicas: 3
+      replicas: 2
       affinity: |
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -156,7 +156,7 @@ spec:
         - name: rules
           emptyDir: {}
     write:
-      replicas: 3
+      replicas: 2
       affinity: |
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
