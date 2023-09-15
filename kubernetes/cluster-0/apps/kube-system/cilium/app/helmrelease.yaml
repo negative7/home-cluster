@@ -24,6 +24,9 @@ spec:
       retries: 3
   uninstall:
     keepHistory: false
+  valuesFrom:
+    - kind: ConfigMap
+      name: cilium-values
   values:
     hubble:
       serviceMonitor:
@@ -46,7 +49,7 @@ spec:
           enabled: true
           className: "internal-nginx"
           hosts:
-            - &host hubble-cluster-0.bjw-s.dev
+            - &host hubble-cluster-0.negative7.com
           tls:
             - hosts:
                 - *host
