@@ -26,8 +26,6 @@ bpf:
   masquerade: true
   tproxy: true
 
-l7Proxy: true
-
 l2announcements:
   enabled: true
   leaseDuration: 120s
