@@ -101,3 +101,13 @@ spec:
         hostPathType: Directory
         mountPath: /host/sys
         readOnly: true
+    podMonitor:
+      enabled: true
+
+    resources:
+      requests:
+        cpu: 23m
+        memory: 249M
+    tolerations:
+      - key: node-role.kubernetes.io/master
+        effect: NoSchedule
