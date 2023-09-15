@@ -47,7 +47,7 @@ spec:
       ui:
         ingress:
           enabled: true
-          className: "internal-nginx"
+          className: internal
           hosts:
             - &host hubble-cluster-0.negative7.com
           tls:
