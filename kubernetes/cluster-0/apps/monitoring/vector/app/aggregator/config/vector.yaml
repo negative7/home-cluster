@@ -15,7 +15,7 @@ sources:
     version: "2"
     address: 0.0.0.0:6010
   
-  vyos_source:
+  syslog_source:
     type: syslog
     address: 0.0.0.0:6020
     mode: tcp
@@ -24,7 +24,8 @@ sources:
 transforms:
   kubernetes_remap:
     type: remap
-    inputs: ["kubernetes_source"]
+    inputs:
+      - kubernetes_source
     source: |
       # Standardize 'app' index
       .custom_app_name = .pod_labels."app.kubernetes.io/name" || .pod_labels.app || .pod_labels."k8s-app" || "unknown"
@@ -34,25 +35,29 @@ transforms:
 
 sinks:
   journald:
-    inputs: ["journald_source"]
     type: loki
     endpoint: http://loki-gateway.monitoring.svc.cluster.local
-    encoding: { codec: json }
+    encoding:
+      codec: json
+    inputs:
+      - journald_source
     out_of_order_action: accept
     remove_label_fields: true
     remove_timestamp: true
     labels:
-      hostname: '{{ host }}'
+      hostname: "{{ host }}"
 
   kubernetes:
-    inputs: ["kubernetes_remap"]
+    inputs:
+      - kubernetes_remap
     type: loki
     endpoint: http://loki-gateway.monitoring.svc.cluster.local
-    encoding: { codec: json }
-    out_of_order_action: accept
+    encoding:
+      codec: json
+    out_of_order_action: rewrite_timestamp
     remove_label_fields: true
     remove_timestamp: true
     labels:
-      app: '{{ custom_app_name }}'
-      namespace: '{{ kubernetes.pod_namespace }}'
-      node: '{{ kubernetes.pod_node_name }}'
+      app: "{{ custom_app_name }}"
+      namespace: "{{ kubernetes.pod_namespace }}"
+      node: "{{ kubernetes.pod_node_name }}"
