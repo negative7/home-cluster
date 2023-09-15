@@ -109,8 +109,6 @@ spec:
       incomplete:
         enabled: true
         type: emptyDir
-    nodeSelector:
-      node-role.kubernetes.io/worker: "true"
     resources:
       requests:
         cpu: 5m
