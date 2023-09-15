@@ -23,7 +23,6 @@ metadata:
 spec:
   dependsOn:
     - name: cluster-apps-cloudnative-pg
-    - name: cluster-apps-kyverno
   path: ./kubernetes/cluster-0/apps/database/cloudnative-pg/cluster
   prune: true
   sourceRef:

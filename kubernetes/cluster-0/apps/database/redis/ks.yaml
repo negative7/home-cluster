@@ -7,7 +7,6 @@ metadata:
 spec:
   dependsOn:
     - name: cluster-apps-external-secrets-stores
-    - name: cluster-apps-local-path-provisioner
   path: ./kubernetes/cluster-0/apps/database/redis/app
   prune: true
   sourceRef:

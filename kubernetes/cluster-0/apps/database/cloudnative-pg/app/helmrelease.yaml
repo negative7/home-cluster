@@ -24,12 +24,6 @@ spec:
       retries: 3
   uninstall:
     keepHistory: false
-  dependsOn:
-    - name: local-path-provisioner
-      namespace: kube-system
   values:
     crds:
       create: true
-    config:
-      data:
-        INHERITED_ANNOTATIONS: kyverno.io/ignore
