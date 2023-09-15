@@ -45,3 +45,4 @@ resources:
   - ./cilium.yaml
   - ./coredns.yaml
   - ./metrics-server.yaml
+  - ./postfinance.yaml
