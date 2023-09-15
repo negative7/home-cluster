@@ -43,6 +43,7 @@ spec:
     service:
       main:
         type: LoadBalancer
+        loadBalancerIP: 10.2.0.105
         externalTrafficPolicy: Cluster
         annotations:
           io.cilium/lb-ipam-ips: 10.2.0.105

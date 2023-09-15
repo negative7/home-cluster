@@ -6,8 +6,8 @@ cluster:
 cni:
   exclusive: false
 
-k8sServiceHost: cluster-0.negative7.com
-k8sServicePort: 6443
+k8sServiceHost: localhost
+k8sServicePort: 7445
 
 rollOutCiliumPods: true
 localRedirectPolicy: true

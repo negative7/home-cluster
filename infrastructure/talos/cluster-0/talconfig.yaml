@@ -56,6 +56,15 @@ nodes:
     networkInterfaces:
       - interface: eno1
         dhcp: true
+worker:
+  patches:
+    - |-
+      machine:
+        features:
+          kubePrism:
+            enabled: true
+            port: 7445
+            
 controlPlane:
   patches:
     - |-
@@ -73,6 +82,10 @@ controlPlane:
 
     - |-
       machine:
+        features:
+          kubePrism:
+            enabled: true
+            port: 7445
         files:
           - op: create
             path: /etc/cri/conf.d/20-customization.part
