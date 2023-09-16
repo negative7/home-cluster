@@ -23,6 +23,8 @@ spec:
     parameters:
       max_connections: "600"
       shared_buffers: 512MB
+      wal_sender_timeout: '120s'
+      wal_receiver_timeout: '120s'
   monitoring:
     enablePodMonitor: true
   backup:
