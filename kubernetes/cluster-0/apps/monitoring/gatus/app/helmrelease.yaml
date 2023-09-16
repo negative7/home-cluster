@@ -42,7 +42,7 @@ spec:
     env:
       TZ: America/New_York
       GATUS_CONFIG_PATH: /config
-      CUSTOM_WEB_PORT: &port 80
+      CUSTOM_WEB_PORT: &port 8046
     envFrom: *envFrom
     service:
       main:
