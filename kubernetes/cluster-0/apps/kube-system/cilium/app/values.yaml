@@ -26,6 +26,12 @@ bpf:
   masquerade: true
   tproxy: true
 
+l2announcements:
+  enabled: true
+  leaseDuration: 120s
+  leaseRenewDeadline: 60s
+  leaseRetryPeriod: 1s
+
 enableCnpStatusUpdates: true
 endpointStatus:
   enabled: true

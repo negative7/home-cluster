@@ -8,7 +8,6 @@ spec:
   externalIPs: true
   interfaces:
     - ^eno[0-9]+
-    
 ---
 apiVersion: cilium.io/v2alpha1
 kind: CiliumLoadBalancerIPPool
