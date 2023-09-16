@@ -7,6 +7,5 @@ resources:
   - ./externalsecret.yaml
   - ./helmrelease.yaml
   - ./gatus.yaml
-  - ./postgresCluster.yaml
 patchesStrategicMerge:
   - ./patches/addons.yaml
