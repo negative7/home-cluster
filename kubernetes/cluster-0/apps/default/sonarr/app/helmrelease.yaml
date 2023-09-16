@@ -47,7 +47,7 @@ spec:
       SONARR__AUTHENTICATION_METHOD: External
       SONARR__AUTHENTICATION_REQUIRED: DisabledForLocalAddresses
       SONARR__INSTANCE_NAME: Sonarr
-      SONARR__PORT: &port 80
+      SONARR__PORT: &port 8989
       SONARR__LOG_LEVEL: info
       SONARR__THEME: dark
     envFrom: *envFrom
@@ -88,7 +88,8 @@ spec:
       runAsGroup: 568
       fsGroup: 568
       fsGroupChangePolicy: OnRootMismatch
-      supplementalGroups: [10000]
+      supplementalGroups:
+        - 65539
     persistence:
       config:
         enabled: true
