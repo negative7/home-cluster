@@ -30,8 +30,6 @@ spec:
       replicaCount: 2
       service:
         loadBalancerIP: 10.2.0.100
-        annotations:
-          external-dns.alpha.kubernetes.io/hostname: external.${SECRET_PUBLIC_DOMAIN}
         externalTrafficPolicy: Cluster
       ingressClassResource:
         name: external
