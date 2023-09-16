@@ -7,7 +7,10 @@ resources:
   - ./backube.yaml
   - ./bitnami.yaml
   - ./bjw-s.yaml
+  - ./cilium.yaml
   - ./cloudnative-pg.yaml
+  - ./coredns.yaml
+  - ./crunchydata.yaml
   - ./deliveryhero-charts.yaml
   - ./descheduler-charts.yaml
   - ./emberstack-charts.yaml
@@ -28,11 +31,13 @@ resources:
   - ./kasten-charts.yaml
   - ./kubernetes-dashboard-charts.yaml
   - ./metallb-charts.yaml
+  - ./metrics-server.yaml
   - ./nfs-subdir-external-provisioner-charts.yaml
   - ./node-feature-discovery-charts.yaml
-  - ./piraeus.yaml
   - ./oauth2-proxy-charts.yaml
   - ./obeone-charts.yaml
+  - ./piraeus.yaml
+  - ./postfinance.yaml
   - ./prometheus-community.yaml
   - ./rook-ceph-charts.yaml
   - ./s3gw-charts.yaml
@@ -41,7 +46,3 @@ resources:
   - ./vector-charts.yaml
   - ./weave-gitops.yaml
   - ./weaveworks.yaml
-  - ./cilium.yaml
-  - ./coredns.yaml
-  - ./metrics-server.yaml
-  - ./postfinance.yaml
