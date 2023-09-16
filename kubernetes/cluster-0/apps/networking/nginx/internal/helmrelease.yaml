@@ -29,9 +29,9 @@ spec:
     controller:
       replicaCount: 2
       service:
-        annotations:
+        LoadBalancerIP: 10.2.0.101
+        annotations: 
           external-dns.alpha.kubernetes.io/hostname: internal.${SECRET_PUBLIC_DOMAIN}
-          io.cilium/lb-ipam-ips: 10.2.0.101
         externalTrafficPolicy: Cluster
       ingressClassResource:
         name: internal
