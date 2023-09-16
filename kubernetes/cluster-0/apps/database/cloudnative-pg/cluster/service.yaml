@@ -8,7 +8,7 @@ metadata:
     external-dns.alpha.kubernetes.io/hostname: postgres.negative7.com
 spec:
   type: LoadBalancer
-  LoadBalancerIP: 10.2.0.112
+  loadBalancerIP: 10.2.0.112
   externalTrafficPolicy: Cluster
   ports:
     - name: postgres

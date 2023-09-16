@@ -29,7 +29,7 @@ spec:
     controller:
       replicaCount: 2
       service:
-        LoadBalancerIP: 10.2.0.100
+        loadBalancerIP: 10.2.0.100
         annotations:
           external-dns.alpha.kubernetes.io/hostname: external.${SECRET_PUBLIC_DOMAIN}
         externalTrafficPolicy: Cluster

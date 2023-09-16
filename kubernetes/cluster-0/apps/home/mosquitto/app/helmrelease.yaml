@@ -52,7 +52,7 @@ spec:
     service:
       main:
         type: LoadBalancer
-        LoadBalancerIP: 10.2.0.103
+        loadBalancerIP: 10.2.0.103
         externalTrafficPolicy: Cluster
         ports:
           http:
