@@ -43,7 +43,7 @@ spec:
           - hosts:
               - *host
       alertmanagerSpec:
-        replicas: 3
+        replicas: 2
         useExistingSecret: true
         configSecret: alertmanager-secret
         storage:
@@ -103,7 +103,7 @@ spec:
         enabled: true
 
       prometheusSpec:
-        replicas: 1
+        replicas: 2
         replicaExternalLabelName: __replica__
         ruleSelectorNilUsesHelmValues: false
         serviceMonitorSelectorNilUsesHelmValues: false
