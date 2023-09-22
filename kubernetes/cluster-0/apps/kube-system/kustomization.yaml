@@ -8,6 +8,7 @@ resources:
   - ./cilium/ks.yaml
   - ./external-secrets/ks.yaml
   - ./intel-device-plugin/ks.yaml
+  - ./k8s-ycl/ks.yaml
   - ./kubelet-csr-approver/ks.yaml
   - ./metrics-server/ks.yaml
   - ./node-feature-discovery/ks.yaml
