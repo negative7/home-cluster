@@ -58,7 +58,7 @@ spec:
         enabled: true
         mountPath: /data
         storageClass: ceph-block
-        accessMode: ReadWriteMany
+        accessMode: ReadWriteOnce
         size: 5Gi
         retain: true
     resources:
