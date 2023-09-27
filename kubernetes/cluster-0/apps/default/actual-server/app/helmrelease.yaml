@@ -32,8 +32,8 @@ spec:
       annotations:
         reloader.stakater.com/auto: "true"
     image:
-      repository: registry.imake.software/sparks/actual-server
-      tag: v23.2.99
+      repository: docker pull ghcr.io/actualbudget/actual-server
+      tag: 23.9.0
     service:
       main:
         ports:
