@@ -5,7 +5,7 @@ resources:
   # Pre Flux-Kustomizations
   - ./namespace.yaml
   # Flux-Kustomizations
-  - ./actual-server/ks.ymal
+  - ./actual-server/ks.yaml
   - ./authelia/ks.yaml
   - ./glauth/ks.yaml
   - ./overseerr/ks.yaml
