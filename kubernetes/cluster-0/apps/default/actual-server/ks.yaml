@@ -5,7 +5,7 @@ metadata:
   name: cluster-apps-actual
   namespace: flux-system
 spec:
-  path: ./kubernetes/cluster-0/apps/default/actual/app
+  path: ./kubernetes/cluster-0/apps/default/actual-server/app
   prune: true
   sourceRef:
     kind: GitRepository
