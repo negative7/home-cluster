@@ -23,25 +23,19 @@
   "suppressNotifications": ["prIgnoreNotification"],
   "ignorePaths": ["archive/**"],
   "flux": {
-    "fileMatch": ["kubernetes/.+\\.ya?ml$"]
+    "fileMatch": ["(^|/)kubernetes/.+\\.ya?ml(\\.j2)?$"]
   },
   "helm-values": {
-    "fileMatch": ["kubernetes/.+\\.ya?ml$"]
+    "fileMatch": ["(^|/)kubernetes/.+\\.ya?ml(\\.j2)?$"]
   },
   "kubernetes": {
-    "fileMatch": ["kubernetes/.+\\.ya?ml$"]
+    "fileMatch": [
+      "(^|/)\\.taskfiles/.+\\.ya?ml(\\.j2)?$",
+      "(^|/)ansible/.+\\.ya?ml(\\.j2)?$",
+      "(^|/)kubernetes/.+\\.ya?ml(\\.j2)?$"
+    ]
   },
   "regexManagers": [
-    {
-      "description": "Process Tekton dependencies",
-      "fileMatch": [
-        "kubernetes/.+\\.ya?ml$"
-      ],
-      "matchStrings": [
-        "depName=(?<depName>\\S+)?\n.*?(?<currentValue>v\\d+\\.\\d+\\.\\d+)"
-      ],
-      "datasourceTemplate": "github-releases"
-    },
     {
       "description": "Process custom dependencies",
       "fileMatch": [
@@ -60,7 +54,7 @@
     {
       "description": "Process CloudnativePG Postgresql version",
       "fileMatch": [
-        "kubernetes/.+\\.ya?ml$"
+        "(^|/)kubernetes/.+\\.ya?ml(\\.j2)?$"
       ],
       "matchStrings": [
         "imageName: (?<depName>\\S+):(?<currentValue>.*\\-.*)"
@@ -75,12 +69,6 @@
       "matchDatasources": ["docker"],
       "versioning": "loose",
       "matchPackagePatterns": ["changedetection", "plex", "qbittorrent"]
-    },
-    {
-      "description": "Use custom versioning for Minio",
-      "matchDatasources": ["docker"],
-      "versioning": "regex:^RELEASE\\.(?<major>\\d+)-(?<minor>\\d+)-(?<patch>\\d+)T.*Z$",
-      "matchPackagePatterns": ["minio"]
     }
   ]
 }
