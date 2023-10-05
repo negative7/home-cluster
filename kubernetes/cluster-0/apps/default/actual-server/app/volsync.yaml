@@ -28,7 +28,7 @@ metadata:
   name: actual
   namespace: media
 spec:
-  sourcePVC: config-actual-0
+  sourcePVC: actual-data
   trigger:
     schedule: "0 7 * * *"
   restic:
