@@ -2,19 +2,19 @@
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
 metadata:
-  name: plex-restic
+  name: spoolman-restic
   namespace: default
 spec:
   secretStoreRef:
     kind: ClusterSecretStore
     name: onepassword-connect
   target:
-    name: plex-restic-secret
+    name: spoolman-restic-secret
     creationPolicy: Owner
     template:
       engineVersion: v2
       data:
-        RESTIC_REPOSITORY: "{{ .REPOSITORY_TEMPLATE }}/plex"
+        RESTIC_REPOSITORY: "{{ .REPOSITORY_TEMPLATE }}/spoolman"
         RESTIC_PASSWORD: "{{ .RESTIC_PASSWORD }}"
         AWS_ACCESS_KEY_ID: "{{ .AWS_ACCESS_KEY_ID }}"
         AWS_SECRET_ACCESS_KEY: "{{ .AWS_SECRET_ACCESS_KEY }}"
@@ -25,24 +25,22 @@ spec:
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
-  name: plex
+  name: spoolman
   namespace: default
 spec:
-  sourcePVC: config-plex-0
+  sourcePVC: spoolman-config
   trigger:
-    schedule: "0 7 * * *"
+    schedule: "0 */12 * * *"
   restic:
     copyMethod: Snapshot
-    pruneIntervalDays: 7
+    pruneIntervalDays: 14
     repository: plex-restic-secret
-    cacheCapacity: 8Gi
+    moverSecurityContext:
+      runAsUser: 1000
+      runAsGroup: 1000
+      fsGroup: 1000
+    retain:
+      daily: 14
     cacheStorageClassName: ceph-block
     volumeSnapshotClassName: csi-ceph-blockpool
     storageClassName: ceph-block
-    moverSecurityContext:
-      runAsUser: 568
-      runAsGroup: 568
-      fsGroup: 568
-    retain:
-      daily: 7
-      within: 3d
