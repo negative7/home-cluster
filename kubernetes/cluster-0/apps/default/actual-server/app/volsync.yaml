@@ -3,7 +3,7 @@ apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
 metadata:
   name: actual-restic
-  namespace: media
+  namespace: default
 spec:
   secretStoreRef:
     kind: ClusterSecretStore
@@ -26,9 +26,9 @@ apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
   name: actual
-  namespace: media
+  namespace: default
 spec:
-  sourcePVC: actual-data
+  sourcePVC:  data-actual-0
   trigger:
     schedule: "0 7 * * *"
   restic:
