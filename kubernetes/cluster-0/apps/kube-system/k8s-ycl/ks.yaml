@@ -15,4 +15,6 @@ spec:
   wait: false # no flux ks dependents
   retryInterval: 1m
   timeout: 3m
+  dependsOn:
+    - name: cluster-apps-cert-manager
 
