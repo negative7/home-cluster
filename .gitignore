@@ -13,3 +13,4 @@ kubeconfig*
 config.xml
 github-deploy-key
 init.md
+kubernetes/tivoli/*
