@@ -122,6 +122,7 @@ spec:
           metrics:
             enabled: true
             port: 8080
+
     serviceMonitor:
       main:
         enabled: true
@@ -130,12 +131,11 @@ spec:
             scheme: http
             path: /metrics
             interval: 1m
-            scrapeTimeout: 10s
-    
+            scrapeTimeout: 10s    
     ingress:
       main:
         enabled: true
-        ingressClassName: external
+        className: external
         annotations:
           external-dns.alpha.kubernetes.io/target: external.${SECRET_PUBLIC_DOMAIN}
           nginx.ingress.kubernetes.io/configuration-snippet: |
@@ -156,7 +156,8 @@ spec:
         enabled: true
         type: configMap
         name: authelia-configmap
-        subPath: configuration.yml
-        mountPath: /config/configuration.yml
+        globalMounts:
+          - path: /config/configuration.yaml
+            subPath: configuration.yaml
         readOnly: false
     
