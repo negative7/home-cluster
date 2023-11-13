@@ -46,13 +46,16 @@ spec:
       [global]
       bdev_enable_discard = true
       bdev_async_discard = true
+      osd_class_update_on_start = false
     cephClusterSpec:
-      mgr:
-        modules:
-          - name: pg_autoscaler
+      network:
+        provider: host
+        connections:
+          compression:
             enabled: true
-          - name: rook
-            enabled: true
+          requireMsgr2: true
+      crashCollector:
+        disable: false
       resources:
         mgr:
           requests:
@@ -96,8 +99,6 @@ spec:
             memory: "100M"
           limits:
             memory: "1G"
-      crashCollector:
-        disable: false
 
       dashboard:
         enabled: true
