@@ -18,7 +18,7 @@ spec:
     name: cloudnative-pg-secret
   bootstrap:
     recovery:
-      source: &previousCluster postgres-v3
+      source: &previousCluster postgres-v4
   postgresql:
     parameters:
       max_connections: "600"
@@ -35,7 +35,7 @@ spec:
         maxParallel: 8
       destinationPath: s3://postgresql
       endpointURL: http://10.2.0.10:9000
-      serverName:  &currentCluster postgres-v4
+      serverName:  &currentCluster postgres-v5
       s3Credentials:
         accessKeyId:
           name: cloudnative-pg-secret
