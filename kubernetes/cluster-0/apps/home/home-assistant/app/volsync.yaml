@@ -51,7 +51,7 @@ spec:
   restic:
     repository: home-assistant-restic-secret
     copyMethod: Snapshot
-    volumeSnapshotClassName: csi-ceph-filesystem
+    volumeSnapshotClassName: csi-ceph-blockpool
     cacheStorageClassName: ceph-block
     cacheAccessModes: ["ReadWriteOnce"]
     cacheCapacity: 8Gi
@@ -72,7 +72,7 @@ spec:
     copyMethod: Snapshot
     pruneIntervalDays: 14
     repository: home-assistant-restic-secret
-    volumeSnapshotClassName: csi-ceph-filesystem
+    volumeSnapshotClassName: csi-ceph-blockpool
     storageClassName: ceph-filesystem
     cacheCapacity: 8Gi
     cacheStorageClassName: ceph-block
