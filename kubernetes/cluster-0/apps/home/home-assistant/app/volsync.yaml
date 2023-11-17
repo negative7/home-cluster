@@ -22,66 +22,28 @@ spec:
     - extract:
         key: volsync-restic-template
 ---
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: home-assistant
-  namespace: home
-spec:
-  accessModes: ["ReadWriteMany"]
-  dataSourceRef:
-    kind: ReplicationDestination
-    apiGroup: volsync.backube
-    name: home-assistant-rdst
-  resources:
-    requests:
-      storage: 5Gi # must match the ReplicationDestination `.spec.capacity` below
-  storageClassName: ceph-filesystem
----
-apiVersion: volsync.backube/v1alpha1
-kind: ReplicationDestination
-metadata:
-  name: home-assistant-rdst
-  namespace: home
-  annotations:
-    kustomize.toolkit.fluxcd.io/ssa: IfNotPresent
-spec:
-  trigger:
-    manual: restore-once
-  restic:
-    repository: home-assistant-restic-secret
-    copyMethod: Snapshot
-    volumeSnapshotClassName: csi-ceph-filesystem
-    cacheStorageClassName: ceph-filesystem
-    cacheAccessModes: ["ReadWriteOnce"]
-    cacheCapacity: 8Gi
-    storageClassName: ceph-filesystem
-    accessModes: ["ReadWriteMany"]
-    capacity: 5Gi # must match the PersistentVolumeClaim `.resources.requests.storage` size above
----
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
   name: home-assistant
   namespace: home
 spec:
-  sourcePVC: home-assistant
+  sourcePVC: home-assistant-config
   trigger:
-    schedule: "0 */12 * * *"
+    schedule: "0 7 * * *"
   restic:
     copyMethod: Snapshot
-    pruneIntervalDays: 14
+    pruneIntervalDays: 7
     repository: home-assistant-restic-secret
-    volumeSnapshotClassName: csi-ceph-filesystem
-    storageClassName: ceph-filesystem
     cacheCapacity: 8Gi
     cacheStorageClassName: ceph-filesystem
     cacheAccessModes: ["ReadWriteOnce"]
-    accessModes: ["ReadWriteMany"]
+    volumeSnapshotClassName: csi-ceph-filesystem
+    storageClassName: ceph-filesystem
     moverSecurityContext:
       runAsUser: 568
       runAsGroup: 568
       fsGroup: 568
     retain:
-      daily: 14
+      daily: 7
       within: 3d
