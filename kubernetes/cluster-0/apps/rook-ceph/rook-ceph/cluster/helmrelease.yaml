@@ -46,12 +46,14 @@ spec:
       [global]
       bdev_enable_discard = true
       bdev_async_discard = true
-      osd_class_update_on_start = false
+
     cephClusterSpec:
       network:
         provider: host
+
       crashCollector:
         disable: false
+
       resources:
         mgr:
           requests:
@@ -119,7 +121,9 @@ spec:
           - name: vinnytsia
             devices:
               - name: /dev/disk/by-id/ata-SHGS31-1000GS-2_FJ07N442411107819
-
+    cephBlockPoolsVolumeSnapshotClass:
+        enabled: false
+      
     cephBlockPools:
       - name: ceph-blockpool
         spec:
@@ -160,9 +164,9 @@ spec:
             resources:
               requests:
                 cpu: "35m"
-                memory: "64M"
+                memory: "1Gi"
               limits:
-                memory: "144M"
+                memory: "3Gi"
                 
         storageClass:
           enabled: true
@@ -171,6 +175,7 @@ spec:
           pool: data0
           reclaimPolicy: Delete
           allowVolumeExpansion: true
+          mountOptions: []
           parameters:
             csi.storage.k8s.io/provisioner-secret-name: rook-csi-cephfs-provisioner
             csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
