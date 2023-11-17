@@ -45,6 +45,9 @@ metadata:
   namespace: home
   annotations:
     kustomize.toolkit.fluxcd.io/ssa: IfNotPresent
+  labels:
+    app.kubernetes.io/instance: home-assistant
+    app.kubernetes.io/name: home-assistant
 spec:
   trigger:
     manual: restore-once
