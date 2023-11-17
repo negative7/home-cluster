@@ -23,6 +23,27 @@ spec:
         key: volsync-restic-template
 ---
 apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: home-assistant-rdst
+  namespace: home
+  annotations:
+    kustomize.toolkit.fluxcd.io/ssa: IfNotPresent
+spec:
+  trigger:
+    manual: restore-once
+  restic:
+    repository: home-assistant-restic-secret
+    copyMethod: Snapshot
+    volumeSnapshotClassName: csi-ceph-filesystem
+    cacheStorageClassName: ceph-block
+    cacheAccessModes: ["ReadWriteOnce"]
+    cacheCapacity: 8Gi
+    storageClassName: ceph-filesystem
+    accessModes: ["ReadWriteMany"]
+    capacity: 5Gi # must match the PersistentVolumeClaim `.resources.requests.storage` size above
+---
+apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
   name: home-assistant
@@ -35,8 +56,16 @@ spec:
     copyMethod: Snapshot
     pruneIntervalDays: 14
     repository: home-assistant-restic-secret
+    volumeSnapshotClassName: csi-ceph-filesystem
+    storageClassName: ceph-filesystem
+    cacheCapacity: 8Gi
+    cacheStorageClassName: ceph-block
+    cacheAccessModes: ["ReadWriteOnce"]
+    accessModes: ["ReadWriteMany"]
+    moverSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
     retain:
       daily: 14
-    volumeSnapshotClassName: csi-ceph-blockpool
-    storageClassName: ceph-block
-    cacheStorageClassName: ceph-block
+      within: 3d
