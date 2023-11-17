@@ -29,10 +29,10 @@ metadata:
   namespace: home
 spec:
   accessModes: ["ReadWriteMany"]
-  dataSourceRef:
-    kind: ReplicationDestination
-    apiGroup: volsync.backube
-    name: home-assistant-rdst
+  # dataSourceRef:
+  #   kind: ReplicationDestination
+  #   apiGroup: volsync.backube
+  #   name: home-assistant-rdst
   resources:
     requests:
       storage: 5Gi # must match the ReplicationDestination `.spec.capacity` below
