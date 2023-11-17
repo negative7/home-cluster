@@ -36,7 +36,7 @@ spec:
   resources:
     requests:
       storage: 5Gi # must match the ReplicationDestination `.spec.capacity` below
-  storageClassName: ceph-block
+  storageClassName: ceph-filesystem
 ---
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationDestination
@@ -51,11 +51,11 @@ spec:
   restic:
     repository: home-assistant-restic-secret
     copyMethod: Snapshot
-    volumeSnapshotClassName: csi-ceph-blockpool
-    cacheStorageClassName: ceph-block
+    volumeSnapshotClassName: csi-ceph-filesystem
+    cacheStorageClassName: ceph-filesystem
     cacheAccessModes: ["ReadWriteOnce"]
     cacheCapacity: 8Gi
-    storageClassName: ceph-block
+    storageClassName: ceph-filesystem
     accessModes: ["ReadWriteMany"]
     capacity: 5Gi # must match the PersistentVolumeClaim `.resources.requests.storage` size above
 ---
@@ -72,10 +72,10 @@ spec:
     copyMethod: Snapshot
     pruneIntervalDays: 14
     repository: home-assistant-restic-secret
-    volumeSnapshotClassName: csi-ceph-blockpool
+    volumeSnapshotClassName: csi-ceph-filesystem
     storageClassName: ceph-filesystem
     cacheCapacity: 8Gi
-    cacheStorageClassName: ceph-block
+    cacheStorageClassName: ceph-filesystem
     cacheAccessModes: ["ReadWriteOnce"]
     accessModes: ["ReadWriteMany"]
     moverSecurityContext:
