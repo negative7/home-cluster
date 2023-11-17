@@ -164,9 +164,9 @@ spec:
             resources:
               requests:
                 cpu: "35m"
-                memory: "1Gi"
+                memory: "64M"
               limits:
-                memory: "3Gi"
+                memory: "144M"
                 
         storageClass:
           enabled: true
