@@ -40,7 +40,6 @@ spec:
               tag: 4.18.0
             env:
               TZ: '${TIMEZONE}'
-            workingDir: /config
             args:
               - --auth
               - "none"
@@ -48,6 +47,9 @@ spec:
               - "/config/.vscode"
               - --extensions-dir
               - "/config/.vscode"
+              - "--port"
+              - "80"
+              - /config
             resources:
               requests:
                 cpu: 10m
@@ -82,4 +84,4 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: home-assistant-config
+        existingClaim: home-assistant
