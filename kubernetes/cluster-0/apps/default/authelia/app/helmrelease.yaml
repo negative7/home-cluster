@@ -51,9 +51,7 @@ spec:
               repository: ghcr.io/authelia/authelia
               tag: v4.38.0-beta3@sha256:755b7efded2eefe12d6df9ead9c0821c69afa7e74a0b99a9b327027c2645aa18
             env:
-              AUTHELIA_SERVER_PORT: &port 8076
-              AUTHELIA_STORAGE_POSTGRES_PORT: 5432
-              AUTHELIA_SERVER_ADDRESS: tcp://0.0.0.0:80
+              AUTHELIA_SERVER_ADDRESS: tcp://0.0.0.0:8076
               AUTHELIA_SERVER_DISABLE_HEALTHCHECK: "true"
               AUTHELIA_TELEMETRY_METRICS_ADDRESS: tcp://0.0.0.0:8080
               AUTHELIA_TELEMETRY_METRICS_ENABLED: "true"
@@ -68,7 +66,7 @@ spec:
                 spec:
                   httpGet:
                     path: /api/health
-                    port: *port
+                    port: &port 8076
                   initialDelaySeconds: 0
                   periodSeconds: 10
                   timeoutSeconds: 1

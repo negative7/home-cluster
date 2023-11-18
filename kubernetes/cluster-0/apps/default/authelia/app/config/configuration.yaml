@@ -50,7 +50,6 @@ session:
 notifier:
   disable_startup_check: true
   smtp:
-    port: 587
     sender: Authelia <authelia@negative7.com>
     disable_require_tls: true
 
@@ -86,7 +85,7 @@ identity_providers:
         pre_configured_consent_duration: 1y
         scopes: ["openid", "profile", "groups", "email"]
         redirect_uris: ["https://grafana.negative7.com/login/generic_oauth"]
-        userinfo_signing_algorithm: none
+        userinfo_signed_response_alg: none
       - id: immich
         description: Immich
         secret: "${IMMICH_OAUTH_CLIENT_SECRET}"
@@ -95,4 +94,4 @@ identity_providers:
         pre_configured_consent_duration: 1y
         scopes: ["openid", "profile", "email"]
         redirect_uris: ["https://photos.negative7.com/auth/login", "app.immich:/"]
-        userinfo_signing_algorithm: none
+        userinfo_signed_response_alg: none
