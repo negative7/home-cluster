@@ -7,8 +7,8 @@ metadata:
 spec:
   spec:
   dependsOn:
-    - name: cloudnative-pg-cluster
-    - name: external-secrets-stores
+    - name: cluster-apps-cloudnative-pg
+    - name: cluster-apps-external-secrets-stores
   path: ./kubernetes/cluster-0/apps/default/lldap/app
   prune: true
   sourceRef:
