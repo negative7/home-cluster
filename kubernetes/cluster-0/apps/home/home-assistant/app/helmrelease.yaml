@@ -67,6 +67,7 @@ spec:
               limits:
                 memory: 1Gi
         pod:
+          hostNetwork: true
           securityContext:
             runAsUser: 568
             runAsGroup: 568
