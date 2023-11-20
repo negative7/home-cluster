@@ -1,10 +1,13 @@
 ---
 clusterName: ${clusterName}
 
-talosVersion: v1.5.2
-kubernetesVersion: 1.28.1
+talosVersion: v1.5.5
+kubernetesVersion: 1.28.3
+
 endpoint: "https://${clusterName}.negative7.com:6443"
 allowSchedulingOnMasters: true
+
+talosImageURL: factory.talos.dev/installer/df491c50a5acc05b977ef00c32050e1ceb0df746e40b33c643ac8a9bfb7c7263
 
 cniConfig:
   name: none
@@ -70,6 +73,14 @@ worker:
           kubePrism:
             enabled: true
             port: 7445
+        files:
+          - op: create
+            path: /etc/cri/conf.d/20-customization.part
+            content: |
+              [plugins]
+                [plugins."io.containerd.grpc.v1.cri"]
+                  enable_unprivileged_ports = true
+                  enable_unprivileged_icmp = true
             
 controlPlane:
   patches:
@@ -81,11 +92,6 @@ controlPlane:
         etcd:
           advertisedSubnets:
             - 10.2.0.0/24
-
-    - |-
-      - op: remove
-        path: /cluster/apiServer/admissionControl
-
     - |-
       machine:
         features:
@@ -114,10 +120,10 @@ controlPlane:
             - ip: ${clusterEndpointIP}
               aliases:
                 - ${clusterName}.negative7.com
-        install:
-          extensions:
-            - image: ghcr.io/siderolabs/i915-ucode:20230310
-            - image: ghcr.io/siderolabs/intel-ucode:20230512
         sysctls:
           fs.inotify.max_user_watches: "1048576"
           fs.inotify.max_user_instances: "8192"
+    # Disable default API server admission plugins.
+    - |-
+      - op: remove
+        path: /cluster/apiServer/admissionControl
