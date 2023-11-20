@@ -5,7 +5,7 @@ authentication_backend:
     disable: true
   refresh_interval: 1m
   ldap:
-    address: ldap://glauth.default.svc.cluster.local:389
+    address: ldap://lldap.default.svc.cluster.local:389
     implementation: custom
     timeout: 5s
     start_tls: false
@@ -15,7 +15,7 @@ authentication_backend:
     additional_groups_dn: ou=groups
     groups_filter: (member={dn})
     group_search_mode: filter
-    user: cn=search,ou=svcaccts,dc=home,dc=arpa
+    user: uid=admin,ou=people,dc=home,dc=arpa
     password: password
     attributes:
       username: uid
