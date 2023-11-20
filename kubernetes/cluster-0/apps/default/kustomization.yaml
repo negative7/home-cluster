@@ -17,3 +17,4 @@ resources:
   - ./spoolman/ks.yaml
   - ./sonarr/ks.yaml
   - ./tautulli/ks.yaml
+  - ./smtp-relay/ks.yaml
