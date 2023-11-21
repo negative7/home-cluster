@@ -10,49 +10,52 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.0.2
-      interval: 30m
+      version: 2.3.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
         namespace: flux-system
-
+  maxHistory: 2
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
   values:
     controllers:
       main:
         annotations:
           reloader.stakater.com/auto: "true"
-
-        pod:
-          securityContext:
-            runAsUser: 1000
-            runAsGroup: 1000
-            fsGroup: 1000
-            fsGroupChangePolicy: "OnRootMismatch"
-
         containers:
           main:
             image:
               repository: ghcr.io/donkie/spoolman
               tag: "0.13.1"
-
             resources:
               requests:
                 cpu: 14m
                 memory: 431M
               limits:
                 memory: 431M
-
+        pod:
+          securityContext:
+            runAsUser: 568
+            runAsGroup: 568
+            fsGroup: 568
+            fsGroupChangePolicy: OnRootMismatch
     service:
       main:
         ports:
           http:
             port: 8000
-
     ingress:
       main:
         enabled: true
-        className: "internal"
+        className: internal
         hosts:
           - host: &host '{{ .Release.Name }}.${SECRET_PUBLIC_DOMAIN}'
             paths:
@@ -63,10 +66,9 @@ spec:
         tls:
           - hosts:
               - *host
-
     persistence:
       config:
         enabled: true
-        existingClaim: spoolman-config
+        existingClaim: spoolman
         globalMounts:
           - path: /home/app/.local/share/spoolman
