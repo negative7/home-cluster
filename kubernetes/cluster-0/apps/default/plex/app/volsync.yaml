@@ -1,4 +1,20 @@
 ---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: plex-data
+spec:
+  accessModes:
+    - ReadWriteOnce
+  dataSourceRef:
+    kind: ReplicationDestination
+    apiGroup: volsync.backube
+    name: plex-dst
+  resources:
+    requests:
+      storage: 100Gi
+  storageClassName: ceph-block
+---
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
 metadata:
@@ -28,14 +44,14 @@ metadata:
   name: plex
   namespace: default
 spec:
-  sourcePVC: config-plex-0
+  sourcePVC: plex-data
   trigger:
     schedule: "0 7 * * *"
   restic:
     copyMethod: Snapshot
     pruneIntervalDays: 7
     repository: plex-restic-secret
-    cacheCapacity: 8Gi
+    cacheCapacity: 100Gi
     cacheStorageClassName: ceph-block
     volumeSnapshotClassName: csi-ceph-blockpool
     storageClassName: ceph-block
@@ -46,3 +62,26 @@ spec:
     retain:
       daily: 7
       within: 3d
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: plex-dst
+  annotations:
+    kustomize.toolkit.fluxcd.io/ssa: IfNotPresent
+spec:
+  trigger:
+    manual: restore-once
+  restic:
+    copyMethod: Snapshot
+    repository: plex-restic-secret
+    cacheStorageClassName: ceph-block
+    volumeSnapshotClassName: csi-ceph-blockpool
+    storageClassName: ceph-block
+    moverSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
+    accessModes:
+      - ReadWriteOnce
+    capacity: 100Gi
