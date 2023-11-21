@@ -5,6 +5,13 @@ metadata:
   name: cluster-apps-prowlarr
   namespace: flux-system
 spec:
+  targetNamespace: default
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: &app prowlarr
+  dependsOn:
+    - name: cluster-apps-cloudnative-pg-cluster
+    - name: cluster-apps-external-secrets-stores
   path: ./kubernetes/cluster-0/apps/default/prowlarr/app
   prune: true
   sourceRef:
@@ -13,4 +20,7 @@ spec:
   wait: false
   interval: 30m
   retryInterval: 1m
-  timeout: 3m
+  timeout: 5m
+  postBuild:
+    substitute:
+      APP: *app
