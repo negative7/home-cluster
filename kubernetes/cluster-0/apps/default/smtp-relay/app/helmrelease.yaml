@@ -64,9 +64,9 @@ spec:
     service:
       main:
         type: LoadBalancer
-        loadBalancerIP: 10.2.0.106
+        loadBalancerIP: 10.2.0.116
         annotations:
-          io.cilium/lb-ipam-ips: 10.2.0.106
+          io.cilium/lb-ipam-ips: 10.2.0.116
         ports:
           http:
             port: 8080
