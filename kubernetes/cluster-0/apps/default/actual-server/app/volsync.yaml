@@ -28,9 +28,9 @@ metadata:
   name: actual
   namespace: default
 spec:
-  sourcePVC:  data-actual-0
+  sourcePVC:  actual-data
   trigger:
-    schedule: "0 7 * * *"
+    schedule: "15 */8 * * *"
   restic:
     copyMethod: Snapshot
     pruneIntervalDays: 7
@@ -46,3 +46,26 @@ spec:
     retain:
       daily: 7
       within: 3d
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: actual-dst
+  annotations:
+    kustomize.toolkit.fluxcd.io/ssa: IfNotPresent
+spec:
+  trigger:
+    manual: restore-once
+  restic:
+    copyMethod: Snapshot
+    repository: actual-restic-secret
+    cacheStorageClassName: ceph-block
+    volumeSnapshotClassName: csi-ceph-blockpool
+    storageClassName: ceph-block
+    moverSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
+    accessModes:
+      - ReadWriteOnce
+    capacity: 1Gi
