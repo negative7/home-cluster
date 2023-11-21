@@ -1,4 +1,20 @@
 ---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: overseerr-data
+spec:
+  accessModes:
+    - ReadWriteOnce
+  dataSourceRef:
+    kind: ReplicationDestination
+    apiGroup: volsync.backube
+    name: overseerr-dst
+  resources:
+    requests:
+      storage: 5Gi
+  storageClassName: ceph-block
+---
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
 metadata:
@@ -14,10 +30,10 @@ spec:
     template:
       engineVersion: v2
       data:
-        RESTIC_REPOSITORY: '{{ .REPOSITORY_TEMPLATE }}/overseerr'
-        RESTIC_PASSWORD: '{{ .RESTIC_PASSWORD }}'
-        AWS_ACCESS_KEY_ID: '{{ .AWS_ACCESS_KEY_ID }}'
-        AWS_SECRET_ACCESS_KEY: '{{ .AWS_SECRET_ACCESS_KEY }}'
+        RESTIC_REPOSITORY: "{{ .REPOSITORY_TEMPLATE }}/overseerr"
+        RESTIC_PASSWORD: "{{ .RESTIC_PASSWORD }}"
+        AWS_ACCESS_KEY_ID: "{{ .AWS_ACCESS_KEY_ID }}"
+        AWS_SECRET_ACCESS_KEY: "{{ .AWS_SECRET_ACCESS_KEY }}"
   dataFrom:
     - extract:
         key: volsync-restic-template
@@ -28,9 +44,9 @@ metadata:
   name: overseerr
   namespace: default
 spec:
-  sourcePVC: config-overseerr-0
+  sourcePVC: overseerr-data
   trigger:
-    schedule: "0 7 * * *"
+    schedule: "15 */8 * * *"
   restic:
     copyMethod: Snapshot
     pruneIntervalDays: 7
@@ -46,3 +62,26 @@ spec:
     retain:
       daily: 7
       within: 3d
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: overseerr-dst
+  annotations:
+    kustomize.toolkit.fluxcd.io/ssa: IfNotPresent
+spec:
+  trigger:
+    manual: restore-once
+  restic:
+    copyMethod: Snapshot
+    repository: overseerr-restic-secret
+    cacheStorageClassName: ceph-block
+    volumeSnapshotClassName: csi-ceph-blockpool
+    storageClassName: ceph-block
+    moverSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
+    accessModes:
+      - ReadWriteOnce
+    capacity: 5Gi

@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 2.3.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -30,15 +30,31 @@ spec:
     - name: volsync
       namespace: kube-system
   values:
-    controller:
-      type: statefulset
-    image:
-      repository: ghcr.io/sct/overseerr
-      tag: 1.33.2
-    env:
-      TZ: America/New_York
-      LOG_LEVEL: "info"
-      PORT: &port 80
+    controllers:
+      main:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          main:
+            image:
+              repository: ghcr.io/sct/overseerr
+              tag: 1.33.2
+            env:
+              TZ: America/New_York
+              LOG_LEVEL: "info"
+              PORT: &port 80
+            resources:
+              requests:
+                cpu: 100m
+                memory: 256Mi
+              limits:
+                memory: 2Gi
+        pod:
+          securityContext:
+            runAsUser: 568
+            runAsGroup: 568
+            fsGroup: 568
+            fsGroupChangePolicy: OnRootMismatch
     service:
       main:
         ports:
@@ -50,29 +66,19 @@ spec:
         ingressClassName: external
         annotations:
           external-dns.alpha.kubernetes.io/target: external.${SECRET_PUBLIC_DOMAIN}
-          hajimari.io/icon: mdi:eye-circle
         hosts:
           - host: &host requests.${SECRET_PUBLIC_DOMAIN}
             paths:
               - path: /
-                pathType: Prefix
+                service:
+                  name: main
+                  port: http
         tls:
           - hosts:
               - *host
-    podSecurityContext:
-      runAsUser: 568
-      runAsGroup: 568
-      fsGroup: 568
-      fsGroupChangePolicy: OnRootMismatch
-    volumeClaimTemplates:
-      - name: config
-        mountPath: /app/config
-        accessMode: ReadWriteOnce
-        size: 1Gi
-        storageClass: ceph-block
-    resources:
-      requests:
-        cpu: 5m
-        memory: 245M
-      limits:
-        memory: 245M
+    persistence:
+      config:
+        enabled: true
+        existingClaim: overseerr-data
+        globalMounts:
+          - path: /app/config

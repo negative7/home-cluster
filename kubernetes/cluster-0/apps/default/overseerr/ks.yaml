@@ -5,6 +5,10 @@ metadata:
   name: cluster-apps-overseerr
   namespace: flux-system
 spec:
+  targetNamespace: default
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: &app overseerr
   path: ./kubernetes/cluster-0/apps/default/overseerr/app
   prune: true
   sourceRef:
