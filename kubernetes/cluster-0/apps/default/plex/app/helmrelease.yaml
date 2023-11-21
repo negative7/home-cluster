@@ -10,14 +10,13 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 2.3.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
         namespace: flux-system
   maxHistory: 2
   install:
-    createNamespace: true
     remediation:
       retries: 3
   upgrade:
@@ -34,25 +33,62 @@ spec:
     - name: volsync
       namespace: kube-system
   values:
-    controller:
-      type: statefulset
-    image:
-      repository: ghcr.io/onedr0p/plex-beta
-      tag: 1.32.8.7639-fb6452ebf@sha256:84c51a3abe3cec182d034cea58e65086b20f3dc49831d8a1fc16f67c85ca6e53
-    env:
-      TZ: '${TIMEZONE}'
+    controllers:
+      main:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          main:
+            image:
+              repository: ghcr.io/onedr0p/plex
+              tag: 1.32.7.7621-871adbd44@sha256:f9f77dc5e17cab9fae5ece663a64d026e3c75142b3b60bb4a52bf061957412be
+            env:
+              TZ: America/New_York
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /identity
+                    port: 32400
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+              startup:
+                enabled: false
+            resources:
+              requests:
+                gpu.intel.com/i915: 1
+                cpu: 200m
+                memory: 2Gi
+              limits:
+                gpu.intel.com/i915: 1
+                memory: 12Gi
+        pod:
+          nodeSelector:
+            intel.feature.node.kubernetes.io/gpu: "true"
+          securityContext:
+            runAsUser: 568
+            runAsGroup: 568
+            fsGroup: 568
+            fsGroupChangePolicy: OnRootMismatch
+            supplementalGroups: [44, 105, 10000]
     service:
       main:
         type: LoadBalancer
+        annotations:
+          io.cilium/lb-ipam-ips: 10.2.0.105
         loadBalancerIP: 10.2.0.105
-        externalTrafficPolicy: Cluster
         ports:
           http:
             port: 32400
     ingress:
       main:
         enabled: true
-        ingressClassName: external
+        className: external
         annotations:
           external-dns.alpha.kubernetes.io/target: external.${SECRET_PUBLIC_DOMAIN}
           nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
@@ -61,7 +97,9 @@ spec:
           - host: &host '{{ .Release.Name }}.${SECRET_PUBLIC_DOMAIN}'
             paths:
               - path: /
-                pathType: Prefix
+                service:
+                  name: main
+                  port: http
         tls:
           - hosts:
               - *host
@@ -71,13 +109,10 @@ spec:
       fsGroup: 568
       fsGroupChangePolicy: 'OnRootMismatch'
       supplementalGroups: [44, 109, 10000]
-    volumeClaimTemplates:
-      - name: config
-        mountPath: /config
-        accessMode: ReadWriteOnce
-        size: 100Gi
-        storageClass: ceph-block
     persistence:
+      config:
+        enabled: true
+        existingClaim: plex-data
       tv:
         enabled: true
         type: nfs
@@ -102,13 +137,3 @@ spec:
       transcode:
         enabled: true
         type: emptyDir
-    nodeSelector:
-      intel.feature.node.kubernetes.io/gpu: 'true'
-    resources:
-      requests:
-        gpu.intel.com/i915: 1
-        cpu: 100m
-        memory: 2000Mi
-      limits:
-        gpu.intel.com/i915: 1
-        memory: 5000Mi
