@@ -98,3 +98,10 @@ spec:
       config:
         enabled: true
         existingClaim: home-assistant
+      backup:
+        enabled: true
+        type: nfs
+        server: 'freenas.${SECRET_PUBLIC_DOMAIN}'
+        path: /mnt/tank/backups/hass
+        globalMounts:
+          - path: /config/backups
