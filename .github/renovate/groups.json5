@@ -4,19 +4,9 @@
     {
       "description": "Flux Group",
       "groupName": "Flux",
-      "matchPackagePatterns": ["flux"],
+      "matchPackagePatterns": ["^flux", "^ghcr.io/fluxcd/"],
       "matchDatasources": ["docker", "github-tags"],
       "versioning": "semver",
-      "group": {
-        "commitMessageTopic": "{{{groupName}}} group"
-      },
-      "separateMinorPatch": true
-    },
-    {
-      "description": "Immich Group",
-      "groupName": "Immich",
-      "matchPackagePatterns": ["immich"],
-      "matchDatasources": ["docker"],
       "group": {
         "commitMessageTopic": "{{{groupName}}} group"
       },
@@ -33,7 +23,21 @@
       "separateMinorPatch": true
     },
     {
-      "description": "External Snapshotter Group",
+      "description": "Cilium image and chart",
+      "groupName": "cilium",
+      "matchPackageNames": [
+        "quay.io/cilium/cilium",
+        "quay.io/cilium/operator-generic",
+        "cilium"
+      ],
+      "matchDatasources": ["helm", "docker"],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      },
+      "separateMinorPatch": true
+    },
+    {
+      "description": "External Snapshotter charts",
       "groupName": "External Snapshotter",
       "matchPackageNames": ["snapshot-controller", "snapshot-validation-webhook"],
       "matchDatasources": ["helm"],
@@ -43,10 +47,21 @@
       "separateMinorPatch": true
     },
     {
-      "description": "Tekton Group",
-      "groupName": "Tekton",
-      "matchPackagePatterns": ["tektoncd"],
-      "matchDatasources": ["github-releases"],
+      "description": "Thanos image and chart - versions do not match",
+      "groupName": "Thanos",
+      "matchPackagePatterns": ["quay.io/thanos/thanos", "thanos"],
+      "matchDatasources": ["docker", "github-releases", "helm"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      },
+      "separateMinorPatch": false
+    },
+    {
+      "description": "Vector image and chart - versions do not match",
+      "groupName": "Vector",
+      "matchPackagePatterns": ["vector"],
+      "matchDatasources": ["docker", "github-releases", "helm"],
       "matchUpdateTypes": ["minor", "patch"],
       "group": {
         "commitMessageTopic": "{{{groupName}}} group"

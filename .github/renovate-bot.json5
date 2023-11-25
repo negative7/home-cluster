@@ -1,6 +1,0 @@
-{
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "username": "negative-7-bot[bot]",
-  "gitAuthor": "negative-7-bot <98169174+negative-7-bot[bot]@users.noreply.github.com>",
-  "repositories": ["negative7/home-cluster"]
-}
