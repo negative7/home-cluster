@@ -20,7 +20,7 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 5m
-  ppostBuild:
+  postBuild:
     substitute:
       APP: *app
       VOLSYNC_CAPACITY: 512Mi
