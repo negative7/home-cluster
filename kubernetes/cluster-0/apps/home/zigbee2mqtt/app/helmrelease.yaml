@@ -85,10 +85,6 @@ spec:
               privileged: true
         pod:
           securityContext:
-            runAsUser: 568
-            runAsGroup: 568
-            fsGroup: 568
-            fsGroupChangePolicy: OnRootMismatch
             privileged: true
           nodeSelector:
             electrolama.feature.node.kubernetes.io/zzh: "true"
