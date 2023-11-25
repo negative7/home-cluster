@@ -5,20 +5,15 @@ api:
   address: 0.0.0.0:8686
 
 sources:
+  kubernetes_source:
+    address: 0.0.0.0:6000
+    type: vector
+    version: "2"
+
   journald_source:
     type: vector
+    address: 0.0.0.0:6002
     version: "2"
-    address: 0.0.0.0:6000
-
-  kubernetes_source:
-    type: vector
-    version: "2"
-    address: 0.0.0.0:6010
-  
-  syslog_source:
-    type: syslog
-    address: 0.0.0.0:6020
-    mode: tcp
 
 
 transforms:
@@ -34,23 +29,10 @@ transforms:
 
 
 sinks:
-  journald:
+  loki_kubernetes:
     type: loki
-    endpoint: http://loki-gateway.monitoring.svc.cluster.local
-    encoding:
-      codec: json
-    inputs:
-      - journald_source
-    out_of_order_action: accept
-    remove_label_fields: true
-    remove_timestamp: true
-    labels:
-      hostname: "{{ host }}"
-
-  kubernetes:
     inputs:
       - kubernetes_remap
-    type: loki
     endpoint: http://loki-gateway.monitoring.svc.cluster.local
     encoding:
       codec: json
@@ -61,3 +43,16 @@ sinks:
       app: "{{ custom_app_name }}"
       namespace: "{{ kubernetes.pod_namespace }}"
       node: "{{ kubernetes.pod_node_name }}"
+
+  loki_journal:
+    type: loki
+    endpoint: http://loki-gateway.monitoring.svc.cluster.local.
+    encoding:
+      codec: json
+    inputs:
+      - journald_source
+    out_of_order_action: accept
+    remove_label_fields: true
+    remove_timestamp: true
+    labels:
+      hostname: "{{ host }}"

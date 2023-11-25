@@ -4,14 +4,13 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: &app vector-aggregator
-  namespace: monitoring
 spec:
   interval: 30m
   timeout: 15m
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 2.3.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -27,47 +26,50 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    controller:
-      replicas: 2
-      strategy: RollingUpdate
-      annotations:
-        reloader.stakater.com/auto: "true"
-    image:
-      repository: docker.io/timberio/vector
-      tag: 0.34.1-debian
-    args: ["--config", "/etc/vector/vector.yaml"]
+    controllers:
+      main:
+        replicas: 2
+        strategy: RollingUpdate
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          main:
+            image:
+              repository: docker.io/timberio/vector
+              tag: 0.34.1-debian
+            args: ["--config", "/etc/vector/vector.yaml"]
+        pod:
+          topologySpreadConstraints:
+            - maxSkew: 1
+              topologyKey: kubernetes.io/hostname
+              whenUnsatisfiable: DoNotSchedule
+              labelSelector:
+                matchLabels:
+                  app.kubernetes.io/name: *app
     service:
       main:
+        controller: main
         type: LoadBalancer
         loadBalancerIP: 10.2.0.111
         annotations:
           external-dns.alpha.kubernetes.io/hostname: "vector.negative7.com"
-        externalTrafficPolicy: Cluster
+          io.cilium/lb-ipam-ips: 10.2.0.111
         ports:
           http:
             port: 8686
-          journald:
-            enabled: true
-            port: 6000
           kubernetes:
             enabled: true
-            port: 6010
+            port: 6000
     persistence:
       config:
         enabled: true
         type: configMap
         name: vector-aggregator-configmap # overriden by kustomizeconfig
-        subPath: vector.yaml
-        mountPath: /etc/vector/vector.yaml
-        readOnly: true
+        globalMounts:
+          - path: /etc/vector/vector.yaml
+            subPath: vector.yaml
+            readOnly: true
       data:
-        enabled: true
         type: emptyDir
-        mountPath: /vector-data-dir
-    topologySpreadConstraints:
-      - maxSkew: 1
-        topologyKey: kubernetes.io/hostname
-        whenUnsatisfiable: DoNotSchedule
-        labelSelector:
-          matchLabels:
-            app.kubernetes.io/name: *app
+        globalMounts:
+          - path: /vector-data-dir
