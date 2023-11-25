@@ -92,8 +92,8 @@ spec:
       config:
         enabled: true
         type: configMap
-        name: k8s-gateway-configmap # overriden by kustomizeconfig
+        name: k8s-gateway-configmap
         globalMounts:
           - path: /etc/coredns/Corefile
-            subPath: cCorefile
+            subPath: Corefile
             readOnly: true
