@@ -31,15 +31,15 @@ spec:
     - name: volsync
       namespace: kube-system
   values:
-    controller:
-      type: statefulset
-      annotations:
-        reloader.stakater.com/auto: 'true'
-    image:
-      repository: ghcr.io/esphome/esphome
-      tag: 2023.11.4
-    env:
-      TZ: '${TIMEZONE}'
+    controllers:
+      main:
+        annotations:
+          reloader.stakater.com/auto: "true"
+      containers:
+          main:
+            image:
+              repository: ghcr.io/esphome/esphome
+              tag: 2023.11.4
     service:
       main:
         ports:
