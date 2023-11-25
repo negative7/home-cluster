@@ -10,14 +10,14 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 2.3.0
+      interval: 30m
       sourceRef:
         kind: HelmRepository
         name: bjw-s
         namespace: flux-system
   maxHistory: 2
   install:
-    createNamespace: true
     remediation:
       retries: 3
   upgrade:
@@ -30,65 +30,71 @@ spec:
     - name: rook-ceph-cluster
       namespace: rook-ceph
   values:
-    controller:
-      type: statefulset
-    image:
-      repository: ghcr.io/koush/scrypted
-      tag: 18-jammy-full-v0.41.0
-    env:
-      TZ: America/New_York
+    controllers:
+      main:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        pod:
+          hostNetwork: true
+          securityContext:
+            runAsUser: 568
+            runAsGroup: 568
+            fsGroup: 568
+            fsGroupChangePolicy: OnRootMismatch
+          nodeSelector:
+            google.feature.node.kubernetes.io/coral: "true"
+            intel.feature.node.kubernetes.io/gpu: "true"
+        containers:
+          main:
+            image:
+              repository: ghcr.io/koush/scrypted
+              tag: 18-jammy-full-v0.68.0
+            resources:
+              requests:
+                gpu.intel.com/i915: 1
+                cpu: 136m
+                memory: 1024Mi
+              limits:
+                gpu.intel.com/i915: 1
+                memory: 8192Mi
+            securityContext:
+              privileged: true
     service:
       main:
         type: LoadBalancer
         loadBalancerIP: 10.2.0.104
-        annotations: 
-          external-dns.alpha.kubernetes.io/hostname: "scrypted.negative7.com"
-        externalTrafficPolicy: Local
         ports:
           http:
             port: 11080
           rebroadcast:
             port: 34135
-    hostNetwork: true
     ingress:
       main:
         enabled: true
-        ingressClassName: internal
+        className: internal
         hosts:
           - host: &host "{{ .Release.Name }}.${SECRET_PUBLIC_DOMAIN}"
             paths:
               - path: /
-                pathType: Prefix
+                service:
+                  name: main
+                  port: http
         tls:
           - hosts:
               - *host
     persistence:
+      config:
+        enabled: true
+        existingClaim: scrypted
+        advancedMounts:
+          main:
+            main:
+              - path: /server/volume
       cache:
-        enabled: true
-        mountPath: /.cache
         type: emptyDir
+        globalMounts:
+          - path: /.cache
       cache-npm:
-        enabled: true
-        mountPath: /.npm
         type: emptyDir
-    
-    nodeSelector:
-      intel.feature.node.kubernetes.io/gpu: "true"
-    resources:
-      requests:
-        gpu.intel.com/i915: 1
-        cpu: 136m
-        memory: 1024Mi
-      limits:
-        gpu.intel.com/i915: 1
-        memory: 8192Mi
-
-    securityContext:
-      privileged: true
-
-    volumeClaimTemplates:
-      - name: config
-        mountPath: /server/volume
-        accessMode: ReadWriteOnce
-        size: 2Gi
-        storageClass: ceph-block
+        globalMounts:
+          - path: /.npm
