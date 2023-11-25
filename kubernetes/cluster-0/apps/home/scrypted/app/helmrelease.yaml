@@ -42,7 +42,6 @@ spec:
             fsGroup: 568
             fsGroupChangePolicy: OnRootMismatch
           nodeSelector:
-            google.feature.node.kubernetes.io/coral: "true"
             intel.feature.node.kubernetes.io/gpu: "true"
         containers:
           main:
