@@ -3,5 +3,5 @@ nameReference:
   - kind: ConfigMap
     version: v1
     fieldSpecs:
-      - path: spec/values/persistence/config-file/name
+      - path: spec/values/persistence/mosquitto-configfile/name
         kind: HelmRelease
