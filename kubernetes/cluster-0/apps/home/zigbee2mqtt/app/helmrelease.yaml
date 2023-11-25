@@ -83,6 +83,8 @@ spec:
                 memory: 512Mi
             securityContext:
               privileged: true
+            podSecurityContext:
+              privileged: true
         pod:
           securityContext:
             runAsUser: 568
