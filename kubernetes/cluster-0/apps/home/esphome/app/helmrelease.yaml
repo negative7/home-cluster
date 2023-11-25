@@ -36,10 +36,10 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
       containers:
-          main:
-            image:
-              repository: ghcr.io/esphome/esphome
-              tag: 2023.11.4
+        main:
+          image:
+            repository: ghcr.io/esphome/esphome
+            tag: 2023.11.4
     service:
       main:
         ports:
