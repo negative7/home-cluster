@@ -40,6 +40,13 @@ spec:
             image:
               repository: ghcr.io/esphome/esphome
               tag: 2023.11.4
+        pod:
+          hostNetwork: true
+          securityContext:
+            runAsUser: 568
+            runAsGroup: 568
+            fsGroup: 568
+            fsGroupChangePolicy: OnRootMismatch
     service:
       main:
         ports:
