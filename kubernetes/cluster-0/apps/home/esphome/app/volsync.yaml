@@ -22,6 +22,47 @@ spec:
     - extract:
         key: volsync-restic-template
 ---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: esphome
+  namespace: home
+spec:
+  accessModes: ["ReadWriteMany"]
+  dataSourceRef:
+    kind: ReplicationDestination
+    apiGroup: volsync.backube
+    name: esphome-rdst
+  resources:
+    requests:
+      storage: 5Gi # must match the ReplicationDestination `.spec.capacity` below
+  storageClassName: ceph-filesystem
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: esphome-rdst
+  namespace: home
+  annotations:
+    kustomize.toolkit.fluxcd.io/ssa: IfNotPresent
+  labels:
+    app.kubernetes.io/instance: esphome
+    app.kubernetes.io/name: esphome
+spec:
+  trigger:
+    manual: restore-once
+  restic:
+    repository: esphome-restic-secret
+    copyMethod: Snapshot
+    volumeSnapshotClassName: csi-ceph-filesystem
+    cacheStorageClassName: ceph-filesystem
+    cacheAccessModes: ["ReadWriteOnce"]
+    cacheCapacity: 8Gi
+    storageClassName: ceph-filesystem
+    accessModes: ["ReadWriteMany"]
+    capacity: 5Gi # must match the PersistentVolumeClaim `.resources.requests.storage` size above
+---
+---
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:

@@ -6,18 +6,17 @@ metadata:
   name: &app esphome
   namespace: home
 spec:
-  interval: 5m
+  interval: 30m
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 2.2.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
         namespace: flux-system
-  maxHistory: 3
+  maxHistory: 2
   install:
-    createNamespace: true
     remediation:
       retries: 3
   upgrade:
@@ -29,6 +28,8 @@ spec:
   dependsOn:
     - name: rook-ceph-cluster
       namespace: rook-ceph
+    - name: volsync
+      namespace: kube-system
   values:
     controller:
       type: statefulset
@@ -44,49 +45,34 @@ spec:
         ports:
           http:
             port: 6052
-    hostNetwork: true
-    dnsPolicy: ClusterFirstWithHostNet
     ingress:
       main:
         enabled: true
-        ingressClassName: internal
-        annotations:
-          hajimari.io/icon: simple-icons:esphome
+        className: internal
         hosts:
-          - host: &host-release '{{ .Release.Name }}.${SECRET_PUBLIC_DOMAIN}'
+          - host: &host '{{ .Release.Name }}.${SECRET_PUBLIC_DOMAIN}'
             paths:
               - path: /
-                pathType: Prefix
+                service:
+                  name: main
+                  port: http
         tls:
           - hosts:
-              - *host-release
+              - *host
     persistence:
+      config:
+        enabled: true
+        existingClaim: esphome
       secrets:
         enabled: true
         type: secret
         name: esphome-secrets
-        mountPath: /config/secrets.yaml
-        subPath: secrets.yaml
+        globalMounts:
+          - path: /config/secrets.yaml
+            subPath: secrets.yaml
       esphome-cache:
-        enabled: true
         type: emptyDir
-        mountPath: /config/.esphome
-    probes:
-      liveness:
-        enabled: false
-      readiness:
-        enabled: false
-      startup:
-        enabled: false
-    resources:
-      requests:
-        cpu: 5m
-        memory: 1374M
-      limits:
-        memory: 1374M
-    volumeClaimTemplates:
-      - name: config
-        mountPath: /config
-        accessMode: ReadWriteOnce
-        size: 5Gi
-        storageClass: ceph-block
+        globalMounts:
+          - path: /config/.esphome
+      
+    
