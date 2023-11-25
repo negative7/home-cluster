@@ -18,6 +18,19 @@
       "ignoreTests": true,
       "automergeType": "branch",
       "matchUpdateTypes": ["minor", "patch"]
+    },
+    {
+      "description": "Auto merge containers",
+      "matchDatasources": ["docker"],
+      "automerge": true,
+      "automergeType": "branch",
+      "matchUpdateTypes": ["minor", "patch"],
+      "matchPackageNames": [
+        "ghcr.io/onedr0p/prowlarr-nightly",
+        "ghcr.io/onedr0p/radarr-develop", 
+        "ghcr.io/onedr0p/sonarr-develop"
+      ],
+      "ignoreTests": true
     }
   ]
 }
