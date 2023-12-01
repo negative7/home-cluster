@@ -31,4 +31,4 @@ spec:
   values:
     name: intel-device-plugin-gpu
     sharedDevNum: 3
-    nodeFeatureRule: true
+    nodeFeatureRule: false
