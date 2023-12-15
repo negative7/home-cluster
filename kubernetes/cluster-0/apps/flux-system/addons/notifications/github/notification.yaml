@@ -7,7 +7,6 @@ metadata:
 spec:
   type: github
   address: https://github.com/negative7/home-cluster
-  interval: 10m
   secretRef:
     name: github-token
 ---
