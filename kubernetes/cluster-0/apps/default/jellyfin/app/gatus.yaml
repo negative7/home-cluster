@@ -2,14 +2,14 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: plex-gatus-ep
+  name: jellyfin-gatus-ep
   namespace: default
   labels:
     gatus.io/enabled: "true"
 data:
   config.yaml: |
     endpoints:
-      - name: plex
+      - name: jellyfin
         url: https://jellyfin.negative7.com
         interval: 1m
         client:
