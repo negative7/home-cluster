@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
-    - name: external-secrets-stores
+    - name: cluster-apps-external-secrets-stores
   path: ./kubernetes/cluster-0/apps/default/jellyfin/app
   prune: true
   sourceRef:
