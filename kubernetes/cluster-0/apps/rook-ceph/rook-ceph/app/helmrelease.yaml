@@ -29,11 +29,9 @@ spec:
   values:
     crds:
       enabled: true
-
     csi:
       csiAddons:
         enabled: true
-
       kubeletDirPath: /var/lib/kubelet
       enableCSIHostNetwork: true
       pluginTolerations:
@@ -41,7 +39,6 @@ spec:
           operator: "Exists"
         - effect: "NoSchedule"
           operator: "Exists"
-
       csiRBDProvisionerResource: |
         - name : csi-provisioner
           resource:
