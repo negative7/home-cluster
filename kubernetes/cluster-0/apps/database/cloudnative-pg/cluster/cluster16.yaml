@@ -2,24 +2,22 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: postgres
-  namespace: database
+  name: postgres16
 spec:
   instances: 3
-  imageName: ghcr.io/cloudnative-pg/postgresql:15.5-12
+  imageName: ghcr.io/cloudnative-pg/postgresql:16.1-13
   primaryUpdateStrategy: unsupervised
   storage:
-    size: 30Gi
+    size: 20Gi
     storageClass: ceph-block
-  enableSuperuserAccess: true
   superuserSecret:
     name: cloudnative-pg-secret
+  enableSuperuserAccess: true
   postgresql:
     parameters:
       max_connections: "600"
+      max_slot_wal_keep_size: 10GB
       shared_buffers: 512MB
-      wal_sender_timeout: '120s'
-      wal_receiver_timeout: '120s'
   resources:
     requests:
       cpu: 500m
@@ -34,12 +32,16 @@ spec:
   backup:
     retentionPolicy: 30d
     barmanObjectStore: &barmanObjectStore
+      data:
+        compression: bzip2
       wal:
         compression: bzip2
         maxParallel: 8
-      destinationPath: s3://postgresql
-      endpointURL: http://10.2.0.10:9000
-      serverName:  &currentCluster postgres16-v1
+      destinationPath: s3://cloudnative-pg/
+      endpointURL: https://s3.turbo.ac
+      # Note: serverName version needs to be inclemented
+      # when recovering from an existing cnpg cluster
+      serverName: &currentCluster postgres16-v2
       s3Credentials:
         accessKeyId:
           name: cloudnative-pg-secret
@@ -47,12 +49,50 @@ spec:
         secretAccessKey:
           name: cloudnative-pg-secret
           key: aws-secret-access-key
-  # externalClusters is needed when recovering from an existing cnpg cluster
-  bootstrap:
-    recovery:
-      source: &previousCluster postgres-v5
-  externalClusters:
-    - name: *previousCluster
-      barmanObjectStore:
-        <<: *barmanObjectStore
-        serverName: *previousCluster
+  # # Note: previousCluster needs to be set to the name of the previous
+  # # cluster when recovering from an existing cnpg cluster
+  # bootstrap:
+  #   recovery:
+  #     source: &previousCluster postgres16-v1
+  # # Note: externalClusters is needed when recovering from an existing cnpg cluster
+  # externalClusters:
+  #   - name: *previousCluster
+  #     barmanObjectStore:
+  #       <<: *barmanObjectStore
+  #       serverName: *previousCluster
+    externalClusters: []
+      # - name: v15-s3-backup
+      #   barmanObjectStore:
+      #     destinationPath: s3://postgresql/v15/v1
+      #     endpointURL: http://s3.bjw-s.dev
+      #     s3Credentials:
+      #       accessKeyId:
+      #         name: cloudnative-pg-postgres-s3
+      #         key: S3_ACCESS_KEY
+      #       secretAccessKey:
+      #         name: cloudnative-pg-postgres-s3
+      #         key: S3_SECRET_KEY
+      #     wal:
+      #       compression: gzip
+      #       maxParallel: 12
+
+      # - name: cluster-pg14
+      #   connectionParameters:
+      #     host: postgres-ro.database.svc.cluster.local
+      #     user: postgres
+      #     dbname: postgres
+      #     sslmode: require
+      #   password:
+      #     name: cloudnative-pg-postgres-superuser
+      #     key: password
+
+    # bootstrap:
+    #   initdb:
+    #     import:
+    #       type: monolith
+    #       databases:
+    #         - "*"
+    #       roles:
+    #         - "*"
+    #       source:
+    #         externalCluster: cluster-pg14

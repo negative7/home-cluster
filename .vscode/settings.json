@@ -13,8 +13,15 @@
     "hack": "scripts"
   },
   "yaml.schemas": {
-    "ansible": ["infrastructure/ansible/*.yml", "infrastructure/ansible/*.yaml"],
-    "kubernetes": ["kubernetes/*.yml", "kubernetes/*.yaml"]
+    "ansible": [
+      "infrastructure/ansible/*.yml",
+      "infrastructure/ansible/*.yaml"
+    ],
+    "kubernetes": [
+      "kubernetes/*.yml",
+      "kubernetes/*.yaml"
+    ],
+    "https://raw.githubusercontent.com/dcermak/vscode-rke-cluster-config/main/schemas/cluster.yml.json": "file:///home/negative7/home-cluster/kubernetes/cluster-0/apps/database/cloudnative-pg/cluster/cluster.yaml"
   },
   "editor.fontFamily": "FiraCode Nerd Font",
   "editor.fontLigatures": true,
