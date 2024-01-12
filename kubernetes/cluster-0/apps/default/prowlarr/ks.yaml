@@ -2,7 +2,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: cluster-apps-prowlarr
+  name: prowlarr
   namespace: flux-system
 spec:
   targetNamespace: default
@@ -10,8 +10,8 @@ spec:
     labels:
       app.kubernetes.io/name: &app prowlarr
   dependsOn:
-    - name: cluster-apps-cloudnative-pg-cluster
-    - name: cluster-apps-external-secrets-stores
+    - name: cloudnative-pg-cluster
+    - name: external-secrets-stores
   path: ./kubernetes/cluster-0/apps/default/prowlarr/app
   prune: true
   sourceRef:
