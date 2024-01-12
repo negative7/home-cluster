@@ -45,7 +45,7 @@ tasks:
       - task: wipe-disk
         vars:
           node: "{{.node}}"
-          ceph_disk: "/dev/disk/by-id/ata-CT1000MX500SSD1_2012E2952A29"
+          ceph_disk: "/dev/sda"
       - task: wipe-data
         vars:
           node: "{{.node}}"
