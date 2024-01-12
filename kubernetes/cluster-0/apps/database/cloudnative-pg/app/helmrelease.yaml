@@ -24,8 +24,8 @@ spec:
   uninstall:
     keepHistory: false
   dependsOn:
-    - name: local-path-provisioner
-      namespace: storage
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
   values:
     crds:
       create: true
