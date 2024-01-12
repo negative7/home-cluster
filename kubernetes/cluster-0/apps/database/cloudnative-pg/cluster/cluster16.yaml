@@ -60,39 +60,39 @@ spec:
   #     barmanObjectStore:
   #       <<: *barmanObjectStore
   #       serverName: *previousCluster
-    externalClusters: []
-      # - name: v15-s3-backup
-      #   barmanObjectStore:
-      #     destinationPath: s3://postgresql/v15/v1
-      #     endpointURL: http://s3.bjw-s.dev
-      #     s3Credentials:
-      #       accessKeyId:
-      #         name: cloudnative-pg-postgres-s3
-      #         key: S3_ACCESS_KEY
-      #       secretAccessKey:
-      #         name: cloudnative-pg-postgres-s3
-      #         key: S3_SECRET_KEY
-      #     wal:
-      #       compression: gzip
-      #       maxParallel: 12
+  externalClusters: []
+    # - name: v15-s3-backup
+    #   barmanObjectStore:
+    #     destinationPath: s3://postgresql/v15/v1
+    #     endpointURL: http://s3.bjw-s.dev
+    #     s3Credentials:
+    #       accessKeyId:
+    #         name: cloudnative-pg-postgres-s3
+    #         key: S3_ACCESS_KEY
+    #       secretAccessKey:
+    #         name: cloudnative-pg-postgres-s3
+    #         key: S3_SECRET_KEY
+    #     wal:
+    #       compression: gzip
+    #       maxParallel: 12
 
-      # - name: cluster-pg14
-      #   connectionParameters:
-      #     host: postgres-ro.database.svc.cluster.local
-      #     user: postgres
-      #     dbname: postgres
-      #     sslmode: require
-      #   password:
-      #     name: cloudnative-pg-postgres-superuser
-      #     key: password
+    # - name: cluster-pg14
+    #   connectionParameters:
+    #     host: postgres-ro.database.svc.cluster.local
+    #     user: postgres
+    #     dbname: postgres
+    #     sslmode: require
+    #   password:
+    #     name: cloudnative-pg-postgres-superuser
+    #     key: password
 
-    # bootstrap:
-    #   initdb:
-    #     import:
-    #       type: monolith
-    #       databases:
-    #         - "*"
-    #       roles:
-    #         - "*"
-    #       source:
-    #         externalCluster: cluster-pg14
+  # bootstrap:
+  #   initdb:
+  #     import:
+  #       type: monolith
+  #       databases:
+  #         - "*"
+  #       roles:
+  #         - "*"
+  #       source:
+  #         externalCluster: cluster-pg14
