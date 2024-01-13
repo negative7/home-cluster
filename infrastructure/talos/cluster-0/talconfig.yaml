@@ -1,8 +1,9 @@
 ---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/budimanjojo/talhelper/master/pkg/config/schemas/talconfig.json
 clusterName: ${clusterName}
 
-talosVersion: v1.5.5
-kubernetesVersion: 1.28.3
+talosVersion: v1.6.1
+kubernetesVersion: 1.29.0
 
 endpoint: "https://${clusterName}.negative7.com:6443"
 allowSchedulingOnMasters: true
@@ -12,12 +13,11 @@ talosImageURL: factory.talos.dev/installer/df491c50a5acc05b977ef00c32050e1ceb0df
 cniConfig:
   name: none
 
-additionalApiServerCertSans:
+additionalApiServerCertSans: &san
   - ${clusterEndpointIP}
-
-additionalMachineCertSans:
-  - ${clusterEndpointIP}
-  - ${clusterName}.negative7.com
+  - ${clusterName}.${clusterDNSSuffix}
+  - "127.0.0.1" # KubePrism
+additionalMachineCertSans: *san
 
 nodes:
   - hostname: kharkiv
@@ -83,6 +83,14 @@ worker:
                   enable_unprivileged_icmp = true
             
 controlPlane:
+  schematic:
+    customization:
+      extraKernelArgs:
+        - net.ifnames=0
+      systemExtensions:
+        officialExtensions:
+          - siderolabs/intel-ucode
+          - siderolabs/i915-ucode
   patches:
     - |-
       cluster:
@@ -108,7 +116,7 @@ controlPlane:
                   enable_unprivileged_icmp = true
         kubelet:
           extraArgs:
-            feature-gates: CronJobTimeZone=true,GracefulNodeShutdown=true,NewVolumeManagerReconstruction=false
+            feature-gates: GracefulNodeShutdown=true,NewVolumeManagerReconstruction=false
             rotate-server-certificates: "true"
           extraConfig:
             maxPods: 150
@@ -119,7 +127,7 @@ controlPlane:
           extraHostEntries:
             - ip: ${clusterEndpointIP}
               aliases:
-                - ${clusterName}.negative7.com
+                - ${clusterName}.${clusterDNSSuffix}
         sysctls:
           fs.inotify.max_user_watches: "1048576"
           fs.inotify.max_user_instances: "8192"
