@@ -3,36 +3,51 @@
   "extends": [
     "config:recommended",
     "docker:enableMajor",
+    "replacements:k8s-registry-move",
+    ":automergeBranch",
     ":disableRateLimiting",
     ":dependencyDashboard",
     ":semanticCommits",
-    ":automergeDigest",
-    ":automergeBranch",
+    ":skipStatusChecks",
+    ":timezone(America/New_York)",
     "github>negative7/home-cluster//.github/renovate/allowedVersions.json5",
     "github>negative7/home-cluster//.github/renovate/autoMerge.json5",
+    "github>negative7/home-cluster//.github/renovate/clusters.json5",
     "github>negative7/home-cluster//.github/renovate/commitMessage.json5",
-    "github>negative7/home-cluster//.github/renovate/customDatasources.json5",
     "github>negative7/home-cluster//.github/renovate/customManagers.json5",
+    "github>negative7/home-cluster//.github/renovate/grafanaDashboards.json5",
     "github>negative7/home-cluster//.github/renovate/groups.json5",
     "github>negative7/home-cluster//.github/renovate/labels.json5",
     "github>negative7/home-cluster//.github/renovate/packageRules.json5",
-    "github>negative7/home-cluster//.github/renovate/semanticCommits.json5",
-    "helpers:pinGitHubActionDigests"
+    "github>negative7/home-cluster//.github/renovate/semanticCommits.json5"
   ],
-  "platform": "github",
-  "platformCommit": true,
   "onboarding": false,
   "requireConfig": "optional",
   "dependencyDashboardTitle": "Renovate Dashboard 🤖",
-  "suppressNotifications": ["prIgnoreNotification"],
-  "ignorePaths": ["**/archive/**"],
+  "suppressNotifications": ["prEditedNotification", "prIgnoreNotification"],
+  "rebaseWhen": "conflicted",
+  "assigneesFromCodeOwners": true,
+  "reviewersFromCodeOwners": true,
+  "ignorePaths": [
+    "**/*.sops.*",
+    "**/.archive/**",
+    "**/resources/**"
+  ],
   "flux": {
-    "fileMatch": ["^kubernetes/.+\\.ya?ml$"]
+    "fileMatch": [
+      "(^|/)kubernetes/.+\\.ya?ml(\\.j2)?$"
+    ]
   },
   "helm-values": {
-    "fileMatch": ["^kubernetes/.+\\.ya?ml$"]
+    "fileMatch": [
+      "(^|/)kubernetes/.+\\.ya?ml(\\.j2)?$"
+    ]
   },
   "kubernetes": {
-    "fileMatch": ["^kubernetes/.+\\.ya?ml$"]
+    "fileMatch": [
+      "(^|/)\\.taskfiles/.+\\.ya?ml(\\.j2)?$",
+      "(^|/)ansible/.+\\.ya?ml(\\.j2)?$",
+      "(^|/)kubernetes/.+\\.ya?ml(\\.j2)?$"
+    ]
   }
 }

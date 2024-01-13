@@ -20,57 +20,49 @@ on:
     branches: ["main"]
     paths: ["kubernetes/**/helmrelease.yaml"]
 
-env:
-  DEBCONF_NONINTERACTIVE_SEEN: "true"
-  DEBIAN_FRONTEND: noninteractive
-  APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE: DontWarn
-  WORKFLOW_RESOURCE_DIR: ./.github/workflows/resources
-
 jobs:
   sync:
     name: Flux Helm Repository Sync
     runs-on: ["arc-runner-set-home-ops"]
     steps:
       - name: Generate Token
-        uses: actions/create-github-app-token@f04aa94d10cf56334d1c580e077ce2e3569e805d # v1.6.3
+        uses: actions/create-github-app-token@v1
         id: app-token
         with:
           app-id: "${{ secrets.BOT_APP_ID }}"
           private-key: "${{ secrets.BOT_APP_PRIVATE_KEY }}"
 
       - name: Checkout
-        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        uses: actions/checkout@v4
         with:
           token: "${{ steps.app-token.outputs.token }}"
           fetch-depth: 0
 
-      - name: Install OS Deps
+      - name: Setup Homebrew
+        uses: Homebrew/actions/setup-homebrew@master
+
+      - name: Setup Workflow Tools
         shell: bash
-        run: sudo apt-get update && sudo apt-get install -y curl git xz-utils
-
-      - name: Install Nix
-        uses: cachix/install-nix-action@6004951b182f8860210c8d6f0d808ec5b1a33d28 # v25
-        with:
-          github_access_token: "${{ steps.app-token.outputs.token }}"
-
-      - name: Switch to Nix devShell
-        uses: nicknovitski/nix-develop@a2060d116a50b36dfab02280af558e73ab52427d # v1.1.0
-        with:
-          arguments: "${{ env.WORKFLOW_RESOURCE_DIR }}"
+        run: brew install fluxcd/tap/flux yq
 
       - name: Write kubeconfig
         id: kubeconfig
-        uses: timheuer/base64-to-file@784a1a4a994315802b7d8e2084e116e783d157be # v1.2.4
+        uses: timheuer/base64-to-file@v1
         with:
           encodedString: "${{ secrets.KUBECONFIG }}"
           fileName: kubeconfig
 
       - if: ${{ github.event.inputs.clusterName == '' && github.event.inputs.helmRepoNamespace == '' && github.event.inputs.helmRepoName == '' }}
-        name: Get changed files
+        name: Get Changed Files
         id: changed-files
-        uses: tj-actions/changed-files@8e0194b29bc4bb6dd2338b6b7b915c56c2df6f58 # v41.1.0
+        uses: tj-actions/changed-files@v41
         with:
           files: kubernetes/**/helmrelease.yaml
+          safe_output: false
+
+      - if: ${{ github.event.inputs.clusterName == '' && github.event.inputs.helmRepoNamespace == '' && github.event.inputs.helmRepoName == '' }}
+        name: List All Changed Files
+        run: echo "${{ steps.changed-files.outputs.all_changed_and_modified_files }}"
 
       - if: ${{ github.event.inputs.clusterName == '' && github.event.inputs.helmRepoNamespace == '' && github.event.inputs.helmRepoName == '' }}
         name: Sync Helm Repository
