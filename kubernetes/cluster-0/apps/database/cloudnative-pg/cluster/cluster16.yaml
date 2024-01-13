@@ -60,24 +60,24 @@ spec:
   #     barmanObjectStore:
   #       <<: *barmanObjectStore
   #       serverName: *previousCluster
-  externalClusters: []
-    # - name: cluster-pg15
-    #   connectionParameters:
-    #     host: postgres-ro.database.svc.cluster.local
-    #     user: postgres
-    #     dbname: postgres
-    #     sslmode: require
-    #   password:
-    #     name: cloudnative-pg-postgres-superuser
-    #     key: password
+  externalClusters:
+    - name: cluster-pg15
+      connectionParameters:
+        host: postgres-ro.database.svc.cluster.local
+        user: postgres
+        dbname: postgres
+        sslmode: require
+      password:
+        name: cloudnative-pg-postgres-superuser
+        key: password
 
-  # bootstrap:
-  #   initdb:
-  #     import:
-  #       type: monolith
-  #       databases:
-  #         - "*"
-  #       roles:
-  #         - "*"
-  #       source:
-  #         externalCluster: cluster-pg15
+  bootstrap:
+    initdb:
+      import:
+        type: monolith
+        databases:
+          - "*"
+        roles:
+          - "*"
+        source:
+          externalCluster: cluster-pg15
