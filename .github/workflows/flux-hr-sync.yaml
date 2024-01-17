@@ -7,7 +7,7 @@ on:
     inputs:
       clusterName:
         description: Cluster Name
-        default: main
+        default: cluster-0
         required: true
       helmRepoNamespace:
         description: Helm Repository Namespace
@@ -43,7 +43,7 @@ jobs:
 
       - name: Setup Workflow Tools
         shell: bash
-        run: brew install fluxcd/tap/flux yq
+        run: brew install fluxcd/tap/flux yq kubectl
 
       - name: Write kubeconfig
         id: kubeconfig
