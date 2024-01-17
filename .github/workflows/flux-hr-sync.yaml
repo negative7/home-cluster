@@ -70,6 +70,7 @@ jobs:
           KUBECONFIG: "${{ steps.kubeconfig.outputs.filePath }}"
         shell: bash
         run: |
+          kubectl config get-contexts
           declare -a repos=()
           for f in ${{ steps.changed-files.outputs.all_changed_and_modified_files }}; do
               cluster_name=$(echo "${f}" | awk -F'/' '{print $2}')
@@ -92,6 +93,7 @@ jobs:
           KUBECONFIG: ${{ steps.kubeconfig.outputs.filePath }}
         shell: bash
         run: |
+          kubectl config get-contexts
           flux \
               --context ${{ github.event.inputs.clusterName }} \
               --namespace ${{ github.event.inputs.helmRepoNamespace }} \
