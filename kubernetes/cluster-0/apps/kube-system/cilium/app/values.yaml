@@ -11,6 +11,7 @@ k8sServicePort: 7445
 
 rollOutCiliumPods: true
 localRedirectPolicy: true
+routingMode: native
 
 kubeProxyReplacement: strict
 kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
@@ -24,25 +25,21 @@ bandwidthManager:
   bbr: true
 bpf:
   masquerade: true
-  tproxy: true
 
 l2announcements:
   enabled: true
-  leaseDuration: 120s
-  leaseRenewDeadline: 60s
-  leaseRetryPeriod: 1s
 
-enableCnpStatusUpdates: true
-endpointStatus:
-  enabled: true
-  status: "policy"
+# enableCnpStatusUpdates: true
+# endpointStatus:
+#   enabled: true
+#   status: "policy"
 
 ipam:
   mode: "kubernetes"
 
-ingressController:
-  enabled: false
-  loadbalancerMode: shared
+# ingressController:
+#   enabled: false
+#   loadbalancerMode: shared
 
 operator:
   rollOutPods: true
