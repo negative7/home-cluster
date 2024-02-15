@@ -52,7 +52,7 @@ spec:
   trigger:
     manual: restore-once
   restic:
-    repository: esphome-restic-secret
+    repository: esphome-volsync-secret
     copyMethod: Snapshot
     volumeSnapshotClassName: csi-ceph-filesystem
     cacheStorageClassName: ceph-filesystem
