@@ -41,7 +41,7 @@ spec:
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationDestination
 metadata:
-  name: esphome-rdst
+  name: esphome-dst
   namespace: home
   annotations:
     kustomize.toolkit.fluxcd.io/ssa: IfNotPresent
