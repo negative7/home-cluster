@@ -6,3 +6,4 @@ resources:
   - ./minio.yaml
   - ./adguard.yaml
   - ./connect.yaml
+  - ./zero.yaml
