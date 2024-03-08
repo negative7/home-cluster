@@ -1,20 +1,20 @@
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/budimanjojo/talhelper/master/pkg/config/schemas/talconfig.json
 clusterName: ${clusterName}
+endpoint: "https://${clusterEndpointIP}:6443"
 
+# renovate: depName=ghcr.io/siderolabs/installer datasource=docker extractVersion=^(?<version>.*)$
 talosVersion: v1.6.1
+# renovate: depName=kubernetes/kubernetes datasource=github-releases extractVersion=^v(?<version>.*)$
 kubernetesVersion: 1.29.0
 
-endpoint: "https://${clusterName}.negative7.com:6443"
 allowSchedulingOnMasters: true
 
-talosImageURL: factory.talos.dev/installer/df491c50a5acc05b977ef00c32050e1ceb0df746e40b33c643ac8a9bfb7c7263
 
 cniConfig:
   name: none
 
 additionalApiServerCertSans: &san
-  - ${clusterEndpointIP}
   - ${clusterName}.${clusterDNSSuffix}
   - "127.0.0.1" # KubePrism
 additionalMachineCertSans: *san
