@@ -29,21 +29,18 @@ spec:
   values:
     cert-manager:
       enabled: false
+      installCRDs: false
     nginx:
       enabled: false
     app:
       ingress:
         enabled: true
         ingressClassName: internal
-        pathType: Prefix
         issuer:
           name: letsencrypt-production
           scope: cluster 
         hosts:
           - &host dashboard.${SECRET_PUBLIC_DOMAIN}
-        tls:
-          - hosts:
-              - *host
     api:
       extraArgs:
         - --enable-insecure-login
