@@ -24,6 +24,10 @@ includes:
   k8s:
     taskfile: ".taskfiles/k8s"
     dir: .taskfiles/k8s
+  talos:
+    taskfile: ".taskfiles/talos"
+    dir: .taskfiles/talos
+
 tasks:
 
   default:
