@@ -35,8 +35,6 @@ spec:
       ingress:
         enabled: true
         ingressClassName: internal
-        annotations:
-          hajimari.io/icon: mdi:kubernetes
         pathType: Prefix
         issuer:
           name: letsencrypt-production
