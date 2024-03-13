@@ -36,6 +36,7 @@ resources:
   - ./node-feature-discovery-charts.yaml
   - ./oauth2-proxy-charts.yaml
   - ./obeone-charts.yaml
+  - ./onechart.yaml
   - ./piraeus.yaml
   - ./postfinance.yaml
   - ./prometheus-community.yaml
