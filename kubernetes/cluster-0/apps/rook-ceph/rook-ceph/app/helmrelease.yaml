@@ -25,6 +25,8 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    crds:
+      enabled: true
     csi:
       provisioner:
         image: registry.k8s.io/sig-storage/csi-provisioner:v4.0.0
@@ -139,8 +141,11 @@ spec:
               memory: 256Mi
     monitoring:
       enabled: true
+    pspEnable: false
+
     resources:
       requests:
-        memory: 128Mi # unchangable
-        cpu: 100m # unchangable
-      limits: {}
+        cpu: 109m
+        memory: 204M
+      limits:
+        memory: 453M

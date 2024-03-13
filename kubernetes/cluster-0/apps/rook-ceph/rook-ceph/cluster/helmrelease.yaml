@@ -27,6 +27,9 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    toolbox:
+      enabled: false
+
     monitoring:
       enabled: true
       createPrometheusRules: true
@@ -40,8 +43,6 @@ spec:
         tls:
           - hosts:
               - *host
-    toolbox:
-      enabled: false
 
     configOverride: |
       [global]
@@ -122,8 +123,12 @@ spec:
           - name: vinnytsia
             devices:
               - name: /dev/disk/by-id/ata-SHGS31-1000GS-2_FJ07N442411107819
+    
     cephBlockPoolsVolumeSnapshotClass:
-        enabled: false
+      enabled: true
+      name: csi-ceph-blockpool
+      isDefault: false
+      deletionPolicy: Delete
       
     cephBlockPools:
       - name: ceph-blockpool
@@ -183,6 +188,13 @@ spec:
             csi.storage.k8s.io/node-stage-secret-name: rook-csi-cephfs-node
             csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
             csi.storage.k8s.io/fstype: ext4
+            
+    cephFileSystemVolumeSnapshotClass:
+      enabled: true
+      name: csi-ceph-filesystem
+      isDefault: false
+      deletionPolicy: Delete
+
     cephObjectStores:
       - name: ceph-objectstore
         spec:
