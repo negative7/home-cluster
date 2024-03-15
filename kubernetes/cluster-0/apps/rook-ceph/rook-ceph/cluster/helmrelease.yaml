@@ -125,10 +125,7 @@ spec:
               - name: /dev/disk/by-id/ata-SHGS31-1000GS-2_FJ07N442411107819
     
     cephBlockPoolsVolumeSnapshotClass:
-      enabled: true
-      name: csi-ceph-blockpool
-      isDefault: false
-      deletionPolicy: Delete
+      enabled: false
       
     cephBlockPools:
       - name: ceph-blockpool
@@ -190,10 +187,7 @@ spec:
             csi.storage.k8s.io/fstype: ext4
             
     cephFileSystemVolumeSnapshotClass:
-      enabled: true
-      name: csi-ceph-filesystem
-      isDefault: false
-      deletionPolicy: Delete
+      enabled: false
 
     cephObjectStores:
       - name: ceph-objectstore
