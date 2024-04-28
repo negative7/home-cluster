@@ -24,7 +24,10 @@
   "onboarding": false,
   "requireConfig": "optional",
   "dependencyDashboardTitle": "Renovate Dashboard 🤖",
-  "suppressNotifications": ["prEditedNotification", "prIgnoreNotification"],
+  "suppressNotifications": [
+    "prEditedNotification",
+    "prIgnoreNotification"
+  ],
   "rebaseWhen": "conflicted",
   "assigneesFromCodeOwners": true,
   "reviewersFromCodeOwners": true,
@@ -35,21 +38,17 @@
   ],
   "flux": {
     "fileMatch": [
-      "(^|/)kubernetes/.+\\.ya?ml(\\.j2)?$"
+      "^kubernetes/.+\\.ya?ml$"
     ]
   },
   "helm-values": {
     "fileMatch": [
-      "(^|/)kubernetes/.+\\.ya?ml(\\.j2)?$",
-      "^infrastructure/.+\\.ya?ml$"
+      "^kubernetes/.+\\.ya?ml$"
     ]
   },
   "kubernetes": {
     "fileMatch": [
-      "(^|/)\\.taskfiles/.+\\.ya?ml(\\.j2)?$",
-      "(^|/)ansible/.+\\.ya?ml(\\.j2)?$",
-      "(^|/)kubernetes/.+\\.ya?ml(\\.j2)?$",
-      "^infrastructure/.+\\.ya?ml$"
+      "^kubernetes/.+\\.ya?ml$"
     ]
   }
 }
