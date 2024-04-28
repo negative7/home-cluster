@@ -10,7 +10,7 @@ talosctl apply-config -n 10.2.0.24 -f ./clusterconfig/cluster-0-kyiv.yaml
 # rm /usr/local/bin/talosctl
 # curl -sL https://talos.dev/install | sh
 
-talosctl -n "10.2.0.21" upgrade
-talosctl -n "10.2.0.22" upgrade
-talosctl -n "10.2.0.23" upgrade
-talosctl -n "10.2.0.24" upgrade
+# talosctl -n "10.2.0.21" upgrade
+# talosctl -n "10.2.0.22" upgrade
+# talosctl -n "10.2.0.23" upgrade
+# talosctl -n "10.2.0.24" upgrade

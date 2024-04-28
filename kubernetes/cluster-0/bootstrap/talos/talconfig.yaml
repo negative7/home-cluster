@@ -21,7 +21,6 @@ additionalMachineCertSans: *san
 
 nodes:
   - hostname: kharkiv
-    disableSearchDomain: true
     ipAddress: 10.2.0.21
     controlPlane: true
     installDiskSelector:
@@ -30,10 +29,9 @@ nodes:
       - interface: eno1
         dhcp: true
         vip:
-          ip: 10.2.0.20
+          ip: ${clusterEndpointIP}
 
   - hostname: vinnytsia
-    disableSearchDomain: true
     ipAddress: 10.2.0.22
     controlPlane: true
     installDiskSelector:
@@ -42,10 +40,9 @@ nodes:
       - interface: eno1
         dhcp: true
         vip:
-          ip: 10.2.0.20
+          ip: ${clusterEndpointIP}
 
   - hostname: dnipro
-    disableSearchDomain: true
     ipAddress: 10.2.0.23
     controlPlane: true
     installDiskSelector:
@@ -54,10 +51,9 @@ nodes:
       - interface: eno1
         dhcp: true
         vip:
-          ip: 10.2.0.20
+          ip: ${clusterEndpointIP}
   
   - hostname: kyiv
-    disableSearchDomain: true
     ipAddress: 10.2.0.24
     controlPlane: false
     installDiskSelector:
@@ -65,6 +61,7 @@ nodes:
     networkInterfaces:
       - interface: eno1
         dhcp: true
+        
 worker:
   patches:
     - |-
@@ -91,21 +88,54 @@ controlPlane:
         officialExtensions:
           - siderolabs/intel-ucode
           - siderolabs/i915-ucode
+
   patches:
+    # Disable search domain everywhere
     - |-
-      cluster:
-        allowSchedulingOnMasters: true
-        proxy:
-          disabled: true
-        etcd:
-          advertisedSubnets:
-            - 10.2.0.0/24
+      machine:
+        network:
+          disableSearchDomain: true
+
+    # Force nameserver
+    - |-
+      machine:
+        network:
+          nameservers:
+            - 10.0.5.3
+
+    # Configure NTP
+    - |-
+      machine:
+        time:
+          disabled: false
+          servers:
+            - time.cloudflare.com
+
+    # Enable KubePrism
     - |-
       machine:
         features:
           kubePrism:
             enabled: true
             port: 7445
+
+    # Cluster configuration
+    - |-
+      cluster:
+        allowSchedulingOnMasters: true
+        proxy:
+          disabled: true
+
+    # ETCD configuration
+    - |-
+      cluster:
+        etcd:
+          advertisedSubnets:
+            - 10.2.0.0/24
+
+    # Configure containerd
+    - |-
+      machine:
         files:
           - op: create
             path: /etc/cri/conf.d/20-customization.part
@@ -114,24 +144,47 @@ controlPlane:
                 [plugins."io.containerd.grpc.v1.cri"]
                   enable_unprivileged_ports = true
                   enable_unprivileged_icmp = true
+
+    # Configure nfs mount options
+    # - |-
+    #   machine:
+    #     files:
+    #       - op: overwrite
+    #         path: /etc/nfsmount.conf
+    #         permissions: 0o644
+    #         content: |
+    #           [ NFSMount_Global_Options ]
+    #           nfsvers=4.2
+    #           hard=True
+    #           noatime=True
+    #           nodiratime=True
+    #           rsize=131072
+    #           wsize=131072
+    #           nconnect=8
+
+    # Disable default API server admission plugins.
+    - |-
+      - op: remove
+        path: /cluster/apiServer/admissionControl
+
+    # Kubelet configuration
+    - |-
+      machine:
         kubelet:
           extraArgs:
-            feature-gates: GracefulNodeShutdown=true,NewVolumeManagerReconstruction=false
             rotate-server-certificates: "true"
           extraConfig:
             maxPods: 150
           nodeIP:
             validSubnets:
                 - 10.2.0.0/24
-        network:
-          extraHostEntries:
-            - ip: ${clusterEndpointIP}
-              aliases:
-                - ${clusterName}.${clusterDNSSuffix}
-        sysctls:
-          fs.inotify.max_user_watches: "1048576"
-          fs.inotify.max_user_instances: "8192"
-    # Disable default API server admission plugins.
+
+    # Custom sysctls
     - |-
-      - op: remove
-        path: /cluster/apiServer/admissionControl
+      machine:
+        sysctls:
+          fs.inotify.max_queued_events: "65536"
+          fs.inotify.max_user_instances: "8192"
+          fs.inotify.max_user_watches: "524288"
+          net.core.rmem_max: "2500000"
+          net.core.wmem_max: "2500000"
