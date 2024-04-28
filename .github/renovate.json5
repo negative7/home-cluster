@@ -21,8 +21,6 @@
     "github>negative7/home-cluster//.github/renovate/packageRules.json5",
     "github>negative7/home-cluster//.github/renovate/semanticCommits.json5"
   ],
-  "onboarding": false,
-  "requireConfig": "optional",
   "dependencyDashboardTitle": "Renovate Dashboard 🤖",
   "suppressNotifications": ["prIgnoreNotification"],
   "commitBodyTable": true,
