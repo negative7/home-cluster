@@ -1,97 +1,92 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta2.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2beta2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
   name: tautulli
-  namespace: default
 spec:
-  interval: 30m
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.1.0
+      interval: 30m
       sourceRef:
         kind: HelmRepository
         name: bjw-s
         namespace: flux-system
-  maxHistory: 2
-  install:
-    remediation:
-      retries: 3
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
-  uninstall:
-    keepHistory: false
-  dependsOn:
-    - name: rook-ceph-cluster
-      namespace: rook-ceph
-    - name: volsync
-      namespace: kube-system
+  interval: 30m
   values:
     controllers:
-      main:
+      tautulli:
         annotations:
           reloader.stakater.com/auto: "true"
-        containers:
-          main:
-            image:
-              repository: ghcr.io/onedr0p/tautulli
-              tag: 2.13.4@sha256:633a57b2f8634feb67811064ec3fa52f40a70641be927fdfda6f5d91ebbd5d73
-            env:
-              TZ: America/New_York
-            resources:
-              requests:
-                cpu: 100m
-                memory: 128Mi
-              limits:
-                memory: 512Mi
-          jbops:
-            image:
-              repository: registry.k8s.io/git-sync/git-sync
-              tag: v4.2.2
-            env:
-              GITSYNC_REPO: https://github.com/blacktwin/JBOPS
-              GITSYNC_REF: master
-              GITSYNC_PERIOD: 24h
-              GITSYNC_ROOT: /add-ons
-            resources:
-              requests:
-                cpu: 10m
-                memory: 10M
-              limits:
-                memory: 128M
+
         pod:
           securityContext:
             runAsUser: 568
             runAsGroup: 568
             fsGroup: 568
             fsGroupChangePolicy: OnRootMismatch
+
+        containers:
+          app:
+            image:
+              repository: ghcr.io/tautulli/tautulli
+              tag: v2.13.4
+            command:
+              - /usr/local/bin/python
+              - Tautulli.py
+            args:
+              - --config
+              - /config/config.ini
+              - --datadir
+              - /config
+              - --port
+              - "8181"
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /status
+                    port: 8181
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+            resources:
+              requests:
+                cpu: 5m
+                memory: 128Mi
+              limits:
+                memory: 512Mi
+
     service:
-      main:
+      app:
+        controller: tautulli
         ports:
           http:
             port: 8181
+
     ingress:
-      main:
-        enabled: true
-        className: internal
+      app:
+        className: internal-nginx
         hosts:
-          - host: &host '{{ .Release.Name }}.${SECRET_PUBLIC_DOMAIN}'
+          - host: &hostName '{{ .Release.Name }}.${SECRET_PUBLIC_DOMAIN}'
             paths:
               - path: /
+                pathType: Prefix
                 service:
-                  name: main
+                  identifier: app
                   port: http
         tls:
           - hosts:
-              - *host
+              - *hostName
+
     persistence:
       config:
-        enabled: true
-        existingClaim: tautulli
-      add-ons:
-        type: emptyDir
-    
+        existingClaim: tautulli-config
+        globalMounts:
+          - path: /config

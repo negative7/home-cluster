@@ -1,53 +1,52 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta2.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2beta2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
   name: scrypted
-  namespace: home
 spec:
   interval: 30m
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.1.0
       interval: 30m
       sourceRef:
         kind: HelmRepository
         name: bjw-s
         namespace: flux-system
-  maxHistory: 2
-  install:
-    remediation:
-      retries: 3
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
-  uninstall:
-    keepHistory: false
-  dependsOn:
-    - name: rook-ceph-cluster
-      namespace: rook-ceph
+
   values:
     controllers:
-      main:
+      scrypted:
         annotations:
           reloader.stakater.com/auto: "true"
+
         pod:
           hostNetwork: true
+          nodeSelector:
+            intel.feature.node.kubernetes.io/gpu: "true"
           securityContext:
             runAsUser: 568
             runAsGroup: 568
             fsGroup: 568
             fsGroupChangePolicy: OnRootMismatch
-          nodeSelector:
-            intel.feature.node.kubernetes.io/gpu: "true"
+
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/koush/scrypted
-              tag: 18-jammy-full-v0.94.5
+              tag: 20-jammy-full-v0.99.0
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 5
             resources:
               requests:
                 gpu.intel.com/i915: 1
@@ -58,36 +57,36 @@ spec:
                 memory: 8192Mi
             securityContext:
               privileged: true
+
     service:
-      main:
-        type: LoadBalancer
-        loadBalancerIP: 10.2.0.104
+      app:
+        controller: scrypted
         ports:
           http:
             port: 11080
           rebroadcast:
             port: 34135
+
     ingress:
-      main:
-        enabled: true
-        className: internal
+      app:
+        className: "internal-nginx"
         hosts:
-          - host: &host "{{ .Release.Name }}.${SECRET_PUBLIC_DOMAIN}"
+          - host: &hostName "{{ .Release.Name }}.${SECRET_PUBLIC_DOMAIN}"
             paths:
               - path: /
                 service:
-                  name: main
+                  identifier: app
                   port: http
         tls:
           - hosts:
-              - *host
+              - *hostName
+
     persistence:
       config:
-        enabled: true
-        existingClaim: scrypted
+        existingClaim: scrypted-config
         advancedMounts:
-          main:
-            main:
+          scrypted:
+            app:
               - path: /server/volume
       cache:
         type: emptyDir
@@ -97,3 +96,11 @@ spec:
         type: emptyDir
         globalMounts:
           - path: /.npm
+      dev-bus-usb:
+        type: hostPath
+        hostPath: /dev/bus/usb
+        hostPathType: Directory
+      sys-bus-usb:
+        type: hostPath
+        hostPath: /sys/bus/usb
+        hostPathType: Directory

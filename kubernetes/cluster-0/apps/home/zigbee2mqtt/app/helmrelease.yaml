@@ -1,44 +1,33 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta2.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2beta2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
   name: zigbee2mqtt
-  namespace: home
 spec:
   interval: 30m
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.1.0
+      interval: 30m
       sourceRef:
         kind: HelmRepository
         name: bjw-s
         namespace: flux-system
-  maxHistory: 2
-  install:
-    remediation:
-      retries: 3
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
-  uninstall:
-    keepHistory: false
-  dependsOn:
-    - name: mosquitto
-      namespace: home
-    - name: rook-ceph-cluster
-      namespace: rook-ceph
-    - name: volsync
-      namespace: kube-system
+
   values:
     controllers:
-      main:
+      zigbee2mqtt:
         annotations:
           reloader.stakater.com/auto: "true"
+
+        pod:
+          nodeSelector:
+            electrolama.feature.node.kubernetes.io/zzh: "true"
+
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/koenkk/zigbee2mqtt
               tag: 1.37.0
@@ -75,42 +64,54 @@ spec:
             envFrom:
               - secretRef:
                   name: zigbee2mqtt-secret
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 10
             resources:
               requests:
-                cpu: 10m
-                memory: 128Mi
+                cpu: 50m
+                memory: 384Mi
               limits:
-                memory: 512Mi
-            securityContext:
-              privileged: true
-        pod:
-          securityContext:
-            privileged: true
-          nodeSelector:
-            electrolama.feature.node.kubernetes.io/zzh: "true"
+                memory: 384Mi
+
     service:
-      main:
+      app:
+        controller: zigbee2mqtt
         ports:
           http:
+            primary: true
             port: *port
+          metrics:
+            port: 9000
+
     ingress:
-      main:
-        enabled: true
-        className: internal
+      app:
+        className: "internal"
         hosts:
-          - host: &host '{{ .Release.Name }}.${SECRET_PUBLIC_DOMAIN}'
+          - host: &hostName '{{ .Release.Name }}.${SECRET_PUBLIC_DOMAIN}'
             paths:
               - path: /
                 service:
-                  name: main
+                  identifier: app
                   port: http
         tls:
           - hosts:
-              - *host
+              - *hostName
+
     persistence:
       config:
-        enabled: true
-        existingClaim: zigbee2mqtt
+        existingClaim: zigbee2mqtt-data
+        advancedMounts:
+          zigbee2mqtt:
+            app:
+              - path: /config
       usb:
         enabled: true
         type: hostPath

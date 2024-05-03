@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta2.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2beta2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
@@ -10,85 +10,94 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.1.0
       interval: 30m
       sourceRef:
         kind: HelmRepository
         name: bjw-s
         namespace: flux-system
-  maxHistory: 2
-  install:
-    remediation:
-      retries: 3
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
-  uninstall:
-    keepHistory: false
-  dependsOn:
-    - name: rook-ceph-cluster
-      namespace: rook-ceph
+
   values:
     controllers:
-      main:
+      mosquitto:
         annotations:
           reloader.stakater.com/auto: "true"
-        initContainers:
-          init-config:
-            image:
-              repository: public.ecr.aws/docker/library/eclipse-mosquitto
-              tag: 2.0.18
-              pullPolicy: IfNotPresent
-            command: ["/bin/sh", "-c"]
-            args: ["cp /tmp/secret/* /mosquitto/external_config/ && mosquitto_passwd -U /mosquitto/external_config/mosquitto_pwd"]
-        containers:
-          main:
-            image:
-              repository: public.ecr.aws/docker/library/eclipse-mosquitto
-              tag: 2.0.18
-            resources:
-              requests:
-                cpu: 5m
-                memory: 4Mi
-              limits:
-                memory: 16Mi
+
         pod:
           securityContext:
             runAsUser: 568
             runAsGroup: 568
             fsGroup: 568
             fsGroupChangePolicy: OnRootMismatch
+
+        initContainers:
+          init-config:
+            image:
+              repository: public.ecr.aws/docker/library/eclipse-mosquitto
+              tag: 2.0.18
+            command:
+              - "/bin/sh"
+              - "-c"
+            args:
+              - cp /tmp/secret/* /mosquitto/external_config/;
+                mosquitto_passwd -U /mosquitto/external_config/mosquitto_pwd;
+                chmod 0600 /mosquitto/external_config/mosquitto_pwd;
+
+        containers:
+          app:
+            image:
+              repository: public.ecr.aws/docker/library/eclipse-mosquitto
+              tag: 2.0.18
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 5
+            resources:
+              requests:
+                cpu: 5m
+                memory: 10M
+              limits:
+                memory: 10M
+
     service:
-      main:
+      app:
+        controller: mosquitto
         type: LoadBalancer
-        loadBalancerIP: 10.2.0.103
+        annotations:
+          external-dns.alpha.kubernetes.io/hostname: "mqtt.negative7.com."
+          io.cilium/lb-ipam-ips: 10.2.0.103
         externalTrafficPolicy: Cluster
         ports:
-          http:
-            enabled: false
           mqtt:
             enabled: true
             port: 1883
+
     persistence:
-      config:
-        enabled: true
-        existingClaim: mosquitto
-        globalMounts:
-          - path: /data
+      data:
+        existingClaim: mosquitto-data
+        advancedMounts:
+          mosquitto:
+            app:
+              - path: /data
       mosquitto-configfile:
         type: configMap
         name: mosquitto-configmap
         advancedMounts:
-          main:
-            main:
+          mosquitto:
+            app:
               - path: /mosquitto/config/mosquitto.conf
                 subPath: mosquitto.conf
       mosquitto-secret:
         type: secret
         name: mosquitto-secret
         advancedMounts:
-          main:
+          mosquitto:
             init-config:
               - path: /tmp/secret
       mosquitto-externalconfig:
