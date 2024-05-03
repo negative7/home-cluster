@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta2.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2beta2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.1.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -32,8 +32,8 @@ spec:
       namespace: database
   values:
     controllers:
-      main:
-        replicas: 2
+      authelia:
+        replicas: 3
         strategy: RollingUpdate
         annotations:
           reloader.stakater.com/auto: "true"
@@ -41,16 +41,15 @@ spec:
           init-db:
             image:
               repository: ghcr.io/onedr0p/postgres-init
-              tag: 16.2
-              pullPolicy: IfNotPresent
+              tag: 16
             envFrom: &envFrom
               - secretRef:
                   name: authelia-secret
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/authelia/authelia
-              tag: v4.38.0-beta3@sha256:b48ae4d0ed9d1eee76efe382df60928bae550ec19e5663858dde6dc5f41cf285
+              tag: 4.38.8@sha256:19375b10024caeef4e0b119a6247beae84cbaa02c846cfd750e92dea910d4b6a
             env:
               AUTHELIA_SERVER_ADDRESS: tcp://0.0.0.0:8076
               AUTHELIA_SERVER_DISABLE_HEALTHCHECK: "true"
@@ -67,51 +66,53 @@ spec:
                 spec:
                   httpGet:
                     path: /api/health
-                    port: &port 8076
+                    port: &port 80
                   initialDelaySeconds: 0
                   periodSeconds: 10
                   timeoutSeconds: 1
                   failureThreshold: 3
               readiness: *probes
-              startup:
-                enabled: false
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
             resources:
               requests:
                 cpu: 10m
-                memory: 32Mi
               limits:
                 memory: 128Mi
-        pod:
-          enableServiceLinks: false
-          securityContext:
-            runAsUser: 568
-            runAsGroup: 568
-          topologySpreadConstraints:
-            - maxSkew: 1
-              topologyKey: kubernetes.io/hostname
-              whenUnsatisfiable: DoNotSchedule
-              labelSelector:
-                matchLabels:
-                  app.kubernetes.io/name: *app
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65534
+        runAsGroup: 65534
+        seccompProfile: { type: RuntimeDefault }
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              app.kubernetes.io/name: *app
     service:
-      main:
+      app:
+        controller: authelia
         ports:
           http:
             port: *port
           metrics:
             port: 8080
     serviceMonitor:
-      main:
-        enabled: true
+      app:
+        serviceName: authelia
         endpoints:
           - port: metrics
             scheme: http
             path: /metrics
             interval: 1m
-            scrapeTimeout: 10s  
+            scrapeTimeout: 10s
     ingress:
-      main:
-        enabled: true
+      app:
         className: external
         annotations:
           external-dns.alpha.kubernetes.io/target: external.${SECRET_PUBLIC_DOMAIN}
@@ -125,14 +126,10 @@ spec:
             paths:
               - path: /
                 service:
-                  name: main
+                  identifier: app
                   port: http
-        tls:
-          - hosts:
-              - *host
     persistence:
       config:
-        enabled: true
         type: configMap
         name: authelia-configmap
         globalMounts:
