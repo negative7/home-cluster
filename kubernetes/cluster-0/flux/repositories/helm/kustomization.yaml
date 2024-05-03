@@ -17,7 +17,6 @@ resources:
   - ./intel.yaml
   - ./jetstack.yaml
   - ./kubernetes-dashboard-charts.yaml
-  - ./kustomization.yaml
   - ./metrics-server.yaml
   - ./nfs-subdir-external-provisioner-charts.yaml
   - ./node-feature-discovery-charts.yaml
