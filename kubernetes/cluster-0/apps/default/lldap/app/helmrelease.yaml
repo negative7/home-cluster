@@ -59,12 +59,14 @@ spec:
                 memory: 36M
               limits:
                 memory: 128M
+            securityContext:
+              privileged: true
     defaultPodOptions:
       securityContext:
         runAsUser: 568
         runAsGroup: 568
         seccompProfile: { type: RuntimeDefault }
-        fsGroupChangePolicy: "OnRootMismatch"
+        fsGroupChangePolicy: OnRootMismatch
       topologySpreadConstraints:
         - maxSkew: 1
           topologyKey: kubernetes.io/hostname
