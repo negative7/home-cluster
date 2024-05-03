@@ -11,7 +11,5 @@ configMapGenerator:
   - name: mosquitto-configmap
     files:
       - config/mosquitto.conf
-configurations:
-  - ./patches/kustomizeconfig.yaml
 generatorOptions:
   disableNameSuffixHash: true
