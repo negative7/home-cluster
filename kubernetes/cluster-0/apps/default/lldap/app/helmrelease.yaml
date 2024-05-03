@@ -11,25 +11,17 @@ spec:
     spec:
       chart: app-template
       version: 3.1.0
+      interval: 30m
       sourceRef:
         kind: HelmRepository
         name: bjw-s
         namespace: flux-system
-  maxHistory: 2
-  install:
-    remediation:
-      retries: 3
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
-  uninstall:
-    keepHistory: false
   values:
     controllers:
       lldap:
         replicas: 2
         strategy: RollingUpdate
+
         annotations:
           reloader.stakater.com/auto: "true"
         initContainers:
@@ -41,11 +33,30 @@ spec:
             envFrom: &envFrom
               - secretRef:
                   name: lldap-secret
+        pod:
+          securityContext:
+            runAsUser: 568
+            runAsGroup: 568
+            runAsNonRoot: true
+            fsGroup: 568
+            fsGroupChangePolicy: "OnRootMismatch"
+          topologySpreadConstraints:
+            - maxSkew: 1
+              topologyKey: kubernetes.io/hostname
+              whenUnsatisfiable: DoNotSchedule
+              labelSelector:
+                matchLabels:
+                  app.kubernetes.io/name: lldap
+
         containers:
           app:
             image:
               repository: ghcr.io/lldap/lldap
               tag: v0.5.0
+            command:
+              - /app/lldap
+            args:
+              - run
             env:
               TZ: America/New_York
               LLDAP_HTTP_PORT: &port 8093
@@ -53,47 +64,57 @@ spec:
               LLDAP_LDAP_PORT: &ldapPort 389
               LLDAP_LDAP_BASE_DN: dc=home,dc=arpa
             envFrom: *envFrom
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: *port
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: *port
+                  failureThreshold: 30
+                  periodSeconds: 10
             resources:
               requests:
-                cpu: 5m
-                memory: 36M
+                cpu: 10m
               limits:
-                memory: 128M
-            securityContext:
-              privileged: true
-    defaultPodOptions:
-      securityContext:
-        runAsUser: 568
-        runAsGroup: 568
-        seccompProfile: { type: RuntimeDefault }
-        fsGroupChangePolicy: OnRootMismatch
-      topologySpreadConstraints:
-        - maxSkew: 1
-          topologyKey: kubernetes.io/hostname
-          whenUnsatisfiable: DoNotSchedule
-          labelSelector:
-            matchLabels:
-              app.kubernetes.io/name: *app
+                memory: 128Mi
+
     service:
       app:
-        controller: *app
+        controller: lldap
         ports:
           http:
             port: *port
           ldap:
-            enabled: true
             port: *ldapPort
-            protocol: TCP
+
     ingress:
       app:
         className: internal
         hosts:
-          - host: &host "{{ .Release.Name }}.${SECRET_PUBLIC_DOMAIN}"
+          - host: &hostName "{{ .Release.Name }}.${SECRET_PUBLIC_DOMAIN}"
             paths:
               - path: /
                 service:
                   identifier: app
                   port: http
+        tls:
+          - hosts:
+              - *hostName
+
     persistence:
       data:
         type: emptyDir
