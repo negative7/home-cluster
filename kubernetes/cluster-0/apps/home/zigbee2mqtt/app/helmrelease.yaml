@@ -80,6 +80,8 @@ spec:
                 memory: 384Mi
               limits:
                 memory: 384Mi
+            securityContext:
+              privileged: true
 
     service:
       app:
