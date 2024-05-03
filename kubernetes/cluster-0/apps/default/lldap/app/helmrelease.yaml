@@ -62,6 +62,8 @@ spec:
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
+        runAsUser: 568
+        runAsGroup: 568
         seccompProfile: { type: RuntimeDefault }
       topologySpreadConstraints:
         - maxSkew: 1
