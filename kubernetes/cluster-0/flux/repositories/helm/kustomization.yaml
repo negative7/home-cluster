@@ -28,3 +28,4 @@ resources:
   - ./stakater-charts.yaml
   - ./vector-charts.yaml
   - ./stevehipwell.yaml
+  - ./openebs.yaml
