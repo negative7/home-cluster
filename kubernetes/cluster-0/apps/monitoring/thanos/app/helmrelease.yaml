@@ -91,8 +91,8 @@ spec:
         ingressClassName: internal
         hosts:
           - thanos.${SECRET_PUBLIC_DOMAIN}
-      podAnnotations: &podAnnotations
-        configmap.reloader.stakater.com/reload: *configMap
+      # podAnnotations: &podAnnotations
+      #   configmap.reloader.stakater.com/reload: *configMap
     rule:
       enabled: true
       replicas: 3
@@ -121,4 +121,4 @@ spec:
       extraEnv: *extraEnv
       extraArgs: ["--index-cache.config=$(THANOS_CACHE_CONFIG)"]
       persistence: *persistence
-      podAnnotations: *podAnnotations
+      # podAnnotations: *podAnnotations
