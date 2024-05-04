@@ -89,7 +89,7 @@ tasks:
           | grep {{.node}} \
           | awk '{split($0,u," "); print u[2]}'
     cmds:
-      - talosctl --context {{.cluster}} upgrade -n {{.node}} --image {{.TALOS_IMAGE }}
+      - talosctl --context {{.cluster}} upgrade -n {{.node}} --image {{.TALOS_IMAGE }} --wait=true --preserve=true
     requires:
       vars:
         - cluster
