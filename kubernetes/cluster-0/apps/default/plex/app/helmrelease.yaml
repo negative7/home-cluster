@@ -1,72 +1,26 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta2.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2beta2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
   name: plex
-  namespace: default
 spec:
-  interval: 30m
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.1.0
+      interval: 30m
       sourceRef:
         kind: HelmRepository
         name: bjw-s
         namespace: flux-system
-  maxHistory: 2
-  install:
-    remediation:
-      retries: 3
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
-  uninstall:
-    keepHistory: false
-  dependsOn:
-    - name: intel-device-plugin-gpu
-      namespace: kube-system
-    - name: rook-ceph-cluster
-      namespace: rook-ceph
-    - name: volsync
-      namespace: kube-system
+  interval: 30m
   values:
     controllers:
-      main:
+      plex:
         annotations:
           reloader.stakater.com/auto: "true"
-        containers:
-          main:
-            image:
-              repository: ghcr.io/onedr0p/plex
-              tag: 1.40.2.8395-c67dce28e@sha256:a2a3149c1326e7777bfe9def135c687d884652f78d34e92264b0dab765908215
-            env:
-              TZ: America/New_York
-            probes:
-              liveness: &probes
-                enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /identity
-                    port: 32400
-                  initialDelaySeconds: 0
-                  periodSeconds: 10
-                  timeoutSeconds: 1
-                  failureThreshold: 3
-              readiness: *probes
-              startup:
-                enabled: false
-            resources:
-              requests:
-                gpu.intel.com/i915: 1
-                cpu: 200m
-                memory: 2Gi
-              limits:
-                gpu.intel.com/i915: 1
-                memory: 12Gi
+
         pod:
           nodeSelector:
             intel.feature.node.kubernetes.io/gpu: "true"
@@ -74,66 +28,114 @@ spec:
             runAsUser: 568
             runAsGroup: 568
             fsGroup: 568
-            fsGroupChangePolicy: OnRootMismatch
-            supplementalGroups: [44, 105, 10000]
+            fsGroupChangePolicy: "OnRootMismatch"
+            supplementalGroups:
+              - 44
+              - 109
+              - 65542 
+              - 10000
+
+        containers:
+          app:
+            image:
+              repository: ghcr.io/onedr0p/plex
+              tag: 1.40.2.8395-c67dce28e@sha256:a2a3149c1326e7777bfe9def135c687d884652f78d34e92264b0dab765908215
+            env:
+              PLEX_ADVERTISE_URL: https://10.2.0.105:32400,https://plex.${SECRET_PUBLIC_DOMAIN}:443
+              PLEX_NO_AUTH_NETWORKS: 10.0.1.0/16
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 5
+            resources:
+              requests:
+                cpu: 200m
+                gpu.intel.com/i915: 1
+                memory: 9248M
+              limits:
+                gpu.intel.com/i915: 1
+                memory: 9248M
+
     service:
-      main:
+      app:
+        controller: plex
         type: LoadBalancer
+        externalTrafficPolicy: Cluster
         annotations:
           io.cilium/lb-ipam-ips: 10.2.0.105
-        loadBalancerIP: 10.2.0.105
         ports:
           http:
             port: 32400
+
     ingress:
-      main:
-        enabled: true
-        className: external
+      app:
         annotations:
           external-dns.alpha.kubernetes.io/target: external.${SECRET_PUBLIC_DOMAIN}
-          nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-          hajimari.io/icon: mdi:plex
+          nginx.ingress.kubernetes.io/backend-protocol: HTTPS
+        className: external
         hosts:
-          - host: &host '{{ .Release.Name }}.${SECRET_PUBLIC_DOMAIN}'
+          - host: &hostName '{{ .Release.Name }}.${SECRET_PUBLIC_DOMAIN}'
             paths:
               - path: /
                 service:
-                  name: main
+                  identifier: app
                   port: http
         tls:
           - hosts:
-              - *host
-    podSecurityContext:
-      runAsUser: 568
-      runAsGroup: 568
-      fsGroup: 568
-      fsGroupChangePolicy: 'OnRootMismatch'
-      supplementalGroups: [44, 109, 10000]
+              - *hostName
+
     persistence:
       config:
-        enabled: true
         existingClaim: plex-data
-      tv:
-        enabled: true
+        advancedMounts:
+          plex:
+            app:
+              - path: /config
+      plex-cache:
+        existingClaim: plex-cache
+        advancedMounts:
+          plex:
+            app:
+              - path: /config/Library/Application Support/Plex Media Server/Cache
+      logs:
+        type: emptyDir
+        advancedMounts:
+          plex:
+            app:
+              - path: /config/Library/Application Support/Plex Media Server/Logs
+      nfs-tv-media:
         type: nfs
         server: 'freenas.${SECRET_PUBLIC_DOMAIN}'
         path: /mnt/tank/media/tv
-        mountPath: /media/tv
-        readOnly: false
-      movies:
-        enabled: true
+        advancedMounts:
+          plex:
+            app:
+              - path: /media/tv
+      nfs-movies-media:
         type: nfs
         server: 'freenas.${SECRET_PUBLIC_DOMAIN}'
         path: /mnt/tank/media/movies
-        mountPath: /media/movies
-        readOnly: false
-      backup:
-        enabled: true
+        advancedMounts:
+          plex:
+            app:
+              - path: /media/movies
+      nfs-backup:
         type: nfs
         server: 'freenas.${SECRET_PUBLIC_DOMAIN}'
         path: /mnt/tank/backups/plex
-        mountPath: /config/Backups
-        readOnly: false
+        advancedMounts:
+          plex:
+            app:
+              - path: /config/Backups
       transcode:
-        enabled: true
         type: emptyDir
+        advancedMounts:
+          plex:
+            app:
+              - path: /transcode
