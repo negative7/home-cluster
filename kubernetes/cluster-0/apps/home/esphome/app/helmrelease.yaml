@@ -1,77 +1,78 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta2.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2beta2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: &app esphome
-  namespace: home
+  name: esphome
 spec:
   interval: 30m
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.1.0
+      interval: 30m
       sourceRef:
         kind: HelmRepository
         name: bjw-s
         namespace: flux-system
-  maxHistory: 2
-  install:
-    remediation:
-      retries: 3
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
-  uninstall:
-    keepHistory: false
-  dependsOn:
-    - name: rook-ceph-cluster
-      namespace: rook-ceph
-    - name: volsync
-      namespace: kube-system
+
   values:
     controllers:
-      main:
+      esphome:
         annotations:
           reloader.stakater.com/auto: "true"
+
+        pod:
+          hostNetwork: true
+
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/esphome/esphome
               tag: 2024.4.2
-        pod:
-          hostNetwork: true
-          securityContext:
-            runAsUser: 568
-            runAsGroup: 568
-            fsGroup: 568
-            fsGroupChangePolicy: OnRootMismatch
+            probes:
+              liveness:
+                enabled: false
+              readiness:
+                enabled: false
+              startup:
+                enabled: false
+            resources:
+              requests:
+                cpu: 5m
+                memory: 1374M
+              limits:
+                memory: 2048M
+
     service:
-      main:
+      app:
+        controller: esphome
         ports:
           http:
             port: 6052
+
     ingress:
-      main:
-        enabled: true
+      app:
         className: internal
         hosts:
-          - host: &host '{{ .Release.Name }}.${SECRET_PUBLIC_DOMAIN}'
+          - host: &hostName "{{ .Release.Name }}.${SECRET_PUBLIC_DOMAIN}"
             paths:
               - path: /
                 service:
-                  name: main
+                  identifier: app
                   port: http
         tls:
           - hosts:
-              - *host
+              - *hostName
+
     persistence:
       config:
-        enabled: true
-        existingClaim: esphome
+        existingClaim: esphome-config
+        advancedMounts:
+          esphome:
+            app:
+              - path: /config
       secrets:
-        enabled: true
         type: secret
         name: esphome-secrets
         globalMounts:
@@ -81,5 +82,3 @@ spec:
         type: emptyDir
         globalMounts:
           - path: /config/.esphome
-      
-    

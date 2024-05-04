@@ -3,29 +3,31 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app esphome
+  name: &appname esphome
   namespace: flux-system
 spec:
   targetNamespace: home
   commonMetadata:
     labels:
-      app.kubernetes.io/name: *app
+      app.kubernetes.io/name: *appname
   interval: 10m
-  dependsOn:
-    - name: rook-ceph-cluster
-    - name: volsync
-    - name: external-secrets-stores
   path: ./kubernetes/cluster-0/apps/home/esphome/app
   prune: true
   sourceRef:
     kind: GitRepository
     name: home-ops-kubernetes
   wait: false
-  retryInterval: 1m
-  timeout: 5m
+  dependsOn:
+    - name: multus-config
+    - name: rook-ceph-cluster
+    - name: volsync
+    - name: external-secrets-stores
   postBuild:
     substitute:
-      APP: *app
+      APP: *appname
+      APP_UID: "0"
+      APP_GID: "0"
+      VOLSYNC_CLAIM: esphome-config
       VOLSYNC_CAPACITY: 5Gi
       VOLSYNC_ACCESSMODES: ReadWriteMany
       VOLSYNC_STORAGECLASS: ceph-filesystem
@@ -34,13 +36,13 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app esphome-code
+  name: &appname esphome-code
   namespace: flux-system
 spec:
-  targetNamespace: home
+  targetNamespace:  home
   commonMetadata:
     labels:
-      app.kubernetes.io/name: *app
+      app.kubernetes.io/name: *appname
   interval: 10m
   path: ./kubernetes/cluster-0/apps/home/esphome/code
   prune: true
@@ -48,5 +50,7 @@ spec:
     kind: GitRepository
     name: home-ops-kubernetes
   wait: false
+  dependsOn:
+    - name: esphome
   retryInterval: 1m
   timeout: 5m
