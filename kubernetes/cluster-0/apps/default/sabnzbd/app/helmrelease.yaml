@@ -96,7 +96,11 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: sabnzbd
+        existingClaim:  sabnzbd-config 
+        advancedMounts:
+          sabnzbd:
+            app:
+              - path: /config
       completed:
         enabled: true
         type: nfs
