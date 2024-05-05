@@ -1,5 +1,6 @@
 ---
 data_dir: /vector-data-dir
+
 api:
   enabled: true
   address: 0.0.0.0:8686
@@ -10,11 +11,10 @@ sources:
     type: vector
     version: "2"
 
-  journald_source:
-    type: vector
-    address: 0.0.0.0:6002
-    version: "2"
-
+  syslog_source:
+    address: 0.0.0.0:6001
+    mode: udp
+    type: syslog
 
 transforms:
   kubernetes_remap:
@@ -44,15 +44,14 @@ sinks:
       namespace: "{{ kubernetes.pod_namespace }}"
       node: "{{ kubernetes.pod_node_name }}"
 
-  loki_journal:
+  loki_syslog:
     type: loki
-    endpoint: http://loki-gateway.monitoring.svc.cluster.local.
+    inputs:
+      - syslog_source
+    endpoint: http://loki-gateway.monitoring.svc.cluster.local
     encoding:
       codec: json
-    inputs:
-      - journald_source
-    out_of_order_action: accept
-    remove_label_fields: true
-    remove_timestamp: true
+    out_of_order_action: rewrite_timestamp
     labels:
       hostname: "{{ host }}"
+      datasource: source_syslog
