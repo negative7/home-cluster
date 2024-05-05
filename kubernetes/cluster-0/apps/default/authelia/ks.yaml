@@ -9,7 +9,7 @@ spec:
     - name: cloudnative-pg
     - name: lldap
     - name: external-secrets-stores
-    - name: redis
+    - name: dragonfly-cluster
   path: ./kubernetes/cluster-0/apps/default/authelia/app
   prune: true
   sourceRef:

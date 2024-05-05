@@ -28,7 +28,7 @@ spec:
   dependsOn:
     - name: lldap
       namespace: default
-    - name: redis
+    - name: dragonfly-cluster
       namespace: database
   values:
     controllers:
