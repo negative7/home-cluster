@@ -59,46 +59,28 @@ spec:
       resources:
         mgr:
           requests:
-            cpu: "125m"
-            memory: "512Mi"
+            cpu: 100m
+            memory: 512Mi
           limits:
-            memory: "2Gi"
+            memory: 2Gi
         mon:
           requests:
-            cpu: "49m"
-            memory: "512Mi"
+            cpu: 50m
+            memory: 512Mi
           limits:
-            memory: "1Gi"
+            memory: 1Gi
         osd:
           requests:
-            cpu: "442m"
-            memory: "2Gi"
+            cpu: 500m
+            memory: 2Gi
           limits:
-            memory: "6Gi"
+            memory: 6Gi
         mgr-sidecar:
           requests:
-            cpu: "49m"
-            memory: "128Mi"
+            cpu: 50m
+            memory: 128Mi
           limits:
-            memory: "256Mi"
-        crashcollector:
-          requests:
-            cpu: "15m"
-            memory: "64Mi"
-          limits:
-            memory: "64Mi"
-        logcollector:
-          requests:
-            cpu: "100m"
-            memory: "100Mi"
-          limits:
-            memory: "1Gi"
-        cleanup:
-          requests:
-            cpu: "250m"
-            memory: "100Mi"
-          limits:
-            memory: "1Gi"
+            memory: 256Mi
 
       dashboard:
         enabled: true
@@ -195,7 +177,7 @@ spec:
           metadataPool:
             failureDomain: host
             replicated:
-              size: 4
+              size: 2
           dataPool:
             failureDomain: host
             erasureCoded:
