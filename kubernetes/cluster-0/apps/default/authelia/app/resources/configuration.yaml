@@ -1,9 +1,7 @@
 ---
 
 authentication_backend:
-  password_reset:
-    disable: true
-  refresh_interval: 1m
+  
   ldap:
     address: ldap://lldap.default.svc.cluster.local:389
     implementation: custom
@@ -22,6 +20,9 @@ authentication_backend:
       mail: mail
       member_of: memberOf
       group_name: cn
+  password_reset:
+    disable: true
+  refresh_interval: 1m
 
 session:
   same_site: lax
@@ -29,7 +30,7 @@ session:
   expiration: 1h
   remember_me: 1M
   cookies:
-    - name: devbu_session
+    - name: negative7_session
       domain: negative7.com
       authelia_url: https://auth.negative7.com
       default_redirection_url: https://negative7.com
@@ -40,6 +41,7 @@ session:
 notifier:
   disable_startup_check: true
   smtp:
+    address: smtp-relay.default.svc.cluster.local:25
     sender: Authelia <authelia@negative7.com>
     disable_require_tls: true
 
@@ -75,13 +77,4 @@ identity_providers:
         pre_configured_consent_duration: 1y
         scopes: ["openid", "profile", "groups", "email"]
         redirect_uris: ["https://grafana.negative7.com/login/generic_oauth"]
-        userinfo_signed_response_alg: none
-      - id: immich
-        description: Immich
-        secret: "${IMMICH_OAUTH_CLIENT_SECRET}"
-        public: false
-        authorization_policy: two_factor
-        pre_configured_consent_duration: 1y
-        scopes: ["openid", "profile", "email"]
-        redirect_uris: ["https://photos.negative7.com/auth/login", "app.immich:/"]
         userinfo_signed_response_alg: none
