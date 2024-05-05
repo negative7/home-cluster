@@ -19,7 +19,7 @@ spec:
   values:
     controllers:
       vector-aggregator:
-        replicas: 2
+        replicas: 1
         strategy: RollingUpdate
 
         annotations:

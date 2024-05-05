@@ -74,11 +74,11 @@ spec:
         storageClass: ceph-filesystem
         size: 10Gi
     query:
-      replicas: 3
+      replicas: 1
       extraArgs: ["--alert.query-url=https://thanos.${SECRET_PUBLIC_DOMAIN}"]
     queryFrontend:
       enabled: true
-      replicas: 3
+      replicas: 1
       # extraEnv: &extraEnv
       #   - name: THANOS_CACHE_CONFIG
       #     valueFrom:
@@ -95,7 +95,7 @@ spec:
       #   configmap.reloader.stakater.com/reload: *configMap
     rule:
       enabled: true
-      replicas: 3
+      replicas: 1
       extraArgs: ["--web.prefix-header=X-Forwarded-Prefix"]
       alertmanagersConfig:
         value: |-
@@ -117,7 +117,7 @@ spec:
                     severity: critical
       persistence: *persistence
     storeGateway:
-      replicas: 3
+      replicas: 1
       # extraEnv: *extraEnv
       # extraArgs: ["--index-cache.config=$(THANOS_CACHE_CONFIG)"]
       persistence: *persistence

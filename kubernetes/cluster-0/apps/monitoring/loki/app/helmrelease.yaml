@@ -87,7 +87,7 @@ spec:
           insecure: true
 
     gateway:
-      replicas: 2
+      replicas: 1
       enabled: true
       image:
         registry: ghcr.io
@@ -122,16 +122,16 @@ spec:
               - *host
 
     write:
-      replicas: 2
+      replicas: 1
       persistence:
         storageClass: openebs-hostpath
         size: 20Gi
 
     read:
-      replicas: 2
+      replicas: 1
 
     backend:
-      replicas: 2
+      replicas: 1
       persistence:
         storageClass: openebs-hostpath
         size: 20Gi
