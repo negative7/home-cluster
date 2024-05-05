@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2beta2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
@@ -9,30 +10,32 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.1.0
+      interval: 30m
       sourceRef:
         kind: HelmRepository
         name: bjw-s
         namespace: flux-system
-  maxHistory: 2
-  install:
-    remediation:
-      retries: 3
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
-  uninstall:
-    keepHistory: false
+
   values:
     controllers:
-      main:
+      k8s-gateway:
         replicas: 2
         strategy: RollingUpdate
         annotations:
           reloader.stakater.com/auto: "true"
+
+        pod:
+          topologySpreadConstraints:
+            - maxSkew: 1
+              topologyKey: kubernetes.io/hostname
+              whenUnsatisfiable: DoNotSchedule
+              labelSelector:
+                matchLabels:
+                  app.kubernetes.io/name: *app
+
         containers:
-          main:
+          app:
             image:
               repository: quay.io/oriedge/k8s_gateway
               tag: v0.4.0
@@ -52,23 +55,13 @@ spec:
                     port: 8080
               startup:
                 enabled: false
-        pod:
-          topologySpreadConstraints:
-            - maxSkew: 1
-              topologyKey: kubernetes.io/hostname
-              whenUnsatisfiable: DoNotSchedule
-              labelSelector:
-                matchLabels:
-                  app.kubernetes.io/name: *app
     service:
-      main:
+      app:
+        controller: k8s-gateway
         type: LoadBalancer
-        loadBalancerIP: 10.2.0.102
         annotations:
           io.cilium/lb-ipam-ips: 10.2.0.102
         ports:
-          http:
-            enabled: false
           metrics:
             enabled: true
             port: 9153
@@ -77,8 +70,10 @@ spec:
             port: 53
             targetPort: 1053
             protocol: UDP
+
     serviceMonitor:
-      main:
+      app:
+        serviceName: k8s-gateway
         enabled: true
         endpoints:
           - port: metrics
