@@ -65,7 +65,7 @@ spec:
               TUNNEL_ID:
                 valueFrom:
                   secretKeyRef:
-                    name: cloudflared-secret
+                    name: cloudflared-tunnel-secret
                     key: TunnelID
             probes:
               liveness:
@@ -133,7 +133,7 @@ spec:
             readOnly: true
       creds:
         type: secret
-        name: cloudflared-secret
+        name: cloudflared-tunnel-secret
         globalMounts:
           - path: /etc/cloudflared/creds/credentials.json
             subPath: credentials.json
