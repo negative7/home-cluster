@@ -5,7 +5,7 @@ resources:
   # Pre Flux-Kustomizations
   - ./namespace.yaml
   # Flux-Kustomizations
-  - ./actual-server/ks.yaml
+  # - ./actual-server/ks.yaml
   - ./authelia/ks.yaml
   # - ./jellyfin/ks.yaml
   - ./lldap/ks.yaml
