@@ -11,7 +11,7 @@ spec:
     labels:
       app.kubernetes.io/name: *appname
   interval: 10m
-  path: ./kubernetes/main/cluster-0/database/dragonfly/operator
+  path: ./kubernetes/cluster-0/apps/database/dragonfly/operator
   prune: true
   sourceRef:
     kind: GitRepository
