@@ -6,12 +6,12 @@ metadata:
   name: &appname authelia
   namespace: flux-system
 spec:
-  targetNamespace: security
+  targetNamespace: default
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
   interval: 10m
-  path: "./kubernetes/cluster-0/apps/security/authelia/app"
+  path: "./kubernetes/cluster-0/apps/default/authelia/app"
   prune: true
   sourceRef:
     kind: GitRepository
