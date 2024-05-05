@@ -46,7 +46,7 @@ spec:
               repository: ghcr.io/authelia/authelia
               tag: 4.38.8@sha256:19375b10024caeef4e0b119a6247beae84cbaa02c846cfd750e92dea910d4b6a
             env:
-              AUTHELIA_SERVER_ADDRESS: tcp://0.0.0.0:8076
+              AUTHELIA_SERVER_ADDRESS: tcp://0.0.0.0:80
               AUTHELIA_SERVER_DISABLE_HEALTHCHECK: "true"
               AUTHELIA_TELEMETRY_METRICS_ADDRESS: tcp://0.0.0.0:8080
               AUTHELIA_TELEMETRY_METRICS_ENABLED: "true"
