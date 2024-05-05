@@ -28,8 +28,6 @@ spec:
   dependsOn:
     - name: lldap
       namespace: default
-    - name: dragonfly-cluster
-      namespace: database
   values:
     controllers:
       authelia:

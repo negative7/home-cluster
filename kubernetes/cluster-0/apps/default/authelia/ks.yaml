@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   dependsOn:
-    - name: cloudnative-pg
+    - name: cloudnative-pg-cluster
     - name: lldap
     - name: external-secrets-stores
     - name: dragonfly-cluster
