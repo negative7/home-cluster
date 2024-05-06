@@ -40,6 +40,8 @@ spec:
             supplementalGroups:
               - 65542
               - 65539
+              - 1000
+              - 1001
 
         containers:
           app:

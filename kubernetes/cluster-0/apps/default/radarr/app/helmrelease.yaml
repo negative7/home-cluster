@@ -39,7 +39,8 @@ spec:
             fsGroupChangePolicy: "OnRootMismatch"
             supplementalGroups:
               - 65542 
-              - 10000
+              - 1000
+              - 1001
 
         containers:
           app:
