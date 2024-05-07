@@ -13,10 +13,7 @@ spec:
       nodeName: ${node}
       containers:
         - name: disk-wipe
-          image: ghcr.io/onedr0p/alpine:3.19.1@sha256:3fbc581cb0fe29830376161ae026e2a765dcc11e1747477fe9ebf155720b8638
-          securityContext:
-            privileged: true
-          resources: {}
+          image: ghcr.io/onedr0p/alpine:rolling
           command: ["/bin/sh", "-c"]
           args:
             - apk add --no-cache sgdisk util-linux parted;
@@ -24,3 +21,6 @@ spec:
               blkdiscard ${ceph_disk};
               dd if=/dev/zero bs=1M count=10000 oflag=direct of=${ceph_disk};
               partprobe ${ceph_disk};
+          securityContext:
+            privileged: true
+          resources: {}

@@ -15,10 +15,18 @@ spec:
       restartPolicy: OnFailure
       containers:
         - name: unlock-minio
-          image: docker.io/restic/restic:0.16.4
+          image: docker.io/restic/restic:0.164
           args:
             - unlock
             - --remove-all
           envFrom:
             - secretRef:
-                name: "${app}-restic-secret"
+                name: "${app}-volsync-minio"
+        - name: unlock-r2
+          image: docker.io/restic/restic:0.164
+          args:
+            - unlock
+            - --remove-all
+          envFrom:
+            - secretRef:
+                name: "${app}-volsync-r2"

@@ -1,7 +1,46 @@
 ---
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
 version: "3"
 
+vars:
+  # renovate: depName=prometheus-operator/prometheus-operator datasource=github-releases
+  PROMETHEUS_OPERATOR_VERSION: 0.73.2
+
 tasks:
+  bootstrap:
+    desc: Bootstrap Flux into a Kubernetes cluster
+    summary: |
+      Args:
+        cluster: Cluster to run command against (default: main)
+    vars:
+      cluster: '{{.cluster | default "main"}}'
+    cmds:
+      # Install essential Prometheus Operator CRDs
+      - kubectl --context {{.cluster}} apply --server-side --filename https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/{{.PROMETHEUS_OPERATOR_VERSION}}/example/prometheus-operator-crd/monitoring.coreos.com_podmonitors.yaml
+      - kubectl --context {{.cluster}} apply --server-side --filename https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/{{.PROMETHEUS_OPERATOR_VERSION}}/example/prometheus-operator-crd/monitoring.coreos.com_prometheusrules.yaml
+      - kubectl --context {{.cluster}} apply --server-side --filename https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/{{.PROMETHEUS_OPERATOR_VERSION}}/example/prometheus-operator-crd/monitoring.coreos.com_scrapeconfigs.yaml
+      - kubectl --context {{.cluster}} apply --server-side --filename https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/{{.PROMETHEUS_OPERATOR_VERSION}}/example/prometheus-operator-crd/monitoring.coreos.com_servicemonitors.yaml
+      # Install Flux
+      - kubectl --context {{.cluster}} apply --server-side --kustomize {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/flux
+      # Install secrets and configmaps
+      - sops --decrypt {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/flux/age-key.sops.yaml | kubectl --context {{.cluster}} apply -f -
+      - sops --decrypt {{.KUBERNETES_DIR}}/{{.cluster}}/flux/vars/cluster-secrets.sops.yaml | kubectl --context {{.cluster}} apply -f -
+      - kubectl --context {{.cluster}} apply --server-side --filename {{.KUBERNETES_DIR}}/{{.cluster}}/flux/vars/cluster-settings.yaml
+      # Install Flux Kustomization resources
+      - kubectl --context {{.cluster}} apply --server-side --kustomize {{.KUBERNETES_DIR}}/{{.cluster}}/flux/config
+    preconditions:
+      - sh: kubectl config get-contexts {{.cluster}}
+        msg: "Kubectl context {{.cluster}} not found"
+      - test -f $HOME/.config/age/keys.txt
+      - test -f {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/flux/age-key.sops.yaml
+      - test -f {{.KUBERNETES_DIR}}/{{.cluster}}/flux/vars/cluster-settings.yaml
+      - test -f {{.KUBERNETES_DIR}}/{{.cluster}}/flux/vars/cluster-secrets.sops.yaml
+      - sops --decrypt {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/flux/age-key.sops.yaml
+      - sops --decrypt {{.KUBERNETES_DIR}}/{{.cluster}}/flux/vars/cluster-secrets.sops.yaml
+      - kustomize build {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/flux
+      - kustomize build {{.KUBERNETES_DIR}}/{{.cluster}}/flux/config
+
+
   gr-sync:
     desc: Sync all Flux GitRepositories
     cmds:
@@ -50,23 +89,30 @@ tasks:
     desc: Apply a Flux Kustomization resource for a cluster
     summary: |
       Args:
-        cluster: Cluster to run command against (required)
         path: Path to the Flux Kustomization resource (required)
+        cluster: Cluster to run command against (default: main)
+        name: Name of the Flux Kustomization to apply (default: last segment of <path> variable)
         ns: Namespace the Flux Kustomization exists in (default: flux-system)
-    cmd: |
-      flux --context {{.cluster}} build ks $(basename {{.path}}) \
-          --namespace {{.ns}} \
-          --kustomization-file {{.KUBERNETES_DIR}}/{{.cluster}}/apps/{{.path}}/ks.yaml \
-          --path {{.KUBERNETES_DIR}}/{{.cluster}}/apps/{{.path}} \
-          {{- if contains "not found" .ks }}--dry-run \{{ end }}
-      | \
-      kubectl --context {{.cluster}} apply --server-side \
-          --field-manager=kustomize-controller -f -
+    cmds:
+      - flux --context {{.cluster}} build ks {{.ks_name}}
+        --namespace {{.ns}}
+        --kustomization-file {{.kustomization_file}}
+        --path {{.kustomization_path}}
+        {{ if contains "not found" .kustomization_found }}--dry-run{{ end }}
+        |
+        kubectl --context {{.cluster}} apply --server-side
+        --field-manager=kustomize-controller -f -
     vars:
+      kustomization_path: "{{.KUBERNETES_DIR}}/{{.cluster}}/apps/{{.path}}"
+      kustomization_file: "{{.kustomization_path}}/ks.yaml"
+      cluster: '{{.cluster | default "main"}}'
       path: '{{ or .path (fail "Argument (path) is required") }}'
+      ks_name: '{{ .name | default (splitList "/" .path | last) }}'
       ns: '{{.ns | default "flux-system"}}'
-      ks:
-        sh: flux --context {{.cluster}} --namespace {{.ns}} get kustomizations $(basename {{.path}}) 2>&1
+      kustomization_found:
+        sh: flux --context {{.cluster}} --namespace {{.ns}} get kustomization {{.ks_name}} 2>&1
     preconditions:
-      - { msg: "Argument (cluster) is required", sh: "test -n {{.cluster}}" }
-      - { msg: "Kustomization file not found",   sh: "test -f {{.KUBERNETES_DIR}}/{{.cluster}}/apps/{{.path}}/ks.yaml" }
+      - sh: "test -f {{.kustomization_file}}"
+        msg: "Kustomization file {{.kustomization_file}} not found"
+      - sh: kubectl config get-contexts {{.cluster}}
+        msg: "Kubectl context {{.cluster}} not found"
