@@ -1,60 +1,30 @@
 ---
+---
+autoDirectNodeRoutes: true
+bandwidthManager:
+  bbr: true
+  enabled: true
+bpf:
+  masquerade: true
+  tproxy: true
+cgroup:
+  autoMount:
+    enabled: false
+  hostRoot: /sys/fs/cgroup
 cluster:
-  name: cluster-0
   id: 1
+  name: cluster-0
+
 
 cni:
   exclusive: false
-
-k8sServiceHost: localhost
-k8sServicePort: 7445
-
-rollOutCiliumPods: true
-localRedirectPolicy: true
-routingMode: native
-
-kubeProxyReplacement: strict
-kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
-
-loadBalancer:
-  algorithm: maglev
-  mode: dsr
-
-bandwidthManager:
-  enabled: true
-  bbr: true
-bpf:
-  masquerade: true
-
-l2announcements:
-  enabled: true
-
-# enableCnpStatusUpdates: true
-# endpointStatus:
-#   enabled: true
-#   status: "policy"
-
-ipam:
-  mode: "kubernetes"
-
-# ingressController:
-#   enabled: false
-#   loadbalancerMode: shared
-
-operator:
-  rollOutPods: true
-
-autoDirectNodeRoutes: true
-ipv4NativeRoutingCIDR: 10.244.0.0/16
-tunnel: "disabled"
 containerRuntime:
   integration: containerd
-
+enableRuntimeDeviceDetection: true
+endpointRoutes:
+  enabled: true
 hubble:
   enabled: true
-  serviceMonitor:
-    enabled: false
-
   metrics:
     enabled:
       - dns:query;ignoreAAAA
@@ -64,17 +34,41 @@ hubble:
       - port-distribution
       - icmp
       - http
-
   relay:
     enabled: true
     rollOutPods: true
-
+  serviceMonitor:
+    enabled: false
   ui:
     enabled: true
     ingress:
       enabled: false
     rollOutPods: true
+ipam:
+  mode: "kubernetes"
 
+# ingressController:
+#   enabled: false
+#   loadbalancerMode: shared
+
+
+ipv4NativeRoutingCIDR: 10.244.0.0/16
+tunnel: "disabled"
+
+k8sServiceHost: 127.0.0.1
+k8sServicePort: 7445
+kubeProxyReplacement: true
+kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
+l2announcements:
+  enabled: true
+loadBalancer:
+  algorithm: maglev
+  mode: dsr
+localRedirectPolicy: true
+operator:
+  rollOutPods: true
+rollOutCiliumPods: true
+routingMode: native
 securityContext:
   capabilities:
     ciliumAgent:
@@ -93,8 +87,3 @@ securityContext:
       - NET_ADMIN
       - SYS_ADMIN
       - SYS_RESOURCE
-
-cgroup:
-  autoMount:
-    enabled: false
-  hostRoot: /sys/fs/cgroup
