@@ -1,45 +1,31 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta2.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2beta2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
   name: home-assistant
-  namespace: home
 spec:
   interval: 30m
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.1.0
+      interval: 30m
       sourceRef:
         kind: HelmRepository
         name: bjw-s
         namespace: flux-system
-  maxHistory: 2
-  install:
-    remediation:
-      retries: 3
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
-  uninstall:
-    keepHistory: false
-  dependsOn:
-    - name: rook-ceph-cluster
-      namespace: rook-ceph
-    - name: volsync
-      namespace: kube-system
   values:
+    values:
     controllers:
-      main:
+      home-assistant:
         annotations:
           reloader.stakater.com/auto: "true"
         initContainers:
           init-db:
             image:
               repository: ghcr.io/onedr0p/postgres-init
-              tag: 16.2
+              tag: 16
               pullPolicy: IfNotPresent
             envFrom: &envFrom
               - secretRef:
@@ -63,10 +49,10 @@ spec:
                 enabled: false
             resources:
               requests:
-                cpu: 10m
-                memory: 128Mi
+                cpu: 47m
+                memory: 2Gi
               limits:
-                memory: 1Gi
+                memory: 2Gi
         pod:
           hostNetwork: true
           securityContext:
@@ -75,10 +61,12 @@ spec:
             fsGroup: 568
             fsGroupChangePolicy: OnRootMismatch
     service:
-      main:
+      app:
+        controller: home-assistant
         ports:
           http:
             port: 8123
+
     ingress:
       main:
         enabled: true
@@ -86,19 +74,22 @@ spec:
         annotations:
           external-dns.alpha.kubernetes.io/target: external.${SECRET_PUBLIC_DOMAIN}
         hosts:
-          - host: &host 'hass.${SECRET_PUBLIC_DOMAIN}'
+          - host: &hostName  'hass.${SECRET_PUBLIC_DOMAIN}'
             paths:
               - path: /
                 service:
-                  name: main
+                  identifier: app
                   port: http
         tls:
           - hosts:
-              - *host
+              - *hostName
     persistence:
       config:
-        enabled: true
-        existingClaim: home-assistant
+        existingClaim: home-assistant-config
+        advancedMounts:
+          home-assistant:
+            app:
+              - path: /config
       backup:
         enabled: true
         type: nfs
