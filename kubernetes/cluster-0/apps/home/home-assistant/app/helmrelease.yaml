@@ -6,6 +6,8 @@ metadata:
   name: home-assistant
 spec:
   interval: 30m
+  driftDetection:
+    mode: enabled
   chart:
     spec:
       chart: app-template
@@ -15,8 +17,7 @@ spec:
         kind: HelmRepository
         name: bjw-s
         namespace: flux-system
-      driftDetection:
-            mode: enabled
+      
   values:
     values:
     controllers:
