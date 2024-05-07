@@ -22,6 +22,13 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
 
+        pod:
+          securityContext:
+            runAsUser: 568
+            runAsGroup: 568
+            fsGroup: 568
+            fsGroupChangePolicy: "OnRootMismatch"
+
         containers:
           app:
             image:
@@ -43,13 +50,7 @@ spec:
                 memory: 128M
               limits:
                 memory: 512M
-            
-          pod:
-            securityContext:
-              runAsUser: 568
-              runAsGroup: 568
-              fsGroup: 568
-              fsGroupChangePolicy: "OnRootMismatch"
+
 
     service:
       app:
