@@ -14,7 +14,7 @@ tasks:
     vars:
       secret: "{{ .secret }}"
       ns: '{{.ns | default "default"}}'
-      cluster: '{{.cluster | default "main"}}'
+      cluster: '{{.cluster | default "cluster-0"}}'
     cmd: kubectl --context {{.cluster}} -n {{.ns}} annotate externalsecret.external-secrets.io {{.secret}} force-sync=$(date +%s) --overwrite
     preconditions:
       - sh: kubectl --context {{.cluster}} -n {{.ns}} get es {{.secret}}

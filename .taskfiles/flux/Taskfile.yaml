@@ -13,7 +13,7 @@ tasks:
       Args:
         cluster: Cluster to run command against (default: main)
     vars:
-      cluster: '{{.cluster | default "main"}}'
+      cluster: '{{.cluster | default "cluster-0"}}'
     cmds:
       # Install essential Prometheus Operator CRDs
       - kubectl --context {{.cluster}} apply --server-side --filename https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/{{.PROMETHEUS_OPERATOR_VERSION}}/example/prometheus-operator-crd/monitoring.coreos.com_podmonitors.yaml
@@ -105,7 +105,7 @@ tasks:
     vars:
       kustomization_path: "{{.KUBERNETES_DIR}}/{{.cluster}}/apps/{{.path}}"
       kustomization_file: "{{.kustomization_path}}/ks.yaml"
-      cluster: '{{.cluster | default "main"}}'
+      cluster: '{{.cluster | default "cluster-0"}}'
       path: '{{ or .path (fail "Argument (path) is required") }}'
       ks_name: '{{ .name | default (splitList "/" .path | last) }}'
       ns: '{{.ns | default "flux-system"}}'
