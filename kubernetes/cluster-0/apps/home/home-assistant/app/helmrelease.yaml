@@ -34,7 +34,7 @@ spec:
               - secretRef:
                   name: home-assistant-secret
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/home-assistant/home-assistant
               tag: 2024.5.1
@@ -71,7 +71,7 @@ spec:
             port: 8123
 
     ingress:
-      main:
+      app:
         enabled: true
         className: external
         annotations:
