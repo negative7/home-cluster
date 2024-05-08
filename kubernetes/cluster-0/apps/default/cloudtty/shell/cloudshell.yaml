@@ -1,7 +1,8 @@
 apiVersion: cloudshell.cloudtty.io/v1alpha1
 kind: CloudShell
 metadata:
-  name: cloudshell-sample
+  name: cloudshell
+  namespace: default
 spec:
   commandAction: "bash"
   once: false
