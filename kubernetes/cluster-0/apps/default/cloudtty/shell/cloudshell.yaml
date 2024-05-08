@@ -1,0 +1,7 @@
+apiVersion: cloudshell.cloudtty.io/v1alpha1
+kind: CloudShell
+metadata:
+  name: cloudshell-sample
+spec:
+  commandAction: "bash"
+  once: false
