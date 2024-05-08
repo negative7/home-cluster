@@ -11,7 +11,7 @@ spec:
     labels:
       app.kubernetes.io/name: *appname
   interval: 10m
-  path: ./kubernetes/cluster-0/apps/default/cloudtty-operator/app
+  path: ./kubernetes/cluster-0/apps/default/cloudtty/app
   prune: true
   sourceRef:
     kind: GitRepository
