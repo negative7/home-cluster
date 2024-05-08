@@ -16,6 +16,8 @@ spec:
         namespace: flux-system
   interval: 30m
   values:
+    featureGates:
+      AllowSecretStoreKubeconfig: true
     image:
       registry: ghcr.io
       repository: cloudtty/cloudshell-operator
