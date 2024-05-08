@@ -15,6 +15,3 @@ spec:
         name: cloudtty
         namespace: flux-system
   interval: 30m
-  values:
-    featureGates:
-      AllowSecretStoreKubeconfig: true
