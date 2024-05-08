@@ -8,10 +8,13 @@ spec:
   chart:
     spec:
       chart: cloudtty
-      version: 0.5.0
+      version: 0.7.2
       interval: 30m
       sourceRef:
         kind: HelmRepository
         name: cloudtty
         namespace: flux-system
   interval: 30m
+  values:
+    featureGates:
+      AllowSecretStoreKubeconfig: true
