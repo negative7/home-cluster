@@ -5,7 +5,7 @@ metadata:
   name: policy
 spec:
   loadBalancerIPs: true
-  # externalIPs: true
+  externalIPs: true
   interfaces:
     - ^eno[0-9]+
   nodeSelector:
