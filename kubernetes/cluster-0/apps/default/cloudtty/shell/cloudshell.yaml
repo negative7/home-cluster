@@ -4,5 +4,7 @@ metadata:
   name: cloudshell
   namespace: default
 spec:
+  secretRef:
+    name: "cloudtty"
   commandAction: "bash"
   once: false
