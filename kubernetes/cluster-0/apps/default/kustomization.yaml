@@ -7,7 +7,6 @@ resources:
   # Flux-Kustomizations
   - ./actual-server/ks.yaml
   - ./authelia/ks.yaml
-  - ./cloudtty/ks.yaml
   - ./lldap/ks.yaml
   - ./overseerr/ks.yaml
   - ./plex/ks.yaml
