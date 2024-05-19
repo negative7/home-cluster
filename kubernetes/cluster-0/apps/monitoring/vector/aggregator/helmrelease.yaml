@@ -34,19 +34,19 @@ spec:
                 matchLabels:
                   app.kubernetes.io/name: vector-aggregator
 
-        initContainers:
-          init-geoip:
-            image:
-              repository: ghcr.io/maxmind/geoipupdate
-              tag: v7.0.1
-              pullPolicy: IfNotPresent
-            env:
-              GEOIPUPDATE_EDITION_IDS: GeoLite2-City
-              GEOIPUPDATE_FREQUENCY: "0"
-              GEOIPUPDATE_VERBOSE: "1"
-            envFrom:
-              - secretRef:
-                  name: vector-aggregator-secret
+        # initContainers:
+        #   init-geoip:
+        #     image:
+        #       repository: ghcr.io/maxmind/geoipupdate
+        #       tag: v7.0.1
+        #       pullPolicy: IfNotPresent
+        #     env:
+        #       GEOIPUPDATE_EDITION_IDS: GeoLite2-City
+        #       GEOIPUPDATE_FREQUENCY: "0"
+        #       GEOIPUPDATE_VERBOSE: "1"
+        #     envFrom:
+        #       - secretRef:
+        #           name: vector-aggregator-secret
 
         containers:
           vector-aggregator:
