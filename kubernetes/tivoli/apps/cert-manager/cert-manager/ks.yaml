@@ -29,7 +29,7 @@ spec:
   dependsOn:
     - name: cert-manager
     - name: external-secrets-stores
-  path: ./kubernetes/cluster-0/apps/cert-manager/cert-manager/issuers
+  path: ./kubernetes/tivoli/apps/cert-manager/cert-manager/issuers
   prune: true
   sourceRef:
     kind: GitRepository
