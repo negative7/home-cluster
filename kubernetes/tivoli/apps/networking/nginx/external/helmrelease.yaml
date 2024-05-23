@@ -28,7 +28,7 @@ spec:
   values:
     fullnameOverride: nginx-external
     controller:
-      replicaCount: 2
+      replicaCount: 1
       service:
         loadBalancerIP: 192.168.1.30
         externalTrafficPolicy: Cluster
