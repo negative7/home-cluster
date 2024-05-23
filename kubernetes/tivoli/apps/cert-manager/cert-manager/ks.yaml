@@ -5,7 +5,7 @@ metadata:
   name: cert-manager
   namespace: flux-system
 spec:
-  path: ./kubernetes/cluster-0/apps/cert-manager/cert-manager/app
+  path: ./kubernetes/tivoli/apps/cert-manager/cert-manager/app
   prune: true
   sourceRef:
     kind: GitRepository
