@@ -1,0 +1,33 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ./actions-runner-controller.yaml
+  - ./backube.yaml
+  - ./bitnami.yaml
+  - ./bjw-s.yaml
+  - ./cilium.yaml
+  - ./cloudnative-pg.yaml
+  - ./cloudtty.yaml
+  - ./coredns.yaml
+  - ./external-dns.yaml
+  - ./external-secrets.yaml
+  - ./grafana-charts.yaml
+  - ./ingress-nginx-charts.yaml
+  - ./intel.yaml
+  - ./jetstack.yaml
+  - ./kubernetes-dashboard-charts.yaml
+  - ./kubernetes-sigs-descheduler.yaml
+  - ./metrics-server.yaml
+  - ./nfs-subdir-external-provisioner-charts.yaml
+  - ./node-feature-discovery-charts.yaml
+  - ./onechart.yaml
+  - ./openebs.yaml
+  - ./piraeus.yaml
+  - ./postfinance.yaml
+  - ./prometheus-community.yaml
+  - ./rook-ceph-charts.yaml
+  - ./stakater-charts.yaml
+  - ./stevehipwell.yaml
+  - ./vector-charts.yaml
