@@ -1,4 +1,4 @@
-#kubectl get secret admin-user -n monitoring -o jsonpath={".data.token"} | base64 -d
+#kubectl --context tivoli get secret admin-user -n monitoring -o jsonpath={".data.token"} | base64 -d
 ---
 apiVersion: v1
 kind: ServiceAccount
