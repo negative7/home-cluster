@@ -70,8 +70,8 @@ spec:
         controller: mosquitto
         type: LoadBalancer
         annotations:
-          external-dns.alpha.kubernetes.io/hostname: "mqtt.negative7.com."
-          io.cilium/lb-ipam-ips: 10.2.0.103
+          external-dns.alpha.kubernetes.io/hostname: "mqtt.tivoli.negative7.com."
+          io.cilium/lb-ipam-ips: 192.168.1.32
         externalTrafficPolicy: Cluster
         ports:
           mqtt:
