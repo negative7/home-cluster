@@ -18,8 +18,7 @@ spec:
   interval: 30m
   wait: true
   dependsOn:
-    - name: rook-ceph-cluster
-    - name: volsync
+    - name: openebs
     - name: external-secrets-stores
   postBuild:
     substitute:
