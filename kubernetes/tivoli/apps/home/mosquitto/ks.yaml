@@ -10,7 +10,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
-  path: ./kubernetes/cluster-0/apps/home/mosquitto/app
+  path: ./kubernetes/tivoli/apps/home/mosquitto/app
   prune: true
   sourceRef:
     kind: GitRepository
