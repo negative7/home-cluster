@@ -6,4 +6,4 @@ namespace: home
 resources:
   - ./helmrelease.yaml
   - ./externalsecret.yaml
-  - ../../../../templates/volsync
+  - ./zigbee2mqtt-data
