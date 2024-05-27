@@ -24,8 +24,6 @@ spec:
 
         pod:
           hostNetwork: true
-          nodeSelector:
-            intel.feature.node.kubernetes.io/gpu: "true"
           securityContext:
             runAsUser: 568
             runAsGroup: 568
