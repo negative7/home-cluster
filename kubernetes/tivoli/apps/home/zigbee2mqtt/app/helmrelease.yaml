@@ -21,11 +21,6 @@ spec:
       zigbee2mqtt:
         annotations:
           reloader.stakater.com/auto: "true"
-
-        pod:
-          nodeSelector:
-            electrolama.feature.node.kubernetes.io/zzh: "true"
-
         containers:
           app:
             image:
