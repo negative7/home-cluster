@@ -33,6 +33,10 @@ spec:
     nginx:
       enabled: false
     app:
+      settings:
+        global:
+          clusterName: "Tivoli"
+          itemsPerPage: 25
       ingress:
         enabled: true
         ingressClassName: internal
@@ -41,10 +45,6 @@ spec:
           scope: cluster 
         hosts:
           - &host dashboard.${CLUSTER_SECRET_PUBLIC_DOMAIN}
-    api:
-      extraArgs:
-        - --enable-insecure-login
-        - --token-ttl=43200
     metrics-server:
       enabled: false
     metricsScraper:
