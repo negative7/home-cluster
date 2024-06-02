@@ -7,6 +7,14 @@
         "**/kubernetes/cluster-0/**"
       ],
       "additionalBranchPrefix": "cluster-"
+    },
+    {
+      "description": "Separate PRs for tivoli cluster",
+      "matchFileNames": [
+        "**/kubernetes/tivoli/**",
+        "**/ansible/tivoli/**"
+      ],
+      "additionalBranchPrefix": "tivoli-"
     }
   ]
 }

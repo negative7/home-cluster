@@ -35,6 +35,7 @@ spec:
             type: ''
       containers:
         - name: node-exporter
+          # renovate: datasource=docker depName=quay.io/prometheus/node-exporter
           image: quay.io/prometheus/node-exporter:v1.6.1
           args:
             - '--path.procfs=/host/proc'

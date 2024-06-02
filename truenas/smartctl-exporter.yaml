@@ -26,6 +26,7 @@ spec:
             type: ''
       containers:
         - name: main
+          # renovate: datasource=docker depName=quay.io/prometheuscommunity/smartctl-exporter
           image: quay.io/prometheuscommunity/smartctl-exporter:v0.9.1
           args:
             - '--smartctl.path=/usr/sbin/smartctl'
