@@ -11,7 +11,7 @@ resources:
   # - ./kube-state-metrics/ks.yaml
   # - ./loki/ks.yaml
   # - ./node-exporter/ks.yaml
-  # - ./prometheus-operator/ks.yaml
+  - ./prometheus-operator/ks.yaml
   # - ./smartctl-exporter/ks.yaml
   # - ./vector/ks.yaml
   # - ./victoria-metrics/ks.yaml
