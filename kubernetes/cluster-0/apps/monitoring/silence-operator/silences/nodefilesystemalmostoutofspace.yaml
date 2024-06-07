@@ -1,0 +1,26 @@
+---
+apiVersion: monitoring.giantswarm.io/v1alpha1
+kind: Silence
+metadata:
+  name: nodefilesystemalmostoutofspace-routerrw
+spec:
+  matchers:
+    - name: alertname
+      value: NodeFilesystemAlmostOutOfSpace
+      isRegex: false
+    - name: mountpoint
+      value: /mnt/.rwfs
+      isRegex: false
+---
+apiVersion: monitoring.giantswarm.io/v1alpha1
+kind: Silence
+metadata:
+  name: NodeFilesystemAlmostOutOfSpace-routermd
+spec:
+  matchers:
+    - name: alertname
+      value: NodeFilesystemAlmostOutOfSpace
+      isRegex: false
+    - name: device
+      value: /dev/md3
+      isRegex: false

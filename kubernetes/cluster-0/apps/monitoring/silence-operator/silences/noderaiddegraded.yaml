@@ -1,0 +1,13 @@
+---
+apiVersion: monitoring.giantswarm.io/v1alpha1
+kind: Silence
+metadata:
+  name: noderaiddegraded-router
+spec:
+  matchers:
+    - name: alertname
+      value: NodeRAIDDegraded
+      isRegex: false
+    - name: instance
+      value: 10.0.1.1:9100
+      isRegex: false
