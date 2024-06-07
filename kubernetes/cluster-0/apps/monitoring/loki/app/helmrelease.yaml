@@ -122,16 +122,16 @@ spec:
               - *host
 
     write:
-      replicas: 1
+      replicas: 3
       persistence:
         storageClass: openebs-hostpath
         size: 20Gi
 
     read:
-      replicas: 1
+      replicas: 3
 
     backend:
-      replicas: 1
+      replicas: 3
       persistence:
         storageClass: openebs-hostpath
         size: 20Gi
