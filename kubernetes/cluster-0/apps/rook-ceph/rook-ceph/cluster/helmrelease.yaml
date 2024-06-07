@@ -53,6 +53,8 @@ spec:
     cephClusterSpec:
       network:
         provider: host
+        connections:
+          requireMsgr2: true
 
       crashCollector:
         disable: false
@@ -87,6 +89,12 @@ spec:
         enabled: true
         urlPrefix: /
         ssl: false
+        prometheusEndpoint: http://vmselect-victoria-metrics.monitoring.svc.cluster.local:8481/select/0/prometheus
+
+      mgr:
+        modules:
+          - name: pg_autoscaler
+            enabled: true
 
       storage:
         useAllNodes: false
