@@ -25,6 +25,6 @@ spec:
     dns01RecursiveNameserversOnly: true
     installCRDs: true
     prometheus:
-      enabled: false
+      enabled: true
       servicemonitor:
-        enabled: false
+        enabled: true
