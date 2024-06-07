@@ -26,8 +26,13 @@ cluster/main:
       - any-glob-to-any-file: ansible/main/**/*
       - any-glob-to-any-file: kubernetes/main/**/*
       - any-glob-to-any-file: terraform/main/**/*
-cluster/storage:
+cluster/tivoli:
   - changed-files:
-      - any-glob-to-any-file: ansible/storage/**/*
+      - any-glob-to-any-file: ansible/tivoli/**/*
       - any-glob-to-any-file: kubernetes/tivoli/**/*
-      - any-glob-to-any-file: terraform/storage/**/*
+      - any-glob-to-any-file: terraform/tivoli/**/*
+cluster/nas:
+  - changed-files:
+      - any-glob-to-any-file: ansible/truenas/**/*
+      - any-glob-to-any-file: kubernetes/truenas/**/*
+      - any-glob-to-any-file: terraform/truenas/**/*

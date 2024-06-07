@@ -9,6 +9,13 @@
       "additionalBranchPrefix": "cluster-"
     },
     {
+      "description": "Separate PRs for NAS cluster",
+      "matchFileNames": [
+        "**/kubernetes/truenas/**"
+      ],
+      "additionalBranchPrefix": "cluster-"
+    },
+    {
       "description": "Separate PRs for tivoli cluster",
       "matchFileNames": [
         "**/kubernetes/tivoli/**",
