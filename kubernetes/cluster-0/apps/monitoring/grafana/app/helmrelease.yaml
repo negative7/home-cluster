@@ -101,22 +101,6 @@ spec:
             editable: true
             options:
               path: /var/lib/grafana/dashboards/nginx
-          - name: thanos
-            orgId: 1
-            folder: Thanos
-            type: file
-            disableDeletion: false
-            editable: true
-            options:
-              path: /var/lib/grafana/dashboards/thanos
-          - name: prometheus
-            orgId: 1
-            folder: prometheus
-            type: file
-            disableDeletion: false
-            editable: true
-            options:
-              path: /var/lib/grafana/dashboards/prometheus
           - name: unpoller
             disableDeletion: false
             editable: true
@@ -133,39 +117,43 @@ spec:
               path: /var/lib/grafana/dashboards/victoria-metrics
             orgId: 1
             type: file
+
     datasources:
       datasources.yaml:
         apiVersion: 1
-        deleteDatasources:
-          - { name: Alertmanager, orgId: 1 }
-          - { name: Loki, orgId: 1 }
-          - { name: Prometheus, orgId: 1 }
         datasources:
-          - name: Prometheus
+          - access: proxy
+            name: Prometheus
             type: prometheus
-            uid: prometheus
-            access: proxy
-            url: http://thanos-query-frontend.monitoring.svc.cluster.local:10902
-            jsonData:
-              prometheusType: Thanos
-              timeInterval: 1m
+            url: http://vmselect-victoria-metrics.monitoring.svc.cluster.local:8481/select/0/prometheus
             isDefault: true
-          - name: Loki
-            type: loki
-            uid: loki
-            access: proxy
-            url: http://loki-gateway.monitoring.svc.cluster.local
             jsonData:
-              maxLines: 250
+              prometheusType: Prometheus
+          - access: proxy
+            name: Loki
+            type: loki
+            url: http://loki-gateway.monitoring.svc.cluster.local:80
           - name: Alertmanager
             type: alertmanager
-            uid: alertmanager
             access: proxy
-            url: http://alertmanager-operated.monitoring.svc.cluster.local:9093
+            url: http://alertmanager.monitoring.svc.cluster.local:9093
             jsonData:
               implementation: prometheus
+
+        deleteDatasources:
+          - name: Alertmanager
+            orgId: 1
+          - name: Prometheus
+            orgId: 1
+          - name: Loki
+            orgId: 1
+
+
     dashboards:
       default:
+        cert-manager:
+          url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/cert-manager/dashboards/cert-manager.json
+          datasource: Prometheus
         cloudflared:
           # renovate: dashboardName="Cloudflare Tunnels (cloudflared)"
           gnetId: 17457
@@ -182,10 +170,19 @@ spec:
           url: https://raw.githubusercontent.com/external-secrets/external-secrets/main/docs/snippets/dashboard.json
           datasource: Prometheus
         node-exporter-full:
-          # renovate: depName="Node Exporter Full"
+          # renovate: dashboardName="Node Exporter Full"
           gnetId: 1860
           revision: 37
           datasource: Prometheus
+
+        spegel:
+          # renovate: dashboardName="Spegel"
+          gnetId: 18089
+          revision: 1
+          datasource:
+            - name: DS_PROMETHEUS
+              value: Prometheus
+
         minio:
           # renovate: depName="MinIO Dashboard"
           gnetId: 13502
@@ -211,9 +208,6 @@ spec:
           datasource: Prometheus
         cloudnative-pg:
           url: https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/main/docs/src/samples/monitoring/grafana-dashboard.json
-          datasource: Prometheus
-        cert-manager:
-          url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/cert-manager/dashboards/cert-manager.json
           datasource: Prometheus
         
       ceph:
@@ -282,66 +276,36 @@ spec:
         nginx-request-handling-performance:
           url: https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/grafana/dashboards/request-handling-performance.json
           datasource: Prometheus
-      prometheus:
-        prometheus:
-          # renovate: depName="Prometheus"
-          gnetId: 19105
-          revision: 3
-          datasource: Prometheus
-      thanos:
-        thanos-bucket-replicate:
-          url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/thanos/dashboards/bucket-replicate.json
-          datasource: Prometheus
-        thanos-compact:
-          url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/thanos/dashboards/compact.json
-          datasource: Prometheus
-        thanos-overview:
-          url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/thanos/dashboards/overview.json
-          datasource: Prometheus
-        thanos-query:
-          url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/thanos/dashboards/query.json
-          datasource: Prometheus
-        thanos-query-frontend:
-          url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/thanos/dashboards/query-frontend.json
-          datasource: Prometheus
-        thanos-receieve:
-          url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/thanos/dashboards/receive.json
-          datasource: Prometheus
-        thanos-rule:
-          url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/thanos/dashboards/rule.json
-          datasource: Prometheus
-        thanos-sidecar:
-          url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/thanos/dashboards/sidecar.json
-          datasource: Prometheus
-        thanos-store:
-          url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/thanos/dashboards/store.json
-          datasource: Prometheus
       unpoller:
         unifi-insights:
-          # renovate: depName="UniFi-Poller: Client Insights - Prometheus"
+          # renovate: dashboardName="UniFi-Poller: Client Insights - Prometheus"
           gnetId: 11315
           revision: 9
           datasource: Prometheus
         unifi-network-sites:
-          # renovate: depName="UniFi-Poller: Network Sites - Prometheus"
+          # renovate: dashboardName="UniFi-Poller: Network Sites - Prometheus"
           gnetId: 11311
           revision: 5
           datasource: Prometheus
-        unifi-uap:
-          # renovate: depName="UniFi-Poller: UAP Insights - Prometheus"
-          gnetId: 11314
-          revision: 10
-          datasource: Prometheus
         unifi-usw:
-          # renovate: depName="UniFi-Poller: USW Insights - Prometheus"
+          # renovate: dashboardName="UniFi-Poller: USW Insights - Prometheus"
           gnetId: 11312
           revision: 9
-          datasource: Prometheus
+          datasource:
+            - name: "DS_PROMETHEUS"
+              value: Prometheus
+        unifi-uap:
+          # renovate: dashboardName="UniFi-Poller: UAP Insights - Prometheus"
+          gnetId: 11314
+          revision: 10
+          datasource:
+            - name: "DS_PROMETHEUS"
+              value: Prometheus
       victoriametrics:
         vm-cluster:
           # renovate: dashboardName="VictoriaMetrics - cluster"
           gnetId: 11176
-          revision: 36
+          revision: 37
           datasource:
             - name: "DS_PROMETHEUS"
               value: Prometheus
@@ -355,14 +319,14 @@ spec:
         vm-vmalert:
           # renovate: dashboardName="VictoriaMetrics - vmalert"
           gnetId: 14950
-          revision: 10
+          revision: 11
           datasource:
             - name: "DS_PROMETHEUS"
               value: Prometheus
         vm-vmagent:
           # renovate: dashboardName="VictoriaMetrics - vmagent"
           gnetId: 12683
-          revision: 17
+          revision: 18
           datasource:
             - name: "DS_PROMETHEUS"
               value: Prometheus
@@ -416,10 +380,13 @@ spec:
       tls:
         - hosts:
             - *host
+
     persistence:
       enabled: false
+
     testFramework:
       enabled: false
+
     topologySpreadConstraints:
       - maxSkew: 1
         topologyKey: kubernetes.io/hostname
