@@ -13,7 +13,6 @@ resources:
   - ./node-exporter/ks.yaml
   - ./prometheus-operator/ks.yaml
   - ./smartctl-exporter/ks.yaml
-  - ./thanos/ks.yaml
   - ./vector/ks.yaml
   - ./victoria-metrics/ks.yaml
   - ./unpoller/ks.yaml
