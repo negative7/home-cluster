@@ -5,6 +5,7 @@ resources:
   # Pre Flux-Kustomizations
   - ./namespace.yaml
   # # Flux-Kustomizations
+  - ./alertmanager/ks.yaml
   - ./grafana/ks.yaml
   - ./kubernetes-dashboard/ks.yaml
   - ./kromgo/ks.yaml
