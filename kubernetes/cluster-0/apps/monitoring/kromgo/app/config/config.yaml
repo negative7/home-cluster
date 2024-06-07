@@ -14,7 +14,7 @@ metrics:
     colors:
       - { color: "green", min: 0, max: 9999 }
 
-  - name: cluster_pod_count
+  - name: main_cluster_pod_count
     query: sum(kube_pod_status_phase{cluster="main", phase="Running"})
     colors:
       - { color: "green", min: 0, max: 9999 }
