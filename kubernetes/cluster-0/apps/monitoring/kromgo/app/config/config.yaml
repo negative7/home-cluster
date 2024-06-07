@@ -2,7 +2,7 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/kashalls/kromgo/main/config.schema.json
 metrics:
   - name: main_cluster_node_count
-    query: count(count by (node) (kube_node_status_condition{cluster="cluster-0",condition="Ready"}))
+    query: count(count by (node) (kube_node_status_condition{cluster="main",condition="Ready"}))
 
   - name: main_cluster_pod_count
     query: sum(kube_pod_status_phase{cluster="main", phase="Running"})
