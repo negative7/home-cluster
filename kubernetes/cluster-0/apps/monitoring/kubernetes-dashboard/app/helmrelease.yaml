@@ -33,6 +33,15 @@ spec:
     nginx:
       enabled: false
     app:
+      settings:
+        global:
+          clusterName: "Main"
+          itemsPerPage: 20
+        pinnedResources: 
+          - helmreleases.helm.toolkit.fluxcd.io
+          - kustomizations.kustomize.toolkit.fluxcd.io
+          - clusters.postgresql.cnpg.io
+          - externalsecrets.external-secrets.io
       ingress:
         enabled: true
         ingressClassName: internal
@@ -41,10 +50,6 @@ spec:
           scope: cluster 
         hosts:
           - &host dashboard.${SECRET_PUBLIC_DOMAIN}
-    api:
-      extraArgs:
-        - --enable-insecure-login
-        - --token-ttl=43200
     metrics-server:
       enabled: false
     metricsScraper:
