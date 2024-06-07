@@ -5,4 +5,4 @@ kind: Kustomization
 resources:
   - ./helmrepository.yaml
   - ./helmrelease.yaml
-  - ./secret-extrascrapes.yaml
+  # - ./secret-extrascrapes.yaml
