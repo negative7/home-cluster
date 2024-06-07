@@ -7,7 +7,6 @@ Scale deployments
 
 ```
 kubectl scale deployment -n default authelia --replicas 0
-kubectl scale deployment -n monitoring gatus --replicas 0
 kubectl scale deployment -n monitoring grafana --replicas 0
 kubectl scale deployment -n home home-assistant --replicas 0
 kubectl scale deployment -n default lldap --replicas 0
@@ -67,6 +66,5 @@ kubectl scale deployment -n default prowlarr --replicas 1
 kubectl scale deployment -n default radarr --replicas 1
 kubectl scale deployment -n default sonarr --replicas 1
 kubectl scale deployment -n home home-assistant --replicas 1
-kubectl scale deployment -n monitoring gatus --replicas 1
 kubectl scale deployment -n monitoring grafana --replicas 1
 ```
