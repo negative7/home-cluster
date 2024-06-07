@@ -21,7 +21,7 @@ spec:
 
     loki:
       podAnnotations:
-        secret.reloader.stakater.com/reload: &cephBucket loki-bucket-v2 
+        secret.reloader.stakater.com/reload: &cephBucket loki-bucket-v2
 
       auth_enabled: false
 
@@ -58,7 +58,7 @@ spec:
       rulerConfig:
         enable_api: true
         enable_alertmanager_v2: true
-        alertmanager_url: http://alertmanager-operated.monitoring.svc.cluster.local:9093
+        alertmanager_url: http://alertmanager.monitoring.svc.cluster.local:9093
         storage:
           type: local
           local:
@@ -87,7 +87,7 @@ spec:
           insecure: true
 
     gateway:
-      replicas: 1
+      replicas: 3
       enabled: true
       image:
         registry: ghcr.io
