@@ -5,13 +5,15 @@ resources:
   # Pre Flux-Kustomizations
   - ./namespace.yaml
   # # Flux-Kustomizations
-  - ./gatus/ks.yaml
   - ./grafana/ks.yaml
-  - ./kube-prometheus-stack/ks.yaml
   - ./kubernetes-dashboard/ks.yaml
+  - ./kromgo/ks.yaml
+  - ./kube-state-metrics/ks.yaml
   - ./loki/ks.yaml
   - ./node-exporter/ks.yaml
+  - ./prometheus-operator/ks.yaml
   - ./smartctl-exporter/ks.yaml
   - ./thanos/ks.yaml
   - ./vector/ks.yaml
-  # - ./unpoller/ks.yaml
+  - ./victoria-metrics/ks.yaml
+  - ./unpoller/ks.yaml
