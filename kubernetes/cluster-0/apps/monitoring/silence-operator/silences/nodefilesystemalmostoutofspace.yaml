@@ -2,7 +2,7 @@
 apiVersion: monitoring.giantswarm.io/v1alpha1
 kind: Silence
 metadata:
-  name: nodefilesystemalmostoutofspace-routerrw
+  name: router-fs
 spec:
   matchers:
     - name: alertname
@@ -15,7 +15,7 @@ spec:
 apiVersion: monitoring.giantswarm.io/v1alpha1
 kind: Silence
 metadata:
-  name: NodeFilesystemAlmostOutOfSpace-routermd
+  name: router-md
 spec:
   matchers:
     - name: alertname
