@@ -15,23 +15,10 @@ spec:
         kind: HelmRepository
         name: bjw-s
         namespace: flux-system
-  maxHistory: 2
-  install:
-    remediation:
-      retries: 3
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
-  uninstall:
-    keepHistory: false
-  dependsOn:
-    - name: nginx-external
-      namespace: networking
   values:
     controllers:
       cloudflared:
-        replicas: 1
+        replicas: 2
         strategy: RollingUpdate
 
         annotations:
