@@ -142,7 +142,7 @@ spec:
       enabled: true
       spec:
         replicaCount: 1
-        shardCount: 4
+        shardCount: 2
         scrapeInterval: 30s
         externalLabels:
           cluster: main
