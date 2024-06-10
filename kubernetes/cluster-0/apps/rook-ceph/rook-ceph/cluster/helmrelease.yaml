@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta2.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -114,10 +114,10 @@ spec:
           - name: vinnytsia
             devices:
               - name: /dev/disk/by-id/ata-SHGS31-1000GS-2_FJ07N442411107819
-    
+
     cephBlockPoolsVolumeSnapshotClass:
       enabled: false
-      
+
     cephBlockPools:
       - name: ceph-blockpool
         spec:
@@ -176,7 +176,7 @@ spec:
             csi.storage.k8s.io/node-stage-secret-name: rook-csi-cephfs-node
             csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
             csi.storage.k8s.io/fstype: ext4
-            
+
     cephFileSystemVolumeSnapshotClass:
       enabled: false
 

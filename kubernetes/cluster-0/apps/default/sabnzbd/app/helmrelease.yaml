@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2beta2.schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -30,7 +30,7 @@ spec:
             fsGroupChangePolicy: OnRootMismatch
             supplementalGroups:
               - 10000
-              - 65542 
+              - 65542
               - 1000
               - 1001
 
@@ -98,7 +98,7 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim:  sabnzbd-config 
+        existingClaim:  sabnzbd-config
         advancedMounts:
           sabnzbd:
             app:
