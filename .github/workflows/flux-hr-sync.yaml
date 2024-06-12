@@ -7,7 +7,7 @@ on:
     inputs:
       clusterName:
         description: Cluster Name
-        default: cluster-0
+        default: main
         required: true
       helmRepoNamespace:
         description: Helm Repository Namespace
@@ -23,7 +23,7 @@ on:
 jobs:
   sync:
     name: Flux Helm Repository Sync
-    runs-on: ["arc-runner-set-home-ops"]
+    runs-on: ["gha-runner-scale-set"]
     steps:
       - name: Generate Token
         uses: actions/create-github-app-token@v1
@@ -43,7 +43,7 @@ jobs:
 
       - name: Setup Workflow Tools
         shell: bash
-        run: brew install fluxcd/tap/flux yq kubectl
+        run: brew install fluxcd/tap/flux yq
 
       - name: Write kubeconfig
         id: kubeconfig
@@ -70,7 +70,6 @@ jobs:
           KUBECONFIG: "${{ steps.kubeconfig.outputs.filePath }}"
         shell: bash
         run: |
-          kubectl config get-contexts
           declare -a repos=()
           for f in ${{ steps.changed-files.outputs.all_changed_and_modified_files }}; do
               cluster_name=$(echo "${f}" | awk -F'/' '{print $2}')
@@ -93,7 +92,6 @@ jobs:
           KUBECONFIG: ${{ steps.kubeconfig.outputs.filePath }}
         shell: bash
         run: |
-          kubectl config get-contexts
           flux \
               --context ${{ github.event.inputs.clusterName }} \
               --namespace ${{ github.event.inputs.helmRepoNamespace }} \

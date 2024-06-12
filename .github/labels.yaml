@@ -15,7 +15,9 @@
 # Clusters
 - name: cluster/main
   color: "ffc300"
-- name: cluster/storage
+- name: cluster/tivoli
+  color: "ffc300"
+- name: cluster/truenas
   color: "ffc300"
 # Renovate Types
 - name: renovate/ansible
@@ -42,7 +44,7 @@
 - name: type/major
   color: "f6412d"
 # Uncategorized
-- name: hold/upstream
+- name: community
+  color: "370fb2"
+- name: hold
   color: "ee0701"
-- name: lint/lychee
-  color: "201e39"

@@ -1,38 +1,34 @@
 ---
-# Area
+# Areas
 area/ansible:
   - changed-files:
-      - any-glob-to-any-file: ansible/**/*
+      - any-glob-to-any-file: "ansible/**/*"
 area/docs:
   - changed-files:
-      - any-glob-to-any-file: docs/**/*
-      - any-glob-to-any-file: README.md
+      - any-glob-to-any-file:
+          - "docs/**/*"
+          - "README.md"
 area/github:
   - changed-files:
-      - any-glob-to-any-file: .github/**/*
+      - any-glob-to-any-file: ".github/**/*"
 area/kubernetes:
   - changed-files:
-      - any-glob-to-any-file: kubernetes/**/*
+      - any-glob-to-any-file: "kubernetes/**/*"
 area/taskfile:
   - changed-files:
-      - any-glob-to-any-file: .taskfiles/**/*
-      - any-glob-to-any-file: Taskfile*
+      - any-glob-to-any-file:
+          - ".taskfiles/**/*"
+          - "Taskfile.yaml"
 area/terraform:
   - changed-files:
-      - any-glob-to-any-file: terraform/**/*
-# Cluster
+      - any-glob-to-any-file: "terraform/**/*"
+# Clusters
 cluster/main:
   - changed-files:
-      - any-glob-to-any-file: ansible/main/**/*
-      - any-glob-to-any-file: kubernetes/main/**/*
-      - any-glob-to-any-file: terraform/main/**/*
+      - any-glob-to-any-file: "kubernetes/main/**/*"
 cluster/tivoli:
   - changed-files:
-      - any-glob-to-any-file: ansible/tivoli/**/*
-      - any-glob-to-any-file: kubernetes/tivoli/**/*
-      - any-glob-to-any-file: terraform/tivoli/**/*
-cluster/nas:
+      - any-glob-to-any-file: "kubernetes/tivoli/**/*"
+cluster/truenas:
   - changed-files:
-      - any-glob-to-any-file: ansible/truenas/**/*
-      - any-glob-to-any-file: kubernetes/truenas/**/*
-      - any-glob-to-any-file: terraform/truenas/**/*
+      - any-glob-to-any-file: "kubernetes/truenas/**/*"
