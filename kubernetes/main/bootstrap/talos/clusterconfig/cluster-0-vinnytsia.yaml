@@ -119,7 +119,7 @@ cluster:
     image: registry.k8s.io/kube-controller-manager:v1.30.0
   proxy:
     disabled: true
-    image: registry.k8s.io/kube-proxy:v1.30.0
+    image: registry.k8s.io/kube-proxy:v1.30.2
   scheduler:
     image: registry.k8s.io/kube-scheduler:v1.30.0
   discovery:
