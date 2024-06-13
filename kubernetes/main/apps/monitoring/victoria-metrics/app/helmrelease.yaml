@@ -107,7 +107,12 @@ spec:
                   app.kubernetes.io/name: vminsert
           extraArgs:
             maxLabelsPerTimeseries: "90" # More needed if you are scraping a LOT of stuff and having issues
-
+      ingress:
+        select:
+          enabled: true
+          ingressClassName: internal
+          hosts:
+            - vmselect.${SECRET_PUBLIC_DOMAIN}
     # VM Alerting (however, this just watches & passes alerts to alertmanager)
     vmalert:
       enabled: true
