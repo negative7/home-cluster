@@ -104,7 +104,7 @@ cluster:
   serviceAccount:
     key: LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1IY0NBUUVFSU5FOGtpQ0NKSDNLeTFWam5uc09HWnB0eUVPdGZNMGdXdzBOa3JaSmNuRkxvQW9HQ0NxR1NNNDkKQXdFSG9VUURRZ0FFdVkzYUxmV3Q4Vi9GTlpaTnNHaHUzTjBGUmZYam1lV2dDam9yNUViUVA4eUovUUhYbVBxRQpaR1VZQTg0RHlHN0NNNHV5WkVpQjJOZld2cGdoSkVxVEVnPT0KLS0tLS1FTkQgRUMgUFJJVkFURSBLRVktLS0tLQo=
   apiServer:
-    image: registry.k8s.io/kube-apiserver:v1.30.0
+    image: registry.k8s.io/kube-apiserver:v1.30.2
     certSANs:
       - 10.2.0.20
       - cluster-0.negative7.com
