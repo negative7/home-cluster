@@ -11,7 +11,7 @@ machine:
     - cluster-0.negative7.com
     - 127.0.0.1
   kubelet:
-    image: ghcr.io/siderolabs/kubelet:v1.30.0
+    image: ghcr.io/siderolabs/kubelet:v1.30.2
     extraArgs:
       rotate-server-certificates: "true"
     extraMounts:
