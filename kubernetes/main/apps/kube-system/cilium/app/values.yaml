@@ -1,0 +1,94 @@
+---
+autoDirectNodeRoutes: true
+bandwidthManager:
+  bbr: true
+  enabled: true
+bpf:
+  masquerade: true
+  tproxy: true
+cgroup:
+  autoMount:
+    enabled: false
+  hostRoot: /sys/fs/cgroup
+cluster:
+  id: 1
+  name: main
+
+
+cni:
+  exclusive: false
+containerRuntime:
+  integration: containerd
+enableRuntimeDeviceDetection: true
+endpointRoutes:
+  enabled: true
+hubble:
+  enabled: true
+  metrics:
+    enabled:
+      - dns:query;ignoreAAAA
+      - drop
+      - tcp
+      - flow
+      - port-distribution
+      - icmp
+      - http
+  relay:
+    enabled: true
+    rollOutPods: true
+  serviceMonitor:
+    enabled: false
+  ui:
+    enabled: true
+    ingress:
+      enabled: false
+    rollOutPods: true
+ipam:
+  mode: "kubernetes"
+
+# ingressController:
+#   enabled: false
+#   loadbalancerMode: shared
+
+
+ipv4NativeRoutingCIDR: 10.244.0.0/16
+tunnel: "disabled"
+
+k8sServiceHost: 127.0.0.1
+k8sServicePort: 7445
+kubeProxyReplacement: true
+kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
+l2announcements:
+  enabled: true
+  leaseDuration: 120s
+  leaseRenewDeadline: 60s
+  leaseRetryPeriod: 1s
+loadBalancer:
+  algorithm: maglev
+  mode: dsr
+localRedirectPolicy: true
+operator:
+  rollOutPods: true
+rollOutCiliumPods: true
+routingMode: native
+securityContext:
+  capabilities:
+    ciliumAgent:
+      - CHOWN
+      - KILL
+      - NET_ADMIN
+      - NET_RAW
+      - IPC_LOCK
+      - SYS_ADMIN
+      - SYS_RESOURCE
+      - DAC_OVERRIDE
+      - FOWNER
+      - SETGID
+      - SETUID
+      - SYS_ADMIN  # still needed for cgroup mounting :-(
+    cleanCiliumState:
+      - NET_ADMIN
+      - SYS_RESOURCE
+      - SYS_ADMIN
+      - PERFMON
+      - BPF

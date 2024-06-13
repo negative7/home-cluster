@@ -13,7 +13,7 @@ tasks:
       Args:
         cluster: Cluster to run command against (default: main)
     vars:
-      cluster: '{{.cluster | default "cluster-0"}}'
+      cluster: '{{.cluster | default "main"}}'
     cmds:
       # Install essential Prometheus Operator CRDs
       - kubectl --context {{.cluster}} apply --server-side --filename https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/{{.PROMETHEUS_OPERATOR_VERSION}}/example/prometheus-operator-crd/monitoring.coreos.com_podmonitors.yaml
@@ -84,7 +84,7 @@ tasks:
       - |
         flux get helmrelease --all-namespaces --no-header | awk '{print $1, $2}' \
           | xargs -L 1 bash -c 'flux -n $0 resume helmrelease $1'
-  
+
   apply:
     desc: Apply a Flux Kustomization resource for a cluster
     summary: |
@@ -105,7 +105,7 @@ tasks:
     vars:
       kustomization_path: "{{.KUBERNETES_DIR}}/{{.cluster}}/apps/{{.path}}"
       kustomization_file: "{{.kustomization_path}}/ks.yaml"
-      cluster: '{{.cluster | default "cluster-0"}}'
+      cluster: '{{.cluster | default "main"}}'
       path: '{{ or .path (fail "Argument (path) is required") }}'
       ks_name: '{{ .name | default (splitList "/" .path | last) }}'
       ns: '{{.ns | default "flux-system"}}'

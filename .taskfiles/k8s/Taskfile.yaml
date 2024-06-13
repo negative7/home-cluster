@@ -9,7 +9,7 @@ tasks:
       Args:
         cluster: Cluster to run command against (default: main)
     vars:
-      cluster: '{{.cluster | default "cluster-0"}}'
+      cluster: '{{.cluster | default "main"}}'
     cmds:
       - kubectl --context {{.cluster}} delete pods --field-selector status.phase=Failed -A --ignore-not-found=true
 
@@ -19,7 +19,7 @@ tasks:
       Args:
         cluster: Cluster to run command against (default: main)
     vars:
-      cluster: '{{.cluster | default "cluster-0"}}'
+      cluster: '{{.cluster | default "main"}}'
     cmds:
       - kubectl --context {{.cluster}} delete pods --field-selector status.phase=Succeeded -A --ignore-not-found=true
 
@@ -29,6 +29,6 @@ tasks:
       Args:
         cluster: Cluster to run command against (default: main)
     vars:
-      cluster: '{{.cluster | default "cluster-0"}}'
+      cluster: '{{.cluster | default "main"}}'
     cmds:
       - kubectl --context {{.cluster}} delete pods --field-selector status.phase=Pending -A --ignore-not-found=true

@@ -1,0 +1,138 @@
+version: v1alpha1
+debug: false
+persist: true
+machine:
+  type: controlplane
+  token: 4e5g2a.f14syqjgo92t0j7c
+  ca:
+    crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJQekNCOHFBREFnRUNBaEVBbEh6VWN0cDhtSGtCa3EyWGJSZ2xmakFGQmdNclpYQXdFREVPTUF3R0ExVUUKQ2hNRmRHRnNiM013SGhjTk1qTXdPVEUwTVRjeU5qRTNXaGNOTXpNd09URXhNVGN5TmpFM1dqQVFNUTR3REFZRApWUVFLRXdWMFlXeHZjekFxTUFVR0F5dGxjQU1oQUZlUVdENGdSbmUrNHVkRGVDRW95Uk05elc4N3h4MEpwMVFqClNQT1k3cno2bzJFd1h6QU9CZ05WSFE4QkFmOEVCQU1DQW9Rd0hRWURWUjBsQkJZd0ZBWUlLd1lCQlFVSEF3RUcKQ0NzR0FRVUZCd01DTUE4R0ExVWRFd0VCL3dRRk1BTUJBZjh3SFFZRFZSME9CQllFRkhrL0tPNXFWdjIyTTdUegp0ZzB0RHQyNEZEUEdNQVVHQXl0bGNBTkJBRGJTU3hzSzUyREFNVlZHZDF2bmJmYWRJeVY3aHJxV1pOeHNtQU95Ck5ySUV0U2VkbWp2d09SelEvc29yaXhsd2plb1d6RFV6M242K3JoMDk2dStUc1FzPQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+    key: LS0tLS1CRUdJTiBFRDI1NTE5IFBSSVZBVEUgS0VZLS0tLS0KTUM0Q0FRQXdCUVlESzJWd0JDSUVJQk9BencxcGRyc2dtYVN3d1I1bjlJeWtCamNvM21aVmcrYTVCVFpBS2VoUQotLS0tLUVORCBFRDI1NTE5IFBSSVZBVEUgS0VZLS0tLS0K
+  certSANs:
+    - cluster-0.negative7.com
+    - 127.0.0.1
+  kubelet:
+    image: ghcr.io/siderolabs/kubelet:v1.30.0
+    extraArgs:
+      rotate-server-certificates: "true"
+    extraMounts:
+      - destination: /var/local/openebs
+        type: bind
+        source: /var/local/openebs
+        options:
+          - rbind
+          - rshared
+          - rw
+    extraConfig:
+      maxPods: 150
+    defaultRuntimeSeccompProfileEnabled: true
+    nodeIP:
+      validSubnets:
+        - 10.2.0.0/24
+    disableManifestsDirectory: true
+  network:
+    hostname: dnipro
+    interfaces:
+      - interface: eno1
+        dhcp: true
+        vip:
+          ip: 10.2.0.20
+    nameservers:
+      - 10.0.5.3
+    disableSearchDomain: true
+  install:
+    diskSelector:
+      busPath: /pci0000:00/0000:00:1b.0/0000:01:00.0/nvme/nvme0/nvme0n1
+    extraKernelArgs:
+      - net.ifnames=1
+    image: factory.talos.dev/installer/665020c0ef83ef66fd7df6df98eed9a34fc4c13b0b824b3c04b633cf3794a4c5:v1.7.1
+    wipe: false
+  files:
+    - content: |-
+        [plugins]
+          [plugins."io.containerd.grpc.v1.cri"]
+            enable_unprivileged_ports = true
+            enable_unprivileged_icmp = true
+      permissions: 0o0
+      path: /etc/cri/conf.d/20-customization.part
+      op: create
+  time:
+    disabled: false
+    servers:
+      - time.cloudflare.com
+  sysctls:
+    fs.inotify.max_queued_events: "65536"
+    fs.inotify.max_user_instances: "8192"
+    fs.inotify.max_user_watches: "524288"
+    net.core.rmem_max: "2500000"
+    net.core.wmem_max: "2500000"
+  features:
+    rbac: true
+    stableHostname: true
+    kubernetesTalosAPIAccess:
+      enabled: true
+      allowedRoles:
+        - os:admin
+      allowedKubernetesNamespaces:
+        - system-upgrade
+    apidCheckExtKeyUsage: true
+    diskQuotaSupport: true
+    kubePrism:
+      enabled: true
+      port: 7445
+cluster:
+  id: 6uEu4A98tkC1sshRiHvX7_7I390u7egvK5iYdPDZuUE=
+  secret: UBY2+nteg8feLYxsOkN16aTWfjEIRY2WWZyA11q+QMY=
+  controlPlane:
+    endpoint: https://10.2.0.20:6443
+  clusterName: cluster-0
+  network:
+    cni:
+      name: none
+    dnsDomain: cluster.local
+    podSubnets:
+      - 10.244.0.0/16
+    serviceSubnets:
+      - 10.96.0.0/12
+  token: 7e06bt.yckht02g5yn3gg1l
+  secretboxEncryptionSecret: t6XIxY7jnn+OmlAtcSs3+T+fx8BFGa7kJJPZw41yeL8=
+  ca:
+    crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJpRENDQVMrZ0F3SUJBZ0lRVEVBNWRNMi9WVXZpTlBaZm54R1BKREFLQmdncWhrak9QUVFEQWpBVk1STXcKRVFZRFZRUUtFd3ByZFdKbGNtNWxkR1Z6TUI0WERUSXpNRGt4TkRFM01qWXhOMW9YRFRNek1Ea3hNVEUzTWpZeApOMW93RlRFVE1CRUdBMVVFQ2hNS2EzVmlaWEp1WlhSbGN6QlpNQk1HQnlxR1NNNDlBZ0VHQ0NxR1NNNDlBd0VICkEwSUFCTEg1QXh1dWxXdDBmaFlQVjhLMm92VGd1ck50eStjbUlqb0xHNDVoU1JVSGhyc05rM044TkZyM2YxL2UKN2R3OXJweTdHVzB0N0dOSEtMK3Y5YTBFNHdlallUQmZNQTRHQTFVZER3RUIvd1FFQXdJQ2hEQWRCZ05WSFNVRQpGakFVQmdnckJnRUZCUWNEQVFZSUt3WUJCUVVIQXdJd0R3WURWUjBUQVFIL0JBVXdBd0VCL3pBZEJnTlZIUTRFCkZnUVUvU1Bzb1pGNlZrc0xUcEpMczladU9pM1JZbDB3Q2dZSUtvWkl6ajBFQXdJRFJ3QXdSQUlnTXVFdE9DS1kKeVZjUk05VUZoSm9PTGdDOWU2eWJ0Vmo2dGRWRUFObHM0M2tDSUFnU1dHb2Y2VUJxSDJrQklsMFhUK3NVZWNVMApMMkYvZkNmNHZ0Zm8xSGpLCi0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+    key: LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1IY0NBUUVFSURLQnZLdDZEY3dpUzFkTjZOVTRiRkZCcDJYVFFvQmxsSTB4QVZZMGF5MEtvQW9HQ0NxR1NNNDkKQXdFSG9VUURRZ0FFc2ZrREc2NlZhM1IrRmc5WHdyYWk5T0M2czIzTDV5WWlPZ3Niam1GSkZRZUd1dzJUYzN3MApXdmQvWDk3dDNEMnVuTHNaYlMzc1kwY292Ni8xclFUakJ3PT0KLS0tLS1FTkQgRUMgUFJJVkFURSBLRVktLS0tLQo=
+  aggregatorCA:
+    crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJYekNDQVFXZ0F3SUJBZ0lRVkZETE1uRmMwL29TU0xUMzlQQVYwakFLQmdncWhrak9QUVFEQWpBQU1CNFgKRFRJek1Ea3hOREUzTWpZeE4xb1hEVE16TURreE1URTNNall4TjFvd0FEQlpNQk1HQnlxR1NNNDlBZ0VHQ0NxRwpTTTQ5QXdFSEEwSUFCT242dkMyV2M0Skl6ZEhLb1drVjJyVHEzd05xTlJySzZPdE9idGxMYjZiZExiVDVwNWJTCjJZVUJuQU4rNkNnVHl0NnN4K01tbGFoU2ZVM29iK3JvUnZhallUQmZNQTRHQTFVZER3RUIvd1FFQXdJQ2hEQWQKQmdOVkhTVUVGakFVQmdnckJnRUZCUWNEQVFZSUt3WUJCUVVIQXdJd0R3WURWUjBUQVFIL0JBVXdBd0VCL3pBZApCZ05WSFE0RUZnUVVvaVNNTUovWDIyWTFFanhqR1gvYkFDTmlLWkl3Q2dZSUtvWkl6ajBFQXdJRFNBQXdSUUlnCkRlYzBEVUt2eTNXQWVpMmYzb3oxa284d3dsM1R6Nk9DcFlKUlZmdEF1YmtDSVFEcU9GZWovUkRVNUdCekhva2MKdVpRTHpBSUpyOW5rSm5wc01VY0liVE1hY3c9PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+    key: LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1IY0NBUUVFSU1MYlpCMTZka1I3NVNvREkyaHFqTWt3OG5CTDhSUjRZMGwvRXF6YTN5cndvQW9HQ0NxR1NNNDkKQXdFSG9VUURRZ0FFNmZxOExaWnpna2pOMGNxaGFSWGF0T3JmQTJvMUdzcm82MDV1MlV0dnB0MHR0UG1ubHRMWgpoUUdjQTM3b0tCUEszcXpINHlhVnFGSjlUZWh2NnVoRzlnPT0KLS0tLS1FTkQgRUMgUFJJVkFURSBLRVktLS0tLQo=
+  serviceAccount:
+    key: LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1IY0NBUUVFSU5FOGtpQ0NKSDNLeTFWam5uc09HWnB0eUVPdGZNMGdXdzBOa3JaSmNuRkxvQW9HQ0NxR1NNNDkKQXdFSG9VUURRZ0FFdVkzYUxmV3Q4Vi9GTlpaTnNHaHUzTjBGUmZYam1lV2dDam9yNUViUVA4eUovUUhYbVBxRQpaR1VZQTg0RHlHN0NNNHV5WkVpQjJOZld2cGdoSkVxVEVnPT0KLS0tLS1FTkQgRUMgUFJJVkFURSBLRVktLS0tLQo=
+  apiServer:
+    image: registry.k8s.io/kube-apiserver:v1.30.0
+    certSANs:
+      - 10.2.0.20
+      - cluster-0.negative7.com
+      - 127.0.0.1
+    disablePodSecurityPolicy: true
+    auditPolicy:
+      apiVersion: audit.k8s.io/v1
+      kind: Policy
+      rules:
+        - level: Metadata
+  controllerManager:
+    image: registry.k8s.io/kube-controller-manager:v1.30.0
+  proxy:
+    disabled: true
+    image: registry.k8s.io/kube-proxy:v1.30.0
+  scheduler:
+    image: registry.k8s.io/kube-scheduler:v1.30.0
+  discovery:
+    enabled: true
+    registries:
+      kubernetes:
+        disabled: true
+      service: {}
+  etcd:
+    ca:
+      crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJmakNDQVNPZ0F3SUJBZ0lRSHhtQmhoV2Q0SHM5WVZOY1dlcGd2VEFLQmdncWhrak9QUVFEQWpBUE1RMHcKQ3dZRFZRUUtFd1JsZEdOa01CNFhEVEl6TURreE5ERTNNall4TjFvWERUTXpNRGt4TVRFM01qWXhOMW93RHpFTgpNQXNHQTFVRUNoTUVaWFJqWkRCWk1CTUdCeXFHU000OUFnRUdDQ3FHU000OUF3RUhBMElBQkVFVW9kTnJRNnRmCmQ2ZUtDM3U1U2V0NXpoQkRnNG84RklhU1VuZ2FwU1ZZVmdsdzFJQ05WMWdySnRQd1VNL0pSbk83MUdkdTdieEYKZFZNYUZVMlMrYXVqWVRCZk1BNEdBMVVkRHdFQi93UUVBd0lDaERBZEJnTlZIU1VFRmpBVUJnZ3JCZ0VGQlFjRApBUVlJS3dZQkJRVUhBd0l3RHdZRFZSMFRBUUgvQkFVd0F3RUIvekFkQmdOVkhRNEVGZ1FVSDk0MmNHTitHK29UClpBNWZ2S3Z6WnBqNmwzY3dDZ1lJS29aSXpqMEVBd0lEU1FBd1JnSWhBSWVTQXJBd0Iyazc2TWgyWDVjS0xYYWkKNlhjS3FRMzVyQlR4NVNlR2ZGelVBaUVBaUJsMmhQUWZEeFUwVDFHVU44SGovKzYvOHFGYUs5SHM2VWd3WHVMRApuQ0k9Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+      key: LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1IY0NBUUVFSUIyalA5ZHBMajA1MEFoS3lsNU5EeWdqZGhPdGsvTmlwTkp2b2RDT2hrYjRvQW9HQ0NxR1NNNDkKQXdFSG9VUURRZ0FFUVJTaDAydERxMTkzcDRvTGU3bEo2M25PRUVPRGlqd1VocEpTZUJxbEpWaFdDWERVZ0kxWApXQ3NtMC9CUXo4bEdjN3ZVWjI3dHZFVjFVeG9WVFpMNXF3PT0KLS0tLS1FTkQgRUMgUFJJVkFURSBLRVktLS0tLQo=
+    advertisedSubnets:
+      - 10.2.0.0/24
+  allowSchedulingOnMasters: true
+  allowSchedulingOnControlPlanes: true

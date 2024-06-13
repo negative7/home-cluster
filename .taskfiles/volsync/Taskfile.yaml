@@ -38,7 +38,7 @@ tasks:
       - kubectl --context {{.cluster}} -n {{.ns}} logs job/{{.app}}-list-snapshots-{{.ts}} --container list
       - kubectl --context {{.cluster}} -n {{.ns}} delete job {{.app}}-list-snapshots-{{.ts}}
     vars:
-      cluster: '{{.cluster | default "cluster-0"}}'
+      cluster: '{{.cluster | default "main"}}'
       app: '{{ or .app (fail "Argument (app) is required") }}'
       ns: '{{.ns | default "default"}}'
     env: *env
@@ -64,7 +64,7 @@ tasks:
       # - kubectl --context {{.cluster}} -n {{.ns}} logs job/{{.app}}-unlock-snapshots-{{.ts}} --container unlock-r2
       - kubectl --context {{.cluster}} -n {{.ns}} delete job {{.app}}-unlock-snapshots-{{.ts}}
     vars:
-      cluster: '{{.cluster | default "cluster-0"}}'
+      cluster: '{{.cluster | default "main"}}'
       app: '{{ or .app (fail "Argument (app) is required") }}'
       ns: '{{.ns | default "default"}}'
     env: *env
@@ -93,7 +93,7 @@ tasks:
       - bash {{.scriptsDir}}/wait-for-k8s-job.sh volsync-src-{{.app}} {{.ns}} {{.cluster}}
       - kubectl --context {{.cluster}} -n {{.ns}} wait job/volsync-src-{{.app}} --for condition=complete --timeout=120m
     vars:
-      cluster: '{{.cluster | default "cluster-0"}}'
+      cluster: '{{.cluster | default "main"}}'
       app: '{{ or .app (fail "Argument (app) is required") }}'
       ns: '{{.ns | default "default"}}'
       # Query to find the controller associated with the app
@@ -131,7 +131,7 @@ tasks:
       - task: .resume
         vars: *env
     vars:
-      cluster: '{{.cluster | default "cluster-0"}}'
+      cluster: '{{.cluster | default "main"}}'
       app: '{{ or .app (fail "Argument (app) is required") }}'
       ns: '{{.ns | default "default"}}'
       previous: "{{.previous | default 2}}"
