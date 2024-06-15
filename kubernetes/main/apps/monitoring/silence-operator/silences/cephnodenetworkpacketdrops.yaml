@@ -1,0 +1,10 @@
+---
+apiVersion: monitoring.giantswarm.io/v1alpha1
+kind: Silence
+metadata:
+  name: cephnodenetworkpacketdrops
+spec:
+  matchers:
+    - name: alertname
+      value: CephNodeNetworkPacketDrops
+      isRegex: false
