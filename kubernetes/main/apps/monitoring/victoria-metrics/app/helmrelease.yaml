@@ -41,11 +41,10 @@ spec:
           accessModes:
             - ReadWriteOnce
       ingress:
-        select:
-          enabled: true
-          ingressClassName: internal
-          hosts:
-            - vmselect.${SECRET_PUBLIC_DOMAIN}
+        enabled: true
+        ingressClassName: internal
+        hosts:
+          - vmselect.${SECRET_PUBLIC_DOMAIN}
     # VM Alerting (however, this just watches & passes alerts to alertmanager)
     vmalert:
       enabled: true
