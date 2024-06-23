@@ -125,7 +125,7 @@ spec:
           - access: proxy
             name: Prometheus
             type: prometheus
-            url: http://vmsingle-victoria-metrics.monitoring.svc.cluster.local:8481/select/0/prometheus
+            url: http://vmsingle-victoria-metrics.monitoring.svc.cluster.local:8429
             isDefault: true
             jsonData:
               prometheusType: Prometheus
