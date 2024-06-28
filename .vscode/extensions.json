@@ -1,12 +1,16 @@
 {
     "recommendations": [
-        "oderwat.indent-rainbow",
-        "usernamehw.errorlens",
-        "hashicorp.terraform",
-        "ms-kubernetes-tools.vscode-kubernetes-tools",
-        "ms-vscode-remote.remote-containers",
+        "albert.TabOut",
+        "britesnow.vscode-toggle-quotes",
+        "fcrespo82.markdown-table-formatter",
+        "mikestead.dotenv",
+        "mitchdenny.ecdc",
         "redhat.ansible",
-        "tamasfe.even-better-toml",
-        "redhat.vscode-yaml"
+        "redhat.vscode-yaml",
+        "signageos.signageos-vscode-sops",
+        "will-stone.in-any-case",
+        "BriteSnow.vscode-toggle-quotes",
+        "HashiCorp.terraform",
+        "PKief.material-icon-theme",
     ]
 }
