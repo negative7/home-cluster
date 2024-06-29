@@ -6,6 +6,7 @@ metadata:
   name: nginx-certificates
   namespace: flux-system
 spec:
+  targetNamespace: networking
   dependsOn:
     - name: cert-manager-issuers
   path: ./kubernetes/main/apps/networking/nginx/certificates
@@ -25,6 +26,7 @@ metadata:
   name: nginx-external
   namespace: flux-system
 spec:
+  targetNamespace: networking
   dependsOn:
     - name: external-secrets-stores
     - name: nginx-certificates
@@ -45,6 +47,7 @@ metadata:
   name: nginx-internal
   namespace: flux-system
 spec:
+  targetNamespace: networking
   path: ./kubernetes/main/apps/networking/nginx/internal
   prune: true
   sourceRef:
