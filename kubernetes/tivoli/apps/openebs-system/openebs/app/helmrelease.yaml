@@ -30,7 +30,7 @@ spec:
           repository: openebs/provisioner-localpv
       hostpathClass:
         name: openebs-hostpath
-        basePath: /storage
+        basePath: /storage/pvc
     openebs-crds:
       csi:
         volumeSnapshots:
