@@ -73,10 +73,6 @@ spec:
                 service:
                   identifier: app
                   port: http
-        tls:
-          - hosts:
-              - *hostName
-
     persistence:
       config:
         existingClaim: scrypted-config
