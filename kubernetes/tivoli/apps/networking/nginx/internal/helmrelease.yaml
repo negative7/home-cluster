@@ -77,7 +77,7 @@ spec:
           namespaceSelector:
             any: true
       extraArgs:
-        default-ssl-certificate: "networking/${CLUSTER_SECRET_PUBLIC_DOMAIN/./-}-tls"
+        default-ssl-certificate: "networking/negative7-com-tls"
       terminationGracePeriodSeconds: 120
       resources:
         requests:
