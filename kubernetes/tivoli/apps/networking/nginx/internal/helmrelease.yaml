@@ -97,7 +97,7 @@ spec:
 
 
       extraArgs:
-        default-ssl-certificate: "networking/negative7-com-tls"
+        default-ssl-certificate: "networking/${CLUSTER_SECRET_PUBLIC_DOMAIN/./-}-tls"
 
 
       resources:
