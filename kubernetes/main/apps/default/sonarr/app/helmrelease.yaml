@@ -117,10 +117,3 @@ spec:
         path: /mnt/tank/data
         globalMounts:
           - path: /completed
-      backup:
-        enabled: true
-        type: nfs
-        server: 'freenas.${SECRET_PUBLIC_DOMAIN}'
-        path: /mnt/tank/backups/sonarr
-        globalMounts:
-          - path: /config/Backups
