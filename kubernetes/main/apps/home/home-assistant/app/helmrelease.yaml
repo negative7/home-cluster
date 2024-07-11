@@ -97,6 +97,6 @@ spec:
         enabled: true
         type: nfs
         server: 'freenas.${SECRET_PUBLIC_DOMAIN}'
-        path: /mnt/tank/backups/hass
+        path: /mnt/Pool1/backups/hass
         globalMounts:
           - path: /config/backups

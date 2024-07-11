@@ -114,7 +114,7 @@ spec:
       nfs-tv-media:
         type: nfs
         server: 'freenas.${SECRET_PUBLIC_DOMAIN}'
-        path: /mnt/tank/media/tv
+        path: /mnt/Pool2/tv
         advancedMounts:
           plex:
             app:
@@ -122,7 +122,7 @@ spec:
       nfs-movies-media:
         type: nfs
         server: 'freenas.${SECRET_PUBLIC_DOMAIN}'
-        path: /mnt/tank/media/movies
+        path: /mnt/Pool1/movies
         advancedMounts:
           plex:
             app:
@@ -130,7 +130,7 @@ spec:
       nfs-backup:
         type: nfs
         server: 'freenas.${SECRET_PUBLIC_DOMAIN}'
-        path: /mnt/tank/backups/plex
+        path: /mnt/Pool1/backups/plex
         advancedMounts:
           plex:
             app:
