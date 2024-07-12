@@ -107,7 +107,7 @@ spec:
         enabled: true
         type: nfs
         server: freenas.${SECRET_PUBLIC_DOMAIN}
-        path: /mnt/Pool2/data
+        path: /mnt/tank/data
         globalMounts:
           - path: /completed
       temp:

@@ -107,13 +107,13 @@ spec:
       media:
         type: nfs
         server: 'freenas.${SECRET_PUBLIC_DOMAIN}'
-        path: /mnt/Pool2/tv
+        path: /mnt/tank/media/tv
         globalMounts:
           - path: /media
       completed:
         enabled: true
         type: nfs
         server: 'freenas.${SECRET_PUBLIC_DOMAIN}'
-        path: /mnt/Pool2/data
+        path: /mnt/tank/data
         globalMounts:
           - path: /completed
