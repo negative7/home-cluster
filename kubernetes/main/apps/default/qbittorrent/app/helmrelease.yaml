@@ -149,3 +149,9 @@ spec:
           qbittorrent:
             app:
               - path: /completed
+      temp:
+        type: emptyDir
+        advancedMounts:
+          sabnzbd:
+            app:
+              - path: /tmp
