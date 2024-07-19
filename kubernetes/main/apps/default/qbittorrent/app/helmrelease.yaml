@@ -152,6 +152,6 @@ spec:
       temp:
         type: emptyDir
         advancedMounts:
-          sabnzbd:
+          qbittorrent:
             app:
               - path: /tmp
