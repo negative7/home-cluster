@@ -2,10 +2,9 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/budimanjojo/talhelper/master/pkg/config/schemas/talconfig.json
 clusterName: ${clusterName}
 endpoint: "https://${clusterEndpointIP}:6443"
-
-# renovate: depName=ghcr.io/siderolabs/installer datasource=docker extractVersion=^(?<version>.*)$
+# renovate: datasource=docker depName=ghcr.io/siderolabs/installer
 talosVersion: v1.7.5
-# renovate: depName=kubernetes/kubernetes datasource=github-releases extractVersion=^v(?<version>.*)$
+# renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
 kubernetesVersion: 1.30.2
 
 allowSchedulingOnMasters: true
@@ -213,7 +212,7 @@ worker:
           - siderolabs/intel-ucode
           - siderolabs/i915-ucode
 
-  patches: 
+  patches:
     # Disable search domain everywhere
     - |-
       machine:
