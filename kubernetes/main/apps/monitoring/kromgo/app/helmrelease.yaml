@@ -46,11 +46,11 @@ spec:
               PROMETHEUS_URL: http://vmsingle-victoria-metrics.monitoring.svc.cluster.local:8429
             probes:
               liveness:
-                enabled: true
+                enabled: false
               readiness:
-                enabled: true
+                enabled: false
               startup:
-                enabled: true
+                enabled: false
                 spec:
                   failureThreshold: 30
                   periodSeconds: 5
