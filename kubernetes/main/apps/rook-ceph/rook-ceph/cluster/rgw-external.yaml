@@ -35,6 +35,8 @@ metadata:
   name: rook-ceph-rgw
 spec:
   ingressClassName: internal
+  annotations:
+    external-dns.alpha.kubernetes.io/target: internal.${SECRET_PUBLIC_DOMAIN}
   rules:
     - host: &host rook-ceph-rgw.${SECRET_PUBLIC_DOMAIN}
       http:

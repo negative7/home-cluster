@@ -45,6 +45,8 @@ spec:
       ingress:
         enabled: true
         ingressClassName: internal
+        annotations:
+          external-dns.alpha.kubernetes.io/target: internal.${SECRET_PUBLIC_DOMAIN}
         issuer:
           name: letsencrypt-production
           scope: cluster

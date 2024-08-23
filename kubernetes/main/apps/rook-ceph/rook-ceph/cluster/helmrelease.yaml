@@ -34,6 +34,8 @@ spec:
     ingress:
       dashboard:
         ingressClassName: internal
+        annotations:
+          external-dns.alpha.kubernetes.io/target: internal.${SECRET_PUBLIC_DOMAIN}
         host:
           name: &host rook.negative7.com
           path: /

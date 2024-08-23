@@ -48,6 +48,8 @@ metadata:
     app.kubernetes.io/instance: *app
 spec:
   ingressClassName: internal
+  annotations:
+    external-dns.alpha.kubernetes.io/target: internal.${SECRET_PUBLIC_DOMAIN}
   rules:
     - host: &host 'minio.${SECRET_PUBLIC_DOMAIN}'
       http:
@@ -76,6 +78,8 @@ metadata:
     app.kubernetes.io/instance: *appui
 spec:
   ingressClassName: internal
+  annotations:
+    external-dns.alpha.kubernetes.io/target: internal.${SECRET_PUBLIC_DOMAIN}
   rules:
     - host: &hostui 'minio-ui.${SECRET_PUBLIC_DOMAIN}'
       http:

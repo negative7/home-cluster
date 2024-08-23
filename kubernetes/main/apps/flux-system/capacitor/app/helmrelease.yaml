@@ -26,6 +26,8 @@ spec:
       ignoreLimits: true
     serviceAccount: capacitor
     ingress:
-      ingressClassName: internal
+      annotations:
+        kubernetes.io/ingress.class: internal
+        external-dns.alpha.kubernetes.io/target: internal.${SECRET_PUBLIC_DOMAIN}
       host: capacitor.negative7.com
     #   tlsEnabled: true

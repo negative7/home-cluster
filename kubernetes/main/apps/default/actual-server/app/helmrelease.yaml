@@ -63,6 +63,8 @@ spec:
       app:
         enabled: true
         className: internal
+        annotations:
+          external-dns.alpha.kubernetes.io/target: internal.${SECRET_PUBLIC_DOMAIN}
         hosts:
           - host: &hostName '{{ .Release.Name }}.${SECRET_PUBLIC_DOMAIN}'
             paths:

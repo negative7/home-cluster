@@ -48,6 +48,8 @@ metadata:
     app.kubernetes.io/instance: *app
 spec:
   ingressClassName: internal
+  annotations:
+    external-dns.alpha.kubernetes.io/target: internal.${SECRET_PUBLIC_DOMAIN}
   rules:
     - host: &host zero.${SECRET_PUBLIC_DOMAIN}
       http:
