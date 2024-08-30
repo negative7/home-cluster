@@ -44,9 +44,9 @@
     "volsync": "aws"
   },
   "vs-kubernetes": {
-    "vs-kubernetes.kubeconfig": "./kubeconfig",
+    "vs-kubernetes.kubeconfig": "./kubernetes/kubeconfig",
     "vs-kubernetes.knownKubeconfigs": [
-      "./kubeconfig"
+      "./kubernetes/kubeconfig",
     ]
   },
   "yaml.schemaStore.enable": true,
