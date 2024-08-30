@@ -5,10 +5,10 @@ resources:
   # Pre Flux-Kustomizations
   - ./namespace.yaml
   # Flux-Kustomizations
-  - ./actual-server/ks.yaml
+  # - ./actual-server/ks.yaml
   - ./authelia/ks.yaml
   - ./lldap/ks.yaml
-  - ./maker-management-platform/ks.yaml
+  # - ./maker-management-platform/ks.yaml
   - ./overseerr/ks.yaml
   - ./plex/ks.yaml
   - ./prowlarr/ks.yaml
