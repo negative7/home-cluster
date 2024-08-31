@@ -19,7 +19,6 @@ spec:
         namespace: flux-system
 
   values:
-    values:
     controllers:
       home-assistant:
         annotations:
@@ -86,6 +85,7 @@ spec:
         tls:
           - hosts:
               - *hostName
+
     persistence:
       config:
         existingClaim: home-assistant-config
@@ -93,6 +93,7 @@ spec:
           home-assistant:
             app:
               - path: /config
+
       backup:
         enabled: true
         type: nfs
