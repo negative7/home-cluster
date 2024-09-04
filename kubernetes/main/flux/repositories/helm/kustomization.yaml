@@ -16,6 +16,7 @@ resources:
   - ./grafana-charts.yaml
   - ./ingress-nginx-charts.yaml
   - ./intel.yaml
+  - ./itzg.yaml
   - ./jetstack.yaml
   - ./kubernetes-dashboard-charts.yaml
   - ./kubernetes-sigs-descheduler.yaml
