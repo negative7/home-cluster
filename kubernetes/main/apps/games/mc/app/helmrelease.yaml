@@ -68,6 +68,7 @@ spec:
       loadBalancerIP: 10.2.0.102
       externalTrafficPolicy: Cluster
       servicePort: 25565
+      overrideServerProperties: true
       rcon:
         enabled: true
         withGeneratedPassword: false
