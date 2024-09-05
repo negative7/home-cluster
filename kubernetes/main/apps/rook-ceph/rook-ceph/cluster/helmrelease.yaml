@@ -77,9 +77,9 @@ spec:
         osd:
           requests:
             cpu: 500m
-            memory: 500Mi
-          limits:
             memory: 2Gi
+          limits:
+            memory: 6Gi
         mgr-sidecar:
           requests:
             cpu: 50m
@@ -117,15 +117,12 @@ spec:
             devices:
               - name: /dev/disk/by-id/ata-SHGS31-1000GS-2_FJ07N442411107819
 
-    cephBlockPoolsVolumeSnapshotClass:
-      enabled: false
-
     cephBlockPools:
       - name: ceph-blockpool
         spec:
           failureDomain: host
           replicated:
-            size: 4
+            size: 3
         storageClass:
           enabled: true
           name: ceph-block
@@ -143,6 +140,12 @@ spec:
             csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
             csi.storage.k8s.io/fstype: ext4
 
+    cephBlockPoolsVolumeSnapshotClass:
+      enabled: true
+      name: csi-ceph-blockpool
+      isDefault: false
+      deletionPolicy: Delete
+
     cephFileSystems:
       - name: ceph-filesystem
         spec:
@@ -159,10 +162,10 @@ spec:
             activeStandby: true
             resources:
               requests:
-                cpu: "35m"
-                memory: "1Gi"
+                cpu: 100m
+                memory: 1Gi
               limits:
-                memory: "3Gi"
+                memory: 3Gi
         storageClass:
           enabled: true
           isDefault: false
@@ -180,7 +183,10 @@ spec:
             csi.storage.k8s.io/fstype: ext4
 
     cephFileSystemVolumeSnapshotClass:
-      enabled: false
+      enabled: true
+      name: csi-ceph-filesystem
+      isDefault: false
+      deletionPolicy: Delete
 
     cephObjectStores:
       - name: ceph-objectstore
@@ -188,7 +194,7 @@ spec:
           metadataPool:
             failureDomain: host
             replicated:
-              size: 2
+              size: 3
           dataPool:
             failureDomain: host
             erasureCoded:
@@ -213,3 +219,13 @@ spec:
           reclaimPolicy: Delete
           parameters:
             region: us-east-1
+        ingress:
+          enabled: true
+          annotations:
+            external-dns.alpha.kubernetes.io/target: internal.${SECRET_PUBLIC_DOMAIN}
+            nginx.ingress.kubernetes.io/proxy-body-size: "0"
+            nginx.ingress.kubernetes.io/proxy-request-buffering: "off"
+          ingressClassName: internal
+          host:
+            name: rgw.${SECRET_PUBLIC_DOMAIN}
+            path: /
