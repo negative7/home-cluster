@@ -68,13 +68,13 @@ spec:
       loadBalancerIP: 10.2.0.102
       externalTrafficPolicy: Cluster
       servicePort: 25565
-    rcon:
-      enabled: true
-      withGeneratedPassword: false
-      port: 25575
-      existingSecret: mc-secret
-      secretKey: RCON_PASSWORD
-      serviceType: ClusterIP
+      rcon:
+        enabled: true
+        withGeneratedPassword: false
+        port: 25575
+        existingSecret: mc-secret
+        secretKey: RCON_PASSWORD
+        serviceType: ClusterIP
     envFrom:
       - secretRef:
           name: mc-secret
