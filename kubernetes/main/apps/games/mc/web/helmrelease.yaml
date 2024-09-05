@@ -1,0 +1,61 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: mc-web
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: rcon-web-admin
+      version: 1.1.0
+      sourceRef:
+        kind: HelmRepository
+        name: itzg
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    image:
+      repository: itzg/rcon
+      tag: latest
+    replicaCount: 1
+    ingress:
+      enabled: true
+      className: "internal"
+      # annotations:
+      #   {}
+      host: "mc-web.negative7.com"
+      path: /
+    rconWeb:
+      isAdmin: false
+      username: admin
+      passwordExistingSecret: mc-secret
+      passwordKey: "RCON_PASSWORD"
+      # The initial game you wish to control (minecraft / rust / csgo / other)
+      game: minecraft
+      # The display name of the initial server (if unset; defaults to value of RWA_GAME)
+      serverName: Seven
+      # The initial RCON server to control
+      rconHost: mc-minecraft.games.svc.cluster.local
+      # The port number of the initial RCON server to control
+      rconPort: 25575
+      # The password for the initial RCON server to control
+      # Name of existing secret with RCON password
+      rconPasswordExistingSecret: mc-secret
+      rconPasswordKey: "RCON_PASSWORD"
+      # Prevent the initial user user executing these commands
+      restrictCommands: []
+      # Hide this list of widgets from the initial user
+      restrictWidgets: []
+      # Prevent the initial user changing options in the widget options tab
+      immutableWidgetOptions: false
+      # Enables 'web rcon' if supported by the game server
+      websocketRcon: false
