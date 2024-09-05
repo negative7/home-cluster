@@ -1,0 +1,42 @@
+services:
+  node-exporter:
+    # renovate: datasource=docker depName=quay.io/prometheus/node-exporter
+    image: quay.io/prometheus/node-exporter:v1.8.2
+    container_name: node-exporter
+    restart: unless-stopped
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - '--path.rootfs=/host/root'
+      - '--path.udev.data=/host/root/run/udev/data'
+      - '--web.listen-address=0.0.0.0:9100'
+      - >-
+        --collector.filesystem.mount-points-exclude=^/(dev|proc|sys|var/lib/docker/.+|var/lib/kubelet/.+)($|/)
+      - >-
+        --collector.filesystem.fs-types-exclude=^(autofs|binfmt_misc|bpf|cgroup2?|configfs|debugfs|devpts|devtmpfs|fusectl|hugetlbfs|iso9660|mqueue|nsfs|overlay|proc|procfs|pstore|rpc_pipefs|securityfs|selinuxfs|squashfs|sysfs|tracefs)$
+    ports:
+      - 9100:9100
+  smartctl-exporter:
+    # renovate: datasource=docker depName=quay.io/prometheuscommunity/smartctl-exporter
+    image: quay.io/prometheuscommunity/smartctl-exporter:v0.12.0
+    container_name: smartctl-exporter
+    restart: unless-stopped
+    volumes:
+      - /dev:/hostdev:ro
+    command:
+      - '--smartctl.path=/usr/sbin/smartctl'
+      - '--smartctl.interval=120s'
+      - '--smartctl.device=/dev/sda'
+      - '--smartctl.device=/dev/sdb'
+      - '--smartctl.device=/dev/sdc'
+      - '--smartctl.device=/dev/sdd'
+      - '--smartctl.device=/dev/sde'
+      - '--smartctl.device=/dev/sdf'
+      - '--web.listen-address=0.0.0.0:9633'
+      - '--web.telemetry-path=/metrics'
+    ports:
+      - 9633:9633
