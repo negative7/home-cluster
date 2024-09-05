@@ -1,0 +1,31 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &appname mc
+  namespace: flux-system
+spec:
+  targetNamespace: actions-runner-system
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *appname
+  path: ./kubernetes/main/apps/games/mc/app
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: home-ops-kubernetes
+  wait: false
+  interval: 30m
+  retryInterval: 1m
+  timeout: 5m
+  dependsOn:
+      - name: rook-ceph-cluster
+      - name: volsync
+      - name: external-secrets-stores
+  postBuild:
+    substitute:
+      APP: *appname
+      APP_UID: "0"
+      APP_GID: "0"
+      VOLSYNC_CLAIM: mc-config
+      VOLSYNC_CAPACITY: 10Gi

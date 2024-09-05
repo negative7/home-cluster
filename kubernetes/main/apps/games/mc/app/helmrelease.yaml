@@ -1,0 +1,78 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: mc
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: minecraft
+      version: 4.23.0
+      sourceRef:
+        kind: HelmRepository
+        name: itzg
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    image:
+      repository: itzg/minecraft-server
+      tag: 2024.7.2-java17
+      pullPolicy: IfNotPresent
+      pullSecret: ""
+    replicaCount: 1
+    resources:
+      requests:
+        memory: 2Gi
+        cpu: 500m
+    minecraftServer:
+      eula: "TRUE"
+      version: "1.21.1"
+      type: "PAPER"
+      difficulty: normal
+      maxPlayers: 20
+      maxWorldSize: 29999984
+      allowNether: true
+      announcePlayerAchievements: true
+      generateStructures: true
+      hardcore: false
+      spawnAnimals: true
+      spawnMonsters: true
+      spawnNPCs: true
+      gameMode: survival
+      motd: "Hello"
+      pvp: true
+      worldSaveName: Seven
+      resourcePackEnforce: true
+      onlineMode: true
+      enforceSecureProfile: true
+      memory: 2048M
+      serviceType: LoadBalancer
+      loadBalancerIP: 10.2.0.102
+      externalTrafficPolicy: Cluster
+      servicePort: 25565
+    rcon:
+      enabled: true
+      withGeneratedPassword: false
+      port: 25575
+      existingSecret: mc-secret
+      secretKey: RCON_PASSWORD
+      serviceType: ClusterIP
+    envFrom:
+      - secretRef:
+          name: mc-secret
+    persistence:
+      dataDir:
+        enabled: true
+        existingClaim: mc-config
+    serviceAnnotations:
+      external-dns.alpha.kubernetes.io/hostname: "mc.${SECRET_PUBLIC_DOMAIN}"
+      io.cilium/lb-ipam-ips: 10.2.0.102
