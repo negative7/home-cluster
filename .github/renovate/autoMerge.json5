@@ -2,43 +2,20 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "packageRules": [
     {
-      "description": "Auto merge container digests",
+      "description": ["Auto-merge container digests updates for trusted containers"],
       "matchDatasources": ["docker"],
       "automerge": true,
-      "ignoreTests": true,
       "automergeType": "branch",
       "matchUpdateTypes": ["digest"],
       "matchPackagePatterns": ["ghcr.io/bernd-schorgers", "ghcr.io/onedr0p"]
     },
     {
-      "description": "Auto merge GitHub Actions",
+      "description": ["Auto-merge GitHub Actions for minor and patch"],
       "matchManagers": ["github-actions"],
       "matchDatasources": ["github-tags"],
       "automerge": true,
-      "ignoreTests": true,
       "automergeType": "branch",
-      "matchUpdateTypes": ["minor", "patch", "digest"]
-    },
-    {
-      "description": "Auto merge containers",
-      "matchDatasources": ["docker"],
-      "automerge": true,
-      "automergeType": "branch",
-      "matchUpdateTypes": ["minor", "patch"],
-      "matchPackageNames": [
-        "ghcr.io/onedr0p/prowlarr-nightly",
-        "ghcr.io/onedr0p/radarr-develop",
-        "ghcr.io/onedr0p/sonarr-develop"
-      ],
-      "ignoreTests": true
-    },
-    {
-      "description": "Auto merge KPS minors and patches",
-      "matchDatasources": ["helm"],
-      "automerge": true,
-      "matchUpdateTypes": ["minor", "patch"],
-      "matchPackageNames": ["kube-prometheus-stack"],
-      "ignoreTests": false
+      "matchUpdateTypes": ["minor", "patch"]
     }
   ]
 }

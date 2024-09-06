@@ -37,8 +37,8 @@ env:
   RENOVATE_AUTODISCOVER_FILTER: "${{ github.repository }}"
   RENOVATE_USERNAME: "${{ secrets.BOT_USERNAME }}[bot]"
   RENOVATE_GIT_AUTHOR: "${{ secrets.BOT_USERNAME }} <${{ secrets.BOT_USER_ID }}+${{ secrets.BOT_USERNAME }}[bot]@users.noreply.github.com>"
-  WORKFLOW_RENOVATE_DRY_RUN: false
-  WORKFLOW_RENOVATE_LOG_LEVEL: debug
+  RENOVATE_DRY_RUN: "${{ inputs.dryRun == true }}"
+  LOG_LEVEL: "${{ inputs.logLevel || 'debug' }}"
   WORKFLOW_RENOVATE_VERSION: latest
 
 jobs:
@@ -57,12 +57,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           token: "${{ steps.app-token.outputs.token }}"
-
-      - name: Override Default Config
-        shell: bash
-        run: |
-          echo "RENOVATE_DRY_RUN=${{ github.event.inputs.dryRun || env.WORKFLOW_RENOVATE_DRY_RUN }}" >> "${GITHUB_ENV}"
-          echo "LOG_LEVEL=${{ github.event.inputs.logLevel || env.WORKFLOW_RENOVATE_LOG_LEVEL }}" >> "${GITHUB_ENV}"
 
       - name: Renovate
         uses: renovatebot/github-action@v40.2.7
