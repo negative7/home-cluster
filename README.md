@@ -3,17 +3,15 @@
 
 _... managed by Flux, Renovate and GitHub Actions_ :robot:
 
-_... inspired/copied from [onedr0p](https://github.com/onedr0p) and [bjw-s](https://github.com/bjw-s)_
+_... inspired/copied from [onedr0p](https://github.com/onedr0p) and [bernd-schorgers](https://github.com/bernd-schorgers)_
 
 ---
 
 Main k8s cluster stats:
 
-[![Kubernetes](https://kromgo.negative7.com/kubernetes_version?format=badge)
-](https://www.talos.dev/)
+[![Kubernetes](https://kromgo.negative7.com/kubernetes_version?format=badge)](https://www.talos.dev/)
 &nbsp;
-[![Talos](https://kromgo.negative7.com/talos_version?format=badge)
-](https://www.talos.dev/)
+[![Talos](https://kromgo.negative7.com/talos_version?format=badge)](https://www.talos.dev/)
 &nbsp;
 [![Age-Days](https://kromgo.negative7.com/cluster_age_days?format=badge)](https://github.com/kashalls/kromgo/)
 &nbsp;

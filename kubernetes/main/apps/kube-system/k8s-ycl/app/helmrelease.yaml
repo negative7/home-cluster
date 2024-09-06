@@ -13,7 +13,7 @@ spec:
       interval: 30m
       sourceRef:
         kind: HelmRepository
-        name: bjw-s
+        name: bernd-schorgers
         namespace: flux-system
 
   values:
@@ -33,5 +33,5 @@ spec:
         containers:
           main:
             image:
-              repository: ghcr.io/bjw-s/k8s-ycl
+              repository: ghcr.io/bernd-schorgers/k8s-ycl
               tag: v0.3.0
