@@ -19,7 +19,7 @@ spec:
   values:
     controllers:
       lldap:
-        replicas: 1
+        replicas: 2
         strategy: RollingUpdate
 
         annotations:
