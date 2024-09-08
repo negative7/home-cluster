@@ -3,7 +3,7 @@
 
 _... managed by Flux, Renovate and GitHub Actions_ :robot:
 
-_... inspired/copied from [onedr0p](https://github.com/onedr0p) and [bernd-schorgers](https://github.com/bernd-schorgers)_
+_... inspired/copied from [onedr0p](https://github.com/onedr0p) and [bjw-s](https://github.com/bjw-s)_
 
 ---
 

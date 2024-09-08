@@ -33,5 +33,5 @@ spec:
         containers:
           main:
             image:
-              repository: ghcr.io/bernd-schorgers/k8s-ycl
+              repository: ghcr.io/bjw-s/k8s-ycl
               tag: v0.3.0
