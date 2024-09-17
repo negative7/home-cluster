@@ -2,6 +2,7 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/budimanjojo/talhelper/master/pkg/config/schemas/talconfig.json
 clusterName: ${clusterName}
 endpoint: "https://${clusterEndpointIP}:6443"
+
 # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
 talosVersion: v1.7.6
 # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
@@ -41,6 +42,7 @@ nodes:
                   - rbind
                   - rshared
                   - rw
+
   - hostname: vinnytsia
     ipAddress: 10.2.0.22
     controlPlane: true
@@ -87,6 +89,7 @@ controlPlane: &controlPlane
         officialExtensions:
           - siderolabs/intel-ucode
           - siderolabs/i915-ucode
+          - siderolabs/nut-client
 
   patches: &patches
     # Disable search domain everywhere
