@@ -20,6 +20,8 @@ cni:
 enableRuntimeDeviceDetection: true
 endpointRoutes:
   enabled: true
+envoy:
+  enabled: false
 hubble:
   enabled: true
   metrics:
@@ -83,10 +85,7 @@ securityContext:
       - FOWNER
       - SETGID
       - SETUID
-      - SYS_ADMIN  # still needed for cgroup mounting :-(
     cleanCiliumState:
       - NET_ADMIN
       - SYS_RESOURCE
       - SYS_ADMIN
-      - PERFMON
-      - BPF
