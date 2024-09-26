@@ -52,7 +52,6 @@ ipam:
 
 
 ipv4NativeRoutingCIDR: 10.244.0.0/16
-tunnel: "disabled"
 
 k8sServiceHost: 127.0.0.1
 k8sServicePort: 7445
