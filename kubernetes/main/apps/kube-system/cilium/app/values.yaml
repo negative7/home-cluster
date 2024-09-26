@@ -88,3 +88,5 @@ securityContext:
       - NET_ADMIN
       - SYS_RESOURCE
       - SYS_ADMIN
+      - PERFMON
+      - BPF
