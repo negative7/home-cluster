@@ -65,15 +65,15 @@ spec:
         mgr:
           requests:
             cpu: 100m
-            memory: 256Mi
+            memory: 512Mi
           limits:
-            memory: 1Gi
+            memory: 2Gi
         mon:
           requests:
             cpu: 50m
-            memory: 256Mi
-          limits:
             memory: 512Mi
+          limits:
+            memory: 1Gi
         osd:
           requests:
             cpu: 500m
