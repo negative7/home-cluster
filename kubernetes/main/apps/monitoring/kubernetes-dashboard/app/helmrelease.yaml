@@ -38,10 +38,22 @@ spec:
           clusterName: "Main"
           itemsPerPage: 20
         pinnedResources:
-          - helmreleases.helm.toolkit.fluxcd.io
-          - kustomizations.kustomize.toolkit.fluxcd.io
-          - clusters.postgresql.cnpg.io
-          - externalsecrets.external-secrets.io
+          - kind: customresourcedefinition
+            name: helmreleases.helm.toolkit.fluxcd.io
+            displayName: Helm Release
+            namespaced: true
+          - kind: customresourcedefinition
+            name: kustomizations.kustomize.toolkit.fluxcd.io
+            displayName: Kustomization
+            namespaced: true
+          - kind: customresourcedefinition
+            name: clusters.postgresql.cnpg.io
+            displayName: CN Cluster
+            namespaced: true
+          - kind: customresourcedefinition
+            name: externalsecrets.external-secrets.io
+            displayName: External Secrets
+            namespaced: true
       ingress:
         enabled: true
         ingressClassName: internal
