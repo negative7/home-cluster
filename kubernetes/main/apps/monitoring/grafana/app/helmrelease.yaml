@@ -5,57 +5,47 @@ kind: HelmRelease
 metadata:
   name: grafana
 spec:
+  interval: 30m
   chart:
     spec:
       chart: grafana
-      interval: 30m
+      version: 8.5.1
       sourceRef:
         kind: HelmRepository
         name: grafana
         namespace: flux-system
-      version: 8.5.1
-  interval: 30m
-  timeout: 20m
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
   values:
-    extraInitContainers:
-      - name: 01-init-db
-        image: ghcr.io/onedr0p/postgres-init:16
-        envFrom:
-          - secretRef:
-              name: &secret grafana-secret
-    annotations:
-      configmap.reloader.stakater.com/reload: grafana
-      secret.reloader.stakater.com/reload: grafana-secret
-    replicas: 1
+    deploymentStrategy:
+      type: Recreate
+    admin:
+      existingSecret: grafana-admin-secret
     env:
-      GF_ANALYTICS_CHECK_FOR_UPDATES: false
-      GF_ANALYTICS_CHECK_FOR_PLUGIN_UPDATES: false
-      GF_ANALYTICS_REPORTING_ENABLED: false
-      GF_AUTH_ANONYMOUS_ENABLED: false
-      GF_AUTH_BASIC_ENABLED: false
-      GF_AUTH_GENERIC_OAUTH_ENABLED: true
-      GF_AUTH_GENERIC_OAUTH_API_URL: https://auth.${SECRET_PUBLIC_DOMAIN}/api/oidc/userinfo
-      GF_AUTH_GENERIC_OAUTH_AUTH_URL: https://auth.${SECRET_PUBLIC_DOMAIN}/api/oidc/authorization
-      GF_AUTH_GENERIC_OAUTH_CLIENT_ID: grafana
-      GF_AUTH_GENERIC_OAUTH_EMPTY_SCOPES: false
-      GF_AUTH_GENERIC_OAUTH_ROLE_ATTRIBUTE_PATH: "contains(groups[*], 'n7_admins') && 'Admin' || 'Viewer'"
-      GF_AUTH_GENERIC_OAUTH_SCOPES: openid profile email groups
-      GF_AUTH_GENERIC_OAUTH_TOKEN_URL: https://auth.${SECRET_PUBLIC_DOMAIN}/api/oidc/token
-      GF_AUTH_OAUTH_AUTO_LOGIN: true
       GF_DATE_FORMATS_USE_BROWSER_LOCALE: true
-      GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH: /tmp/dashboards/home.json
       GF_EXPLORE_ENABLED: true
-      GF_FEATURE_TOGGLES_ENABLE: publicDashboards
-      GF_LOG_MODE: console
-      GF_NEWS_NEWS_FEED_ENABLED: false
       GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS: natel-discrete-panel,pr0ps-trackmap-panel,panodata-map-panel
-      GF_SECURITY_COOKIE_SAMESITE: grafana
+      GF_SECURITY_ANGULAR_SUPPORT_ENABLED: true
       GF_SERVER_ROOT_URL: https://grafana.${SECRET_PUBLIC_DOMAIN}
-    envFromSecrets:
-      - name: grafana-secret
 
-    imageRenderer:
-      enabled: true
+    grafana.ini:
+      analytics:
+        check_for_updates: false
+        check_for_plugin_updates: false
+        reporting_enabled: false
+      auth.anonymous:
+        enabled: true
+        org_id: 1
+        org_name: Main Org.
+        org_role: Viewer
+      news:
+        news_feed_enabled: false
 
     dashboardProviders:
       dashboardproviders.yaml:
@@ -133,12 +123,9 @@ spec:
               implementation: prometheus
 
         deleteDatasources:
-          - name: Alertmanager
-            orgId: 1
-          - name: Prometheus
-            orgId: 1
-          - name: Loki
-            orgId: 1
+          - { name: Alertmanager, orgId: 1 }
+          - { name: Loki, orgId: 1 }
+          - { name: Prometheus, orgId: 1 }
 
 
     dashboards:
@@ -175,6 +162,10 @@ spec:
           revision: 37
           datasource: Prometheus
 
+        node-feature-discovery:
+          url: https://raw.githubusercontent.com/kubernetes-sigs/node-feature-discovery/master/examples/grafana-dashboard.json
+          datasource: Prometheus
+
         spegel:
           # renovate: dashboardName="Spegel"
           gnetId: 18089
@@ -182,6 +173,13 @@ spec:
           datasource:
             - name: DS_PROMETHEUS
               value: Prometheus
+
+        smart:
+          # renovate: depName="Dashboard for smartctl_exporter"
+          gnetId: 20204
+          revision: 1
+          datasource:
+            - { name: DS_PROMETHEUS, value: Prometheus }
 
         volsync:
           # removate: dashboardName="VolSync Dashboard"
@@ -348,11 +346,3 @@ spec:
 
     testFramework:
       enabled: false
-
-    topologySpreadConstraints:
-      - maxSkew: 1
-        topologyKey: kubernetes.io/hostname
-        whenUnsatisfiable: DoNotSchedule
-        labelSelector:
-          matchLabels:
-            app.kubernetes.io/name: grafana
