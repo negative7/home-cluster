@@ -116,6 +116,10 @@ spec:
         pathType: Prefix
 
       prometheusSpec:
+        containers:
+          - name: prometheus
+            startupProbe:
+              failureThreshold: 300
         alertingEndpoints:
           - namespace: monitoring
             name: alertmanager
@@ -141,6 +145,7 @@ spec:
         scrapeConfigSelectorNilUsesHelmValues: false
         scrapeInterval: 1m # Must match interval in Grafana Helm chart
         serviceMonitorSelectorNilUsesHelmValues: false
+
         storageSpec:
           volumeClaimTemplate:
             spec:
