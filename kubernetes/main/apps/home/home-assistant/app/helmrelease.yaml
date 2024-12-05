@@ -53,11 +53,6 @@ spec:
                 memory: 2Gi
         pod:
           hostNetwork: true
-          securityContext:
-            runAsUser: 65534
-            runAsGroup: 65533
-            fsGroup: 65533
-            fsGroupChangePolicy: OnRootMismatch
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
