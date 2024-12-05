@@ -100,7 +100,7 @@ spec:
               - *hostName
       code-server:
         enabled: true
-        className: external
+        className: internal
         annotations:
           external-dns.alpha.kubernetes.io/target: internal.${SECRET_PUBLIC_DOMAIN}
         hosts:
