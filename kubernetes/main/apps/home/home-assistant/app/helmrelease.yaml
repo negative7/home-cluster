@@ -42,25 +42,24 @@ spec:
               POSTGRES_HOST: postgres-rw.database.svc.cluster.local
               POSTGRES_DB: home_assistant
             envFrom: *envFrom
-            probes:
-              liveness:
-                enabled: false
-              readiness:
-                enabled: false
-              startup:
-                enabled: false
             resources:
               requests:
                 cpu: 47m
                 memory: 2Gi
               limits:
                 memory: 2Gi
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
         pod:
           hostNetwork: true
           securityContext:
-            runAsUser: 568
-            runAsGroup: 568
-            fsGroup: 568
+            runAsUser: 65534
+            runAsGroup: 65533
+            fsGroup: 65533
             fsGroupChangePolicy: OnRootMismatch
     service:
       app:
