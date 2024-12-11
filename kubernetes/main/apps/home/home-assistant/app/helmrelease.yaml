@@ -42,7 +42,6 @@ spec:
               POSTGRES_DB: home_assistant
             envFrom: *envFrom
             securityContext:
-              hostNetwork: true
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
               capabilities: { drop: ["ALL"] }
@@ -67,6 +66,8 @@ spec:
                 cpu: 10m
               limits:
                 memory: 512Mi
+        pod:
+          hostNetwork: true
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
