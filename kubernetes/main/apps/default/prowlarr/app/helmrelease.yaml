@@ -42,7 +42,7 @@ spec:
           app:
             image:
               repository: ghcr.io/onedr0p/prowlarr-nightly
-              tag: 1.28.1.4865@sha256:066240ad40068b80c8f98fb6f935f3034d39c474e05df8cc12d2182ad2ae75ea
+              tag: 1.28.1.4868@sha256:433bdea87e043ae4311c52f979accf0ece390145f410c86981c0cfff9fbfe487
             env:
               COMPlus_EnableDiagnostics: "0"
               PROWLARR__INSTANCE_NAME: Prowlarr
