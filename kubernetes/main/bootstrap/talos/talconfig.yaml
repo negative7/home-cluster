@@ -24,7 +24,8 @@ nodes:
     ipAddress: 10.2.0.21
     controlPlane: true
     installDiskSelector:
-      busPath: /pci0000:00/0000:00:1b.0/0000:01:00.0/nvme/nvme0/nvme0n1
+      size: "<= 256GB"
+      model: "CL1-3D256-Q11 NVMe SSSTC 256GB"
     networkInterfaces:
       - interface: eno1
         dhcp: true
@@ -47,7 +48,8 @@ nodes:
     ipAddress: 10.2.0.22
     controlPlane: true
     installDiskSelector:
-      busPath: /pci0000:00/0000:00:1b.0/0000:01:00.0/nvme/nvme0/nvme0n1
+      size: "<= 256GB"
+      model: "KXG60ZNV256G NVMe TOSHIBA 256GB"
     networkInterfaces:
       - interface: eno1
         dhcp: true
@@ -60,7 +62,8 @@ nodes:
     ipAddress: 10.2.0.23
     controlPlane: true
     installDiskSelector:
-      busPath: /pci0000:00/0000:00:1b.0/0000:01:00.0/nvme/nvme0/nvme0n1
+      size: "<= 512GB"
+      model: "KBG40ZNS512G NVMe TOSHIBA 512GB"
     networkInterfaces:
       - interface: eno1
         dhcp: true
@@ -73,7 +76,8 @@ nodes:
     ipAddress: 10.2.0.24
     controlPlane: false
     installDiskSelector:
-      busPath: /pci0000:00/0000:00:1b.0/0000:01:00.0/nvme/nvme0/nvme0n1
+      size: "<= 256GB"
+      model: "SAMSUNG MZVLW256HEHP-000H1"
     networkInterfaces:
       - interface: eno1
         dhcp: true
@@ -88,7 +92,7 @@ controlPlane: &controlPlane
       systemExtensions:
         officialExtensions:
           - siderolabs/intel-ucode
-          - siderolabs/i915-ucode
+          - siderolabs/i915
           - siderolabs/nut-client
 
   patches: &patches
@@ -213,7 +217,8 @@ worker:
       systemExtensions:
         officialExtensions:
           - siderolabs/intel-ucode
-          - siderolabs/i915-ucode
+          - siderolabs/i915
+          - siderolabs/nut-client
 
   patches:
     # Disable search domain everywhere
