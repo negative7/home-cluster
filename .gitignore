@@ -15,3 +15,4 @@ Thumbs.db
 kubeconfig
 talosconfig
 config.xml
+ups.yaml

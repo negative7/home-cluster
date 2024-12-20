@@ -85,6 +85,8 @@ nodes:
       - *kubelet_extra_mounts
 
 controlPlane: &controlPlane
+  extraManifests:
+    - /home/negative7/home-cluster/kubernetes/main/bootstrap/talos/ups.yaml
   schematic:
     customization:
       extraKernelArgs:
@@ -210,6 +212,8 @@ controlPlane: &controlPlane
           net.core.wmem_max: "2500000"
 
 worker:
+  extraManifests:
+    - /home/negative7/home-cluster/kubernetes/main/bootstrap/talos/ups.yaml
   schematic:
     customization:
       extraKernelArgs:
