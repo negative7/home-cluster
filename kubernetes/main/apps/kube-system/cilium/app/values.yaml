@@ -6,7 +6,6 @@ bandwidthManager:
 bpf:
   masquerade: true
   tproxy: true
-  hostLegacyRouting: true
 cgroup:
   autoMount:
     enabled: false
