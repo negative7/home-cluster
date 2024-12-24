@@ -37,6 +37,9 @@ spec:
         enabled: true
     monitoring:
       enabled: true
+    snapshotter:
+      # https://github.com/rook/rook/issues/15195
+      tag: v8.2.0
     resources:
       requests:
         memory: 128Mi # unchangable
