@@ -43,6 +43,7 @@ spec:
             balance:
               enabled:
                 - RemovePodsViolatingTopologySpreadConstraint
+                - HighNodeUtilization
             deschedule:
               enabled:
                 - RemovePodsViolatingInterPodAntiAffinity
