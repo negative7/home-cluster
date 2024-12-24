@@ -27,6 +27,9 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    image:
+      # https://github.com/rook/rook/issues/15195
+      repository: rook/ceph:v1.16.0-4.g6da8ef89d
     monitoring:
       enabled: true
       createPrometheusRules: true
