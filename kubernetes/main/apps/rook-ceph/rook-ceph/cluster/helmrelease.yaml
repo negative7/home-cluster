@@ -11,7 +11,7 @@ spec:
   chart:
     spec:
       chart: rook-ceph-cluster
-      version: v1.16.0
+      version: v1.15.7
       sourceRef:
         kind: HelmRepository
         name: rook-ceph
@@ -27,9 +27,6 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    image:
-      # https://github.com/rook/rook/issues/15195
-      repository: rook/ceph:v1.16.0-4.g6da8ef89d
     monitoring:
       enabled: true
       createPrometheusRules: true

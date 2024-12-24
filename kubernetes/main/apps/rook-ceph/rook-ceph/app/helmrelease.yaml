@@ -24,6 +24,9 @@ spec:
       strategy: rollback
       retries: 3
   values:
+    image:
+      # https://github.com/rook/rook/issues/15195
+      repository: docker.io/rook/ceph:v1.16.0-4.g6da8ef89d
     crds:
       enabled: true
     csi:
