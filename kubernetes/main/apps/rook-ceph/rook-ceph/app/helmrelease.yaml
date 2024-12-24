@@ -26,7 +26,7 @@ spec:
   values:
     image:
       # https://github.com/rook/rook/issues/15195
-      tag: v1.16.0-4.g6da8ef89d
+      tag: v1.16.0.111.g6f1f34a07
     crds:
       enabled: true
     csi:
