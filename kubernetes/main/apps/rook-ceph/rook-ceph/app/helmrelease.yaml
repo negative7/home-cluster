@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: rook-ceph
-      version: v1.16.0
+      version: v1.16.1
       sourceRef:
         kind: HelmRepository
         name: rook-ceph
@@ -24,9 +24,6 @@ spec:
       strategy: rollback
       retries: 3
   values:
-    image:
-      # https://github.com/rook/rook/issues/15195
-      tag: v1.16.0.111.g6f1f34a07
     crds:
       enabled: true
     csi:
@@ -35,9 +32,6 @@ spec:
       enableLiveness: true
       serviceMonitor:
         enabled: true
-      snapshotter:
-        # https://github.com/rook/rook/issues/15195
-        tag: v8.2.0
     monitoring:
       enabled: true
 
