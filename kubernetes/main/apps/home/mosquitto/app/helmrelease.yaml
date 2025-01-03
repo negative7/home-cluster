@@ -80,7 +80,7 @@ spec:
 
     persistence:
       data:
-        existingClaim: mosquitto-data
+        existingClaim: mosquitto
         advancedMounts:
           mosquitto:
             app:
