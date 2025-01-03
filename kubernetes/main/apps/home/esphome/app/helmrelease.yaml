@@ -69,7 +69,7 @@ spec:
 
     persistence:
       config:
-        existingClaim: esphome-config
+        existingClaim: esphome
         advancedMounts:
           esphome:
             app:

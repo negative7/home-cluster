@@ -24,5 +24,4 @@ spec:
   postBuild:
     substitute:
       APP: *appname
-      VOLSYNC_CLAIM: mosquitto-data
       VOLSYNC_CAPACITY: 512Mi

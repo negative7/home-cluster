@@ -26,4 +26,3 @@ spec:
   postBuild:
     substitute:
       APP: *appname
-      VOLSYNC_CLAIM: recyclarr-config

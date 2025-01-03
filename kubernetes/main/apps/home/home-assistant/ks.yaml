@@ -26,5 +26,4 @@ spec:
       APP: *appname
       APP_UID: "0"
       APP_GID: "0"
-      VOLSYNC_CLAIM: home-assistant-config
       VOLSYNC_CAPACITY: 5Gi

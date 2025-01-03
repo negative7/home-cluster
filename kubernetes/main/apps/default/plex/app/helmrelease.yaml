@@ -94,7 +94,7 @@ spec:
 
     persistence:
       config:
-        existingClaim: plex-config
+        existingClaim: plex
         advancedMounts:
           plex:
             app:
