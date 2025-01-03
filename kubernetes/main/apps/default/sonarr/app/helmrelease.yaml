@@ -91,7 +91,7 @@ spec:
 
     persistence:
       config:
-        existingClaim: sonarr-config
+        existingClaim: sonarr
       media:
         type: nfs
         server: 'freenas.${SECRET_PUBLIC_DOMAIN}'
