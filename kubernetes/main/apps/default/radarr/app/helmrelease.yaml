@@ -114,6 +114,8 @@ spec:
         path: /mnt/tank/media/movies
         globalMounts:
           - path:  /media
+      tmp:
+        type: emptyDir
       completed:
         enabled: true
         type: nfs
