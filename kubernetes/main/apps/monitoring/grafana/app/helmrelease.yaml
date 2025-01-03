@@ -189,7 +189,7 @@ spec:
             - name: DS_PROMETHEUS
               value: Prometheus
             - name: VAR_REPLICATIONDESTNAME
-              value: ".*-bootstrap"
+              value: ".*-dst"
 
         zfs:
           # renovate: dashboardName="ZFS"

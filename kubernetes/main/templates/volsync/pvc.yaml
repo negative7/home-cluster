@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: "${VOLSYNC_CLAIM:-${APP}}"
+  sourcePVC: "${APP}"
 spec:
   accessModes: ["${VOLSYNC_ACCESSMODES:-ReadWriteOnce}"]
   dataSourceRef:
