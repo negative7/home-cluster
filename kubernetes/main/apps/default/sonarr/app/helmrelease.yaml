@@ -92,6 +92,10 @@ spec:
     persistence:
       config:
         existingClaim: sonarr
+      cache:
+        existingClaim: sonarr-cache
+        globalMounts:
+          - path: /config/MediaCover
       media:
         type: nfs
         server: 'freenas.${SECRET_PUBLIC_DOMAIN}'
