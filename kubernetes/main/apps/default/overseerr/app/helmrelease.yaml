@@ -98,7 +98,7 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: overseerr-data
+        existingClaim: overseerr
         globalMounts:
           - path: /app/config
       cache:
