@@ -56,7 +56,7 @@ spec:
   listenersServiceTemplate:
     metadata:
       annotations:
-        external-dns.alpha.kubernetes.io/hostname: "emqx.negative7.com."
+        external-dns.alpha.kubernetes.io/hostname: "mqtt-tmp.negative7.com."
         io.cilium/lb-ipam-ips: 10.2.0.104
     spec:
       type: LoadBalancer
