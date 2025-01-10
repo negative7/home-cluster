@@ -62,8 +62,7 @@ nodes:
     ipAddress: 10.2.0.23
     controlPlane: true
     installDiskSelector:
-      size: "<= 512GB"
-      model: "KBG40ZNS512G NVMe TOSHIBA 512GB"
+      model: "KBG40ZNS512G*"
     networkInterfaces:
       - interface: eno1
         dhcp: true
