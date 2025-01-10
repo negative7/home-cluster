@@ -32,7 +32,7 @@ spec:
       GF_EXPLORE_ENABLED: true
       GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS: natel-discrete-panel,pr0ps-trackmap-panel,panodata-map-panel
       GF_SECURITY_ANGULAR_SUPPORT_ENABLED: true
-      GF_SERVER_ROOT_URL: https://grafana.${SECRET_PUBLIC_DOMAIN}
+      GF_SERVER_ROOT_URL: https://grafana.${SECRET_DOMAIN}
 
     grafana.ini:
       analytics:
@@ -334,9 +334,9 @@ spec:
       enabled: true
       ingressClassName: external
       annotations:
-        external-dns.alpha.kubernetes.io/target: external.${SECRET_PUBLIC_DOMAIN}
+        external-dns.alpha.kubernetes.io/target: external.${SECRET_DOMAIN}
       hosts:
-        - &host grafana.${SECRET_PUBLIC_DOMAIN}
+        - &host grafana.${SECRET_DOMAIN}
       tls:
         - hosts:
             - *host

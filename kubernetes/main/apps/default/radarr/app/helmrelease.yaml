@@ -54,7 +54,7 @@ spec:
               RADARR__PORT: &port 7878
               RADARR__AUTHENTICATION_METHOD: External
               RADARR__AUTHENTICATION_REQUIRED: DisabledForLocalAddresses
-              RADARR__APPLICATION_URL: "https://{{ .Release.Name }}.${SECRET_PUBLIC_DOMAIN}"
+              RADARR__APPLICATION_URL: "https://{{ .Release.Name }}.${SECRET_DOMAIN}"
               RADARR__LOG_LEVEL: info
               RADARR__THEME: dark
             envFrom: *envFrom
@@ -92,9 +92,9 @@ spec:
       app:
         className: internal
         annotations:
-          external-dns.alpha.kubernetes.io/target: internal.${SECRET_PUBLIC_DOMAIN}
+          external-dns.alpha.kubernetes.io/target: internal.${SECRET_DOMAIN}
         hosts:
-          - host: &hostName "{{ .Release.Name }}.${SECRET_PUBLIC_DOMAIN}"
+          - host: &hostName "{{ .Release.Name }}.${SECRET_DOMAIN}"
             paths:
               - path: /
                 service:
@@ -110,7 +110,7 @@ spec:
       media:
         enabled: true
         type: nfs
-        server: "freenas.${SECRET_PUBLIC_DOMAIN}"
+        server: "freenas.${SECRET_DOMAIN}"
         path: /mnt/tank/media/movies
         globalMounts:
           - path:  /media
@@ -119,7 +119,7 @@ spec:
       completed:
         enabled: true
         type: nfs
-        server: "freenas.${SECRET_PUBLIC_DOMAIN}"
+        server: "freenas.${SECRET_DOMAIN}"
         path: /mnt/tank/data
         globalMounts:
           - path:  /completed

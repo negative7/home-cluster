@@ -58,12 +58,12 @@ spec:
         enabled: true
         ingressClassName: internal
         annotations:
-          external-dns.alpha.kubernetes.io/target: internal.${SECRET_PUBLIC_DOMAIN}
+          external-dns.alpha.kubernetes.io/target: internal.${SECRET_DOMAIN}
         issuer:
           name: letsencrypt-production
           scope: cluster
         hosts:
-          - &host dashboard.${SECRET_PUBLIC_DOMAIN}
+          - &host dashboard.${SECRET_DOMAIN}
     metrics-server:
       enabled: false
     metricsScraper:

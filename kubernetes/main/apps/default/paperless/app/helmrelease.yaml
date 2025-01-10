@@ -38,7 +38,7 @@ spec:
                   secretKeyRef:
                     name: paperless-secret
                     key: PAPERLESS_SECRET_KEY
-              PAPERLESS_URL: https://paperless.${SECRET_PUBLIC_DOMAIN}
+              PAPERLESS_URL: https://paperless.${SECRET_DOMAIN}
               PAPERLESS_PORT: "8000"
               PAPERLESS_TIME_ZONE: "${TIMEZONE}"
               PAPERLESS_WEBSERVER_WORKERS: "2"
@@ -116,9 +116,9 @@ spec:
       app:
         className: internal
         annotations:
-          external-dns.alpha.kubernetes.io/target: internal.${SECRET_PUBLIC_DOMAIN}
+          external-dns.alpha.kubernetes.io/target: internal.${SECRET_DOMAIN}
         hosts:
-          - host: paperless.${SECRET_PUBLIC_DOMAIN}
+          - host: paperless.${SECRET_DOMAIN}
             paths:
               - path: /
                 service:
@@ -134,7 +134,7 @@ spec:
               - path: /data/local
       nas:
         type: nfs
-        server: freenas.${SECRET_PUBLIC_DOMAIN}
+        server: freenas.${SECRET_DOMAIN}
         path: /mnt/tank/apps/paperless
         advancedMounts:
           paperless:

@@ -32,7 +32,7 @@ spec:
       service:
         loadBalancerIP: 10.2.0.101
         annotations:
-          external-dns.alpha.kubernetes.io/hostname: internal.${SECRET_PUBLIC_DOMAIN}
+          external-dns.alpha.kubernetes.io/hostname: internal.${SECRET_DOMAIN}
         externalTrafficPolicy: Cluster
       ingressClassResource:
         name: internal
@@ -71,7 +71,7 @@ spec:
           namespaceSelector:
             any: true
       extraArgs:
-        default-ssl-certificate: "networking/${SECRET_PUBLIC_DOMAIN/./-}-tls"
+        default-ssl-certificate: "networking/${SECRET_DOMAIN/./-}-tls"
       topologySpreadConstraints:
         - maxSkew: 1
           topologyKey: kubernetes.io/hostname

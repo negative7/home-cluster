@@ -87,9 +87,9 @@ spec:
       app:
         className: "external"
         annotations:
-          external-dns.alpha.kubernetes.io/target: external.${SECRET_PUBLIC_DOMAIN}
+          external-dns.alpha.kubernetes.io/target: external.${SECRET_DOMAIN}
         hosts:
-          - host: kromgo.${SECRET_PUBLIC_DOMAIN}
+          - host: kromgo.${SECRET_DOMAIN}
             paths:
               - path: /
                 service:

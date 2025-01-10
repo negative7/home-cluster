@@ -40,9 +40,9 @@ spec:
           enabled: true
           className: internal
           annotations:
-            external-dns.alpha.kubernetes.io/target: internal.${SECRET_PUBLIC_DOMAIN}
+            external-dns.alpha.kubernetes.io/target: internal.${SECRET_DOMAIN}
           hosts:
-            - &host hubble-main.${SECRET_PUBLIC_DOMAIN}
+            - &host hubble-main.${SECRET_DOMAIN}
           tls:
             - hosts:
                 - *host

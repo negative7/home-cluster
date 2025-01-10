@@ -66,9 +66,9 @@ spec:
       app:
         className: internal
         annotations:
-          external-dns.alpha.kubernetes.io/target: internal.${SECRET_PUBLIC_DOMAIN}
+          external-dns.alpha.kubernetes.io/target: internal.${SECRET_DOMAIN}
         hosts:
-          - host: calibre-web.${SECRET_PUBLIC_DOMAIN}
+          - host: calibre-web.${SECRET_DOMAIN}
             paths:
               - path: /
                 service:
@@ -85,7 +85,7 @@ spec:
 
       media:
         type: nfs
-        server: "freenas.${SECRET_PUBLIC_DOMAIN}"
+        server: "freenas.${SECRET_DOMAIN}"
         path: /mnt/tank/media/books
         advancedMounts:
           calibre-web:

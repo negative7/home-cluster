@@ -22,7 +22,7 @@ spec:
   values:
     fullnameOverride: &name externaldns-external
     domainFilters:
-      - ${SECRET_PUBLIC_DOMAIN}
+      - ${SECRET_DOMAIN}
     env:
       - name: CF_API_EMAIL
         valueFrom:

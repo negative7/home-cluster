@@ -49,9 +49,9 @@ metadata:
 spec:
   ingressClassName: internal
   annotations:
-    external-dns.alpha.kubernetes.io/target: internal.${SECRET_PUBLIC_DOMAIN}
+    external-dns.alpha.kubernetes.io/target: internal.${SECRET_DOMAIN}
   rules:
-    - host: &host zero.${SECRET_PUBLIC_DOMAIN}
+    - host: &host zero.${SECRET_DOMAIN}
       http:
         paths:
           - path: /

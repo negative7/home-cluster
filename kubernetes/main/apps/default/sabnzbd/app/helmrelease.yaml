@@ -85,7 +85,7 @@ spec:
       app:
         className: "internal"
         hosts:
-          - host: &hostName "{{ .Release.Name }}.${SECRET_PUBLIC_DOMAIN}"
+          - host: &hostName "{{ .Release.Name }}.${SECRET_DOMAIN}"
             paths:
               - path: /
                 service:
@@ -106,7 +106,7 @@ spec:
       completed:
         enabled: true
         type: nfs
-        server: freenas.${SECRET_PUBLIC_DOMAIN}
+        server: freenas.${SECRET_DOMAIN}
         path: /mnt/tank/data
         globalMounts:
           - path: /completed

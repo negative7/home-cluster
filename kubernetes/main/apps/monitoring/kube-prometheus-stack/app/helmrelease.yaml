@@ -110,9 +110,9 @@ spec:
         enabled: true
         ingressClassName: internal
         annotations:
-          external-dns.alpha.kubernetes.io/target: internal.${SECRET_PUBLIC_DOMAIN}
+          external-dns.alpha.kubernetes.io/target: internal.${SECRET_DOMAIN}
         hosts:
-          - prometheus.${SECRET_PUBLIC_DOMAIN}
+          - prometheus.${SECRET_DOMAIN}
         pathType: Prefix
 
       prometheusSpec:

@@ -18,7 +18,7 @@ spec:
               key: CLOUDFLARE_APIKEY
         selector:
           dnsZones:
-            - ${SECRET_PUBLIC_DOMAIN}
+            - ${SECRET_DOMAIN}
 ---
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
@@ -39,4 +39,4 @@ spec:
               key: CLOUDFLARE_APIKEY
         selector:
           dnsZones:
-            - ${SECRET_PUBLIC_DOMAIN}
+            - ${SECRET_DOMAIN}

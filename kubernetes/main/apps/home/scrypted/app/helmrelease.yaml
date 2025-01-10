@@ -71,7 +71,7 @@ spec:
       app:
         className: "internal"
         hosts:
-          - host: &hostName "{{ .Release.Name }}.${SECRET_PUBLIC_DOMAIN}"
+          - host: &hostName "{{ .Release.Name }}.${SECRET_DOMAIN}"
             paths:
               - path: /
                 service:

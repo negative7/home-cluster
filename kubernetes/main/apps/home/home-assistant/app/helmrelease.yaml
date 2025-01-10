@@ -89,9 +89,9 @@ spec:
         enabled: true
         className: external
         annotations:
-          external-dns.alpha.kubernetes.io/target: external.${SECRET_PUBLIC_DOMAIN}
+          external-dns.alpha.kubernetes.io/target: external.${SECRET_DOMAIN}
         hosts:
-          - host: &hostName  'hass.${SECRET_PUBLIC_DOMAIN}'
+          - host: &hostName  'hass.${SECRET_DOMAIN}'
             paths:
               - path: /
                 service:
@@ -104,9 +104,9 @@ spec:
         enabled: true
         className: internal
         annotations:
-          external-dns.alpha.kubernetes.io/target: internal.${SECRET_PUBLIC_DOMAIN}
+          external-dns.alpha.kubernetes.io/target: internal.${SECRET_DOMAIN}
         hosts:
-          - host: &hostNameCS  'hass-code.${SECRET_PUBLIC_DOMAIN}'
+          - host: &hostNameCS  'hass-code.${SECRET_DOMAIN}'
             paths:
               - path: /
                 service:
@@ -136,7 +136,7 @@ spec:
       backup:
         enabled: true
         type: nfs
-        server: 'freenas.${SECRET_PUBLIC_DOMAIN}'
+        server: 'freenas.${SECRET_DOMAIN}'
         path: /mnt/tank/backups/hass
         globalMounts:
           - path: /config/backups
