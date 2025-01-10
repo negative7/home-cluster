@@ -1,5 +1,4 @@
 ---
 providerRegex: |
-  ^(delta|enigma|felix)$
-
+  ^(dnipro|kharkiv|kyiv|vinnytsia)$
 bypassDnsResolution: true
