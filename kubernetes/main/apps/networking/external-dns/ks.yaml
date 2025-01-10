@@ -13,7 +13,7 @@ spec:
   dependsOn:
     - name: external-secrets-stores
   path: ./kubernetes/main/apps/networking/external-dns/external
-  prune: true
+  false # revert to true
   sourceRef:
     kind: GitRepository
     name: home-ops-kubernetes
@@ -34,7 +34,7 @@ spec:
   dependsOn:
     - name: external-secrets-stores
   path: ./kubernetes/main/apps/networking/external-dns/unifi
-  prune: true
+  false # revert to true
   sourceRef:
     kind: GitRepository
     name: home-ops-kubernetes

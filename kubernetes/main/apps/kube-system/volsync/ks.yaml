@@ -9,7 +9,7 @@ spec:
   dependsOn:
     - name: snapshot-controller
   path: ./kubernetes/main/apps/kube-system/volsync/app
-  prune: true
+  false # revert to true
   sourceRef:
     kind: GitRepository
     name: home-ops-kubernetes

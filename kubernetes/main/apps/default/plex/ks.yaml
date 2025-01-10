@@ -12,7 +12,7 @@ spec:
       app.kubernetes.io/name: *appname
   interval: 10m
   path: ./kubernetes/main/apps/default/plex/app
-  prune: true
+  false # revert to true
   sourceRef:
     kind: GitRepository
     name: home-ops-kubernetes
@@ -39,7 +39,7 @@ spec:
       app.kubernetes.io/name: *appname
   interval: 10m
   path: ./kubernetes/main/apps/default/plex/plex-image-cleanup
-  prune: true
+  false # revert to true
   sourceRef:
     kind: GitRepository
     name: home-ops-kubernetes

@@ -9,7 +9,7 @@ spec:
   dependsOn:
     - name: cert-manager-issuers
   path: ./kubernetes/tivoli/apps/networking/nginx/certificates
-  prune: true
+  false # revert to true
   sourceRef:
     kind: GitRepository
     name: home-ops-kubernetes
@@ -26,7 +26,7 @@ metadata:
   namespace: flux-system
 spec:
   path: ./kubernetes/tivoli/apps/networking/nginx/internal
-  prune: true
+  false # revert to true
   sourceRef:
     kind: GitRepository
     name: home-ops-kubernetes
