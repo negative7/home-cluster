@@ -14,7 +14,7 @@ spec:
   retryInterval: 1m
   timeout: 5m
   path: "./kubernetes/main/apps/system-upgrade/system-upgrade-controller/app"
-  false # revert to true
+  prune: false # revert to true
   sourceRef:
     kind: GitRepository
     name: home-ops-kubernetes
@@ -35,7 +35,7 @@ spec:
   retryInterval: 1m
   timeout: 5m
   path: "./kubernetes/main/apps/system-upgrade/system-upgrade-controller/plans"
-  false # revert to true
+  prune: false # revert to true
   sourceRef:
     kind: GitRepository
     name: home-ops-kubernetes

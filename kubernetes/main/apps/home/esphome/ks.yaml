@@ -12,7 +12,7 @@ spec:
       app.kubernetes.io/name: *appname
   interval: 10m
   path: ./kubernetes/main/apps/home/esphome/app
-  false # revert to true
+  prune: false # revert to true
   sourceRef:
     kind: GitRepository
     name: home-ops-kubernetes
@@ -41,7 +41,7 @@ spec:
       app.kubernetes.io/name: *appname
   interval: 10m
   path: ./kubernetes/main/apps/home/esphome/code
-  false # revert to true
+  prune: false # revert to true
   sourceRef:
     kind: GitRepository
     name: home-ops-kubernetes

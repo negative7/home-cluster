@@ -12,7 +12,7 @@ spec:
       app.kubernetes.io/name: *appname
   interval: 10m
   path: ./kubernetes/main/apps/kube-system/cilium/app
-  false # revert to true
+  prune: false # revert to true
   sourceRef:
     kind: GitRepository
     name: home-ops-kubernetes
@@ -32,7 +32,7 @@ spec:
       app.kubernetes.io/component: config
   interval: 10m
   path: ./kubernetes/main/apps/kube-system/cilium/config
-  false # revert to true
+  prune: false # revert to true
   sourceRef:
     kind: GitRepository
     name: home-ops-kubernetes

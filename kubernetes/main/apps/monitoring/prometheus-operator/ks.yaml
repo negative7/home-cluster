@@ -14,7 +14,7 @@ spec:
   retryInterval: 1m
   timeout: 5m
   path: "./kubernetes/main/apps/monitoring/prometheus-operator/crds"
-  false # revert to true
+  prune: false # revert to true
   sourceRef:
     kind: GitRepository
     name: home-ops-kubernetes
