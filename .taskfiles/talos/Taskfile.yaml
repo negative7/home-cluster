@@ -14,6 +14,7 @@ tasks:
         - K8S_CLUSTER
     cmds:
       - talhelper genconfig
+        --env-file    {{.K8S_CLUSTER_DIR}}/talos/talenv.sops.yaml
         --secret-file {{.K8S_CLUSTER_DIR}}/talos/talsecret.sops.yaml
         --config-file {{.K8S_CLUSTER_DIR}}/talos/talconfig.yaml
         --out-dir {{.K8S_CLUSTER_DIR}}/talos/clusterconfig
