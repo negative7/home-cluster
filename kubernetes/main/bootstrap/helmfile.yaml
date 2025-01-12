@@ -53,7 +53,7 @@ releases:
       - monitoring/prometheus-operator-crds
 
   - name: spegel
-    namespace: system
+    namespace: kube-system
     chart: oci://ghcr.io/spegel-org/helm-charts/spegel
     version: v0.0.29
     values:
