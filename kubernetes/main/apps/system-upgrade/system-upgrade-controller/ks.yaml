@@ -44,7 +44,7 @@ spec:
     - name: system-upgrade-controller
   postBuild:
     substitute:
-      TALOS_SCHEMATIC_ID: 2f22c0c26083882aa628197f1d55ace6f1f9b22dffd9070cab171bb5a0014387
+      TALOS_SCHEMATIC_ID: 775b3ab5dc3646ca4f54bd92d97bfe3ea54be6f0b978684e5972f15770ca4eaa
       # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
       TALOS_VERSION: v1.9.1
       # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet

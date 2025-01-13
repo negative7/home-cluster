@@ -98,6 +98,7 @@ controlPlane:
         - mitigations=off      # Less security, more speed
         - security=none        # Less security, more speed
         - net.ifnames=1        # Enable predictable NIC naming
+        - talos.logging.kernel=tcp://10.2.0.10:5140/
       systemExtensions:
         officialExtensions:
           - siderolabs/intel-ucode
