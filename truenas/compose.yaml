@@ -52,7 +52,7 @@ services:
     network_mode: "host"
   # MongoDB: https://hub.docker.com/_/mongo/
   mongodb:
-    image: "mongo:6.0.18"
+    image: "mongo:6.0.20"
     ports:
       - "27017:27017"
     restart: "on-failure"
